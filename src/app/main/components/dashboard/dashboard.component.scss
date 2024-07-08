@@ -1,0 +1,151 @@
+.content {
+    justify-content: center;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 20px;
+}
+
+@media screen and (min-width: 1220px) {
+    content {
+        margin-top: 10px;
+        margin-left: 50px;
+        margin-right: 20px;
+    }
+}
+
+.input-row {
+    display: flex;
+    padding-left: 25px;
+    padding-right: 25px;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.input-row .card {
+    flex-basis: 30%;
+}
+
+.input-row .card {
+    position: relative;
+    margin: 1.3rem 0;
+}
+
+.input-row1 {
+    display: flex;
+    padding-left: 25px;
+    padding-right: 25px;
+    justify-content: space-between;
+}
+
+.input-row1 .card {
+    flex-basis: 30%;
+}
+
+.input-row1 .card {
+    position: relative;
+    margin: 1.3rem 0;
+}
+
+.cards .card {
+    width: 100%;
+    height: 110px;
+    background-color: #254CA3;
+    color: #fff;
+    margin-top: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.icon-case1 img {
+    height: 70px;
+    width: 75px;
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
+.icon-case2 img {
+    height: 70px;
+    width: 75px;
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
+.icon-case3 img {
+    height: 70px;
+    width: 75px;
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
+.icon-case4 img {
+    height: 70px;
+    width: 65px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.icon-case5 img {
+    height: 70px;
+    width: 73px;
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
+.icon-case6 img {
+    height: 65px;
+    width: 65px;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+.cards .card .box h1 {
+    margin-left: 70px;
+    font-size: 30px;
+}
+
+.cards .card .box h3 {
+    margin-left: 25px;
+    margin-top: -28px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.cards .card .box1 h1 {
+    margin-left: 25px;
+    font-size: 30px;
+}
+
+.cards .card .box1 h3 {
+    margin-left: 25px;
+    margin-top: -28px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+/*************************************** GRAPHS ******************************/ 
+
+.graph-container .right {
+    width: 55%;
+    height: 500px;
+    margin-top: 30px;
+    margin-left: 30px;
+    border-radius: 10px;
+    box-shadow: 1px 4px 22px -8px #0004;
+    display: flex;
+}
+
+.graph-container .left {
+    width: 40%;
+    height: 500px;
+    margin-top: 30px;
+    margin-left: 30px;
+    border-radius: 10px;
+    box-shadow: 1px 4px 22px -8px #0004;
+    display: flex;
+}

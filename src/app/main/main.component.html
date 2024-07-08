@@ -1,0 +1,70 @@
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/boxicons/2.0.7/css/boxicons.min.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+<body>
+    <div class="content">
+        <div class="header">
+            <h1> Payroll Management System </h1>
+        </div>
+        
+        <div class="body-content">
+            <div class="admin-container"> <router-outlet></router-outlet> </div>
+        </div>
+
+        <nav class="sidebar-content">
+            <div class="logo-title">
+                <div class="logo">
+                    <img src="assets/images/gm18.png">
+                </div>
+            </div>
+
+            <div class="sidebar-tabs">
+                <ul class="tabs">
+                    <li class="tab">
+                        <a class="tab-link" routerLink="dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+                        <span class="tab-icon"> <i class='bx bxs-dashboard'></i> </span>
+                        <span class="tab-name">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="tab">
+                        <a class="tab-link" routerLink="employee" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
+                            <span class="tab-icon"> <i class='bx bxs-user-detail'></i> </span>
+                        <span class="tab-name">Employee</span>
+                        </a>
+                    </li>
+
+                    <li class="tab">
+                        <a class="tab-link" routerLink="payroll" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
+                        <span class="tab-icon"> <i class='bx bxs-coin-stack'></i> </span>
+                        <span class="tab-name"> Payroll </span>
+                        </a>
+                    </li>
+
+                    <li class="tab">
+                        <a class="tab-link" routerLink="payslip" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+                        <span class="tab-icon"> <i class='bx bxs-wallet'></i> </span>
+                        <span class="tab-name"> Payslip </span>
+                        </a>
+                    </li>
+
+                    <li class="tab">
+                        <a class="tab-link" routerLink="report" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+                        <span class="tab-icon"> <i class='bx bxs-report'></i> </span>
+                        <span class="tab-name"> Report </span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="logoutbtn">
+                    <div class="logout" routerLink="/login">
+                        <span> <i class='bx bx-log-out bx-rotate-180' ></i></span>
+                    </div>
+                    </div> 
+            </div>
+        </nav>
+        </div>
+</body>
