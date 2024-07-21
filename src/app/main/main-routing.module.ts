@@ -10,14 +10,8 @@ import { ReportComponent } from './components/report/report.component';
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, 
   { path: 'dashboard', component: DashboardComponent}, 
-  {
-    path: 'employee', 
-    component: EmployeeComponent, 
-    children: [{
-      path: '', 
-      loadChildren: ()=>import('./components/employee/employee.module').then((m)=>m.EmployeeModule)
-    }]
-  },
+  { path: 'employee', component: EmployeeComponent}, 
+  
   {
     path: 'payroll', 
     component: PayrollComponent, 

@@ -1,14 +1,12 @@
-* {
-    font-family: 'poppins';
-}
 
 body {
     background-color: #fff;
 }
 
 .body-content {
-    padding-left: 210px;
+    padding-left: 220px;
     padding-top: 60px;
+    padding-bottom: 50px;
 }
 
 /********************************** HEADER *********************************************/
@@ -18,20 +16,19 @@ body {
     background-color: #EEEEEE;
     height: 60px;
     width: 100%;
-    margin-top: -15px;
+    margin-top: -10px;
     padding-left: 20px;
     padding-bottom: 10px;
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    color:var(--main-green);
     z-index: 1;
 }
 
 h1 {
-    margin-left: 225px;
+    margin-left: 245px;
+    margin-top: 24px;
+    font-family: 'poppins';
     text-transform: uppercase;
     font-size: 25px;
+    font-weight: 700;
 
 }
 
@@ -58,7 +55,6 @@ h1 {
     height: 100%;
     padding: 30px 0;
     z-index: 100;
-    border-right: 2px solid var(--border-color);
     transition: all 0.3s ease;
 }
 
@@ -85,7 +81,6 @@ h1 {
     text-decoration: none;
     margin-bottom: 3px;
     margin-top: 5px;
-    border-bottom: 1px solid var(--border-color);
 }
 
 .tab a.active-link {

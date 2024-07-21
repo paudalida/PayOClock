@@ -105,47 +105,189 @@
 }
 
 .cards .card .box h1 {
-    margin-left: 70px;
+    margin-left: 65px;
     font-size: 30px;
+    font-weight: 500;
+    font-family: 'poppins';
+    margin-top: -5px;
 }
 
 .cards .card .box h3 {
-    margin-left: 25px;
-    margin-top: -28px;
-    font-size: 15px;
-    font-weight: 500;
+    margin-left: 5px;
+    font-size: 17px;
+    font-weight: 700;
+    font-family: 'poppins';
 }
 
 .cards .card .box1 h1 {
-    margin-left: 25px;
+    margin-left: 15px;
     font-size: 30px;
+    font-weight: 500;
+    font-family: 'poppins';
+    margin-top: -5px;
 }
 
 .cards .card .box1 h3 {
-    margin-left: 25px;
-    margin-top: -28px;
-    font-size: 15px;
-    font-weight: 500;
+    margin-left: 5px;
+    font-size: 17px;
+    font-weight: 700;
+    font-family: 'poppins';
 }
 
 /*************************************** GRAPHS ******************************/ 
 
-.graph-container .right {
-    width: 55%;
+.graph-container {
+    display: flex;
+    justify-content: space-between; 
+    flex-wrap: wrap;
+}
+
+.graph-container .right, .graph-container .left {
+    width: calc(48% - 30px);
+    max-width: 100%; 
     height: 500px;
     margin-top: 30px;
-    margin-left: 30px;
     border-radius: 10px;
-    box-shadow: 1px 4px 22px -8px #0004;
     display: flex;
 }
 
+.graph-container .right {
+    margin-left: 35px; 
+}
+
 .graph-container .left {
-    width: 40%;
+    margin-right: 35px; 
+}
+
+.right, .left{
+    font-size: 20px;
+    font-weight: 600;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);    
+}
+
+/*************************************** Bar Graph **********************************/  
+
+.base {
+    position: absolute;
+    bottom: 0;
+    left: -55px;
+    width: auto;
+    height: 20px;
+    background-color: rgba(255,255,255,0.05);
+}
+  
+.chart-container {
+    position: relative;
+    z-index: 0;
+    width: 800px;
     height: 500px;
-    margin-top: 30px;
-    margin-left: 30px;
-    border-radius: 10px;
-    box-shadow: 1px 4px 22px -8px #0004;
-    display: flex;
+    margin-left: 35px;
+    color: rgba(255,255,255,0.75);
+}
+
+.chart-container:after {
+    content:"";
+    position: absolute;
+    top: -15px;
+    left: -8px;
+    height: 15px;
+    width: 800px;
+    background-color: rgba(255,255,255,0.055);
+    -moz-transform: skew(45deg);
+    -o-transform: skew(45deg);
+    -webkit-transform: skew(45deg);
+    transform: skew(45deg);
+}
+
+.bar {
+    float: left;
+    position: absolute;
+    bottom: 0;
+    z-index: 99;
+    width: 40px;
+    margin: 0 170px;
+    background-color: #254ca3;
+}
+
+.bar:before {
+    content: "";
+    position: absolute;
+    left: -15px;
+    bottom: 7px;
+    height: 100%;
+    width: 15px;
+    background-color: #254ca357;
+}
+
+.bar:after {
+    content: "";
+    position: absolute;
+    top: -15px;
+    left: -8px;
+    width: 40px;
+    height: 15px;
+    background-color: #254ca3db;
+    -moz-transform: skewX(45deg);
+    -o-transform: skewX(45deg);
+    -webkit-transform: skewX(45deg);
+    transform: skewX(45deg);
+}
+
+.one{
+    height: 30%;
+    margin-left: 150px;
+    margin-right: 0px;
+}
+
+.two {
+    left: 12.5%;
+    height: 57%;
+    margin-left: 130px;
+    margin-right: 130px;
+}
+
+.three {
+    left: 25%;
+    height: 85%;
+    margin-left: 115px;
+    margin-right: 130px;
+}
+
+.four {
+    left: 37.5%;
+    height: 35%;
+    margin-left: 100px;
+    margin-right: 130px;
+}
+
+.five {
+    left: 50%;
+    height: 63%;
+    margin-left: 90px;
+    margin-right: 130px;
+}
+
+.six {
+    left: 62.5%;
+    height: 45%;
+    margin-left: 80px;
+    margin-right: 130px;
+}
+
+/*************************************** Bar Graph **********************************/  
+
+.piechart {
+    margin-top: 35px;
+    width: 65%;
+    height: 80%;
+    border-radius: 50%;
+    background-image: conic-gradient(
+        #254ca3 70deg,
+        #254ca357 0 235deg,
+        #254ca3db 0
+    );
 }
