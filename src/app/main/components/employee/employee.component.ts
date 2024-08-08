@@ -11,6 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
+import { EmployeeFormComponent } from '../dialogs/employee-form/employee-form.component';
 
 @Component({
   selector: 'app-employee',
@@ -63,6 +64,16 @@ export class EmployeeComponent implements OnInit {
     ];
   }
 
+  openDialog(method: string): void {
+    const dialogRef = this.dialog.open(EmployeeFormComponent, {
+      width: '250px',
+      data: {name: "Charles"}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
 }
 
 export interface PeriodicElement {

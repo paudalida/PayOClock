@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { DataService } from '../../services/data/data.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { PopupService } from '../../services/popup/popup.service';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +14,7 @@ export class LoginComponent {
     constructor(
       private ds: DataService,
       private fb: FormBuilder,
+      private pop: PopupService,
       private router: Router
     ) { }
 
@@ -24,7 +26,8 @@ export class LoginComponent {
     submitLogin() {
       this.ds.login('admin', this.loginForm.value).subscribe({
         next: (res: any) => {
-this.router.navigate(['main']);
+          this.pop.positionedWithTimer('success', 'Logged in successfully!');
+          this.router.navigate(['main']);
         }, error: (err: any) => {
 
         }

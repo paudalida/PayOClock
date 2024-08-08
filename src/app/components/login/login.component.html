@@ -1,4 +1,3 @@
-
 <div class="animation">
     <ul class="circles">
         <li></li>
@@ -13,6 +12,8 @@
         <li></li>
     </ul>
 </div>
+
+<!-- Login Form -->
 <div class="login">
     <div class="login_box">
         <div class="left">
@@ -21,6 +22,7 @@
                 <img class="logo" src="../../../assets/images/gm18.png" alt="GM18 Logo">
             </div>
         </div>
+
         <div class="right">
             <div class="contact">
                 <form [formGroup]="loginForm" (ngSubmit)="submitLogin()">
@@ -36,7 +38,7 @@
                         <input type="password" autocomplete="current-password"
                         placeholder="Password" formControlName="password">
                     </div>
-                    <button class="submit" type="submit">Login</button>
+                    <button class="submit" type="submit"> Login </button>
                 </form>
             </div>
         </div>

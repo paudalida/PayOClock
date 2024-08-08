@@ -12,6 +12,7 @@ import { LoginComponent } from './components/login/login.component';
 import { CommonImportsModule } from './modules/common-imports/common-imports.module';
 import { AnimationImportsModule } from './modules/animation-imports/animation-imports.module';
 import { FormsImportsModule } from './modules/forms-imports/forms-imports.module';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 @NgModule({
   declarations: [
@@ -19,10 +20,13 @@ import { FormsImportsModule } from './modules/forms-imports/forms-imports.module
     LoginComponent
   ],
   imports: [
+    AppRoutingModule,
+
+    /* Other Modules */
     AnimationImportsModule,
     CommonImportsModule,
     FormsImportsModule,
-    AppRoutingModule
+    SweetAlert2Module.forRoot()
   ],
   providers: [
     provideClientHydration(),
