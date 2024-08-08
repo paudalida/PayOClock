@@ -1,3 +1,4 @@
+
 <div class="animation">
     <ul class="circles">
         <li></li>
@@ -22,16 +23,18 @@
         </div>
         <div class="right">
             <div class="contact">
-                <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+                <form [formGroup]="loginForm" (ngSubmit)="submitLogin()">
                     <h1> GM18 </h1>
                     <h3> Payroll System </h3>
                     <div class="input-container">
                         <i class='bx bxs-user'></i>
-                        <input type="text" placeholder="Username" name="username" ngModel required>
+                        <input type="text" autocomplete="username" 
+                        placeholder="Username" formControlName="username">
                     </div>
                     <div class="input-container">
                         <i class='bx bxs-lock-alt'></i>
-                        <input type="password" placeholder="Password" name="password" ngModel required>
+                        <input type="password" autocomplete="current-password"
+                        placeholder="Password" formControlName="password">
                     </div>
                     <button class="submit" type="submit">Login</button>
                 </form>

@@ -9,7 +9,15 @@ import { ReportComponent } from './components/report/report.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, 
-  { path: 'dashboard', component: DashboardComponent}, 
+  // { path: 'dashboard', component: DashboardComponent}, 
+  {
+    path: 'dashboard', 
+    component: DashboardComponent, 
+    children: [{
+      path: '', 
+      loadChildren: ()=>import('./components/dashboard/dashboard.module').then((m)=>m.DashboardModule)
+    }]
+  }, 
   { path: 'employee', component: EmployeeComponent}, 
   
   {
