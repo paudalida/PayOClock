@@ -12,7 +12,7 @@ export class HeaderService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': 'Bearer ' + sessionStorage.getItem('auth-token')
+      'Authorization': 'Bearer ' + sessionStorage.getItem('api-token')
     });
 
     return headers;

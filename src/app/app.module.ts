@@ -13,6 +13,7 @@ import { CommonImportsModule } from './modules/common-imports/common-imports.mod
 import { AnimationImportsModule } from './modules/animation-imports/animation-imports.module';
 import { FormsImportsModule } from './modules/forms-imports/forms-imports.module';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     AnimationImportsModule,
     CommonImportsModule,
     FormsImportsModule,
-    SweetAlert2Module.forRoot()
+    SweetAlert2Module.forRoot(),
+    MatProgressSpinner
   ],
   providers: [
     provideClientHydration(),

@@ -14,9 +14,18 @@ export class DataService {
 
   private apiUrl = 'http://localhost:8000/api/';
 
-  public login(type: string, form: any) {
-    return this.http.post(this.apiUrl + 'auth/login/' + type, form);
-  }
+  /* 
+    ## USAGE
+
+    -- Subscribe to request and input params
+    -- Adds the headers from header service
+
+    ## Params
+    
+    **method**: Http method to be used
+    **url**: URL endpoint appended to the apiUrl variable
+    **form**: Form values to be sent to the server
+  */
 
   public request(method: string, url: string, form: any) {
     switch(method) {
