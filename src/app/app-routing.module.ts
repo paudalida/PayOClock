@@ -11,7 +11,7 @@ const routes: Routes = [
     path: 'main', 
     component: MainComponent, 
     children: [{
-      path: '', 
+      path: '',
       loadChildren: ()=>import('./main/main.module').then((m)=>m.MainModule)
     }]
   },

@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -5,13 +7,22 @@
     <div class="header"> 
         <h1> List of Employee </h1>
         <a>
-            <button class="add-employee" type="button" (click)="addemployeeBtnClick()"> Add </button>
+            <!-- <button class="add-employee" type="button" (click)="addemployeeBtnClick()"> Add </button> -->
         </a>
     </div>
 
     <div class="table-content">
-
         <div class="table-head">
+
+            <div class="header-text">
+                <h1> Employees Information </h1>
+            </div>
+
+            <div class="search-container">
+                <input id="search" type="text" placeholder="Search..." name="search">
+                <button ><i class="fa fa-search"></i></button>
+            </div>
+
         </div>
           
         <div class="mat-elevation-z8">

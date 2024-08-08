@@ -10,7 +10,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { CommonModule } from '@angular/common';
-import { filter } from 'rxjs';  
 import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
@@ -27,21 +26,23 @@ import { ChangeDetectorRef } from '@angular/core';
   ],
 })
 export class EmployeeComponent implements OnInit {
-  displayedColumns: string[] = ['name','id', 'gender', 'position', 'contact'];
-  dataSource : any;
+  displayedColumns: string[] = ['name', 'id', 'gender', 'position', 'contact'];
+  dataSource: any;
   isModalOpen: boolean = false;
-  dialogRef: MatDialog;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatPaginator) paginatior !: MatPaginator;
-  @ViewChild(MatSort) sort !: MatSort;
-  name: any;
-  id: any;
-  gender: any;
-  position: any;
-  contact: string | undefined;
-  ds: any;
+  @ViewChild(MatSort) sort!: MatSort;
 
+  constructor(
+    private dialog: MatDialog,
+    private router: Router,
+    private paginatorIntl: MatPaginatorIntl,
+    private elementRef: ElementRef,
+    private changeDetectorRef: ChangeDetectorRef,
+
+  ) {
+    this.paginator = new MatPaginator(this.paginatorIntl, this.changeDetectorRef);
+  }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<PeriodicElement>(this.getData());
@@ -49,89 +50,25 @@ export class EmployeeComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  constructor(
-    private dialog: MatDialog,
-    private router: Router,
-    private paginatorIntl: MatPaginatorIntl,
-    private elementRef: ElementRef, 
-    private changeDetectorRef: ChangeDetectorRef, 
-  ) {
-  this.dialogRef = dialog;
-  this.paginator = new MatPaginator(this.paginatorIntl, this.changeDetectorRef);
-  }
-
   protected getData() {
-    this.ds.get('books').subscribe({
-      next: (res: any) => {
-        return res;
-      }
-    })
-    return [];
-  }
-
-  
-  // applyFilter(event: Event, type: string) {
-
-  //   const select = (document.getElementById('filter') as HTMLSelectElement).value;
-  //   const search = (document.getElementById('search') as HTMLInputElement).value;
-
-  //   console.log(select, search)
-  //     const titleFilterPredicate = (data: EmployeeComponent, search: string): boolean => {
-  //       return data.name.toLowerCase().includes(search.toLowerCase());
-  //     }
-
-  //     const authorFilterPredicate = (data: EmployeeComponent, search: string): boolean => {
-  //       return data.id.some((x: any) => {
-  //         return x.toLowerCase().trim().includes(search.toLowerCase().trim());
-  //       });
-  //     }
-
-  //     const copyrightFilterPredicate = (data: EmployeeComponent, select: string): boolean => {
-  //       return data.gender === select || select === '';
-  //     }
-
-
-  //     const filterPredicate = (data: EmployeeComponent): boolean => {
-  //       return (titleFilterPredicate(data, search) ||
-  //              authorFilterPredicate(data, search)) &&
-  //              copyrightFilterPredicate(data, select);
-  //     };
-      
-  //     this.dataSource.filterPredicate = filterPredicate;
-  //     this.dataSource.filter = {
-  //       search
-  //     };    
-  // }
-  
-  addemployeeBtnClick() {
-    if(this.isModalOpen) {
-      return
-    }
-    
-    this.isModalOpen = true
-
-    let modal = this.dialogRef.open(AddemployeeComponent, {});
-    modal.afterClosed().subscribe(
-      (      result: { success: any; }) => {
-        this.isModalOpen = false
-
-      }
-    )
+    return [
+      { name: 'Iverson Culanag', id: '001', gender: 'Male', position: 'Bestie ko ', contact: '09123456789' },
+      { name: 'Min Yoongi', id: '002', gender: 'Male', position: 'Bebe ko', contact: '09123456789' }, 
+      { name: 'Gian Bernardino', id: '003', gender: 'Male', position: 'Bebe ko na singer', contact: '09123456789' },
+      { name: 'Roronoa Zoro', id: '004', gender: 'Male', position: 'Bebe ko sa OP', contact: '09123456789' }, 
+      { name: 'Kei Tsukishima', id: '005', gender: 'Male', position: 'Bebe ko sa Haikyu', contact: '09123456789' },
+      { name: 'Inosuke Hashibira', id: '006', gender: 'Male', position: 'Crush ko sa DS', contact: '09123456789' }, 
+      { name: 'Muichiro Tokito', id: '007', gender: 'Male', position: 'Bebe ko sa DS', contact: '09123456789' },
+      { name: 'Obanai Iguro', id: '008', gender: 'Male', position: 'Crush ko sa DS', contact: '09123456789' }, 
+    ];
   }
 
 }
 
 export interface PeriodicElement {
-  name: string; 
-  id: string; 
-  gender: string; 
-  position: string; 
-  contact: string; 
+  name: string;
+  id: string;
+  gender: string;
+  position: string;
+  contact: string;
 }
-
-// const ELEMENT_DATA: PeriodicElement[] = [
-//   {name: 'One Piece', id: 'Eiichiro Oda', gender: '1999', position: 'manager', contact: '09123456789'}, 
-//   ];
-
-
-
