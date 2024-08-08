@@ -1,49 +1,41 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
-
-<body> 
-    <div class="animation"> 
-        <ul class="circles"> 
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-        </ul>
-    </div>
-    <div class="login">
-        <div class="login_box"> 
-            <div class="left"> 
-                <img class="vector" src="../../../assets/images/payroll.png">
-                    <div class="logo"> 
-                        <img class="logo" src="../../../assets/images/gm18.png">
-                    </div>
+<div class="animation">
+    <ul class="circles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+<div class="login">
+    <div class="login_box">
+        <div class="left">
+            <img class="vector" src="../../../assets/images/payroll.png" alt="Payroll Image">
+            <div class="logo">
+                <img class="logo" src="../../../assets/images/gm18.png" alt="GM18 Logo">
             </div>
-            <div class="right"> 
-                <div class="contact"> 
-                    <form action=""> 
-                        <h1> GM18 </h1>
-                        <h3> Payroll System </h3>
-                        <div class="input-container">
-                            <i class="fas fa-user icon"></i>
-                            <input type="text" placeholder="Username" name="username">
-                        </div>
-                        <div class="input-container">
-                            <i class="fas fa-lock icon"></i>
-                            <input type="password" placeholder="Password" name="password"> 
-                        </div>  
-                            <button class="submit">Login</button>
-                    </form>
-                </div>
+        </div>
+        <div class="right">
+            <div class="contact">
+                <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+                    <h1> GM18 </h1>
+                    <h3> Payroll System </h3>
+                    <div class="input-container">
+                        <i class='bx bxs-user'></i>
+                        <input type="text" placeholder="Username" name="username" ngModel required>
+                    </div>
+                    <div class="input-container">
+                        <i class='bx bxs-lock-alt'></i>
+                        <input type="password" placeholder="Password" name="password" ngModel required>
+                    </div>
+                    <button class="submit" type="submit">Login</button>
+                </form>
             </div>
         </div>
     </div>
-</body>
+</div>
