@@ -25,7 +25,7 @@ export class AuthService {
         sessionStorage.setItem('position', res.data.position);
         sessionStorage.setItem('api-token', res.data.token);
 
-        this.pop.toastWithTimer('success', 'Logged in successfully!');
+        this.pop.toastWithTimer('success', res.message);
         return true; // Return true for successful login
       }),
       catchError((err: any) => {

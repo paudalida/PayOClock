@@ -57,3 +57,9 @@ body {
     font-family: 'poppins';
     transition: all 0.5s ease;
 }
+
+.swal-container {
+  z-index: 9999 !important;
+  overflow: visible !important;
+  position: fixed !important;
+}

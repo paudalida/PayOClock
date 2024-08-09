@@ -10,18 +10,18 @@ export class PopupService {
   constructor() { }
 
   /* 
-    ## USAGE
+  ## USAGE
 
-    -- Just call the services and apply params
-    -- Some functions share params, just refer to the earlier documentation for usage
-    -- For more detailed information about the params in sweetalert documentations
+  -- Just call the services and apply params
+  -- Some functions share params, just refer to the earlier documentation for usage
+  -- For more detailed information about the params in sweetalert documentations
 
-    ## Params
-    
-    **icon**: Icon for the popup (success, error, warning, question, info)
-    **title**: Title of the popup, bigger font than the content. Make it precise and short
-    **seconds**: Seconds for auto close popups like toast
-    **position**: Position of the popup, mainly for toasts, e.g., top-end, top-start, center
+  ## Params
+  
+  **icon**: Icon for the popup (success, error, warning, question, info)
+  **title**: Title of the popup, bigger font than the content. Make it precise and short
+  **seconds**: Seconds for auto close popups like toast
+  **position**: Position of the popup, mainly for toasts, e.g., top-end, top-start, center
   */
 
   toastWithTimer(icon: SweetAlertIcon, title: string, seconds: number = 1.5, position: SweetAlertPosition = 'top-end') {
@@ -46,26 +46,26 @@ export class PopupService {
   }
 
   /* 
-    ## USAGE
+  ## USAGE
 
-    -- This function is async, use then for handling in ts
+  -- This function is async, use then for handling in ts
 
-    ## SAMPLE USAGE
+  ## SAMPLE USAGE
 
-    this.pop.swalWithCancel( <insert params> )
-      .then(isConfirmed => {
-        if (isConfirmed) {
-          < Handle the confirmation action >
-        } else {
-          < Handle the cancellation action >
-        }
-      });
+  this.pop.swalWithCancel( <insert params> )
+    .then(isConfirmed => {
+      if (isConfirmed) {
+        < Handle the confirmation action >
+      } else {
+        < Handle the cancellation action >
+      }
+    });
 
-    ## Params not mentioned above
-    
-    **confirmText**: Confirmation button text. Default is OK
-    **cancelText**: Cancellation button text. Default is Cancel
-    **reversed**: Boolean. Use false if you want the confirm to be on the left. True by default (confirm on right, cancel on left)
+  ## Params not mentioned above
+  
+  **confirmText**: Confirmation button text. Default is OK
+  **cancelText**: Cancellation button text. Default is Cancel
+  **reversed**: Boolean. Use false if you want the confirm to be on the left. True by default (confirm on right, cancel on left)
   */
 
   async swalWithCancel(icon: SweetAlertIcon, title: string, text: string, 
@@ -87,18 +87,18 @@ export class PopupService {
   }
 
    /* 
-    ## USAGE
+  ## USAGE
 
-    -- Same with 2 buttons, but you can use switch case or add an additional if statement.
-    -- Results in 3 values of string ('confirmed', 'denied', 'canceled').
-    -- Handle the results appropriately
+  -- Same with 2 buttons, but you can use switch case or add an additional if statement.
+  -- Results in 3 values of string ('confirmed', 'denied', 'canceled').
+  -- Handle the results appropriately
 
-    ## Params not mentioned above
-    
-    **choice1**: Choice 1, the primary color button. 
-    **choice2**: Choice 2, the secondary choice. Deny in sweetalert, but you can input any choice, just handle the 'denied' string
-    **cancelText**: Cancellation button text. Default is Cancel
-    **reversed**: Boolean. Use false if you want the confirm to be on the left. True by default (confirm on right, cancel on left)
+  ## Params not mentioned above
+  
+  **choice1**: Choice 1, the primary color button. 
+  **choice2**: Choice 2, the secondary choice. Deny in sweetalert, but you can input any choice, just handle the 'denied' string
+  **cancelText**: Cancellation button text. Default is Cancel
+  **reversed**: Boolean. Use false if you want the confirm to be on the left. True by default (confirm on right, cancel on left)
   */
 
   async swalWith3Buttons(icon: SweetAlertIcon, title: string, text: string, 
@@ -115,7 +115,10 @@ export class PopupService {
       confirmButtonText: choice1,
       denyButtonText: choice2,
       cancelButtonText: cancelText,
-      reverseButtons: reversed
+      reverseButtons: reversed,
+      customClass: {
+        container: 'swal-container'
+      }
     });
 
     if (result.isConfirmed) {

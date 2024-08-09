@@ -5,12 +5,14 @@ import { MainComponent } from './main.component';
 import { CommonImportsModule } from '../modules/common-imports/common-imports.module';
 import { FormsImportsModule } from '../modules/forms-imports/forms-imports.module';
 import { EmployeeComponent } from './components/employee/employee.component';
+import { PayrollFormsComponent } from './components/dialogs/payroll-forms/payroll-forms.component';
 
 
 @NgModule({
   declarations: [
     MainComponent,
-    EmployeeComponent
+    EmployeeComponent,
+    PayrollFormsComponent
   ],
   imports: [
     MainRoutingModule,
