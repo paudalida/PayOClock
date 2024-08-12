@@ -58,8 +58,18 @@ body {
     transition: all 0.5s ease;
 }
 
-.swal-container {
-  z-index: 9999 !important;
-  overflow: visible !important;
-  position: fixed !important;
+.btn-primary {
+  background-color: var(--main-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--bar-after); // palitan na lang
+}
+
+.btn-danger {
+  background-color: red;
+}
+
+.btn-danger:hover {
+  background-color: maroon;
 }

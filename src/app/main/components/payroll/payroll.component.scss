@@ -13,33 +13,68 @@
     }
 }
 
-.input-row {
-    display: flex;
-    padding-left: 25px;
-    padding-right: 25px;
-    justify-content: space-between;
-    margin-top: 30px;
+// .input-row {
+//     display: flex;
+//     padding-left: 25px;
+//     padding-right: 25px;
+//     justify-content: space-between;
+//     margin-top: 30px;
 
-    .input-row .card {
-        flex-basis: 35%;
-        position: relative;
-        margin: 1.3rem 0;
-    }
+//     .input-row .card {
+//         flex-basis: 35%;
+//         position: relative;
+//         margin: 1.3rem 0;
+//     }
+// }
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .card {
-    width: 100%;
-    height: auto;
+    font-size: 12px;
     background-color: #fff;
-    color: #fff;
-    padding: 25px;
-    margin-top: 15px;
-    margin-left: 10px;
-    margin-right: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-evenly;
     border-radius: 10px;
+    min-width: 300px;
+    margin: 20px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.card-header, .card-content {
+    padding: 10px 30px;
+    font-weight: 700;
+}
+
+.card-header {
+    font-size: 15px;
+    background-color: var(--main-color);
+    color: var(--header-color);
+}
+
+.name {
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.normal-font {
+    font-weight: 500;
+}
+
+/* BUTTONS */
+.input-row {
+    display: flex;
+    justify-content: end;
+    margin: 10px;
+}
+
+.btn {
+    color: white;
+    font-size: 15px;
+    width: 50px;
+    border: none;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
 }

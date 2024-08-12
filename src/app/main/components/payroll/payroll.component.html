@@ -1,16 +1,26 @@
 <main> 
     <div class="content">
         <div class="cards">
-            <div class="input-row">  
-                    <div class="card"> 
-                        <div class="card-header"> 
-                            <h1> Operational Manager </h1>
+            @for (employee of employees; track $index) {
+                <div class="card" (click)="employeeSelected.set(employee)"> 
+                    <div class="card-header"> 
+                        {{ employee.position }} 
+                    </div>
+                    <div class="card-content"> 
+                        <div class="name"> 
+                            {{employee.first_name}} {{employee.middle_name[0] + '.' || ''}} {{employee.last_name}} {{employee.ext_name || ''}}
                         </div>
-                        <div class="card-content"> 
-                            
+
+                        <div class="normal-font">
+                            {{ employee.sex == 0 ? 'Female' : employee.sex == 1 ? 'Male' : 'N/A' }}
+                        </div>
+
+                        <div class="normal-font">
+                            {{ employee.phone_number }}
                         </div>
                     </div>
                 </div>
-            </div>
+            }
+        </div>
     </div>
 </main>

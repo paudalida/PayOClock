@@ -41,7 +41,13 @@ export class PopupService {
       title: title,
       text: text,
       icon: icon,
-      confirmButtonColor: '#254CA3'
+      confirmButtonColor: '#254CA3',
+      willOpen: () => {
+        document.body.style.overflowY = 'scroll';
+      },
+      willClose: () => {
+        document.body.style.overflowY = 'scroll';
+      },
     });
   }
 
@@ -79,7 +85,12 @@ export class PopupService {
       showCancelButton: true,
       confirmButtonColor: "#254CA3",
       confirmButtonText: confirmText,
-      cancelButtonText: cancelText
+      cancelButtonText: cancelText,willOpen: () => {
+        document.body.style.overflowY = 'scroll';
+      },
+      willClose: () => {
+        document.body.style.overflowY = 'scroll';
+      },
     }).then((result) => {
       // Return a promise that resolves with true if confirmed, false otherwise
       return result.isConfirmed;
@@ -116,9 +127,12 @@ export class PopupService {
       denyButtonText: choice2,
       cancelButtonText: cancelText,
       reverseButtons: reversed,
-      customClass: {
-        container: 'swal-container'
-      }
+      willOpen: () => {
+        document.body.style.overflowY = 'scroll';
+      },
+      willClose: () => {
+        document.body.style.overflowY = 'scroll';
+      },
     });
 
     if (result.isConfirmed) {
