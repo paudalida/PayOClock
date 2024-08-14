@@ -42,7 +42,7 @@ export function inArrayValidator(values: any[]): ValidatorFn {
 export function startsWithValidator(text: string): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} | null => {
         const value = control.value;
-        if (value.findIndex(text) == 0) return null; 
+        if (value.indexOf(text) == 0) return null; 
         return { 'invalidPredicate': { value } }; // Validation error object
     };
 }

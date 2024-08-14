@@ -41,7 +41,6 @@ export class PopupService {
       title: title,
       text: text,
       icon: icon,
-      confirmButtonColor: '#254CA3',
       willOpen: () => {
         document.body.style.overflowY = 'scroll';
       },
@@ -83,9 +82,12 @@ export class PopupService {
       icon: icon,
       reverseButtons: reversed,
       showCancelButton: true,
-      confirmButtonColor: "#254CA3",
       confirmButtonText: confirmText,
-      cancelButtonText: cancelText,willOpen: () => {
+      cancelButtonText: cancelText,
+      customClass: {
+        confirmButton: 'btn-primary'
+      },
+      willOpen: () => {
         document.body.style.overflowY = 'scroll';
       },
       willClose: () => {
@@ -121,12 +123,14 @@ export class PopupService {
       icon: icon,
       showDenyButton: true,
       showCancelButton: true,
-      confirmButtonColor: "#254CA3",
-      denyButtonColor: "#c0392b",
       confirmButtonText: choice1,
       denyButtonText: choice2,
       cancelButtonText: cancelText,
       reverseButtons: reversed,
+      customClass: {
+        confirmButton: 'btn-primary',
+        denyButton: 'btn-danger'
+      },
       willOpen: () => {
         document.body.style.overflowY = 'scroll';
       },

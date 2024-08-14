@@ -20,12 +20,12 @@ export class EmployeeFormComponent {
   form = this.fb.group({
     'id': [''],
     'type': ['', [Validators.required, inArrayValidator(['admin', 'employee'])]],
-    'employee_id': ['', [Validators.required, ]],
+    'employee_id': ['', [Validators.required]],
     'first_name': ['', [Validators.required, Validators.maxLength(30)]],
-    'middle_name': ['', Validators.maxLength(20)],
+    'middle_name': ['', [Validators.maxLength(20)]],
     'last_name': ['', [Validators.required, Validators.maxLength(20)]],
-    'ext_name': ['', Validators.maxLength(10)],
-    'sex': ['0', ['', [Validators.required, inArrayValidator([0, 1, 2])]]],
+    'ext_name': ['', [Validators.maxLength(10)]],
+    'sex': ['0', [Validators.required, inArrayValidator([0, 1, 2])]],
     'position': ['', [Validators.required, Validators.maxLength(20)]],
     'phone_number': ['09', [Validators.maxLength(11), startsWithValidator('09')]]
   });

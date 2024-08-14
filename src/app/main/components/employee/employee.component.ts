@@ -32,7 +32,7 @@ export class EmployeeComponent implements OnInit {
     this.paginator = new MatPaginator(this.paginatorIntl, this.changeDetectorRef);
   }
 
-  displayedColumns: string[] = ['name', 'employee_id', 'gender', 'position', 'contact'];
+  displayedColumns: string[] = ['name', 'employee_id', 'gender', 'position', 'phone_number'];
   dataSource: any;
   isModalOpen: boolean = false;
   userID: number = 0;
@@ -174,5 +174,5 @@ export interface Employee {
   employee_id: string;
   sex: number;
   position: string;
-  contact: string;
+  phone_number: string;
 }
