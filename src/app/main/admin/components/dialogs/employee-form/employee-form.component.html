@@ -1,0 +1,74 @@
+<main>
+    <div class="main-container">
+        <form class="form-info" [formGroup]="form" (submit)="submit()">
+            <div class="header">
+                <h1> {{ data.title }} </h1>
+                <!-- <button class="exit-button" (click)="closepopup()"> &times; </button> -->
+            </div>
+            <div class="detailsbody">
+
+                <div class="input-row">
+                    <div class="entryarea">
+                        <input type="text" formControlName="first_name">
+                        <div class="labelline"> First name </div>
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <div class="entryarea1">
+                        <input type="text"  formControlName="middle_name"> 
+                        <div class="labelline1"> Middle name </div>
+                    </div>
+                </div>
+
+                <div class="input-row1">
+                    <div class="entryarea">
+                        <input type="text" formControlName="last_name">
+                        <div class="labelline"> Last name </div>
+                    </div>
+
+                    <div class="entryarea-1">
+                        <input type="text" formControlName="ext_name">
+                        <div class="labelline-1"> Ext name </div>
+                    </div>
+                </div>
+
+                <div class="input-row1">
+                    <div class="entryarea1">
+                        <input type="number" formControlName="employee_id">
+                        <div class="labelline1"> ID Number </div>
+                    </div>
+
+                    <div class="entryarea1">
+                        <input type="text" formControlName="position">
+                        <div class="labelline1"> Position </div>
+                    </div>
+                </div>
+
+                <div class="input-row1">
+                    <div class="entryarea2">
+                        <input type="text" formControlName="sex">
+                        <div class="labelline2"> Gender </div>
+                    </div>
+
+                    <div class="entryarea2">
+                        <input type="text" formControlName="phone_number">
+                        <div class="labelline2"> Contact Number </div>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <div class="add-btn">
+                        <button class = "button" type="submit" id="add"> {{ data.formType | uppercase }} </button>
+                    </div>
+
+                    <div class="cancel-btn">
+                        <button class = "button" type="button" value="Cancel" id="cancel" (click)="close()"> CANCEL </button>
+                    </div>
+                    
+                </div>
+
+            </div>
+        </form>
+    </div>
+</main>

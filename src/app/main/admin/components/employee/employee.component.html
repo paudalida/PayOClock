@@ -1,0 +1,73 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<div class="main-content">
+    <div class="header"> 
+        <h1> List of Employees </h1>
+            <button class="add-employee" type="button" (click)="openDialog()"> Add </button>
+    </div>
+
+    <div class="table-content">
+        <div class="table-head">
+
+            <div class="header-text">
+                <h1> Employees Information </h1>
+            </div>
+
+            <div class="search-container">
+                <input id="search" type="text" placeholder="Search..." name="search" (keyup)="search($event)">
+                <button ><i class="fa fa-search"></i></button>
+            </div>
+
+        </div>
+          
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" matSort>
+        
+            <!-- Employee Name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Employee Name </th>
+                <td mat-cell *matCellDef="let element"> 
+                    {{element.first_name}} {{element.middle_name ? element.middle_name[0] + '.' : ''}} {{element.last_name}} {{element.ext_name || ''}}
+                </td>
+            </ng-container>
+
+            <!-- Id Number Column -->
+            <ng-container matColumnDef="employee_id">
+                <th mat-header-cell *matHeaderCellDef> ID Number </th>
+                <td mat-cell *matCellDef="let element"> {{element.employee_id}} </td>
+            </ng-container>
+
+        
+            <!-- Gender Column -->
+            <ng-container matColumnDef="gender">
+                <th mat-header-cell *matHeaderCellDef> Gender </th>
+                <td mat-cell *matCellDef="let element"> 
+                    {{element.sex == 0 ? 'Female' : element.sex == 1 ? 'Male' : 'N/A'}} 
+                </td>
+            </ng-container>
+
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef> Position </th>
+                <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+            </ng-container>
+
+            <!-- Contact Number Column -->
+            <ng-container matColumnDef="phone_number">
+                <th mat-header-cell *matHeaderCellDef> Contact Number </th>
+                <td mat-cell *matCellDef="let element"> {{element.phone_number}} </td>
+            </ng-container>
+            
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="empSignal.set(row); showActions()"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[15]" showFirstLastButtons
+                aria-label="Select page of periodic elements">
+            </mat-paginator>
+        </div>   
+    </div>
+    
+</div>

@@ -31,18 +31,18 @@ export function dateValidator(): ValidatorFn {
 
 // Check if the value is within the values in the array
 export function inArrayValidator(values: any[]): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any} | null => {
-        const value = control.value;
-        if (values.includes(value)) return null; 
-        return { 'notInArray': { value } }; // Validation error object
-    };
+  return (control: AbstractControl): {[key: string]: any} | null => {
+      const value = control.value;
+      if (values.includes(value)) return null; 
+      return { 'notInArray': { value } }; // Validation error object
+  };
 }
 
 // Check if the value starts with the provided text
 export function startsWithValidator(text: string): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any} | null => {
-        const value = control.value;
-        if (value.indexOf(text) == 0) return null; 
-        return { 'invalidPredicate': { value } }; // Validation error object
-    };
+  return (control: AbstractControl): {[key: string]: any} | null => {
+      const value = control.value;
+      if (value.indexOf(text) == 0) return null; 
+      return { 'invalidPredicate': { value } }; // Validation error object
+  };
 }
