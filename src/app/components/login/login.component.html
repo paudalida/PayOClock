@@ -29,22 +29,16 @@
                     <h1> GM18 </h1>
                     <h3> Payroll System </h3>
                     <div class="input-container">
-                        <i class='bx bxs-user'></i>
+                        <div class="icon"><i class='bx bxs-user'></i></div>
                         <input type="text" autocomplete="username" 
                         placeholder="Username" formControlName="username">
                     </div>
                     <div class="input-container">
-                        <i class='bx bxs-lock-alt'></i>
+                        <div class="icon"><i class='bx bxs-lock-alt'></i></div>
                         <input type="password" autocomplete="current-password"
                         placeholder="Password" formControlName="password">
                     </div>
-                    
-                    <!-- SUBMIT BUTTON NA AYAW MAG WHITE NG SPINNER -->
-                    <button class="submit" type="submit" [disabled]="isLoading" 
-                            [ngClass]="{ 'submit-loading': isLoading, 'submit-default': !isLoading}"> 
-
-                        {{ isLoading ? 'Logging In' : 'Login' }} <mat-spinner *ngIf="isLoading" class="spinner" diameter="30"></mat-spinner>
-                    </button>
+                    <button class="submit" type="submit"> Login </button>
                 </form>
             </div>
         </div>

@@ -39,7 +39,7 @@
 .card {
     width: 100%;
     height: 100px;
-    background-color: var(--main-color);
+    background-color: var(--primary-color);
     color: var(--background-color);
     margin-top: 15px;
     margin-left: 10px;
@@ -168,7 +168,7 @@
     z-index: 99;
     width: 40px;
     margin: 0 170px;
-    background-color: var(--main-color);
+    background-color: var(--primary-color);
 }
 
 .bar:before {
@@ -178,7 +178,7 @@
     bottom: 7px;
     height: 100%;
     width: 15px;
-    background-color: var(--bar-before);
+    background-color: var(--dark-blue);
 }
 
 .bar:after {
@@ -188,7 +188,7 @@
     left: -8px;
     width: 40px;
     height: 15px;
-    background-color: var(--bar-after);
+    background-color: var(--light-blue);
     -moz-transform: skewX(45deg);
     -o-transform: skewX(45deg);
     -webkit-transform: skewX(45deg);
@@ -242,8 +242,8 @@
     height: 80%;
     border-radius: 50%;
     background-image: conic-gradient(
-        var(--main-color) 70deg,
-        var(--bar-before) 0 235deg,
-        var(--bar-after) 0 
+        var(--primary-color) 70deg,
+        var(--dark-blue) 0 235deg,
+        var(--light-blue) 0 
     );
 }

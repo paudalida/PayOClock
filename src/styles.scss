@@ -36,40 +36,47 @@ $GM18-theme: mat.define-light-theme((
 @include mat.all-component-themes($GM18-theme);
 
 :root {
-    --background-color: #fff;
-    --main-color: #254CA3;
-    --header-color: #EEEEEE;
-    --buttons-hover: #1e3e82;
-    --black: #000;
-    --bar-before: #254ca357;
-    --bar-after: #254ca3db;
-    
+  --background-color: #FAF9F6;
+  --primary-color: #254CA3;
+  --secondary-color: ;
+  --header-color: #EEEEEE;
+  --buttons-hover: #1e3e82;
+  --table-background: #F4F4F4;
+  --table-border: #BFBFBF;
+  --light-blue:#254ca3db;
+  --dark-blue:#254ca357;
+  --danger: #cb001e;
+  --danger-hover: #5c0403;
+  --cancel: #777777;
+  --cancel-hover: #6B6B6B;
+  --black: #000;
+  --white: #FFF;
+
+
 }
 
-/* GLOBAL SCSS HERE */
-
 * { 
-    margin: 0; 
+  margin: 0; 
 }
 
 body {
-    background-color: var(--background-color);
-    font-family: 'poppins';
-    transition: all 0.5s ease;
+  background-color: var(--background-color);
+  font-family: 'poppins';
+  transition: all 0.5s ease;
 }
 
 .btn-primary {
-  background-color: var(--main-color);
+  background-color: var(--primary-color);
 }
 
 .btn-primary:hover {
-  background-color: var(--bar-after); // palitan na lang
+  background-color: var(--light-blue); 
 }
 
 .btn-danger {
-  background-color: red;
+  background-color: var(--danger);
 }
 
 .btn-danger:hover {
-  background-color: maroon;
+  background-color: var(--danger-hover);
 }

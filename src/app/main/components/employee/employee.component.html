@@ -1,14 +1,10 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <div class="main-content">
     <div class="header"> 
         <h1> List of Employees </h1>
-        <!-- <a> -->
             <button class="add-employee" type="button" (click)="openDialog('add')"> Add </button>
-        <!-- </a> -->
     </div>
 
     <div class="table-content">
@@ -19,36 +15,32 @@
             </div>
 
             <div class="search-container">
-                <input id="search" type="text" placeholder="Search..." name="search" (keyup)="search($event)">
+                <input id="search" type="text" placeholder="Search..." name="search">
                 <button ><i class="fa fa-search"></i></button>
             </div>
 
         </div>
           
         <div class="mat-elevation-z8">
-            <table mat-table [dataSource]="dataSource" matSort>
+            <table mat-table [dataSource]="dataSource">
         
             <!-- Employee Name Column -->
             <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Employee Name </th>
-                <td mat-cell *matCellDef="let element"> 
-                    {{element.first_name}} {{element.middle_name[0] + '.' || ''}} {{element.last_name}} {{element.ext_name || ''}}
-                </td>
+                <th mat-header-cell *matHeaderCellDef> Employee Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
             </ng-container>
 
             <!-- Id Number Column -->
-            <ng-container matColumnDef="employee_id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> ID Number </th>
-                <td mat-cell *matCellDef="let element"> {{element.employee_id}} </td>
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> ID Number </th>
+                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
             </ng-container>
 
         
             <!-- Gender Column -->
             <ng-container matColumnDef="gender">
                 <th mat-header-cell *matHeaderCellDef> Gender </th>
-                <td mat-cell *matCellDef="let element"> 
-                    {{element.sex == 0 ? 'Female' : element.sex == 1 ? 'Male' : 'N/A'}} 
-                </td>
+                <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
             </ng-container>
 
 
@@ -61,11 +53,12 @@
             <!-- Contact Number Column -->
             <ng-container matColumnDef="contact">
                 <th mat-header-cell *matHeaderCellDef> Contact Number </th>
-                <td mat-cell *matCellDef="let element"> {{element.phone_number}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.contact}} </td>
             </ng-container>
 
+            
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="signal.set(row)"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
 
             <mat-paginator [pageSizeOptions]="[15]" showFirstLastButtons
@@ -75,6 +68,3 @@
     </div>
     
 </div>
-
-
-

@@ -1,13 +1,7 @@
-
 .body-content {
     padding-left: 220px;
     padding-top: 60px;
     padding-bottom: 50px;
-}
-
-.admin-container {
-    min-width: 85%;
-    position: absolute;
 }
 
 // HEADER
@@ -47,7 +41,7 @@ h1 {
 
 .sidebar-content {
     position: relative;
-    background-color: var(--main-color);
+    background-color: var(--primary-color);
     width: 210px;
     position: fixed;
     top: 0;
@@ -89,8 +83,8 @@ h1 {
 .tab a.active-link {
     font-weight: 700;
     width: 190px;
-    background-color: #fff;
-    color: var(--main-color);
+    background-color: var(--background-color);
+    color: var(--primary-color);
 }
 
 .tab-link .tab-name {
