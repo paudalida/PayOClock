@@ -4,6 +4,12 @@
     padding-bottom: 50px;
 }
 
+.admin-container {
+    min-width: 85%;
+    max-width: fit-content;
+    position: absolute;
+}
+
 // HEADER
 
 .header {
@@ -14,7 +20,7 @@
     margin-top: -10px;
     padding-left: 20px;
     padding-bottom: 10px;
-    z-index: 1;
+    z-index: 5;
 }
 
 h1 {
