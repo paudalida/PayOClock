@@ -20,13 +20,17 @@ $GM18-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
+$custom-typography: mat.define-typography-config(
+  $font-family: 'poppins, sans-serif',
+);
+
 $GM18-theme: mat.define-light-theme((
   color: (
     primary: $GM18-primary,
     accent: $GM18-accent,
     warn: $GM18-warn,
   ),
-  typography: mat.define-typography-config(),
+  typography: $custom-typography,
   density: 0
 ));
 
@@ -67,6 +71,7 @@ body {
 
 .btn-primary {
   background-color: var(--primary-color);
+  color: white;
 }
 
 .btn-primary:hover {

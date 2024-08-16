@@ -73,7 +73,7 @@ export class PopupService {
   **reversed**: Boolean. Use false if you want the confirm to be on the left. True by default (confirm on right, cancel on left)
   */
 
-  async swalWithCancel(icon: SweetAlertIcon, title: string, text: string, 
+  async swalWithCancel(icon: SweetAlertIcon, title: string, text?: string, 
                       confirmText: string = 'OK', cancelText: string = 'Cancel', 
                       reversed: boolean = true) {
     return Swal.fire({

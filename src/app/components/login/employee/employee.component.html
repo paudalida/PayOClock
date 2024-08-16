@@ -1,0 +1,49 @@
+<div class="animation">
+    <ul class="circles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+
+<!-- Login Form -->
+<div class="login">
+    <div class="login_box">
+        <div class="left">
+            <img class="vector" src="../../../assets/images/payroll.png" alt="Payroll Image">
+            <div class="logo">
+                <img class="logo" src="../../../assets/images/gm18.png" alt="GM18 Logo">
+            </div>
+        </div>
+
+        <div class="right">
+            <div class="contact">
+                <form [formGroup]="loginForm" (ngSubmit)="submitLogin()">
+                    <h1> GM18 </h1>
+                    <h3> Payroll System </h3>
+                    <h3> Employee Portal </h3>
+                    <div class="input-container">
+                        <div class="icon"><i class='bx bxs-user'></i></div>
+                        <input type="text" autocomplete="username" 
+                        placeholder="Username" formControlName="username">
+                    </div>
+                    <div class="input-container">
+                        <div class="icon"><i class='bx bxs-lock-alt'></i></div>
+                        <input type="password" autocomplete="current-password"
+                        placeholder="Password" formControlName="password">
+                    </div>
+                    <button class="submit" type="submit"> Login </button>
+                    
+                    <div class="link" [routerLink]="'/landing'"> Back to landing page </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
