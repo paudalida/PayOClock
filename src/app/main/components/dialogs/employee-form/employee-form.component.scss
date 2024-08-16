@@ -16,9 +16,10 @@
     position: relative;
     background: var(--white);
     width: 900px;
-    height: 900px;
+    height: 100%;
     left: 100px;
     border-radius: 5px;
+    padding-bottom: 20px;
     box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.322);
     max-height: 675px;
     overflow-y: auto;
@@ -58,8 +59,8 @@
 }
 
 .detailsbody {
-    padding: 100px 30px 30px 30px;
-    height: 60%; 
+    padding: 80px 30px 120px 30px;
+    height: 70%; 
 }
 
 // Form
@@ -178,7 +179,7 @@
     padding-left: 20px;
     justify-content: space-between;
 
-    .entryarea, .entryarea-1, .entryarea1, .entryarea2 {
+    .entryarea, .entryarea-1, .entryarea1, .entryarea2, .entryarea3, .entryarea4 {
         flex-basis: 100%;
         position: relative;
     }
@@ -232,6 +233,22 @@
         transition: 0.1s ease;
     }
 
+    .entryarea1 select {
+        font-family: "Poppins";
+        position: absolute;
+        width: 95%;
+        height: 23px;
+        outline: none;
+        font-size: 16px;
+        padding: 0 18px;
+        margin-top: 300px;
+        height: 52px;
+        border-radius: 5px;
+        border: 1px solid var(--header-color);
+        background: var(--white);
+        transition: 0.1s ease;
+    }
+    
     .entryarea2 input {
         font-family: "Poppins";
         position: absolute;
@@ -241,6 +258,53 @@
         font-size: 16px;
         padding: 0 18px;
         margin-top: 385px;
+        height: 52px;
+        border-radius: 5px;
+        border: 1px solid var(--header-color);
+        background: var(--white);
+        transition: 0.1s ease;
+    }
+
+    .entryarea2 select {
+        font-family: "Poppins";
+        position: absolute;
+        width: 95%;
+        height: 23px;
+        outline: none;
+        font-size: 16px;
+        padding: 0 18px;
+        margin-top: 385px;
+        height: 52px;
+        border-radius: 5px;
+        border: 1px solid var(--header-color);
+        background: var(--white);
+        transition: 0.1s ease;
+    }
+
+    .entryarea3 input {
+        font-family: "Poppins";
+        position: absolute;
+        width: 85%;
+        height: 23px;
+        outline: none;
+        font-size: 16px;
+        padding: 0 18px;
+        margin-top: 470px;
+        height: 52px;
+        border-radius: 5px;
+        border: 1px solid var(--header-color);
+        background: var(--white);
+        transition: 0.1s ease;
+    }
+
+    .entryarea4 input {
+        font-family: "Poppins";
+        position: absolute;
+        width: 95%;
+        height: 23px;
+        outline: none;
+        font-size: 16px;
+        margin-top: 470px;
         height: 52px;
         border-radius: 5px;
         border: 1px solid var(--header-color);
@@ -288,14 +352,59 @@
         transition: 0.2s ease;
     }
 
+    .labelline3 {
+        position: absolute;
+        font-size: 16px;
+        padding: 0 10px;
+        margin-top: 458px;
+        margin-left: 12px;
+        background-color: var(--white);
+        transition: 0.2s ease;
+    }
+
+    .labelline4 {
+        position: absolute;
+        margin-top: 460px;
+        margin-left: 5px;
+        color: #44474E;
+        transform: translateY(-50%);
+        font-size: 12px;
+        font-weight: 500;
+        opacity: 70%;
+        pointer-events: none;
+        transition: .3s;
+    } 
+
+    input[type="file"]::file-selector-button {
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+        font-family: "Poppins";
+        font-size: 14px;
+        background: var(--primary-color);
+        color: var(--white);
+        padding-top: 5px;
+        height: 52px;
+        border: 1px solid rgba(0, 0, 0, 0.16);
+        transition: background-color 200ms;
+        cursor: pointer;
+    }
+
     .entryarea input:focus, 
     .entryarea input:valid,
     .entryarea-1 input:focus, 
     .entryarea-1 input:valid,
     .entryarea1 input:focus, 
     .entryarea1 input:valid, 
+    .entryarea1 select:focus, 
+    .entryarea1 select:valid,
     .entryarea2 input:focus, 
-    .entryarea2 input:valid {
+    .entryarea2 input:valid, 
+    .entryarea2 select:focus, 
+    .entryarea2 select:valid, 
+    .entryarea3 input:focus, 
+    .entryarea3 input:valid, 
+    .entryarea4 input:focus, 
+    .entryarea4 input:valid {
         color: #000;
         border: 1.5px solid var(--black);
     }
@@ -306,8 +415,14 @@
     .entryarea-1 input:valid + .labelline-1,
     .entryarea1 input:focus + .labelline1, 
     .entryarea1 input:valid + .labelline1, 
-    .entryarea2 input:focus + .labelline1, 
-    .entryarea2 input:valid + .labelline1 {
+    .entryarea1 select:focus + .labelline1, 
+    .entryarea1 select:valid + .labelline1,
+    .entryarea2 input:focus + .labelline2, 
+    .entryarea2 input:valid + .labelline2, 
+    .entryarea2 select:focus + .labelline2, 
+    .entryarea2 select:valid + .labelline2, 
+    .entryarea3 input:focus + .labelline3, 
+    .entryarea3 input:valid + .labelline3 {
         color: var(--black);
     }
 
@@ -327,7 +442,7 @@
         background: var(--cancel);
         text-decoration: none;
         height: 50px;
-        margin-top: 478px;
+        margin-top: 548px;
         margin-left: 29%;
         width: 45%;
         width: 155px;
@@ -351,7 +466,7 @@
         background: var(--primary-color);
         text-decoration: none;
         height: 50px;
-        margin-top: 478px;
+        margin-top: 548px;
         margin-left: 48%;
         width: 45%;
         width: 155px;

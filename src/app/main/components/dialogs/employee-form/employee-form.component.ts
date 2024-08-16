@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { DataService } from '../../../../services/data/data.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { PopupService } from '../../../../services/popup/popup.service';
@@ -12,10 +13,15 @@ import { inArrayValidator, startsWithValidator } from '../../../../utils/custom-
 export class EmployeeFormComponent {
 
   constructor (
+    private ref: MatDialogRef<EmployeeFormComponent>,
     private ds: DataService,
     private pop: PopupService,
     private fb: FormBuilder
   ) { }
+
+  closepopup() {
+    this.ref.close('closed using function');
+  }
 
   form = this.fb.group({
     'id': [''],
