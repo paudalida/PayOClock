@@ -154,7 +154,7 @@ body {
   border-radius: 30px;
   box-shadow: 1px 4px 22px -8px #0004;
   display: flex;
-  background: #254CA3;
+  background: var(--primary-color);
   overflow: hidden;
   flex-direction: row;
 }
@@ -195,7 +195,6 @@ body {
   text-transform: uppercase;
   font-size: 25px;
   font-weight: 500;
-//   padding-bottom: 45px;
 }
 
 .right input {
@@ -216,7 +215,7 @@ body {
   background: linear-gradient(-45deg, #dcd7e0, #fff);
 }
 
-.submit {
+.btn-primary {
   border: none;
   width: 93%;
   font-size: 20px;
@@ -227,25 +226,25 @@ body {
   align-items: center;
   display: block;
   margin-top: 65px;
-  background: #254CA3;
-  color: #fff;
   -webkit-box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
   -moz-box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
   box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
 }
 
 .link {
-    margin-top: 10px;
-    color: var(--primary-color);
-    text-decoration: underline;
-    text-align: center;
+  margin-top: 10px;
+  margin-right: 15px;
+  color: var(--primary-color);
+  text-decoration: none;
+  cursor: pointer;
+  text-align: center;
 }
 
 .link:hover {
-    color: purple;
+  color: var(--buttons-hover);
 }
 
-.submit:hover {
+.btn-primary:hover {
   background: #1e3e82;
 }
 

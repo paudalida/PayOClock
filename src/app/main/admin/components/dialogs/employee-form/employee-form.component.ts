@@ -12,6 +12,10 @@ import { PopupService } from '../../../../../services/popup/popup.service';
 })
 export class EmployeeFormComponent {
 
+  // closepopup() {
+  //   this.ref.close('closed using function');
+  // }
+
   form: FormGroup = this.fb.group({
     'id': [''],
     'type': ['employee', [Validators.required, inArrayValidator(['admin', 'employee'])]],
@@ -29,6 +33,7 @@ export class EmployeeFormComponent {
     private ds: DataService,
     private pop: PopupService,
     private fb: FormBuilder,
+    // private ref: MatDialogRef<EmployeeFormComponent>,
     public dialogRef: MatDialogRef<EmployeeFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { 

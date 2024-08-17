@@ -6,11 +6,13 @@ import { EmployeeComponent } from './components/employee/employee.component';
 import { PayrollComponent } from './components/payroll/payroll.component';
 import { PayslipComponent } from './components/payslip/payslip.component';
 import { ReportComponent } from './components/report/report.component';
+import { PayrollFormsComponent } from './components/dialogs/payroll-forms/payroll-forms.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, 
   { path: 'dashboard', component: DashboardComponent}, 
   { path: 'employee', component: EmployeeComponent}, 
+  { path: 'payroll-forms', component: PayrollFormsComponent},
   
   {
     path: 'payroll', 
