@@ -224,7 +224,8 @@ body {
   padding: 15px 70px;
   border-radius: 8px;
   align-items: center;
-  display: block;
+  display: flex;
+  justify-content: center;
   margin-top: 65px;
   -webkit-box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
   -moz-box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
@@ -299,8 +300,21 @@ body {
 
   .submit {
     width: 100%;
-    padding: 15px;
+    padding: 20px;
   }
+}
+
+/* Loading button */
+.submit-default {
+  background-color: #254CA3;
+}
+
+.submit-loading {
+  background-color: #1e3e82;
+}
+
+.spinner {
+  margin-left: 20px;
 }
 
 @media (max-width: 480px) {
