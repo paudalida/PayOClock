@@ -29,7 +29,7 @@ export class PayrollFormsComponent implements OnInit{
 
   ngOnInit(): void {
     this.employee = this.as.getEmployee();
-    this.ds.request('GET', 'admin/transactions/user/' + this.employee.id, null).subscribe({
+    this.ds.request('GET', 'admin/transactions/user/' + this.employee.id).subscribe({
       next: (res: any) => { this.transactions = res.data; console.log(this.employee); console.log(this.transactions); },
       error: (err: any) => this.pop.toastWithTimer('error', 'Error fetching employee transactions')
     })  

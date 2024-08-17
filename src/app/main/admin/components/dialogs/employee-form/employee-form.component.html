@@ -34,7 +34,7 @@
 
                 <div class="input-row1">
                     <div class="entryarea1">
-                        <select formControlName="sex"> 
+                        <select formControlName="gender"> 
                             <option value="0"> Female </option>
                             <option value="1"> Male </option>
                             <option value="2"> Other </option>
@@ -52,7 +52,7 @@
                     <div class="entryarea2">
                         <select formControlName="type"> 
                             <option value="admin"> Admin </option>
-                            <option value="employee" selected> Employee </option>
+                            <option value="employee"> Employee </option>
                         </select>
                         <div class="labelline2"> Type  </div>
                     </div>
@@ -70,7 +70,7 @@
                     </div>
 
                     <div class="entryarea4">
-                        <input class="inputtxt" type="file">
+                        <input class="inputtxt" type="file" (change)="onFileChange($event)">
                         <span></span>
                         <div class="labelline4"> Upload Image </div>
                     </div>

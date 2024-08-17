@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data/data.service';
 import { AdminService } from '../../services/admin/admin.service';
+import { decryptData, encryptData } from '../../utils/encryption';
 
 @Component({
   selector: 'app-admin',
@@ -13,8 +14,8 @@ export class AdminComponent implements OnInit{
 
   isLoading = true;
 
-  ngOnInit(): void {
-    this.ds.request('GET', 'admin/employees', null).subscribe({
+  async ngOnInit() {
+    this.ds.request('GET', 'admin/employees').subscribe({
       next: (res: any) => {
         this.as.setEmployees(res.data);
         this.isLoading = false;

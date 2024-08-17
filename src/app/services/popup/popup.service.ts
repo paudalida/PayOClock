@@ -41,6 +41,9 @@ export class PopupService {
       title: title,
       text: text,
       icon: icon,
+      customClass: {
+        confirmButton: 'btn-primary'
+      },
       willOpen: () => {
         document.body.style.overflowY = 'scroll';
       },

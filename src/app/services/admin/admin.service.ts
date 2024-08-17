@@ -16,9 +16,10 @@ export class AdminService {
     middle_name: null,
     last_name: null,
     ext_name: null,
-    sex: null,
+    gender: null,
     position: null,
-    phone_number: null
+    phone_number: null,
+    image: null
   };
 
   public setEmployees(data: any) {

@@ -20,7 +20,7 @@ export interface Employee {
   last_name: string;
   ext_name: string;
   employee_id: string;
-  sex: number;
+  gender: number;
   position: string;
   phone_number: string;
 }
@@ -162,7 +162,6 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe((res: any) => {
 
       if(res) {
-        console.log(res)
         if (res.method == 'POST') {
           this.as.setEmployees([...this.dataSource.data, res.data.employee]);
         } else if (res.method == 'PUT') {

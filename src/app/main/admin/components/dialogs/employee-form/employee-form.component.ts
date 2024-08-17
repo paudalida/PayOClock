@@ -14,10 +14,6 @@ import { AdminService } from '../../../../../services/admin/admin.service';
 })
 export class EmployeeFormComponent {
 
-  // closepopup() {
-  //   this.ref.close('closed using function');
-  // }
-
   form: FormGroup = this.fb.group({
     'id': [''],
     'type': ['employee', [Validators.required, inArrayValidator(['admin', 'employee'])]],
@@ -26,7 +22,7 @@ export class EmployeeFormComponent {
     'middle_name': ['', [Validators.maxLength(20)]],
     'last_name': ['', [Validators.required, Validators.maxLength(20)]],
     'ext_name': ['', [Validators.maxLength(10)]],
-    'sex': [0, [Validators.required, inArrayValidator([0, 1, 2])]],
+    'gender': ['0', [Validators.required, inArrayValidator(['0', '1', '2'])]],
     'position': ['', [Validators.required, Validators.maxLength(20)]],
     'phone_number': ['09', [Validators.maxLength(11), isPhoneNumber()]]
   });
@@ -36,7 +32,6 @@ export class EmployeeFormComponent {
     private as: AdminService,
     private pop: PopupService,
     private fb: FormBuilder,
-    // private ref: MatDialogRef<EmployeeFormComponent>,
     public dialogRef: MatDialogRef<EmployeeFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { 
@@ -50,12 +45,14 @@ export class EmployeeFormComponent {
         'middle_name': employee.middle_name || '',
         'last_name': employee.last_name,
         'ext_name': employee.ext_name || '', 
-        'sex': employee.sex, 
+        'gender': String(employee.gender), 
         'position': employee.position, 
         'phone_number': employee.phone_number, 
       });
     }
   }
+
+  selectedFile: any = null;
 
   /* Validators */
   invalidInputLabel(controlName: string) {
@@ -65,11 +62,13 @@ export class EmployeeFormComponent {
 
   updateInvalidInput(event: Event, controlName: string) {
     const control = this.form.get(controlName);
+    console.log(this.form.valid)
 
     if(controlName.includes('name') || controlName == 'position') { control?.setValue(capitalizeFirstLetters(control.value)) }
 
     if(control) {
       const errors = control.errors;
+      console.log(errors)
       let text = '';
       if (errors) {
         if (errors['maxlength']) {
@@ -85,6 +84,28 @@ export class EmployeeFormComponent {
     }
   }
 
+  onFileChange(event: any) {
+    const fileInput = event.target;
+    
+    if (fileInput.files.length > 0) {
+      const file = fileInput.files[0];
+  
+      if (!['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)) {
+        this.pop.toastWithTimer('error', 'Invalid file type. Only JPEG files are accepted.');
+        this.selectedFile = '';
+        return;
+      }
+  
+      if (file.size > 2 * 1024 * 1024) {
+        this.pop.toastWithTimer('error', 'File size exceeds the maximum limit of 2MB.');
+        this.selectedFile = '';
+        return;
+      }
+  
+      this.selectedFile = file;
+    }
+  }
+
   async submit() {
     let action = await this.pop.swalWithCancel(
       'question', 
@@ -95,8 +116,18 @@ export class EmployeeFormComponent {
 
     if(action) {
       let method = 'POST';
+
+      let formData = new FormData();
+
+      Object.keys(this.form.controls).forEach(key => {
+        const control = this.form.get(key);
+        if (control) { formData.append(key, control.value); }
+      });
+
+      if(this.selectedFile) { formData.append('image', this.selectedFile); }
+
       if(this.data.formType == 'update') { method = 'PUT'; }
-      this.ds.request(method, 'admin/employees/' + this.data.formType, this.form.value).subscribe({
+      this.ds.request(method, 'admin/employees/' + this.data.formType, formData).subscribe({
         next: (res: any) => {
           this.pop.toastWithTimer('success', res.message, 5);
           this.dialogRef.close({method: method, data: res.data})
