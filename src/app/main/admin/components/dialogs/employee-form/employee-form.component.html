@@ -3,62 +3,62 @@
         <form class="form-info" [formGroup]="form" (submit)="submit()">
             <div class="header">
                 <h1> {{ data.title }} </h1>
-                <!-- <button class="exit-button" (click)="closepopup()"> &times; </button> -->
             </div>
             <div class="detailsbody">
 
                 <div class="input-row">
                     <div class="entryarea">
-                        <input type="text" formControlName="first_name">
+                        <input type="text" formControlName="first_name" (keyup)="updateInvalidInput($event, 'first_name')">
                         <div class="labelline"> First name </div>
                     </div>
                 </div>
 
                 <div class="input-row">
                     <div class="entryarea1">
-                        <input type="text"  formControlName="middle_name"> 
+                        <input type="text"  formControlName="middle_name" (keyup)="updateInvalidInput($event, 'middle_name')"> 
                         <div class="labelline1"> Middle name </div>
                     </div>
                 </div>
 
                 <div class="input-row1">
                     <div class="entryarea">
-                        <input type="text" formControlName="last_name">
+                        <input type="text" formControlName="last_name" (keyup)="updateInvalidInput($event, 'last_name')">
                         <div class="labelline"> Last name </div>
                     </div>
 
                     <div class="entryarea-1">
-                        <input type="text" formControlName="ext_name">
+                        <input type="text" formControlName="ext_name" (keyup)="updateInvalidInput($event, 'ext_name')">
                         <div class="labelline-1"> Ext name </div>
                     </div>
                 </div>
 
                 <div class="input-row1">
                     <div class="entryarea1">
-                        <select> 
-                            <option value="male"> Male </option>
-                            <option value="female" selected> Female </option>
+                        <select formControlName="sex"> 
+                            <option value="0"> Female </option>
+                            <option value="1"> Male </option>
+                            <option value="2"> Other </option>
                         </select>
                         <div class="labelline1"> Gender  </div>
                     </div>
 
                     <div class="entryarea1"> 
-                        <input type="number" formControlName="employee_id">
+                        <input type="number" formControlName="employee_id" (keyup)="updateInvalidInput($event, 'employee_id')">
                         <div class="labelline1"> ID Number </div>
                     </div>
                 </div>
 
                 <div class="input-row1">
                     <div class="entryarea2">
-                        <select> 
-                            <option value="male"> Admin </option>
-                            <option value="female" selected> Employee </option>
+                        <select formControlName="type"> 
+                            <option value="admin"> Admin </option>
+                            <option value="employee" selected> Employee </option>
                         </select>
                         <div class="labelline2"> Type  </div>
                     </div>
 
                     <div class="entryarea2">
-                        <input type="text" name="position">
+                        <input type="text" formControlName="position">
                         <div class="labelline2"> Position </div>
                     </div>
                 </div>
@@ -78,7 +78,10 @@
 
                 <div class="buttons">
                     <div class="add-btn">
-                        <button class = "button" type="submit" id="add"> {{ data.formType | uppercase }} </button>
+                        <button class = "button" type="submit" id="add" [disabled]="form.invalid"
+                                [ngClass]="{ 'btn-invalid' : form.invalid, 'btn-primary' : !form.invalid }"> 
+                            {{ data.formType | uppercase }} 
+                        </button>
                     </div>
 
                     <div class="cancel-btn">

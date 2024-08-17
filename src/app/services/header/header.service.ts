@@ -13,7 +13,8 @@ export class HeaderService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': 'Bearer ' + this.es.decryptData(sessionStorage.getItem('api-token') || '')
+      // 'Authorization': 'Bearer ' + this.es.decryptData(sessionStorage.getItem('api-token') || '')
+      'Authorization': 'Bearer ' + sessionStorage.getItem('api-token')
     });
 
     return headers;

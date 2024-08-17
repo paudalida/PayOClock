@@ -1,69 +1,23 @@
 <main> 
     <div class="content">
         <div class="input-row">
-            <a routerLink="../payroll-forms" class="card"> 
-                <div class="card-header"> 
-                    <div class="card-image-holder">
-                        <img src="../../../../assets/images/gm18.png" alt="Image Holder">
+            @for (employeeRecord of employees; track $index) {
+                <a class="card" routerLink="'/admin/payroll-forms'" (click)="employee = employeeRecord; redirectToForms()"> 
+                    <div class="card-header"> 
+                        <div class="card-image-holder">
+                            <img src="../../../../assets/images/gm18.png" alt="Image Holder">
+                        </div>
                     </div>
-                </div>
-                <div class="card-content"> 
-                    <div class="name"> 
-                        Mona Liza P. Sanchez 
+                    <div class="card-content"> 
+                        <div class="name"> 
+                            {{employeeRecord.first_name}} {{employeeRecord.middle_name ? employeeRecord.middle_name[0] + '.' : ''}} {{employeeRecord.last_name}} {{employeeRecord.ext_name || ''}}
+                        </div>
+                        <div class="normal-font"> 
+                            {{ employeeRecord.position }}
+                        </div>
                     </div>
-                    <div class="normal-font"> 
-                        Operational Manager
-                    </div>
-                </div>
-            </a>
-
-            <a routerLink="../payroll-forms" class="card"> 
-                <div class="card-header"> 
-                    <div class="card-image-holder">
-                        <img src="../../../../assets/images/gm18.png" alt="Image Holder">
-                    </div>
-                </div>
-                <div class="card-content"> 
-                    <div class="name"> 
-                        Mona Liza P. Sanchez 
-                    </div>
-                    <div class="normal-font"> 
-                        Operational Manager
-                    </div>
-                </div>
-            </a>
-
-            <a routerLink="../payroll-forms" class="card">
-                <div class="card-header"> 
-                    <div class="card-image-holder">
-                        <img src="../../../../assets/images/gm18.png" alt="Image Holder">
-                    </div>
-                </div>
-                <div class="card-content"> 
-                    <div class="name"> 
-                        Mona Liza P. Sanchez 
-                    </div>
-                    <div class="normal-font"> 
-                        Operational Manager
-                    </div>
-                </div>
-            </a>
-
-            <a routerLink="../payroll-forms" class="card">  
-                <div class="card-header"> 
-                    <div class="card-image-holder">
-                        <img src="../../../../assets/images/gm18.png" alt="Image Holder">
-                    </div>
-                </div>
-                <div class="card-content"> 
-                    <div class="name"> 
-                        Mona Liza P. Sanchez 
-                    </div>
-                    <div class="normal-font"> 
-                        Operational Manager
-                    </div>
-                </div>
-            </a>
+                </a>
+            }
         </div>
     </div>
 </main>

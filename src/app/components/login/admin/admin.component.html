@@ -39,10 +39,8 @@
                         <input type="password" autocomplete="current-password"
                         placeholder="Password" formControlName="password">
                     </div>
-                    <!-- <button class="btn-primary" type="submit"> Login </button> -->
-
-                    <!-- SUBMIT BUTTON NA AYAW MAG WHITE NG SPINNER -->
-                    <button class="btn-primary submit" type="submit" [disabled]="isLoading" 
+                    
+                    <button class="btn-primary login-btn" type="submit" [disabled]="isLoading" 
                             [ngClass]="{ 'btn-loading-primary': isLoading, 'btn-primary': !isLoading}"> 
 
                         {{ isLoading ? 'Logging In' : 'Login' }} <mat-spinner *ngIf="isLoading" class="spinner" diameter="23" color="accent"></mat-spinner>

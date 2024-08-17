@@ -1,10 +1,10 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
-import { inArrayValidator, startsWithValidator, dateValidator } from '../../../../../utils/custom-validators';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { inArrayValidator, dateValidator } from '../../../../../utils/custom-validators';
 import { DataService } from '../../../../../services/data/data.service';
 import { PopupService } from '../../../../../services/popup/popup.service';
 import { OnInit } from '@angular/core';
+import { AdminService } from '../../../../../services/admin/admin.service';
 
 @Component({
   selector: 'app-payroll-forms',
@@ -15,6 +15,7 @@ export class PayrollFormsComponent implements OnInit{
 
   constructor (
     private ds: DataService,
+    private as: AdminService,
     private fb: FormBuilder,
     private pop: PopupService
   ) { }
@@ -24,10 +25,12 @@ export class PayrollFormsComponent implements OnInit{
   });
 
   transactions: any;
+  employee: any;
 
   ngOnInit(): void {
-    this.ds.request('GET', 'admin/transactions/user/' + 'user_id', null).subscribe({
-      next: (res: any) => { this.transactions = res.data },
+    this.employee = this.as.getEmployee();
+    this.ds.request('GET', 'admin/transactions/user/' + this.employee.id, null).subscribe({
+      next: (res: any) => { this.transactions = res.data; console.log(this.employee); console.log(this.transactions); },
       error: (err: any) => this.pop.toastWithTimer('error', 'Error fetching employee transactions')
     })  
   }

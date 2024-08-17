@@ -39,10 +39,16 @@ export function inArrayValidator(values: any[]): ValidatorFn {
 }
 
 // Check if the value starts with the provided text
-export function startsWithValidator(text: string): ValidatorFn {
-  return (control: AbstractControl): {[key: string]: any} | null => {
-      const value = control.value;
-      if (value.indexOf(text) == 0) return null; 
-      return { 'invalidPredicate': { value } }; // Validation error object
+export function isPhoneNumber(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const value = control.value;
+
+    // Check if the value is a string and starts with '09' and is composed of digits only
+    if (typeof value === 'string' && value.startsWith('09') && /^\d+$/.test(value)) {
+      return null; // Valid phone number
+    }
+
+    // Return validation error
+    return { 'requiredFormat': 'phone number', 'value': value };
   };
 }

@@ -1,5 +1,6 @@
-import { Component, OnInit, signal, effect } from '@angular/core';
-import { DataService } from '../../../../services/data/data.service';
+import { Component, OnInit } from '@angular/core';
+import { AdminService } from '../../../../services/admin/admin.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-payroll',
@@ -9,20 +10,21 @@ import { DataService } from '../../../../services/data/data.service';
 export class PayrollComponent implements OnInit{
 
   constructor(
-    private ds: DataService
+    private as: AdminService,
+    private router: Router
   ) { }
 
-  employeeSelected = signal(null);
-  signalEffect = effect(()=> { if(this.employeeSelected()) this.openModal() } );
-
   employees: any;
-  ngOnInit(): void {
-    this.ds.request('GET', 'admin/employees', null).subscribe(
-      (res: any) => { this.employees = res.data; console.log(this.employees) }
-    );
+
+  set employee(data: any) {
+    this.as.setEmployee(data);
   }
 
-  openModal() {
-    console.log(this.employeeSelected());
+  ngOnInit(): void {
+    this.employees = this.as.getEmployees();
+  }
+
+  redirectToForms() {
+    this.router.navigate(['/admin/payroll-forms']);
   }
 }

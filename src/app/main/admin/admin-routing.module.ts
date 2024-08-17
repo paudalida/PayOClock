@@ -12,16 +12,8 @@ const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, 
   { path: 'dashboard', component: DashboardComponent}, 
   { path: 'employee', component: EmployeeComponent}, 
-  { path: 'payroll-forms', component: PayrollFormsComponent},
-  
-  {
-    path: 'payroll', 
-    component: PayrollComponent, 
-    children: [{
-      path: '', 
-      loadChildren: ()=>import('./components/payroll/payroll.module').then((m)=>m.PayrollModule)
-    }]
-  }, 
+  { path: 'payroll', component: PayrollComponent}, 
+  { path: 'payroll-forms', component: PayrollFormsComponent}, 
   {
     path: 'payslip', 
     component: PayslipComponent, 
