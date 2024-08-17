@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild, effect, signal } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -6,10 +6,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { ChangeDetectorRef } from '@angular/core';
-import { EmployeeFormComponent } from '../dialogs/employee-form/employee-form.component';
+
 import { DataService } from '../../../../services/data/data.service';
 import { PopupService } from '../../../../services/popup/popup.service';
+import { AdminService } from '../../../../services/admin/admin.service';
+
+import { EmployeeFormComponent } from '../dialogs/employee-form/employee-form.component';
 
 export interface Employee {
   id: string;
@@ -28,7 +30,7 @@ export interface Employee {
   templateUrl: './employee.component.html',
   styleUrls: ['./employee.component.scss']
 })
-export class EmployeeComponent implements OnInit {
+export class EmployeeComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -38,42 +40,40 @@ export class EmployeeComponent implements OnInit {
     private paginatorIntl: MatPaginatorIntl,
     private changeDetectorRef: ChangeDetectorRef,
     private ds: DataService,
-    private pop: PopupService
+    private pop: PopupService,
+    private as: AdminService
 
   ) {
     this.paginator = new MatPaginator(this.paginatorIntl, this.changeDetectorRef);
   }
 
   displayedColumns: string[] = ['name', 'employee_id', 'gender', 'position', 'phone_number'];
-  dataSource = new MatTableDataSource<Employee>([]);
+  dataSource: any;
 
-  empSignal = signal({
-    id: null,
-    type: null,
-    employee_id: null,
-    first_name: null,
-    middle_name: null,
-    last_name: null,
-    ext_name: null,
-    sex: null,
-    position: null,
-    phone_number: null
-  });
+  /* Employee getters */
+  get employee() {
+    return this.as.getEmployee();
+  }
+
+  set employee(data: any) {
+    this.as.setEmployee(data);
+  }
 
   ngOnInit(): void {
     this.getData();
   }
 
-  protected getData() {
-    this.ds.request('GET', 'admin/employees', null).subscribe((res: any) => {      
-      this.dataSource.data = res.data;
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+  ngAfterViewInit(): void {    
+    this.setupTableFunctions();
+  }
 
-      this.sort.sortChange.subscribe(() => {
-        this.applySort();
-      });
-    })
+  protected getData() {
+    this.dataSource = new MatTableDataSource<any>(this.as.getEmployees());
+  }
+
+  protected setupTableFunctions() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   search(event: Event) {
@@ -126,17 +126,17 @@ export class EmployeeComponent implements OnInit {
 
     switch(result) {
       case 'confirmed':
-        this.openDialog(this.empSignal());
+        this.openDialog('update');
         break;
 
       case 'denied':
         const archive = await this.pop.swalWithCancel('warning', 'Archive', 'Are you sure you want to archive this employee?', 'Yes', 'No', false);
 
         if(archive) {
-          this.ds.request('DELETE', 'admin/employees/archive/' + this.empSignal().id, null).subscribe({
+          this.ds.request('DELETE', 'admin/employees/archive/' + this.employee.id, null).subscribe({
             next: (res: any) => { 
               this.pop.toastWithTimer('success', 'Employee archived successfully!');
-              this.dataSource.data = this.dataSource.data.filter((item: any) => item.id !== this.empSignal().id);
+              this.dataSource.data = this.dataSource.data.filter((item: any) => item.id !== this.employee.id);
             },
             error: (err: any) => { this.pop.swalBasic('error', 'Error', err.error.message); }
           })
@@ -145,41 +145,37 @@ export class EmployeeComponent implements OnInit {
     }
   }
 
-  openDialog(data?: any): void {
+  openDialog(formType: string = 'add'): void {
     /* Header of modal */
-    let title = 'Add Employee'; let formType = 'add';
-    if(data) { title = 'Personal Information'; formType = 'update'; }
+    let title = 'Add Employee';
+    if(formType == 'update') { title = 'Personal Information'; }
 
     /* Open the modal */
     const dialogRef = this.dialog.open(EmployeeFormComponent, {
       width: '250px',
       data: { 
         title: title,
-        formType: formType,
-        details: data 
+        formType: formType
       }
     });
     
     dialogRef.afterClosed().subscribe((res: any) => {
 
-      /* UNDER CONSTRUCTION 
-      Target: Should not send requests per add/edit. Front end logic should suffice
-      Problem: Adds the data but is not organized and unsortable
-      */
-
-      // if(res.method == 'POST') {
-      //   this.dataSource.data = [...this.dataSource.data, res.data];
-      // } else if(res.method == 'PUT') {
-      //   const updatedValue = res.data;
-      //   const updatedData = this.dataSource.data.map((employee: any) =>
-      //     employee.id === updatedValue.id ? updatedValue : employee
-      //   );
-
-      //   this.dataSource.data = updatedData;
-      // }
-
       if(res) {
+        console.log(res)
+        if (res.method == 'POST') {
+          this.as.setEmployees([...this.dataSource.data, res.data.employee]);
+        } else if (res.method == 'PUT') {
+          const updatedValue = res.data;
+          const updatedData = this.dataSource.data.map((employee: any) =>
+            employee.id === updatedValue.id ? updatedValue : employee
+          );
+  
+          this.as.setEmployees(updatedData);
+        }
+
         this.getData();
+        this.setupTableFunctions();
       }
     });
   }

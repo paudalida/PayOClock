@@ -75,7 +75,11 @@ body {
 }
 
 .btn-primary:hover {
-  background-color: var(--light-blue); 
+  background-color: var(--buttons-hover); 
+}
+
+.btn-invalid {
+  background-color: #424949;
 }
 
 .btn-loading-primary {

@@ -61,10 +61,10 @@
             </ng-container>
             
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="empSignal.set(row); showActions()"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="employee = row; showActions()"></tr>
             </table>
 
-            <mat-paginator [pageSizeOptions]="[15]" showFirstLastButtons
+            <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons
                 aria-label="Select page of periodic elements">
             </mat-paginator>
         </div>   
