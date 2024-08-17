@@ -30,9 +30,9 @@ export class AuthService {
         // Handle successful response
         sessionStorage.setItem('name', res.data.name);
         sessionStorage.setItem('position', res.data.position);
-        sessionStorage.setItem('api-token', this.es.encryptData(res.data.token));
+        sessionStorage.setItem('api-token', res.data.token);
+        // sessionStorage.setItem('api-token', this.es.encryptData(res.data.token));
 
-        console.log(this.es.encryptData('hi user'))
         this.pop.toastWithTimer('success', res.message);
         this.usertype = type;
         return true; // Return true for successful login

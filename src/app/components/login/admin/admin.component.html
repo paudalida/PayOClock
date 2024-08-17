@@ -39,7 +39,14 @@
                         <input type="password" autocomplete="current-password"
                         placeholder="Password" formControlName="password">
                     </div>
-                    <button class="submit" type="submit"> Login </button>
+                    <!-- <button class="submit" type="submit"> Login </button> -->
+
+                    <!-- SUBMIT BUTTON NA AYAW MAG WHITE NG SPINNER -->
+                    <button class="btn-primary submit" type="submit" [disabled]="isLoading" 
+                            [ngClass]="{ 'btn-loading-primary': isLoading, 'btn-primary': !isLoading}"> 
+
+                        {{ isLoading ? 'Logging In' : 'Login' }} <mat-spinner *ngIf="isLoading" class="spinner" diameter="23" color="accent"></mat-spinner>
+                    </button>
 
                     <div class="link" [routerLink]="'/landing'"> Back to landing page </div>
                 </form>
