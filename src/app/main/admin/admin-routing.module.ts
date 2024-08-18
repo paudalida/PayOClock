@@ -11,11 +11,11 @@ import { PayrollFormsComponent } from './components/dialogs/payroll-forms/payrol
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, 
   { path: 'dashboard', component: DashboardComponent}, 
-  { path: 'employee', component: EmployeeComponent}, 
-  { path: 'payroll', component: PayrollComponent}, 
+  { path: 'employees', component: EmployeeComponent}, 
+  { path: 'payrolls', component: PayrollComponent}, 
   { path: 'payroll-forms', component: PayrollFormsComponent}, 
   {
-    path: 'payslip', 
+    path: 'payslips', 
     component: PayslipComponent, 
     children: [{
       path: '', 
@@ -23,7 +23,7 @@ const routes: Routes = [
     }]
   }, 
   {
-    path: 'report', 
+    path: 'reports', 
     component: ReportComponent, 
     children: [{
       path: '', 
