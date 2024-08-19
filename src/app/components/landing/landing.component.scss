@@ -1,0 +1,160 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.landing {
+
+    // background-color: #e0e0e0;
+
+    .header{
+        height: 50px;
+        font-size: 20px;
+        font-weight: 600;
+        margin-top: 25px;
+        margin-right: 50px;
+        float: right;
+    }
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+  
+    .left {
+
+        .container {
+            background-color: var(--primary-color);
+            width: 550px;
+            height: 865px;
+            margin-top: -100px;
+            margin-left: -20px;
+            margin-bottom: -20px;
+            border-top-right-radius: 80%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container1 {
+            background-color: var(--primary-color);
+            width: 870px;
+            height: 355px;
+            margin-top: -350px;
+            margin-left: -50px;
+            margin-bottom: -20px;
+            border-top-right-radius: 90%;
+            position: relative;
+            z-index: 1;
+        }
+
+        img.vector {
+            position: absolute;
+            left: 120px;
+            top: 35px;
+            width: 690px;
+            height: auto;
+            z-index: 2;
+
+        }
+    }
+  
+    .right {
+         flex: 1;
+  
+        .main-text {
+            font-size: 2.2rem;
+            font-weight: bold;
+            float: right;
+            text-transform: uppercase;
+            margin-top: 200px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+
+            h2 { 
+                margin-top: -25px;
+            }
+
+            h3 { 
+                margin-top: -20px;
+            }
+        }
+
+        .buttons {
+            margin-left: 185px;
+
+        }
+  
+        .second-text {
+            float: right;
+            margin-top: 5px;
+            margin-right: 190px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
+
+        .admin-portal {
+            width: 140px;
+            height: 45px;
+            text-decoration: none;
+            text-transform: uppercase;
+            color: var(--white);
+            box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.322);
+            transition: .3s;
+            transform: translateY(-5px);
+            border-radius: 3px;
+            border: 1px;
+            padding-right: 25px;
+            padding-left: 25px;
+            font-weight: bold;
+            font-size: 16px;
+            font-family: "Poppins";
+            margin-top: 30px;
+            margin-right: 45px;
+            text-align: center;
+        }
+
+        .admin-portal:hover {
+            box-shadow: 0px 8px 15px -10px rgb(125, 125, 125);
+            transform: translate(0px, -2px);
+            background: var(--buttons-hover);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .employee-portal {
+            width: 140px;
+            height: 45px;
+            text-decoration: none;
+            text-transform: uppercase;
+            color: var(--white);
+            box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.322);
+            transition: .3s;
+            transform: translateY(-5px);
+            border-radius: 3px;
+            border: 1px;
+            padding-right: 25px;
+            padding-left: 25px;
+            font-weight: bold;
+            font-size: 16px;
+            font-family: "Poppins";
+            margin-top: 30px;
+            margin-right: 15px;
+            text-align: center;
+
+        }
+
+        .employee-portal:hover {
+            box-shadow: 0px 8px 15px -10px rgb(125, 125, 125);
+            transform: translate(0px, -2px);
+            background: var(--buttons-hover);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+
+        
+    }
+  }
+  

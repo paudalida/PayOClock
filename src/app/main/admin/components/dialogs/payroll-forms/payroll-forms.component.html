@@ -93,122 +93,122 @@
                             Deduction
                         </div>
                         <div class="input-row1"> 
+                            <div class="entryarea3">
                             <form [formGroupName]="1">
-                                <div class="entryarea3">
-                                    <select formControlName="type"> 
-                                        <option value="phic"> PHIC </option>
-                                        <option value="sss" selected> SSS </option>
-                                    </select>
-                                    <div class="labelline3"> Type </div>
-                                </div>
+                                <select formControlName="type"> 
+                                    <option value="phic"> PHIC </option>
+                                    <option value="sss" selected> SSS </option>
+                                </select>
+                                <div class="labelline3"> Type </div>
                             </form>
+                            </div>
 
+                            <div class="entryarea3">
                             <form [formGroupName]="2">
                                 <input formControlName="sub_type" value="EE Share" hidden>
-                                <div class="entryarea3">
-                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '0', 'amount')">
-                                    <div class="labelline3"> EE Share </div>
-                                </div>
+                                <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '0', 'amount')">
+                                <div class="labelline3"> EE Share </div>
                             </form>
+                            </div>
 
+                            <div class="entryarea3">
                             <form [formGroupName]="3">
                                 <input formControlName="type" [value]="form.get('forms')?.get('0')?.get('type')?.value" hidden>
                                 <input formControlName="sub_type" value="ER Share" hidden>
-                                <div class="entryarea3">
                                     <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '1', 'amount')">
                                     <div class="labelline3"> ER Share </div>
-                                </div>
                             </form>
+                            </div>
                         </div>
 
                         <div class="input-row1"> 
+                            <div class="entryarea3">
                             <form [formGroupName]="4">
-                                <div class="entryarea3">
                                     <select formControlName="type"> 
                                         <option value="sss"> SSS </option>
                                         <option value="phic" selected> PHIC </option>
                                     </select>
                                     <div class="labelline3"> Type </div>
-                                </div>
                             </form>
+                            </div>
 
+                            <div class="entryarea3">
                             <form [formGroupName]="5"> 
                                 <input formControlName="sub_type" value="EE Share" hidden>
-                                <div class="entryarea3">
                                     <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '2', 'amount')">
                                     <div class="labelline3"> EE Share </div>
-                                </div>
                             </form>
+                            </div>
 
+                            <div class="entryarea3">
                             <form [formGroupName]="6">
                                 <input formControlName="type" [value]="form.get('forms')?.get('2')?.get('type')?.value" hidden>
                                 <input formControlName="sub_type" value="ER Share" hidden>
 
-                                <div class="entryarea3">
                                     <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '3', 'amount')">
                                     <div class="labelline3"> ER Share </div>
-                                </div>
                             </form>
+                            </div>
                         </div>
 
                         <div class="input-row1"> 
+                            <div class="entryarea4">
                             <form [formGroupName]="7">
-                                <div class="entryarea4">
                                     <select formControlName="type"> 
                                         <option value="sss"> SSS </option>
                                         <option value="phic" > PHIC </option>
                                         <option value="phic" selected> HDMF </option>
                                     </select>
                                     <div class="labelline4"> Type </div>
-                                </div>
                             </form>
+                        </div>
 
+                        <div class="entryarea4">
                             <form [formGroupName]="8">
-                                <div class="entryarea4">
                                     <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '4', 'amount')">
                                     <div class="labelline4"> EE Share </div>
-                                </div>
                             </form>
+                        </div>
 
+                        <div class="entryarea4">
                             <form [formGroupName]="9">
                                 <input formControlName="type" [value]="form.get('forms')?.get('4')?.get('type')?.value" hidden>
                                 <input formControlName="sub_type" value="ER Share" hidden>
 
-                                <div class="entryarea4">
                                     <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '5', 'amount')">
                                     <div class="labelline4"> ER Share </div>
-                                </div>
                             </form>
+                        </div>
 
+                        <div class="entryarea4">
                             <form [formGroupName]="10">
                                 <input formControlName="type" [value]="form.get('forms')?.get('4')?.get('type')?.value" hidden>
                                 <input formControlName="sub_type" value="Salary" hidden>
 
-                                <div class="entryarea4">
                                     <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '6', 'amount')">
                                     <div class="labelline4"> Salary </div>
-                                </div>
                             </form>
+                        </div>
 
+                        <div class="entryarea4">
                             <form [formGroupName]="11">
                                 <input formControlName="type" [value]="form.get('forms')?.get('4')?.get('type')?.value" hidden>
                                 <input formControlName="sub_type" value="Calamity" hidden>
 
-                                <div class="entryarea4">
                                     <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '7', 'amount')">
                                     <div class="labelline4"> Calamity </div>
-                                </div>
                             </form>
-
+                        </div>
+                        
+                        <div class="entryarea4">
                             <form [formGroupName]="12">
                                 <input formControlName="type" [value]="form.get('forms')?.get('4')?.get('type')?.value" hidden>
                                 <input formControlName="sub_type" value="Salary" hidden>
 
-                                <div class="entryarea4">
                                     <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '8', 'amount')">
                                     <div class="labelline4"> Salary </div>
-                                </div>
                             </form>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -226,10 +226,7 @@
 
                         <div class="input-row1"> 
                             <div class="entryarea">
-                                <select> 
-                                    <option value="cash"> Cash Bond </option>
-                                    <option value="vale" selected> VALE </option>
-                                </select>
+                                <input type="text" name="type">
                                 <div class="labelline"> Type </div>
                             </div>
             
@@ -251,11 +248,7 @@
 
                         <div class="input-row1"> 
                             <div class="entryarea">
-                                <select> 
-                                    <option value="transpo"> Transportation </option>
-                                    <option value="sss" selected> SSS </option>
-                                    <option value="ee_share" selected> EE Share </option>
-                                </select>
+                                <input type="text" name="type">
                                 <div class="labelline"> Type </div>
                             </div>
             
