@@ -78,6 +78,14 @@ body {
   background-color: var(--buttons-hover); 
 }
 
+.btn-secondary {
+  background-color: var(--cancel);
+}
+
+.btn-secondary:hover {
+  background-color: var(--cancel-hover);
+}
+
 .btn-invalid {
   background-color: #424949;
 }

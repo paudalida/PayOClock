@@ -2,8 +2,8 @@
     <div class="header"> 
         <h1> Employee Payroll </h1>
             <div class="input-row"> 
-                <button class="save-payroll" type="button" (click)="submit()"> Save </button>
-                <button class="back" type="button" [routerLink]="'/admin/payrolls'"> Back </button>
+                <button class="btn-primary save-payroll" type="button" (click)="submit()"> Save </button>
+                <button class="btn-secondary back" type="button" [routerLink]="'/admin/payrolls'"> Back </button>
             </div>    
     </div>
 
@@ -11,8 +11,9 @@
         <div class="input-row"> 
             <div class="container"> 
                 <div class="container-head"> 
-                    Employee Details
+                     Employee Details   
                 </div>
+                
                 <div class="content-details"> 
                     <div class="input-row1">
                         <div class="entryarea">
@@ -20,10 +21,10 @@
                             <div class="labelline"> ID Number </div>
                         </div>
 
-                        <div class="entryarea1">
+                        <div class="entryarea">
                             <input type="text" name="fullname" disabled
                                 value="{{employee.first_name}} {{employee.middle_name || ''}} {{employee.last_name}} {{employee.ext_name || ''}}">
-                            <div class="labelline1"> Full name </div>
+                            <div class="labelline"> Full name </div>
                         </div>
                     </div>
 
@@ -33,193 +34,242 @@
                             <div class="labelline"> Position </div>
                         </div>
 
-                        <div class="entryarea1">
+                        <div class="entryarea">
                             <input type="text" name="gender" disabled 
                                 value="{{employee.gender == 0 ? 'Female' : employee.gender == 1 ? 'Male' : 'Others'}}">
-                            <div class="labelline1"> Gender </div>
+                            <div class="labelline"> Gender </div>
                         </div>
                     </div>
 
                     <div class="input-row1">
-                        <div class="entryarea2">
+                        <div class="entryarea1">
                             <input type="text" name="per_hour" [value]="hourlyRate">
-                            <div class="labelline2"> Rate (hour) </div>
+                            <div class="labelline1"> Rate (hour) </div>
                         </div>
 
-                        <div class="entryarea2">
+                        <div class="entryarea1">
                             <input type="text" name="per_day" [value]="hourlyRate * 8">
-                            <div class="labelline2"> Rate (day) </div>
+                            <div class="labelline1"> Rate (day) </div>
                         </div>
 
-                        <div class="entryarea2">
+                        <div class="entryarea1">
                             <input type="text" name="amount" [value]="hourlyRate * 8 * 15">
-                            <div class="labelline2"> AMT </div>
+                            <div class="labelline1"> AMT </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="container"> 
-                <div class="input-row1">
-                    <div class="entryarea3">
-                        <input type="text" name="deductions">
-                        <div class="labelline"> Total Deductions </div>
+                <div class ="container-head"></div>
+                    <div class="input-row1">
+                        <div class="entryarea2">
+                            <input type="text" name="deductions">
+                            <div class="labelline2"> Total Deductions </div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="input-row1">
-                    <div class="entryarea3">
-                        <input type="text" name="pay">
-                        <div class="labelline"> NET Pay </div>
+                    <div class="input-row1">
+                        <div class="entryarea2">
+                            <input type="text" name="pay">
+                            <div class="labelline2"> NET Pay </div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="input-row1">
-                    <div class="entryarea3">
-                        <input type="text" name="received">
-                        <div class="labelline"> Received by </div>
+                    <div class="input-row1">
+                        <div class="entryarea2">
+                            <input type="text" name="received">
+                            <div class="labelline2"> Received by </div>
+                        </div>
                     </div>
-                </div>
             </div>
         </div>
 
         <form [formGroup]="form" (submit)="submit()">
             <form formArrayName="forms">
-                <div class="container-deduction">
-                    <div class="container-head"> 
-                        Deduction
-                    </div>
-                    <div class="input-row2"> 
-                        <form [formGroupName]="0">
-                            <div class="entryarea4">
-                                <select formControlName="type"> 
-                                    <option value="phic"> PHIC </option>
-                                    <option value="sss" selected> SSS </option>
-                                </select>
-                                <div class="labelline4"> Type </div>
-                            </div>
+                <div class = "input-row">
+                    <div class="container-deduction">
+                        <div class="container-head"> 
+                            Deduction
+                        </div>
+                        <div class="input-row1"> 
+                            <form [formGroupName]="1">
+                                <div class="entryarea3">
+                                    <select formControlName="type"> 
+                                        <option value="phic"> PHIC </option>
+                                        <option value="sss" selected> SSS </option>
+                                    </select>
+                                    <div class="labelline3"> Type </div>
+                                </div>
+                            </form>
 
-                            <input formControlName="sub_type" value="EE Share" hidden>
+                            <form [formGroupName]="2">
+                                <input formControlName="sub_type" value="EE Share" hidden>
+                                <div class="entryarea3">
+                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '0', 'amount')">
+                                    <div class="labelline3"> EE Share </div>
+                                </div>
+                            </form>
 
-                            <div class="entryarea4">
-                                <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '0', 'amount')">
-                                <div class="labelline4"> EE Share </div>
-                            </div>
-                        </form>
+                            <form [formGroupName]="3">
+                                <input formControlName="type" [value]="form.get('forms')?.get('0')?.get('type')?.value" hidden>
+                                <input formControlName="sub_type" value="ER Share" hidden>
+                                <div class="entryarea3">
+                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '1', 'amount')">
+                                    <div class="labelline3"> ER Share </div>
+                                </div>
+                            </form>
+                        </div>
 
-                        <form [formGroupName]="1">
-                            <input formControlName="type" [value]="form.get('forms')?.get('0')?.get('type')?.value" hidden>
-                            <input formControlName="sub_type" value="ER Share" hidden>
+                        <div class="input-row1"> 
+                            <form [formGroupName]="4">
+                                <div class="entryarea3">
+                                    <select formControlName="type"> 
+                                        <option value="sss"> SSS </option>
+                                        <option value="phic" selected> PHIC </option>
+                                    </select>
+                                    <div class="labelline3"> Type </div>
+                                </div>
+                            </form>
 
-                            <div class="entryarea4">
-                                <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '1', 'amount')">
-                                <div class="labelline4"> ER Share </div>
-                            </div>
-                        </form>
-                    </div>
+                            <form [formGroupName]="5"> 
+                                <input formControlName="sub_type" value="EE Share" hidden>
+                                <div class="entryarea3">
+                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '2', 'amount')">
+                                    <div class="labelline3"> EE Share </div>
+                                </div>
+                            </form>
 
-                    <div class="input-row2"> 
-                        <form [formGroupName]="2">
-                            <div class="entryarea4">
-                                <select formControlName="type"> 
-                                    <option value="sss"> SSS </option>
-                                    <option value="phic" selected> PHIC </option>
-                                </select>
-                                <div class="labelline4"> Type </div>
-                            </div>
+                            <form [formGroupName]="6">
+                                <input formControlName="type" [value]="form.get('forms')?.get('2')?.get('type')?.value" hidden>
+                                <input formControlName="sub_type" value="ER Share" hidden>
 
-                            <input formControlName="sub_type" value="EE Share" hidden>
+                                <div class="entryarea3">
+                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '3', 'amount')">
+                                    <div class="labelline3"> ER Share </div>
+                                </div>
+                            </form>
+                        </div>
 
-                            <div class="entryarea4">
-                                <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '2', 'amount')">
-                                <div class="labelline4"> EE Share </div>
-                            </div>
-                        </form>
+                        <div class="input-row1"> 
+                            <form [formGroupName]="7">
+                                <div class="entryarea4">
+                                    <select formControlName="type"> 
+                                        <option value="sss"> SSS </option>
+                                        <option value="phic" > PHIC </option>
+                                        <option value="phic" selected> HDMF </option>
+                                    </select>
+                                    <div class="labelline4"> Type </div>
+                                </div>
+                            </form>
 
-                        <form [formGroupName]="3">
-                            <input formControlName="type" [value]="form.get('forms')?.get('2')?.get('type')?.value" hidden>
-                            <input formControlName="sub_type" value="ER Share" hidden>
+                            <form [formGroupName]="8">
+                                <div class="entryarea4">
+                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '4', 'amount')">
+                                    <div class="labelline4"> EE Share </div>
+                                </div>
+                            </form>
 
-                            <div class="entryarea4">
-                                <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '3', 'amount')">
-                                <div class="labelline4"> ER Share </div>
-                            </div>
-                        </form>
-                    </div>
+                            <form [formGroupName]="9">
+                                <input formControlName="type" [value]="form.get('forms')?.get('4')?.get('type')?.value" hidden>
+                                <input formControlName="sub_type" value="ER Share" hidden>
 
-                    <div class="input-row2"> 
-                        <form [formGroupName]="4">
-                            <div class="entryarea5">
-                                <select formControlName="type"> 
-                                    <option value="sss"> SSS </option>
-                                    <option value="phic" > PHIC </option>
-                                    <option value="phic" selected> HDMF </option>
-                                </select>
-                                <div class="labelline5"> Type </div>
-                            </div>
+                                <div class="entryarea4">
+                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '5', 'amount')">
+                                    <div class="labelline4"> ER Share </div>
+                                </div>
+                            </form>
 
-                            <div class="entryarea5">
-                                <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '4', 'amount')">
-                                <div class="labelline5"> EE Share </div>
-                            </div>
-                        </form>
+                            <form [formGroupName]="10">
+                                <input formControlName="type" [value]="form.get('forms')?.get('4')?.get('type')?.value" hidden>
+                                <input formControlName="sub_type" value="Salary" hidden>
 
-                        <form [formGroupName]="5">
-                            <input formControlName="type" [value]="form.get('forms')?.get('4')?.get('type')?.value" hidden>
-                            <input formControlName="sub_type" value="ER Share" hidden>
+                                <div class="entryarea4">
+                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '6', 'amount')">
+                                    <div class="labelline4"> Salary </div>
+                                </div>
+                            </form>
 
-                            <div class="entryarea5">
-                                <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '5', 'amount')">
-                                <div class="labelline5"> ER Share </div>
-                            </div>
-                        </form>
+                            <form [formGroupName]="11">
+                                <input formControlName="type" [value]="form.get('forms')?.get('4')?.get('type')?.value" hidden>
+                                <input formControlName="sub_type" value="Calamity" hidden>
 
-                        <form [formGroupName]="6">
-                            <input formControlName="type" [value]="form.get('forms')?.get('4')?.get('type')?.value" hidden>
-                            <input formControlName="sub_type" value="Salary" hidden>
+                                <div class="entryarea4">
+                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '7', 'amount')">
+                                    <div class="labelline4"> Calamity </div>
+                                </div>
+                            </form>
 
-                            <div class="entryarea5">
-                                <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '6', 'amount')">
-                                <div class="labelline5"> Salary </div>
-                            </div>
-                        </form>
+                            <form [formGroupName]="12">
+                                <input formControlName="type" [value]="form.get('forms')?.get('4')?.get('type')?.value" hidden>
+                                <input formControlName="sub_type" value="Salary" hidden>
 
-                        <form [formGroupName]="7">
-                            <input formControlName="type" [value]="form.get('forms')?.get('4')?.get('type')?.value" hidden>
-                            <input formControlName="sub_type" value="Calamity" hidden>
-
-                            <div class="entryarea5">
-                                <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '7', 'amount')">
-                                <div class="labelline5"> Calamity </div>
-                            </div>
-                        </form>
-
-                        <form [formGroupName]="8">
-                            <input formControlName="type" [value]="form.get('forms')?.get('4')?.get('type')?.value" hidden>
-                            <input formControlName="sub_type" value="Salary" hidden>
-
-                            <div class="entryarea5">
-                                <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '8', 'amount')">
-                                <div class="labelline5"> Salary </div>
-                            </div>
-                        </form>
+                                <div class="entryarea4">
+                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '8', 'amount')">
+                                    <div class="labelline4"> Salary </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </form>
         </form>
 
-        <div class="input-row"> 
-            <div class="container-others">
-                <div class="container-head"> 
-                    Other Deductions
-                </div>
-            </div>
+        <form [formGroup]="form" (submit)="submit()">
+            <form formArrayName="forms">
+                <div class="input-row"> 
+                    <div class="container-others">
+                        <div class="container-head"> 
+                            Other Deductions 
+                            <button class="add-other" type="button"> Add </button>
+                        </div>
 
-            <div class="container-others">
-                <div class="container-head"> 
-                    Allowance
+                        <div class="input-row1"> 
+                            <div class="entryarea">
+                                <select> 
+                                    <option value="cash"> Cash Bond </option>
+                                    <option value="vale" selected> VALE </option>
+                                </select>
+                                <div class="labelline"> Type </div>
+                            </div>
+            
+                            <div class="entryarea">
+                                <input type="text" name="amount">
+                                <div class="labelline"> Amount </div>
+                            </div>
+                        </div>
+
+                        <button class="btn-danger cancel-btn" type="button"><i class='bx bx-x'></i></button>
+                        
+                    </div>
+
+                    <div class="container-others">
+                        <div class="container-head"> 
+                            Allowance  
+                            <button class="add-other" type="button"> Add </button>
+                        </div>
+
+                        <div class="input-row1"> 
+                            <div class="entryarea">
+                                <select> 
+                                    <option value="transpo"> Transportation </option>
+                                    <option value="sss" selected> SSS </option>
+                                    <option value="ee_share" selected> EE Share </option>
+                                </select>
+                                <div class="labelline"> Type </div>
+                            </div>
+            
+                            <div class="entryarea">
+                                <input type="text" name="amount">
+                                <div class="labelline"> Amount </div>
+                            </div>
+                        </div>
+
+                        <button class="btn-danger cancel-btn" type="button"><i class='bx bx-x'></i></button>
+                        
+                    </div>
                 </div>
-            </div>
-        </div>
+            </form>
+        </form>
     </div>
 </div>
