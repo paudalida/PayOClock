@@ -53,6 +53,7 @@ export class EmployeeFormComponent {
   }
 
   selectedFile: any = null;
+  isLoading = false;
 
   /* Validators */
   invalidInputLabel(controlName: string) {
@@ -115,6 +116,7 @@ export class EmployeeFormComponent {
     );
 
     if(action) {
+      this.isLoading = true;
       let method = 'POST';
 
       let formData = new FormData();
@@ -130,9 +132,11 @@ export class EmployeeFormComponent {
       this.ds.request(method, 'admin/employees/' + this.data.formType, formData).subscribe({
         next: (res: any) => {
           this.pop.toastWithTimer('success', res.message, 5);
-          this.dialogRef.close({method: method, data: res.data})
+          this.dialogRef.close({method: method, data: res.data});
+          this.isLoading = false;
         }, error: (err: any) => {
           this.pop.swalBasic('error', 'Submission Error', err.error.message);
+          this.isLoading = false;
         }
       });
     }
