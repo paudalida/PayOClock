@@ -2,13 +2,18 @@
     <div class="header"> 
         <h1> Employee Payroll </h1>
             <div class="input-row"> 
-                <button class="btn-primary save-payroll" type="button" (click)="submit()"> Save </button>
-                <button class="btn-secondary back" type="button" [routerLink]="'/admin/payrolls'"> Back </button>
+                <button class="btn-primary save-payroll" type="button" (click)="submit()"
+                    [ngClass]="{ 'btn-loading-primary': isLoading, 'btn-primary': !isLoading}"> 
+                        {{ isLoading ? 'Saving' : 'Save' }} <mat-spinner *ngIf="isLoading" class="spinner" diameter="23" color="accent"></mat-spinner>
+                </button>
+                <button class="btn-secondary back" type="button" (click)="backRoute()"> Back </button>
             </div>    
     </div>
 
     <div class="content"> 
         <div class="input-row"> 
+
+            <!-- LEFT PANEL -->
             <div class="container"> 
                 <div class="container-head"> 
                      Employee Details   
@@ -60,6 +65,7 @@
                 </div>
             </div>
 
+            <!-- RIGHT PANEL -->
             <div class="container"> 
                 <div class ="container-head"></div>
                     <div class="input-row1">
@@ -85,184 +91,209 @@
             </div>
         </div>
 
+        <!-- FORMS ARRAY -->
         <form [formGroup]="form" (submit)="submit()">
-            <form formArrayName="forms">
+            <form formArrayName="deduction">
                 <div class = "input-row">
                     <div class="container-deduction">
                         <div class="container-head"> 
                             Deduction
                         </div>
+
+                        <!-- 1ST ROW SSS -->
                         <div class="input-row1"> 
                             <div class="entryarea3">
-                            <form [formGroupName]="1">
-                                <select formControlName="type"> 
-                                    <option value="phic"> PHIC </option>
-                                    <option value="sss" selected> SSS </option>
-                                </select>
+                            <form [formGroupName]="0">
+                                <input formControlName="type" value="SSS">
+                                <!-- <select formControlName="type"> 
+                                    <option value="PHIC"> PHIC </option>
+                                    <option value="SSS"> SSS </option>
+                                </select> -->
                                 <div class="labelline3"> Type </div>
-                            </form>
-                            </div>
+                            <!-- </form> -->
+                            <!-- </div> -->
 
-                            <div class="entryarea3">
-                            <form [formGroupName]="2">
+                            <!-- <div class="entryarea3"> -->
+                            <!-- <form [formGroupName]="2" tanggalin> -->
                                 <input formControlName="sub_type" value="EE Share" hidden>
-                                <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '0', 'amount')">
+                                <input type="text" formControlName="amount"
+                                 (keyup)="updateInvalidInput($event, 'deduction', '0', 'amount')">
                                 <div class="labelline3"> EE Share </div>
                             </form>
                             </div>
 
                             <div class="entryarea3">
-                            <form [formGroupName]="3">
-                                <input formControlName="type" [value]="form.get('forms')?.get('0')?.get('type')?.value" hidden>
+                            <form [formGroupName]="1">
+                                <input formControlName="type" [value]="formsArray('deduction').get('0')?.get('type')?.value" hidden>
                                 <input formControlName="sub_type" value="ER Share" hidden>
-                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '1', 'amount')">
+                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, 'deduction', '1', 'amount')">
                                     <div class="labelline3"> ER Share </div>
                             </form>
                             </div>
                         </div>
 
+                        <!-- 2ND ROW PHIC -->
                         <div class="input-row1"> 
                             <div class="entryarea3">
-                            <form [formGroupName]="4">
-                                    <select formControlName="type"> 
-                                        <option value="sss"> SSS </option>
-                                        <option value="phic" selected> PHIC </option>
-                                    </select>
+                            <form [formGroupName]="2">
+                                <input formControlName="type" value="PHIC">
+                                    <!-- <select formControlName="type"> 
+                                        <option value="SSS"> SSS </option>
+                                        <option value="PHIC"> PHIC </option>
+                                    </select> -->
                                     <div class="labelline3"> Type </div>
-                            </form>
+                            <!-- </form>
                             </div>
 
                             <div class="entryarea3">
-                            <form [formGroupName]="5"> 
+                            <form [formGroupName]="'2'" tanggalin>  -->
                                 <input formControlName="sub_type" value="EE Share" hidden>
-                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '2', 'amount')">
+                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, 'deduction', '2', 'amount')">
                                     <div class="labelline3"> EE Share </div>
                             </form>
                             </div>
 
                             <div class="entryarea3">
-                            <form [formGroupName]="6">
-                                <input formControlName="type" [value]="form.get('forms')?.get('2')?.get('type')?.value" hidden>
+                            <form [formGroupName]="3">
+                                <input formControlName="type" [value]="formsArray('deduction').get('2')?.get('type')?.value" hidden>
                                 <input formControlName="sub_type" value="ER Share" hidden>
 
-                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '3', 'amount')">
+                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, 'deduction', '3', 'amount')">
                                     <div class="labelline3"> ER Share </div>
                             </form>
                             </div>
                         </div>
 
+                        <!-- 3RD ROW HDMF -->
                         <div class="input-row1"> 
                             <div class="entryarea4">
-                            <form [formGroupName]="7">
-                                    <select formControlName="type"> 
-                                        <option value="sss"> SSS </option>
-                                        <option value="phic" > PHIC </option>
-                                        <option value="phic" selected> HDMF </option>
-                                    </select>
-                                    <div class="labelline4"> Type </div>
+                            <form [formGroupName]="4">
+                                <input formControlName="type" value="HDMF">
+                                <select formControlName="type"> 
+                                    <option value="SSS"> SSS </option>
+                                    <option value="PHIC" > PHIC </option>
+                                    <option value="HDMF"> HDMF </option>
+                                </select>
+                                <div class="labelline4"> Type </div>
+                            <!-- </form>
+                        </div>
+
+                        <div class="entryarea4">
+                            <form [formGroupName]="8" tanggalin> -->
+                                <input formControlName="sub_type" value="EE Share" hidden>
+                                <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, 'deduction', '4', 'amount')">
+                                <div class="labelline4"> EE Share </div>
                             </form>
                         </div>
 
                         <div class="entryarea4">
-                            <form [formGroupName]="8">
-                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '4', 'amount')">
-                                    <div class="labelline4"> EE Share </div>
-                            </form>
-                        </div>
-
-                        <div class="entryarea4">
-                            <form [formGroupName]="9">
-                                <input formControlName="type" [value]="form.get('forms')?.get('4')?.get('type')?.value" hidden>
+                            <form [formGroupName]="5">
+                                <input formControlName="type" [value]="formsArray('deduction').get('4')?.get('type')?.value" hidden>
                                 <input formControlName="sub_type" value="ER Share" hidden>
 
-                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '5', 'amount')">
-                                    <div class="labelline4"> ER Share </div>
+                                <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, 'deduction', '5', 'amount')">
+                                <div class="labelline4"> ER Share </div>
                             </form>
                         </div>
 
                         <div class="entryarea4">
-                            <form [formGroupName]="10">
-                                <input formControlName="type" [value]="form.get('forms')?.get('4')?.get('type')?.value" hidden>
+                            <form [formGroupName]="6">
+                                <input formControlName="type" [value]="formsArray('deduction').get('4')?.get('type')?.value" hidden>
                                 <input formControlName="sub_type" value="Salary" hidden>
 
-                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '6', 'amount')">
-                                    <div class="labelline4"> Salary </div>
+                                <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, 'deduction', '6', 'amount')">
+                                <div class="labelline4"> Salary </div>
                             </form>
                         </div>
 
                         <div class="entryarea4">
-                            <form [formGroupName]="11">
-                                <input formControlName="type" [value]="form.get('forms')?.get('4')?.get('type')?.value" hidden>
+                            <form [formGroupName]="7">
+                                <input formControlName="type" [value]="formsArray('deduction').get('4')?.get('type')?.value" hidden>
                                 <input formControlName="sub_type" value="Calamity" hidden>
 
-                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '7', 'amount')">
-                                    <div class="labelline4"> Calamity </div>
+                                <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, 'deduction', '7', 'amount')">
+                                <div class="labelline4"> Calamity </div>
                             </form>
                         </div>
                         
                         <div class="entryarea4">
-                            <form [formGroupName]="12">
-                                <input formControlName="type" [value]="form.get('forms')?.get('4')?.get('type')?.value" hidden>
+                            <form [formGroupName]="8">
+                                <input formControlName="type" [value]="formsArray('deduction').get('4')?.get('type')?.value" hidden>
                                 <input formControlName="sub_type" value="Salary" hidden>
 
-                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, '8', 'amount')">
+                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, 'deduction', '8', 'amount')">
                                     <div class="labelline4"> Salary </div>
                             </form>
                         </div>
                         </div>
                     </div>
                 </div>
-            </form>
+            <!-- </form> -->
         </form>
 
-        <form [formGroup]="form" (submit)="submit()">
-            <form formArrayName="forms">
+        <!-- <form [formGroup]="form" (submit)="submit()"> -->
                 <div class="input-row"> 
                     <div class="container-others">
                         <div class="container-head"> 
                             Other Deductions 
-                            <button class="add-other" type="button"> Add </button>
+                            <button class="add-other" type="button" (click)="addToFormsArray('other_deduction', 'add')"> Add </button>
                         </div>
 
-                        <div class="input-row1"> 
-                            <div class="entryarea">
-                                <input type="text" name="type">
-                                <div class="labelline"> Type </div>
+                        <form formArrayName="other_deduction">
+                            <div *ngFor="let control of formsArray('other_deduction').controls; let i = index">
+                                <form [formGroupName]="i">
+                                    <div class="input-row1"> 
+                                        <div class="entryarea">
+                                            <input type="text" formControlName="type">
+                                            <div class="labelline"> Type </div>
+                                        </div>
+                
+                                        <div class="entryarea">
+                                            <input type="text" formControlName="amount">
+                                            <div class="labelline"> Amount </div>
+                                        </div>
+                                    </div>
+                
+                                    <button class="btn-danger cancel-btn" type="button" (click)="removeFromFormsArray('other_deduction', i)">
+                                        <i class='bx bx-x'></i>
+                                    </button>
+                                </form>
                             </div>
-            
-                            <div class="entryarea">
-                                <input type="text" name="amount">
-                                <div class="labelline"> Amount </div>
-                            </div>
-                        </div>
-
-                        <button class="btn-danger cancel-btn" type="button"><i class='bx bx-x'></i></button>
-                        
+                        </form>                    
                     </div>
 
+            
                     <div class="container-others">
                         <div class="container-head"> 
                             Allowance  
-                            <button class="add-other" type="button"> Add </button>
+                            <button class="add-other" type="button" (click)="addToFormsArray('allowance', 'add')"> Add </button>
                         </div>
 
-                        <div class="input-row1"> 
-                            <div class="entryarea">
-                                <input type="text" name="type">
-                                <div class="labelline"> Type </div>
-                            </div>
-            
-                            <div class="entryarea">
-                                <input type="text" name="amount">
-                                <div class="labelline"> Amount </div>
-                            </div>
+                        <div class="inputs-container">
+                            <form formArrayName="allowance">
+                                <div *ngFor="let control of formsArray('allowance').controls; let i = index">
+                                    <form [formGroupName]="i">
+                                        <div class="input-row1"> 
+                                            <div class="entryarea">
+                                                <input type="text" formControlName="type">
+                                                <div class="labelline"> Type </div>
+                                            </div>
+                    
+                                            <div class="entryarea">
+                                                <input type="text" formControlName="amount">
+                                                <div class="labelline"> Amount </div>
+                                            </div>
+                                        </div>
+                    
+                                        <button class="btn-danger cancel-btn" type="button" (click)="removeFromFormsArray('allowance', i)">
+                                            <i class='bx bx-x'></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </form>
                         </div>
-
-                        <button class="btn-danger cancel-btn" type="button"><i class='bx bx-x'></i></button>
-                        
                     </div>
                 </div>
-            </form>
         </form>
     </div>
 </div>
