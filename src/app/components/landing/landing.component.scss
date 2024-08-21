@@ -4,18 +4,38 @@
 }
 
 .landing {
-
-    // background-color: #e0e0e0;
+    position: fixed;
+    padding-right: 25px;
+}
 
     .header{
-        height: 50px;
-        font-size: 20px;
-        font-weight: 600;
-        margin-top: 25px;
-        margin-right: 50px;
+        display: flex;
+        align-items: center;
         float: right;
+        justify-content: flex-end;
+    } 
+
+    .header-content {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-left: 50%;
+
+        // h1 {
+        //     height: 50px;
+        //     font-size: 20px;
+        //     font-weight: 600;
+        //     margin-top: 25px;
+        // }
+
+        .logo {
+            margin-top: -25px;
+            margin-left: 300px;
+            width: 45%;
+            height: 40%;
+        }
     }
-}
+
 
 .content {
     display: flex;
@@ -53,7 +73,7 @@
             position: absolute;
             left: 120px;
             top: 35px;
-            width: 690px;
+            width: 680px;
             height: auto;
             z-index: 2;
 
@@ -67,32 +87,55 @@
             font-size: 2.2rem;
             font-weight: bold;
             float: right;
+            position: fixed;
             text-transform: uppercase;
-            margin-top: 200px;
+            margin-top: 150px;
             margin-right: 10px;
             margin-bottom: 10px;
 
+            h1 {
+                margin-left: 180px;
+            }
+
             h2 { 
                 margin-top: -25px;
+                margin-left: 180px;
             }
 
             h3 { 
                 margin-top: -20px;
+                margin-left: 180px;
             }
         }
 
+        .second-text {
+            float: right;
+            position: fixed;
+            margin-top: 380px;
+            margin-left: 180px;
+            text-transform: uppercase;
+
+            p {
+                margin-top: -12px;
+                font-size: 17px;
+                font-weight: 500;
+            }
+
+            h2 {
+                margin-top: 30px;
+                font-size: 20px;
+                font-weight: 700;
+            }
+
+        }
+
         .buttons {
-            margin-left: 185px;
+            margin-left: 178px;
+            margin-top: 520px;
+            position: fixed;
 
         }
   
-        .second-text {
-            float: right;
-            margin-top: 5px;
-            margin-right: 190px;
-            font-size: 1.2rem;
-            text-transform: uppercase;
-        }
 
         .admin-portal {
             width: 140px;
@@ -156,5 +199,7 @@
 
         
     }
-  }
+}
+
+
   
