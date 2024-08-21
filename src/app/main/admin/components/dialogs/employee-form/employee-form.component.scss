@@ -458,7 +458,9 @@
         font-family: "Poppins";
         border: none;
         position: absolute;
-        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         font-weight: 600;
         letter-spacing: 1.2px;
         border-radius: 3px;
@@ -474,4 +476,8 @@
         cursor: pointer;
     }
 
+}
+
+.spinner {
+    margin-left: 5px;
 }

@@ -38,7 +38,9 @@
         margin-top: 30px;
         margin-right: 15px;
         float: right;
-        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .save-payroll:hover {
@@ -78,6 +80,10 @@
         text-decoration: none;
     }
 
+}
+
+.spinner {
+    margin-left: 5px;
 }
 
 .content {
@@ -410,8 +416,6 @@
         
         }
     }
-    
-    
 
 
     .container-others {
@@ -549,4 +553,3 @@
     }
 
 } 
-

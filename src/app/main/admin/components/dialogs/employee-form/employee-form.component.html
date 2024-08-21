@@ -80,7 +80,12 @@
                     <div class="add-btn">
                         <button class = "button" type="submit" id="add" [disabled]="form.invalid"
                                 [ngClass]="{ 'btn-invalid' : form.invalid, 'btn-primary' : !form.invalid }"> 
-                            {{ data.formType | uppercase }} 
+                                <ng-container *ngIf="!isLoading">{{ data.formType | uppercase }}</ng-container>
+                                <ng-container *ngIf="isLoading">
+                                    {{ data.formType == 'add' ? 'ADDING' : 'UPDATING' }}
+                                </ng-container>
+                            
+                            <mat-spinner *ngIf="isLoading" class="spinner" diameter="23" color="accent"></mat-spinner>
                         </button>
                     </div>
 
