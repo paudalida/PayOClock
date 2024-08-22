@@ -10,6 +10,8 @@ import { CommonImportsModule } from '../../modules/common-imports/common-imports
 import { FormsImportsModule } from '../../modules/forms-imports/forms-imports.module';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
+import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     AdminRoutingModule,
     CommonImportsModule,
     FormsImportsModule,
+    MatSidenavModule, 
+    MatListModule
   ]
 })
 export class AdminMainModule { }

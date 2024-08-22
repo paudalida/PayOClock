@@ -35,6 +35,8 @@ const routes: Routes = [
     }]
   },
   { path: 'not-found', component: NotFoundComponent },
+  { path: 'announcements', loadChildren: () => import('./main/admin/components/announcements/announcements.module').then(m => m.AnnouncementsModule) },
+  { path: 'attendance', loadChildren: () => import('./main/admin/components/attendance/attendance.module').then(m => m.AttendanceModule) },
   { path: '**', redirectTo: 'not-found' }
 ];
 

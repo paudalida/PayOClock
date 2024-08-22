@@ -10,55 +10,49 @@
             </ng-container>
     </div>
 
-    <nav class="sidebar-content">
-        <div class="logo-title">
-            <div class="logo">
-                <img src="assets/images/gm18.png">
+    <mat-sidenav-container class="sidebar-content">
+        <mat-sidenav #sidenav mode="side" opened>
+    
+            <div class="logo-title">
+                <div class="logo">
+                    <img src="assets/images/gm18.png">
+                </div>
             </div>
-        </div>
-
-        <div class="sidebar-tabs">
-            <ul class="tabs">
-                <li class="tab">
-                    <a class="tab-link" routerLink="dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+    
+            <mat-nav-list>
+                <a mat-list-item routerLink="dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
                     <span class="tab-icon"> <i class='bx bxs-dashboard'></i> </span>
                     <span class="tab-name">Dashboard</span>
-                    </a>
-                </li>
-
-                <li class="tab">
-                    <a class="tab-link" routerLink="employees" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
-                        <span class="tab-icon"> <i class='bx bxs-user-detail'></i> </span>
+                </a>
+                <a mat-list-item routerLink="employees" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
+                    <span class="tab-icon"> <i class='bx bxs-user-detail'></i> </span>
                     <span class="tab-name">Employees</span>
-                    </a>
-                </li>
-
-                <li class="tab">
-                    <a class="tab-link" routerLink="payrolls" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
+                </a>
+                <a mat-list-item routerLink="payrolls" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
                     <span class="tab-icon"> <i class='bx bxs-coin-stack'></i> </span>
-                    <span class="tab-name"> Payrolls </span>
-                    </a>
-                </li>
-
-                <li class="tab">
-                    <a class="tab-link" routerLink="payslips" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+                    <span class="tab-name">Payrolls</span>
+                </a>
+                <a mat-list-item routerLink="announcements" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
                     <span class="tab-icon"> <i class='bx bxs-wallet'></i> </span>
-                    <span class="tab-name"> Payslips </span>
-                    </a>
-                </li>
-
-                <li class="tab">
-                    <a class="tab-link" routerLink="reports" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+                    <span class="tab-name">Announcements</span>
+                </a>
+                <a mat-list-item routerLink="attendance" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+                    <span class="tab-icon"> <i class='bx bxs-wallet'></i> </span>
+                    <span class="tab-name">Attendance</span>
+                </a>
+                <a mat-list-item routerLink="reports" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
                     <span class="tab-icon"> <i class='bx bxs-report'></i> </span>
-                    <span class="tab-name"> Reports </span>
-                    </a>
-                </li>
-            </ul>
+                    <span class="tab-name">Reports</span>
+                </a>
+            </mat-nav-list>
+    
             <div class="logoutbtn">
-                <div class="logout" routerLink="/login">
-                    <span> <i class='bx bx-log-out bx-rotate-180' ></i></span>
+                <div class="logout" [routerLink]="['/login']">
+                    <i class='bx bx-log-out bx-rotate-180'></i> Logout
                 </div>
-                </div> 
-        </div>
-    </nav>
+            </div>
+        </mat-sidenav>
+    
+    </mat-sidenav-container>
+
 </div>
