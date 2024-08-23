@@ -29,8 +29,9 @@
         background-color: var(--white);
         border-radius: 10px;
         width: 100%;
-        height: 320px;
+        height: auto;
         margin-top: 50px;
+        padding-bottom: 25px;
         text-decoration: none;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
@@ -42,8 +43,6 @@
         text-decoration: none;
     }
     
-    
-
     .card-header {
         font-size: 20px;
         font-weight: 700;
@@ -97,7 +96,27 @@
         padding-top: 7px;
     }
 
-   
+   .button {
+        width: 115px;
+        height: 45px;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: var(--white);
+        transition: .3s;
+        transform: translateY(-5px);
+        box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.322);
+        border-radius: 3px;
+        border: 1px;
+        padding: 10px;
+        font-weight: 500;
+        font-size: 14px;
+        font-family: "Poppins";
+        margin-top: 30px;
+        margin-right: 10px;
+        margin-left: 15px;
+        text-align: center;
+   }
+
     @media (max-width: 1200px) {
         .card {
             flex-basis: 45%; 

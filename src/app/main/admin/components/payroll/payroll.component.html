@@ -2,7 +2,7 @@
     <div class="content">
         <div class="input-row">
             @for (employeeRecord of employees; track $index) {
-                <a class="card" routerLink="'/admin/payroll-forms'" (click)="employee = employeeRecord; redirectToForms()"> 
+                <a class="card"> 
                     <div class="card-header"> 
                         <div class="card-image-holder">
                             <img [src]="employeeRecord.image || '/assets/images/gm18.png'" alt="Image Holder">
@@ -14,6 +14,10 @@
                         </div>
                         <div class="normal-font"> 
                             {{ employeeRecord.position }}
+                        </div>
+                        <div class="buttons"> 
+                            <button class="btn-primary button" routerLink="'/admin/payroll-forms" (click)="employee = employeeRecord; redirectToFPayroll()"> Payroll </button>
+                            <button class="btn-primary button" routerLink="'/admin/payslip-form'" (click)="employee = employeeRecord; redirectToPayslip()"> Payslip </button>
                         </div>
                     </div>
                 </a>

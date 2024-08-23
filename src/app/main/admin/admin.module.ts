@@ -12,6 +12,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
+import { PayslipFormComponent } from './components/dialogs/payslip-form/payslip-form.component';
+import { PayslipHistoryComponent } from './components/dialogs/payslip-history/payslip-history.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { MatListModule } from '@angular/material/list';
     DashboardComponent,
     EmployeeComponent,
     EmployeeFormComponent,
-    PayrollFormsComponent
+    PayrollFormsComponent,
+    PayslipFormComponent,
+    PayslipHistoryComponent
   ],
   imports: [
     AdminRoutingModule,

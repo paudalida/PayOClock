@@ -8,13 +8,17 @@ import { AnnouncementsComponent } from './components/announcements/announcements
 import { ReportComponent } from './components/report/report.component';
 import { PayrollFormsComponent } from './components/dialogs/payroll-forms/payroll-forms.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
+import { PayslipFormComponent } from './components/dialogs/payslip-form/payslip-form.component';
+import { PayslipHistoryComponent } from './components/dialogs/payslip-history/payslip-history.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, 
   { path: 'dashboard', component: DashboardComponent}, 
   { path: 'employees', component: EmployeeComponent}, 
   { path: 'payrolls', component: PayrollComponent}, 
-  { path: 'payroll-forms', component: PayrollFormsComponent}, 
+  { path: 'payrolls/form', component: PayrollFormsComponent}, 
+  { path: 'payrolls/payslip-form', component: PayslipFormComponent},
+  { path: 'payrolls/payslip-history', component: PayslipHistoryComponent},
   {
     path: 'announcements', 
     component: AnnouncementsComponent, 

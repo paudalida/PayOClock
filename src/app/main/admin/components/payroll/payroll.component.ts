@@ -24,7 +24,11 @@ export class PayrollComponent implements OnInit{
     this.employees = this.as.getEmployees();
   }
 
-  redirectToForms() {
-    this.router.navigate(['/admin/payroll-forms']);
+  redirectToFPayroll() {
+    this.router.navigate(['/admin/payrolls/form']);
+  }
+
+  redirectToPayslip() {
+    this.router.navigate(['/admin/payrolls/payslip-form']);
   }
 }
