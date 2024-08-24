@@ -26,13 +26,9 @@ export class AdminComponent {
   submitLogin() {
     this.isLoading = true;
 
-    this.as.getCookie().subscribe(
-      () => {
-        this.as.login('admin', this.loginForm.value).subscribe(isLoggedIn => {
-          if (isLoggedIn) this.router.navigate(['admin']);
-          this.isLoading = false;
-        });
+    this.as.login('admin', this.loginForm.value).subscribe(isLoggedIn => {
+      if (isLoggedIn) this.router.navigate(['admin']);
+      this.isLoading = false;
     });
-    
   }
 }

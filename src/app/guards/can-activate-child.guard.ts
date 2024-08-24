@@ -7,7 +7,6 @@ export const canActivateChildGuard: CanActivateChildFn = async (childRoute, stat
   const router = inject(Router);
   const userType = authService.getUserType;
 
-
   if (userType && state.url.includes(userType)) {
     return true; // Allow access
   } else {

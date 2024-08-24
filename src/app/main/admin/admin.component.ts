@@ -3,6 +3,7 @@ import { DataService } from '../../services/data/data.service';
 import { AdminService } from '../../services/admin/admin.service';
 import { PopupService } from '../../services/popup/popup.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-admin',
@@ -11,13 +12,21 @@ import { Router } from '@angular/router';
 })
 export class AdminComponent implements OnInit {
 
-  constructor(private ds: DataService, private as: AdminService, private pop: PopupService, private router: Router) { }
+  constructor(
+    private ds: DataService, 
+    private as: AdminService, 
+    private pop: PopupService, 
+    private router: Router,
+    private auth: AuthService
+  ) { }
 
   isLoading = true;
 
   ngOnInit(): void {
-    // this.ds.request('POST', 'auth/user').subscribe({
-    //   next: () => {
+    this.ds.request('POST', 'auth/user').subscribe({
+      next: () => {
+        this.auth.setUserType = 'admin';
+
         this.ds.request('GET', 'admin/employees').subscribe({
           next: (res: any) => {
             this.as.setEmployees(res.data)
@@ -30,9 +39,12 @@ export class AdminComponent implements OnInit {
           },
           complete: () => { this.isLoading = false; }
         });
-    //   },
-    //   error: () => { this.router.navigate(['/not-found']); }
-    // })
+      },
+      error: () => { 
+        this.auth.setUserType = '';
+        this.router.navigate(['/not-found']); 
+      }
+    })
     
   }
 }

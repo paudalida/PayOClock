@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { PopupService } from '../popup/popup.service';
 
 @Injectable({
@@ -14,16 +14,15 @@ export class AuthService {
     private pop: PopupService,
   ) { }
   
-  private domain = 'http://localhost:8000/';
   private apiUrl = 'http://localhost:8000/api/';
   private userType = '';
 
   public get getUserType() {
-    return this.userType;
+    return sessionStorage.getItem('type') || '';
   }
 
-  public getCookie() {
-    return this.http.get(this.domain + 'sanctum/csrf-cookie', { withCredentials: true });
+  public set setUserType(data: string) {
+    this.userType = data;
   }
 
   public login(type: string, form: any): Observable<boolean> {
@@ -32,6 +31,8 @@ export class AuthService {
         // Store session data
         sessionStorage.setItem('name', res.data.name);
         sessionStorage.setItem('position', res.data.position);
+        sessionStorage.setItem('auth-token', res.data.token);
+        sessionStorage.setItem('type', type);
         this.userType = type;
 
         // Show success toast
