@@ -23,28 +23,17 @@ export class AdminComponent implements OnInit {
   isLoading = true;
 
   ngOnInit(): void {
-    this.ds.request('POST', 'auth/user').subscribe({
-      next: () => {
-        this.auth.setUserType = 'admin';
-
-        this.ds.request('GET', 'admin/employees').subscribe({
-          next: (res: any) => {
-            this.as.setEmployees(res.data)
-          },
-          error: () => {
-            this.pop.swalBasic(
-              'error', 
-              'Oops! Cannot fetch data!', 
-              'We are working on it. You can help us speed up the process by sending us an error report.')
-          },
-          complete: () => { this.isLoading = false; }
-        });
+    this.ds.request('GET', 'admin/employees').subscribe({
+      next: (res: any) => {
+        this.as.setEmployees(res.data)
       },
-      error: () => { 
-        this.auth.setUserType = '';
-        this.router.navigate(['/not-found']); 
-      }
-    })
-    
+      error: () => {
+        this.pop.swalBasic(
+          'error', 
+          'Oops! Cannot fetch data!', 
+          'We are working on it. You can help us speed up the process by sending us an error report.')
+      },
+      complete: () => { this.isLoading = false; }
+    });    
   }
 }
