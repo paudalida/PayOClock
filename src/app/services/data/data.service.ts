@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
-import { HeaderService } from '../header/header.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,11 +8,13 @@ import { HeaderService } from '../header/header.service';
 export class DataService {
 
   constructor(
-    private http: HttpClient,
-    private hd: HeaderService
+    private http: HttpClient
   ) { }
 
   private apiUrl = 'http://localhost:8000/api/';
+  private headers = new HttpHeaders({
+    'Authorization': `Bearer ${sessionStorage.getItem('auth-token') || ''}`
+  });
 
   /* 
     ## USAGE
@@ -29,22 +30,20 @@ export class DataService {
   */
 
   public request(method: string, url: string, form?: any) {
-    
-    if(['POST', 'PUT'].includes(method) && !form) { throw new Error(`Form is required for method ${method}`); }
 
     switch(method) {
       case 'GET':
-        return this.http.get(this.apiUrl + url, { withCredentials: true });
+        return this.http.get(this.apiUrl + url, { headers: this.headers });
 
       case 'POST':
-        return this.http.post(this.apiUrl + url, form, { withCredentials: true });
+        return this.http.post(this.apiUrl + url, form, { headers: this.headers });
 
       case 'PUT':
         form.append('_method', 'PUT');
-        return this.http.post(this.apiUrl + url, form, { withCredentials: true });
+        return this.http.post(this.apiUrl + url, form, { headers: this.headers });
       
       case 'DELETE':
-        return this.http.delete(this.apiUrl + url, { withCredentials: true });
+        return this.http.delete(this.apiUrl + url, { headers: this.headers });
 
       default:
         throw new Error(`Unsupported request method: ${method}`);

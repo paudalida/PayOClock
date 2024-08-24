@@ -19,7 +19,7 @@ const routes: Routes = [
   { 
     path: 'admin', 
     component: AdminComponent, 
-    // canActivateChild: [canActivateChildGuard],
+    canActivateChild: [canActivateChildGuard],
     children: [{
       path: '',
       loadChildren: ()=>import('./main/admin/admin.module').then((m)=>m.AdminMainModule)
@@ -28,7 +28,7 @@ const routes: Routes = [
   { 
     path: 'employee', 
     component: EmployeeComponent, 
-    // canActivateChild: [canActivateChildGuard],
+    canActivateChild: [canActivateChildGuard],
     children: [{
       path: '',
       loadChildren: ()=>import('./main/employee/employee.module').then((m)=>m.EmployeeMainModule)

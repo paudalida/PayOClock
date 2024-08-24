@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { PopupService } from '../popup/popup.service';
+import { HttpHeaders } from '@angular/common/http';
+import { DataService } from '../data/data.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,18 +14,25 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private pop: PopupService,
+    private ds: DataService
   ) { }
   
-  private domain = 'http://localhost:8000/';
   private apiUrl = 'http://localhost:8000/api/';
   private userType = '';
+  private headers = new HttpHeaders({
+    'Authorization': `Bearer ${sessionStorage.getItem('auth-token') || ''}`
+  });
 
   public get getUserType() {
     return this.userType;
   }
 
-  public getCookie() {
-    return this.http.get(this.domain + 'sanctum/csrf-cookie', { withCredentials: true });
+  public set setUserType(data: string) {
+    this.userType = data;
+  }
+
+  public requestUserType() {
+    return this.http.post(this.apiUrl + 'auth/user', { }, { headers: this.headers });
   }
 
   public login(type: string, form: any): Observable<boolean> {
@@ -32,6 +41,7 @@ export class AuthService {
         // Store session data
         sessionStorage.setItem('name', res.data.name);
         sessionStorage.setItem('position', res.data.position);
+        sessionStorage.setItem('auth-token', res.data.token);
         this.userType = type;
 
         // Show success toast
