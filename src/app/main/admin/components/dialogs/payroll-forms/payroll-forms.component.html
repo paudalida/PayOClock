@@ -2,8 +2,8 @@
     <div class="header"> 
         <h1> Employee Payroll </h1>
             <div class="input-row"> 
-                <button class="btn-primary save-payroll" type="button" (click)="submit()"
-                    [ngClass]="{ 'btn-loading-primary': isLoading, 'btn-primary': !isLoading}"> 
+                <button class="btn-primary save-payroll" type="button" (click)="submit()" [disabled]="form.invalid || !changedValues"
+                    [ngClass]="{ 'btn-loading-primary': isLoading, 'btn-primary': !isLoading && changedValues, 'btn-invalid': !isLoading && !changedValues}"> 
                         {{ isLoading ? 'Saving' : 'Save' }} <mat-spinner *ngIf="isLoading" class="spinner" diameter="23" color="accent"></mat-spinner>
                 </button>
                 <button class="btn-secondary back" type="button" (click)="backRoute()"> Back </button>
@@ -70,21 +70,22 @@
                 <div class ="container-head"></div>
                     <div class="input-row1">
                         <div class="entryarea2">
-                            <input type="text" name="deductions">
+                            <input type="text" name="deductions" [value]="totalDeductions">
                             <div class="labelline2"> Total Deductions </div>
                         </div>
                     </div>
 
                     <div class="input-row1">
                         <div class="entryarea2">
-                            <input type="text" name="pay">
+                            <input type="text" name="pay" [value]="netPay">
                             <div class="labelline2"> NET Pay </div>
                         </div>
                     </div>
 
                     <div class="input-row1">
                         <div class="entryarea2">
-                            <input type="text" name="received">
+                            <input type="text" name="received"
+                            value="{{employee.first_name}} {{employee.middle_name || ''}} {{employee.last_name}} {{employee.ext_name || ''}}">
                             <div class="labelline2"> Received by </div>
                         </div>
                     </div>

@@ -8,7 +8,10 @@
 
                 <div class="input-row">
                     <div class="entryarea">
-                        <input type="text" formControlName="first_name" (keyup)="updateInvalidInput($event, 'first_name')">
+                        <input type="text" formControlName="first_name" 
+                            (keyup)="updateInvalidInput($event, 'first_name')"
+                            (keyup)="capitalize('first_name')"
+                            (change)="trimSpaces('first_name')">
                         <div class="labelline"> First name </div>
                     </div>
                 </div>
@@ -43,7 +46,7 @@
                     </div>
 
                     <div class="entryarea1"> 
-                        <input type="number" formControlName="employee_id" (keyup)="updateInvalidInput($event, 'employee_id')">
+                        <input formControlName="employee_id" (keyup)="updateInvalidInput($event, 'employee_id')">
                         <div class="labelline1"> ID Number </div>
                     </div>
                 </div>
@@ -58,14 +61,14 @@
                     </div>
 
                     <div class="entryarea2">
-                        <input type="text" formControlName="position">
+                        <input type="text" formControlName="position" (keyup)="updateInvalidInput($event, 'position')">
                         <div class="labelline2"> Position </div>
                     </div>
                 </div>
 
                 <div class="input-row1"> 
                     <div class="entryarea3">
-                        <input type="text" formControlName="phone_number">
+                        <input type="text" formControlName="phone_number" (keyup)="updateInvalidInput($event, 'phone_number')">
                         <div class="labelline3"> Contact Number </div>
                     </div>
 

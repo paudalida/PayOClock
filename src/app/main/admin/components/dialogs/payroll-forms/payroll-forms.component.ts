@@ -1,11 +1,11 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { inArrayValidator, dateValidator } from '../../../../../utils/custom-validators';
 import { DataService } from '../../../../../services/data/data.service';
 import { PopupService } from '../../../../../services/popup/popup.service';
-import { OnInit } from '@angular/core';
 import { AdminService } from '../../../../../services/admin/admin.service';
 import { Router } from '@angular/router';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-payroll-forms',
@@ -22,19 +22,21 @@ export class PayrollFormsComponent implements OnInit{
     private router: Router
   ) { }
 
-  form = this.fb.group({
-    deduction: this.fb.array([]),
-    other_deduction: this.fb.array([]),
-    allowance: this.fb.array([]),
-    delete: this.fb.array([])
-  });
-
+  form: any;
   transactions: any;
   employee: any;
-  hourlyRate = 0;
-  isLoading = false;
+  hourlyRate: number = 0; netPay: number = 0; totalDeductions: number = 0;
+  isLoading = false; changedValues = false;
+  savedValue: any;
 
   ngOnInit(): void {
+    this.form = this.fb.group({
+      deduction: this.fb.array([]),
+      other_deduction: this.fb.array([]),
+      allowance: this.fb.array([]),
+      delete: this.fb.array([])
+    });
+
     this.employee = this.as.getEmployee();
 
     if(!this.employee.id) { this.router.navigate(['/admin/payrolls']); } // return to payrolls if employee data is not set (browser refreshed)
@@ -68,14 +70,40 @@ export class PayrollFormsComponent implements OnInit{
                 break;
             }
             this.updateFormsArray(element.id, transaction_type, index, element.type, element.sub_type, element.amount, element.payday);
+            this.savedValue = this.form.value;
           } else {
             this.addToFormsArray(transaction_type, 'update', element.type, element.sub_type, element.id, element.amount, element.payday);
           }
         });
       },
-      error: (err: any) => this.pop.toastWithTimer('error', 'Error fetching employee transactions')
+      error: () => { this.pop.toastWithTimer('error', 'Error fetching employee transactions'); }
     });
-    console.log(this.form.controls)
+    
+    // check for changes with timer for totals
+    this.form.valueChanges.pipe(
+      debounceTime(2000)
+    ).subscribe((value: any) => {
+      this.totalDeductions = 0; this.netPay = 0;
+      if(this.savedValue != value) { this.changedValues = true; } 
+      else this.changedValues = false;
+
+      this.formsArray('deduction').value.forEach((element: any) => {
+        if(element.amount)
+        this.totalDeductions += parseInt(element.amount as string);
+      console.log(this.totalDeductions)
+      });
+
+      this.formsArray('other_deduction').value.forEach((element: any) => {
+        if(element.amount)
+        this.totalDeductions += parseInt(element.amount as string);
+      });
+
+      this.netPay += this.hourlyRate * 8 * 15;
+      this.formsArray('allowance').value.forEach((element: any) => {
+        if(element.amount)
+        this.netPay += parseInt(element.amount as string);
+      });
+    });
   }
 
   formsArray(type: string) {
@@ -141,9 +169,30 @@ export class PayrollFormsComponent implements OnInit{
     });
   }
 
-  removeFromFormsArray(type: string, index: number) {
-    // if(this.formsArray.get(String(index))?.get('id')) { this.formsArray.get(String(index))?.patchValue({formKey: 'archive'}); }
-    this.formsArray(type).removeAt(index);
+  async removeFromFormsArray(type: string, index: number) {
+    const idField = this.formsArray(type).get(String(index))?.get('id');
+
+    if(idField?.value) {
+      const confirm = await this.pop.swalWithCancel('warning', 
+        'Remove this record?', 
+        'This record contain values saved prior to this session. This action cannot be undone, are you sure you want to continue?',
+        'Yes! Delete it!',
+        'No. I still need it.',
+        false
+      );
+      
+      if(confirm){
+        this.formsArray('delete').push(this.fb.group({
+          id: idField.value,
+          type: 'delete'
+        }));
+
+        this.formsArray(type).removeAt(index);
+      }
+    } else {
+      this.formsArray(type).removeAt(index);
+    }
+
   }
 
   invalidInputLabel(controlName: string) {
@@ -193,21 +242,23 @@ export class PayrollFormsComponent implements OnInit{
       formArray.at(i).get('type')?.enable();
     }
 
-    this.ds.request('POST', 'admin/transactions/process', { form: this.form.value }).subscribe({
-      next: (res: any) => {
-        this.isLoading = false;
-        this.pop.toastWithTimer('success', res.message, 5);
-        for(let i = 0; i < formArray.length; i++) {
-          formArray.at(i).get('type')?.enable();
+    if(this.form.valid) {
+      this.ds.request('POST', 'admin/transactions/process', { form: this.form.value }).subscribe({
+        next: (res: any) => {
+          this.isLoading = false;
+          this.pop.toastWithTimer('success', res.message, 5);
+        },
+        error: (err: any) => {
+          this.isLoading = false;
+          this.pop.swalBasic('error', 'Submission error!', err.error.message);
+        },
+        complete: () => {
+          for(let i = 0; i < formArray.length; i++) {
+            formArray.at(i).get('type')?.enable();
+          }
         }
-      }, error: (err: any) => {
-        this.isLoading = false;
-        this.pop.swalBasic('error', 'Submission error!', err.error.message);
-        for(let i = 0; i < formArray.length; i++) {
-          formArray.at(i).get('type')?.enable();
-        }
-      }
-    });
+      });
+    }
   }
 
   async backRoute() {

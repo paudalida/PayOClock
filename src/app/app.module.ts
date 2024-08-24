@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { HttpClientModule, HttpClientXsrfModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 /* Routing imports */
@@ -28,6 +28,11 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
   ],
   imports: [
     AppRoutingModule,
+    HttpClientModule,
+    HttpClientXsrfModule.withOptions({
+      cookieName: 'XSRF-TOKEN',
+      headerName: 'X-XSRF-TOKEN'
+    }),
 
     /* Other Modules */
     AnimationImportsModule,

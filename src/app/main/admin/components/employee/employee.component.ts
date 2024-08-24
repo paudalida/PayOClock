@@ -134,12 +134,12 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
 
         if(archive) {
           this.ds.request('DELETE', 'admin/employees/archive/' + this.employee.id, null).subscribe({
-            next: (res: any) => { 
+            next: () => { 
               this.pop.toastWithTimer('success', 'Employee archived successfully!');
               this.dataSource.data = this.dataSource.data.filter((item: any) => item.id !== this.employee.id);
             },
             error: (err: any) => { this.pop.swalBasic('error', 'Error', err.error.message); }
-          })
+          });
         }
         break;
     }

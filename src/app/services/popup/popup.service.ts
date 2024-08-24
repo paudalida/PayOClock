@@ -9,6 +9,14 @@ export class PopupService {
 
   constructor() { }
 
+  get genericErrorTitle() {
+    return 'Something went wrong!';
+  }
+
+  get genericErrorMessage() {
+    return 'Help us improve your experience by sending an error report';
+  }
+
   /* 
   ## USAGE
 

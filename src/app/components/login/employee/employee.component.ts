@@ -26,7 +26,7 @@ export class EmployeeComponent {
   submitLogin() {
     this.isLoading = true;
     this.as.login('employee', this.loginForm.value).subscribe(isLoggedIn => {
-      if (isLoggedIn) this.router.navigate(['main']);
+      if (isLoggedIn) this.router.navigate(['employee']);
       this.isLoading = false;
     })
   }

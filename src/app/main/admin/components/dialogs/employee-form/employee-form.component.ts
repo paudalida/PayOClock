@@ -17,14 +17,14 @@ export class EmployeeFormComponent {
   form: FormGroup = this.fb.group({
     'id': [''],
     'type': ['employee', [Validators.required, inArrayValidator(['admin', 'employee'])]],
-    'employee_id': ['', [Validators.required, Validators.maxLength(30)]],
+    'employee_id': ['', [Validators.required, Validators.min(1), Validators.pattern(/^\d+$/)]],
     'first_name': ['', [Validators.required, Validators.maxLength(30)]],
     'middle_name': ['', [Validators.maxLength(20)]],
     'last_name': ['', [Validators.required, Validators.maxLength(20)]],
     'ext_name': ['', [Validators.maxLength(10)]],
     'gender': ['0', [Validators.required, inArrayValidator(['0', '1', '2'])]],
     'position': ['', [Validators.required, Validators.maxLength(20)]],
-    'phone_number': ['09', [Validators.maxLength(11), isPhoneNumber()]]
+    'phone_number': ['09', [Validators.maxLength(11), Validators.minLength(11), isPhoneNumber()]]
   });
 
   constructor (
@@ -63,9 +63,6 @@ export class EmployeeFormComponent {
 
   updateInvalidInput(event: Event, controlName: string) {
     const control = this.form.get(controlName);
-    console.log(this.form.valid)
-
-    if(controlName.includes('name') || controlName == 'position') { control?.setValue(capitalizeFirstLetters(control.value)) }
 
     if(control) {
       const errors = control.errors;
@@ -74,15 +71,40 @@ export class EmployeeFormComponent {
       if (errors) {
         if (errors['maxlength']) {
           control.setValue(((event.target as HTMLInputElement).value).substring(0, errors['maxlength'].requiredLength));
-          text += 'Max ' + errors['maxlength'].requiredLength + ' characters reached! ';
-        } if (errors['requiredFormat']) {
-          text += 'Should be a phone number starting with 09';
-          control.setValue('09');
-        }
+          text = 'Max ' + errors['maxlength'].requiredLength + ' characters reached! ';
+        } else if(errors['pattern'] && errors['pattern'].requiredPattern == '/^\\d+$/') {
+          text = 'Should be a positive integer!';
+          let cleanedValue = control.value.replace(/\D+/g, '');
+          control.setValue(cleanedValue);          
+        } else if (errors['requiredFormat']) {
+          text = 'Should be a phone number starting with 09!';
+          let cleanedValue = control.value.replace(/\D+/g, '');
+          if(cleanedValue.substring(0, 2) != '09') { cleanedValue = '09' + cleanedValue; }
+          control.setValue(cleanedValue);
+        } else if (errors['min']) {
+          control.setValue('1');
+          text = 'Should be a positive integer!'
+        } 
       }
 
       if(text) { this.pop.toastWithTimer('error', text); }
     }
+  }
+
+  capitalize(controlName: string) {    
+    const control = this.form.get(controlName);
+
+    control?.setValue(capitalizeFirstLetters(control.value))
+  }
+
+  trimSpaces(controlName: string) {    
+    const control = this.form.get(controlName);
+    let text = control?.value;
+    while(text.includes('  ')) {
+      text = text.replace('  ', ' ');
+    }
+
+    control?.setValue(text.trim())
   }
 
   onFileChange(event: any) {
@@ -134,7 +156,8 @@ export class EmployeeFormComponent {
           this.pop.toastWithTimer('success', res.message, 5);
           this.dialogRef.close({method: method, data: res.data});
           this.isLoading = false;
-        }, error: (err: any) => {
+        },
+        error: (err: any) => {
           this.pop.swalBasic('error', 'Submission Error', err.error.message);
           this.isLoading = false;
         }
