@@ -1,10 +1,12 @@
-<!-- <div class="content">
+<div class="content">
     <div class="header">
         <h1> Payroll Management System </h1>
     </div>
     
     <div class="body-content">
-        <div class="admin-container"> <router-outlet></router-outlet> </div>
+        <div class="admin-container"> 
+            <router-outlet></router-outlet> 
+        </div>
     </div>
 
     <nav class="sidebar-content">
@@ -17,20 +19,20 @@
         <div class="sidebar-tabs">
             <ul class="tabs">
                 <li class="tab">
-                    <a class="tab-link" routerLink="dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+                    <a class="tab-link" routerLink="dashboard" routerLinkActive="active-link">
                     <span class="tab-icon"> <i class='bx bxs-dashboard'></i> </span>
                     <span class="tab-name">Dashboard</span>
                     </a>
                 </li>
 
                 <li class="tab">
-                    <a class="tab-link" routerLink="employee" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
+                    <a class="tab-link" routerLink="employee" routerLinkActive="active-link">
                         <span class="tab-icon"> <i class='bx bxs-user-detail'></i> </span>
                     <span class="tab-name">Employees</span>
                     </a>
                 </li>
 
-                <li class="tab">
+                <!-- <li class="tab">
                     <a class="tab-link" routerLink="payroll" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
                     <span class="tab-icon"> <i class='bx bxs-coin-stack'></i> </span>
                     <span class="tab-name"> Payrolls </span>
@@ -49,7 +51,7 @@
                     <span class="tab-icon"> <i class='bx bxs-report'></i> </span>
                     <span class="tab-name"> Reports </span>
                     </a>
-                </li>
+                </li> -->
             </ul>
             <div class="logoutbtn">
                 <div class="logout" routerLink="/login">
@@ -58,4 +60,4 @@
                 </div> 
         </div>
     </nav>
-</div> -->
+</div>
