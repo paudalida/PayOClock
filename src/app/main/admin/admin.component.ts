@@ -1,28 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data/data.service';
 import { AdminService } from '../../services/admin/admin.service';
 import { PopupService } from '../../services/popup/popup.service';
-import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss'
 })
-export class AdminComponent implements OnInit {
+export class AdminComponent implements AfterViewInit {
 
   constructor(
     private ds: DataService, 
     private as: AdminService, 
-    private pop: PopupService, 
-    private router: Router,
-    private auth: AuthService
+    private pop: PopupService
   ) { }
 
   isLoading = true;
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.ds.request('GET', 'admin/employees').subscribe({
       next: (res: any) => {
         this.as.setEmployees(res.data)

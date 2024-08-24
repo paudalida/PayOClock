@@ -14,10 +14,18 @@ export class PayslipFormComponent implements OnInit{
     private router: Router
   ) { }
 
+  employeeRecord: any;
+
   ngOnInit(): void {
-    throw new Error('Method not implemented.'); // papalitan nalngs c
+    this.employeeRecord = this.as.getEmployee();
+
+    if(!this.employeeRecord.id) { this.router.navigate(['/admin/payrolls']); } // return to payrolls if employee data is not set (browser refreshed)
   }
 
+  get employee() {
+    return this.employeeRecord;
+  }
+  
   redirectToPayslipHistory() {
     this.router.navigate(['/admin/payrolls/payslip-history']);
   }

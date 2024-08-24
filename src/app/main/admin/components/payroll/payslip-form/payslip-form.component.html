@@ -10,7 +10,7 @@
             <div class="input-row">
                 <div class="information-case">
                     <th> EMPLOYEE NAME: </th>  
-                    <td> Monaliza </td>
+                    <td> {{employee.first_name}} {{employee.middle_name ? employee.middle_name[0] + '.' : ''}} {{employee.last_name}} {{employee.ext_name || ''}} </td>
                 </div>
     
                 <div class="information-case">
@@ -22,7 +22,7 @@
             <div class="input-row">
                 <div class="information-case">
                     <th> ID NUMBER: </th>  
-                    <td> 200211 </td>
+                    <td> {{ employee.employee_id }} </td>
                 </div>
 
                 <div class="information-case">
@@ -34,7 +34,7 @@
             <div class="input-row">
                 <div class="information-case">
                     <th> POSITION: </th> 
-                    <td> Manager </td> 
+                    <td> {{ employee.position }} </td> 
                 </div>
             </div>
         </div>

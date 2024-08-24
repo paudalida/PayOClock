@@ -12,8 +12,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
-import { PayslipFormComponent } from './components/dialogs/payslip-form/payslip-form.component';
-import { PayslipHistoryComponent } from './components/dialogs/payslip-history/payslip-history.component';
+import { PayslipFormComponent } from './components/payroll/payslip-form/payslip-form.component';
+import { PayslipHistoryComponent } from './components/payroll/payslip-history/payslip-history.component';
 
 @NgModule({
   declarations: [
