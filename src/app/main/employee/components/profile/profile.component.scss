@@ -1,0 +1,70 @@
+.container{
+    width: 50%;
+    margin-top: 30px;
+    .profile{
+        .blue{
+            background-color: #254CA3;
+            display: flex;
+            justify-content: center;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .content{
+            background-color: white;
+            border: 2px solid black;
+            height: auto;
+            padding: 10px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+
+            .instructor{
+                text-align: center;
+                padding: 10px;
+            }
+
+            .contact-info{
+                display: flex;
+                justify-content: space-evenly;
+                text-align: center;
+
+                .number,
+                .email{
+                    background-color: #254CA3;
+                    color: white;
+                    width: 187px;
+                    height: 50px;
+                    border-radius: 10px;
+                }
+                p{
+                    padding-top: 13px;
+                }
+            }
+
+            .demographics{
+                h3 {
+                    padding: 10px;
+                }
+
+                .demo-content{
+                    display: flex;
+                    justify-content: space-between;
+
+                    .left-content li{
+                        list-style-type: none;
+                        padding: 7px 0 7px 87px;
+                    }
+
+                    .right-content li{
+                        list-style-type: none;
+                        padding: 7px 100px;
+
+                    }
+
+
+                }
+            }
+        }
+
+    }
+}
