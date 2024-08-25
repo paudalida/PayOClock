@@ -15,11 +15,16 @@ export class PayslipFormComponent implements OnInit{
   ) { }
 
   employeeRecord: any;
+  nextPayroll: any;
 
   ngOnInit(): void {
     this.employeeRecord = this.as.getEmployee();
 
     if(!this.employeeRecord.id) { this.router.navigate(['/admin/payrolls']); } // return to payrolls if employee data is not set (browser refreshed)
+
+    let currentDate = new Date();
+    let date = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+    this.nextPayroll = date;
   }
 
   get employee() {

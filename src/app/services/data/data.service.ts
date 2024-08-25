@@ -33,17 +33,17 @@ export class DataService {
 
     switch(method) {
       case 'GET':
-        return this.http.get(this.apiUrl + url, { headers: this.headers });
+        return this.http.get(this.apiUrl + url);
 
       case 'POST':
-        return this.http.post(this.apiUrl + url, form, { headers: this.headers });
+        return this.http.post(this.apiUrl + url, form);
 
       case 'PUT':
         form.append('_method', 'PUT');
-        return this.http.post(this.apiUrl + url, form, { headers: this.headers });
+        return this.http.post(this.apiUrl + url, form);
       
       case 'DELETE':
-        return this.http.delete(this.apiUrl + url, { headers: this.headers });
+        return this.http.delete(this.apiUrl + url);
 
       default:
         throw new Error(`Unsupported request method: ${method}`);
