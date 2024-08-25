@@ -32,11 +32,11 @@ export class AuthService {
   }
 
   public requestUserType() {
-    return this.http.post(this.apiUrl + 'auth/user', { }, { headers: this.headers });
+    return this.http.post(this.apiUrl + 'auth/user', { });
   }
 
   public login(type: string, form: any): Observable<boolean> {
-    return this.http.post(this.apiUrl + 'auth/login/' + type, form, { withCredentials: true }).pipe(
+    return this.http.post(this.apiUrl + 'auth/login/' + type, form).pipe(
       map((res: any) => {
         // Store session data
         sessionStorage.setItem('name', res.data.name);

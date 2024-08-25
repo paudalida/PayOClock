@@ -27,7 +27,9 @@ export class AdminComponent {
     this.isLoading = true;
 
     this.as.login('admin', this.loginForm.value).subscribe(isLoggedIn => {
-      if (isLoggedIn) this.router.navigate(['admin']);
+      if (isLoggedIn) {
+        this.router.navigate(['admin']);
+      }
       this.isLoading = false;
     });
   }

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
-import { HttpClientModule, HttpClientXsrfModule, provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch, HTTP_INTERCEPTORS, withInterceptors } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 /* Routing imports */
@@ -18,6 +18,9 @@ import { FormsImportsModule } from './modules/forms-imports/forms-imports.module
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
+/* HTTP INTERCEPTOR */
+import { AuthInterceptor } from './services/auth/auth.interceptor';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,11 +31,6 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
   ],
   imports: [
     AppRoutingModule,
-    HttpClientModule,
-    HttpClientXsrfModule.withOptions({
-      cookieName: 'XSRF-TOKEN',
-      headerName: 'X-XSRF-TOKEN'
-    }),
 
     /* Other Modules */
     AnimationImportsModule,
@@ -44,7 +42,10 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
   providers: [
     provideClientHydration(),
     provideAnimationsAsync(),
-    provideHttpClient(withFetch())
+    provideHttpClient(
+      withFetch(), 
+      withInterceptors([AuthInterceptor])
+    )
   ],
   bootstrap: [AppComponent]
 })
