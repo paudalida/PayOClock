@@ -10,6 +10,7 @@ import { EmployeeComponent } from './employee.component';
 import { PayslipsComponent } from './components/payslips/payslips.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { EditProfileComponent } from './components/popup/edit-profile/edit-profile.component';
 
 
 @NgModule({
@@ -18,7 +19,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     EmployeeComponent, 
     PayslipsComponent, 
     AttendanceComponent, 
-    ProfileComponent
+    ProfileComponent, EditProfileComponent
   ],
   imports: [
     EmployeeRoutingModule,
