@@ -14,6 +14,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { PayslipFormComponent } from './components/dialogs/payslip-form/payslip-form.component';
 import { PayslipHistoryComponent } from './components/dialogs/payslip-history/payslip-history.component';
+import { AddAnnouncementComponent } from './components/dialogs/add-announcement/add-announcement.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { PayslipHistoryComponent } from './components/dialogs/payslip-history/pa
     EmployeeFormComponent,
     PayrollFormsComponent,
     PayslipFormComponent,
-    PayslipHistoryComponent
+    PayslipHistoryComponent,
+    AddAnnouncementComponent
   ],
   imports: [
     AdminRoutingModule,
