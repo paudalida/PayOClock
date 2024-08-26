@@ -11,6 +11,7 @@ import { PayslipsComponent } from './components/payslips/payslips.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { EditProfileComponent } from './components/popup/edit-profile/edit-profile.component';
+import { AnnouncementsComponent } from './components/announcements/announcements.component';
 
 
 @NgModule({
@@ -19,7 +20,7 @@ import { EditProfileComponent } from './components/popup/edit-profile/edit-profi
     EmployeeComponent, 
     PayslipsComponent, 
     AttendanceComponent, 
-    ProfileComponent, EditProfileComponent
+    ProfileComponent, EditProfileComponent, AnnouncementsComponent
   ],
   imports: [
     EmployeeRoutingModule,

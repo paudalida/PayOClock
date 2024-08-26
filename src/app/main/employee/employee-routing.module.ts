@@ -4,6 +4,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PayslipsComponent } from './components/payslips/payslips.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { AnnouncementsComponent } from './components/announcements/announcements.component';
 
 
 
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'payslips', component: PayslipsComponent}, 
   { path: 'attendance', component: AttendanceComponent}, 
   { path: 'profile', component: ProfileComponent}, 
+  { path: 'announcement', component: AnnouncementsComponent}
 ];
 
 @NgModule({
