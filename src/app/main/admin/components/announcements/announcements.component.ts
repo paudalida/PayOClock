@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddAnnouncementComponent } from '../dialogs/add-announcement/add-announcement.component';
 
 import { PopupService } from '../../../../services/popup/popup.service';
-import { EditAnnouncementComponent } from './edit-announcement/edit-announcement.component';
+import { EditAnnouncementComponent } from '../dialogs/edit-announcement/edit-announcement.component';
 
 @Component({
   selector: 'app-announcements',
