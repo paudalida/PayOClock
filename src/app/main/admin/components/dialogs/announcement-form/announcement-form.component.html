@@ -2,13 +2,13 @@
     <div class="main-container">
         <form class="form-info" [formGroup]="form" (submit)="submit()">
             <div class="header">
-                <h1> Add Announcement</h1>
+                <h1> {{ data.title }} </h1>
             </div>
             <div class="detailsbody">
 
                 <div class="input-row">
                     <div class="entryarea">
-                        <input type="text" formControlName="title"> 
+                        <input type="text" formControlName="title" (keyup)="capitalize($event, 'title')">
                         <div class="labelline"> Title </div>
                     </div>
                 </div>
@@ -23,7 +23,7 @@
 
                 <div class="input-row"> 
                     <div class="entryarea2">
-                        <input class="inputtxt" type="file">
+                        <input #fileInput class="inputtxt" type="file" (change)="onFileChange($event, fileInput)">
                         <span></span>
                         <div class="labelline2"> Upload Image </div>
                     </div>
@@ -31,11 +31,11 @@
 
                 <div class="buttons">
                     <div class="add-btn">
-                        <button class = "button" type="submit" value="Add" id="cancel"> ADD </button>
+                        <button class = "button" type="submit" value="Add" id="cancel"> {{ data.button }} </button>
                     </div>
 
                     <div class="cancel-btn">
-                        <button class = "button" type="button" value="Cancel" id="cancel"> CANCEL </button>
+                        <button class = "button" type="button" value="Cancel" id="cancel" (click)="close()"> CANCEL </button>
                     </div>
                     
                 </div>

@@ -32,7 +32,7 @@ export class PopupService {
   **position**: Position of the popup, mainly for toasts, e.g., top-end, top-start, center
   */
 
-  toastWithTimer(icon: SweetAlertIcon, title: string, seconds: number = 1.5, position: SweetAlertPosition = 'top-end') {
+  toastWithTimer(icon: SweetAlertIcon, title: string, seconds: number = 2, position: SweetAlertPosition = 'top-end') {
     Swal.fire({
       toast: true,
       icon: icon,
@@ -41,6 +41,9 @@ export class PopupService {
       showConfirmButton: false,
       timer: seconds * 1000,
       timerProgressBar: true,
+      customClass: {
+        container: 'toast'
+      }
     });
   }
 

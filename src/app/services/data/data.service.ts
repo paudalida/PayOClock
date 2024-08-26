@@ -12,9 +12,6 @@ export class DataService {
   ) { }
 
   private apiUrl = 'http://localhost:8000/api/';
-  private headers = new HttpHeaders({
-    'Authorization': `Bearer ${sessionStorage.getItem('auth-token') || ''}`
-  });
 
   /* 
     ## USAGE

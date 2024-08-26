@@ -1,5 +1,9 @@
-<div class="main-content">
-    <div class="header"> 
+<div class="main-content" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+</div>
+
+<div class="main-content" *ngIf="!isLoading">
+    <div id="first" class="header"> 
         <h1> Latest Announcements </h1>
            <button class="add-announcement" type="button" (click)="openDialog()"> Add </button>
     
@@ -7,16 +11,15 @@
 
         <div class="table-content">
             <div class="content-left">
-                <img src="/assets/images/background.jpg" alt="Description of Image" class="image-holder">
+                <img [src]="posts[0].image || '/assets/images/background.jpg'" alt="Description of Image" class="image-holder">
             </div>
             <div class="content-right">
-                <h2 class="title">The Announcement Ngayon</h2>
-                <p class="description">HSHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHSHSHHHDHDHDHSHHH
-                    SHSSHHHHAHSHHSHSHSHSHSHDHDHDHHHSHHSHDHDHDHSHHSHS</p>
+                <h2 class="title"> {{ posts[0].title }} </h2>
+                <pre class="description"> {{ posts[0].content }} </pre>
             </div>
             <div class="button-container">
-                <button class="btn edit-btn" type="button" (click)="openDialog()">Edit</button>
-                <button class="btn delete-btn">Delete</button>
+                <button class="btn edit-btn" type="button" (click)="openDialog(posts[0], 'update')">Edit</button>
+                <button class="btn delete-btn" (click)="archive(posts[0].id)">Delete</button>
             </div>
         </div>
         
@@ -24,19 +27,27 @@
     <div class="container">
         <h1> Previous Announcements </h1>
     </div>
-    <div class="table-content">
-        <div class="content-left">
-            <img src="/assets/images/background.jpg" alt="Description of Image" class="image-holder">
-        </div>
-        <div class="content-right">
-            <h2 class="title">The Announcement Ngayon</h2>
-            <p class="description">HSHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHSHSHHHDHDHDHSHHH
-                SHSSHHHHAHSHHSHSHSHSHSHDHDHDHHHSHHSHDHDHDHSHHSHS</p>
-        </div>
-        <div class="button-container">
-            <button class="btn edit-btn" type="button" (click)="openDialog()">Edit</button>
-            <button class="btn delete-btn">Delete</button>
-        </div>  
-    </div>
+
+    <!-- Do not get the latest  -->
+    <ng-container *ngFor="let post of posts; let i = index;">
+        <ng-container *ngIf="i > 0">
+
+            <!-- Container proper -->
+            <div class="table-content">
+                <div class="content-left">
+                    <img [src]="post.image || '/assets/images/background.jpg'" alt="Description of Image" class="image-holder">
+                </div>
+                <div class="content-right">
+                    <h2 class="title"> {{ post.title }} </h2>
+                    <pre class="description">{{ post.content }}</pre>
+                </div>
+                <div class="button-container">
+                    <button class="btn edit-btn" type="button" (click)="openDialog(post, 'update')">Edit</button>
+                    <button class="btn delete-btn" (click)="archive(post.id)">Delete</button>
+                </div>  
+            </div>
+
+        </ng-container>
+    </ng-container>
     
 </div>

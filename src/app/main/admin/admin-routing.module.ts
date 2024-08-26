@@ -25,13 +25,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'announcements', 
-    component: AnnouncementsComponent, 
-    children: [{
-      path: '', 
-      loadChildren: ()=>import('./components/announcements/announcements.module').then((m)=>m.AnnouncementsModule)
-    }]
-  }, 
+    path: 'announcements', component: AnnouncementsComponent }, 
   {
     path: 'attendance', 
     component: AttendanceComponent, 
