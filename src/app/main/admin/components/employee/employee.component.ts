@@ -152,7 +152,6 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
 
     /* Open the modal */
     const dialogRef = this.dialog.open(EmployeeFormComponent, {
-      width: '250px',
       data: { 
         title: title,
         formType: formType

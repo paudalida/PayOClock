@@ -19,9 +19,6 @@ export class AuthService {
   
   private apiUrl = 'http://localhost:8000/api/';
   private userType = '';
-  private headers = new HttpHeaders({
-    'Authorization': `Bearer ${sessionStorage.getItem('auth-token') || ''}`
-  });
 
   public get getUserType() {
     return this.userType;

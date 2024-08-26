@@ -1,8 +1,8 @@
 <main> 
     <div class="content">
         <div class="input-row">
-            @for (employeeRecord of employees; track $index) {
-                <a class="card"> 
+            <ng-container *ngFor="let employeeRecord of employees; let i = index">
+                <div class="card"> 
                     <div class="card-header"> 
                         <div class="card-image-holder">
                             <img [src]="employeeRecord.image || '/assets/images/gm18.png'" alt="Image Holder">
@@ -20,8 +20,8 @@
                             <button class="btn-primary button" (click)="employee = employeeRecord; redirectToPayslip()"> Payslip </button>
                         </div>
                     </div>
-                </a>
-            }
+                </div>
+            </ng-container>
         </div>
     </div>
 </main>
