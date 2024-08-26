@@ -16,8 +16,8 @@
                             {{ employeeRecord.position }}
                         </div>
                         <div class="buttons"> 
-                            <button class="btn-primary button" routerLink="'/admin/payroll-forms" (click)="employee = employeeRecord; redirectToPayroll()"> Payroll </button>
-                            <button class="btn-primary button" routerLink="'/admin/payslip-form'" (click)="employee = employeeRecord; redirectToPayslip()"> Payslip </button>
+                            <button class="btn-primary button" (click)="employee = employeeRecord; redirectToPayroll()"> Payroll </button>
+                            <button class="btn-primary button" (click)="employee = employeeRecord; redirectToPayslip()"> Payslip </button>
                         </div>
                     </div>
                 </a>

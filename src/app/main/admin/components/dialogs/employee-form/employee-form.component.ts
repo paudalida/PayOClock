@@ -114,7 +114,7 @@ export class EmployeeFormComponent {
       const file = fileInput.files[0];
   
       if (!['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)) {
-        this.pop.toastWithTimer('error', 'Invalid file type. Only JPEG files are accepted.');
+        this.pop.toastWithTimer('error', 'Invalid file type. Only JPG, JPEG, and PNG files are accepted.');
         this.selectedFile = '';
         return;
       }

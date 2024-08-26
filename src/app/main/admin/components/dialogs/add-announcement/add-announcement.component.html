@@ -1,6 +1,6 @@
 <main>
     <div class="main-container">
-        <form class="form-info">
+        <form class="form-info" [formGroup]="form" (submit)="submit()">
             <div class="header">
                 <h1> Add Announcement</h1>
             </div>
@@ -9,15 +9,15 @@
                 <div class="input-row">
                     <div class="entryarea">
                         <input type="text" formControlName="title"> 
-                        <div class="labelline">Title </div>
+                        <div class="labelline"> Title </div>
                     </div>
                 </div>
 
                 <div class="input-row">
                     <div class="entryarea1">
-                        <textarea formControlName="description"></textarea>
+                        <textarea formControlName="content"></textarea>
                         <span></span>
-                        <div class="labelline1"> Description  </div>
+                        <div class="labelline1"> Content  </div>
                     </div>
                 </div>
 
@@ -31,7 +31,7 @@
 
                 <div class="buttons">
                     <div class="add-btn">
-                        <button class = "button" type="button" value="Add" id="cancel"> ADD </button>
+                        <button class = "button" type="submit" value="Add" id="cancel"> ADD </button>
                     </div>
 
                     <div class="cancel-btn">

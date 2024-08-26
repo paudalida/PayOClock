@@ -29,6 +29,6 @@ export class PayrollComponent implements OnInit{
   }
 
   redirectToPayslip() {
-    this.router.navigate(['/admin/payrolls/payslip-form']);
+    this.router.navigate(['/admin/payrolls/payslip']);
   }
 }

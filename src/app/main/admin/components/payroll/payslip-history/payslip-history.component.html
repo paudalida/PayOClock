@@ -1,10 +1,158 @@
 <div class="main-content">
     <div class="header"> 
         <h1> History </h1>
-            <button class="btn-primary paylip-history" button routerLink="'/admin/payslip-form'" (click)= "redirectToPayroll()"> Payroll </button>
+            <button class="btn-secondary paylip-history" (click)="redirectToPayslip()"> Back </button>
+            <button class="btn-primary paylip-history" (click)="redirectToPayrolls()"> Payrolls </button>
     </div>
 
-    <div class="table-content">
 
-    </div>
+    <ng-container *ngFor="let payslip of payslips; let i = index;">
+        <div class="table-content" (click)="clickTable(i)">
+            <div class="table-head">
+    
+                <div class="input-row">
+                    <div class="information-case">
+                        <th> EMPLOYEE NAME: </th>  
+                        <td> {{employee.first_name}} {{employee.middle_name ? employee.middle_name[0] + '.' : ''}} {{employee.last_name}} {{employee.ext_name || ''}} </td>
+                    </div>
+        
+                    <div class="information-case">
+                        <th> PAYROLL PERIOD: </th> 
+                        <td> {{ payslip.payday | date: 'MMMM' }} {{ getPayDateRange(payslip.payday) }}, {{ payslip.payday | date: 'YYYY' }} </td>  
+                    </div>
+                </div>
+    
+                <div class="input-row">
+                    <div class="information-case">
+                        <th> ID NUMBER: </th>  
+                        <td> {{ employee.employee_id }} </td>
+                    </div>
+    
+                    <div class="information-case">
+                        <th> RATE: </th>  
+                        <td> IDK </td> 
+                    </div>
+                </div>
+    
+                <div class="input-row">
+                    <div class="information-case">
+                        <th> POSITION: </th> 
+                        <td> {{ employee.position }} </td> 
+                    </div>
+                </div>
+            </div>
+    
+            <div class="table-content1" *ngIf="activeTable == i && hasActive">
+    
+                <table>
+                    <tr class="table-header">
+                        <th> Earnings </th>
+                        <th> </th>
+                        <th> Amount </th>
+                        <th> Earnings </th>
+                        <th> </th>
+                        <th> Amount </th>
+                        <th> Deductions </th>
+                        <th> Amount </th>
+                    </tr>
+    
+                    <!-- More deductions than allowances -->
+                    <ng-container *ngIf="payslip.deductions.length > payslip.allowances.length">
+                        <ng-container *ngFor="let deduction of payslip.deductions; let i = index">
+                            <tr>
+                                <ng-container *ngIf="i == 0">
+                                    <td> Basic Salary </td>
+                                    <td> {{ payslip.hourlyWage }} </td>
+                                    <td> {{ payslip.hourlyWage * 8 * 15 }} </td>
+                                </ng-container>
+                                
+                                <ng-container *ngIf="i == 1">
+                                    <td> Hrs./ Day </td>
+                                    <td> 8 </td>
+                                    <td> </td>
+                                </ng-container>
+    
+                                <ng-container *ngIf="i > 1">
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+                                </ng-container>
+                                
+                                <ng-container *ngIf="i < payslip.allowances.length">
+                                    <td> {{ payslip.allowances[i].type }} </td>
+                                    <td> </td>
+                                    <td> {{ payslip.allowances[i].amount }} </td>
+                                </ng-container>
+    
+                                <ng-container *ngIf="i >= payslip.allowances.length">
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+                                </ng-container>
+                                
+                                <td> {{ deduction.type }} </td>
+                                <td> {{ deduction.amount }} </td>
+                            </tr>
+                        </ng-container>
+                    </ng-container>
+    
+                    <!-- Less deductions than allowances -->
+                    <ng-container *ngIf="payslip.deductions.length < payslip.allowances.length">
+                        <ng-container *ngFor="let allowance of payslip.allowances; let i = index">
+                            <tr>
+                                <ng-container *ngIf="i == 0">
+                                    <td> Basic Salary </td>
+                                    <td> </td>
+                                    <td> {{ payslip.hourlyWage }} </td>
+                                </ng-container>
+                                
+                                <ng-container *ngIf="i > 0">
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+                                </ng-container>
+                                
+                                <td> {{ payslip.allowances[i].type }} </td>
+                                <td> </td>
+                                <td> {{ payslip.allowances[i].amount }} </td>
+                                
+                                <ng-container *ngIf="i < payslip.deductions.length">
+                                    <td> {{ payslip.deductions[i].type }} </td>
+                                    <td> {{ payslip.deductions[i].amount }} </td>
+                                </ng-container>
+    
+                                <ng-container *ngIf="i >= payslip.deductions.length">
+                                    <td> </td>
+                                    <td> </td>
+                                </ng-container>
+                            </tr>
+                        </ng-container>
+                    </ng-container>
+    
+                    <tr>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> Total Earnings </td>
+                        <td> {{ payslip.hourlyWage * 8 * 15 + (payslip.totalAllowance) }}</td>
+                        <td> Total Deductions </td>
+                        <td> {{ payslip.totalDeductions }}</td>
+                    </tr>
+    
+                    <tr>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> Net Salary Transferred </td>
+                        <td> {{ (payslip.hourlyWage * 8 * 15 + payslip.totalAllowance) - payslip.totalDeductions }}</td>
+                    </tr>
+                    
+                </table>
+            </div>
+        </div>
+    </ng-container>
 </div>
