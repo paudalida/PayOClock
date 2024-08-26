@@ -5,7 +5,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddAnnouncementComponent } from '../dialogs/add-announcement/add-announcement.component';
 
 import { PopupService } from '../../../../services/popup/popup.service';
-import { EditAnnouncementComponent } from '../dialogs/edit-announcement/edit-announcement.component';
 
 @Component({
   selector: 'app-announcements',
@@ -22,14 +21,6 @@ export class AnnouncementsComponent {
   openDialog() {
     if (this.dialog) {
       this.dialog.open(AddAnnouncementComponent);
-    } else {
-      console.error('Dialog is not initialized');
-    }
-  }
-
-  editAnnouncement() {
-    if (this.dialog) {
-      this.dialog.open(EditAnnouncementComponent);
     } else {
       console.error('Dialog is not initialized');
     }
