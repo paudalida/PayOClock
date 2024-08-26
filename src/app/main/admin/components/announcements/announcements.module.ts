@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 
 import { AnnouncementsRoutingModule } from './announcements-routing.module';
 import { AnnouncementsComponent } from './announcements.component';
+import { EditAnnouncementComponent } from './edit-announcement/edit-announcement.component';
 
 
 @NgModule({
   declarations: [
-    AnnouncementsComponent
+    AnnouncementsComponent,
+    EditAnnouncementComponent
   ],
   imports: [
     CommonModule,

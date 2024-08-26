@@ -66,6 +66,7 @@
   align-items: center;
   box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.322);
   border: 0.5px solid var(--table-border);
+  position: relative; 
   
   .content-left {
     flex: 0 0 auto;
@@ -79,10 +80,10 @@
   }
 
   .content-right {
-      margin-top: -100px;
-      padding-left: 15px;
-      flex: 1;
-    
+    margin-top: -100px;
+    padding-left: 15px;
+    flex: 1;
+
     .title {
       font-size: 1.5rem;
       margin-bottom: 25px;
@@ -93,7 +94,54 @@
       color: #666;
     }
   }
+
+  .button-container {
+    position: absolute;
+    bottom: 25px; 
+    right: 35px;  
+    display: flex;
+    gap: 1rem;
+
+    .btn {
+      padding: 15px 25px;
+      width: 150px;
+      height: 45px;
+      border: 1px;
+      border-radius: 3px;
+      font-weight: bold;
+      font-size: 16px;
+      text-decoration: none;
+      cursor: pointer;
+      text-align: center;
+      box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.322);
+      transition: .3s;
+      transform: translateY(-5px);
+    }
+
+    .edit-btn {
+      background-color: var(--time-in-button);
+      color: var(--white);
+      
+      &:hover {
+        box-shadow: 0px 8px 15px -10px rgb(125, 125, 125);
+        transform: translate(0px, -2px);
+        background-color: var(--time-in-button-hover);
+      }
+    }
+
+    .delete-btn {
+      background-color: var(--danger);
+      color: var(--white);
+
+      &:hover {
+        box-shadow: 0px 8px 15px -10px rgb(125, 125, 125);
+        transform: translate(0px, -2px);
+        background-color: var(--danger-hover);
+      }
+    }
+  }
 }
+
 
 .container h1 {
   font-weight: 700;
