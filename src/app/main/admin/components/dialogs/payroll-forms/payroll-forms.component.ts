@@ -43,7 +43,7 @@ export class PayrollFormsComponent implements OnInit{
     this.initializePeriodicalTransactions();
     this.hourlyRate = this.employee.hourly_rate;
 
-    this.ds.request('GET', 'admin/transactions/user/' + this.employee.id).subscribe({
+    this.ds.request('GET', 'admin/transactions/latest/user/' + this.employee.id).subscribe({
       next: (res: any) => { 
         let salaryCount = 0;
         res.data.forEach((element: any) => {
@@ -131,7 +131,7 @@ export class PayrollFormsComponent implements OnInit{
     sub_type?: string, 
     id?: number, 
     amount?: number,
-    payday: string = '2024-08-30'
+    payday: string = '2024-08-31'
   ) {
     const formArray = this.formsArray(formType);
     formArray.push(this.fb.group({
@@ -232,11 +232,11 @@ export class PayrollFormsComponent implements OnInit{
   submitToServer(){
     this.isLoading = true;
     const formArray = this.formsArray('deduction');
-    for(let i = 4; i <= 8; i++) {
-      formArray.get(''+i)?.patchValue({
-        amount: 100
-      })
-    }
+    // for(let i = 4; i <= 8; i++) {
+    //   formArray.get(''+i)?.patchValue({
+    //     amount: 100
+    //   })
+    // }
 
     for(let i = 0; i < formArray.length; i++) {
       formArray.at(i).get('type')?.enable();

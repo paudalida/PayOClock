@@ -20,8 +20,8 @@ const routes: Routes = [
     children: [
       { path: '', component: PayrollComponent, pathMatch: 'full'}, 
       { path: 'form', component: PayrollFormsComponent}, 
-      { path: 'payslip-form', component: PayslipFormComponent},
-      { path: 'payslip-history', component: PayslipHistoryComponent}
+      { path: 'payslip', component: PayslipFormComponent},
+      { path: 'payslips-history', component: PayslipHistoryComponent}
     ]
   },
   {

@@ -2,7 +2,7 @@
     <div class="header"> 
         <h1> Employee Payroll </h1>
             <div class="input-row"> 
-                <button class="btn-primary save-payroll" type="button" (click)="submit()" [disabled]="form.invalid || !changedValues"
+                <button class="btn-primary save-payroll" type="button" (click)="submit()" 
                     [ngClass]="{ 'btn-loading-primary': isLoading, 'btn-primary': !isLoading && changedValues, 'btn-invalid': !isLoading && !changedValues}"> 
                         {{ isLoading ? 'Saving' : 'Save' }} <mat-spinner *ngIf="isLoading" class="spinner" diameter="23" color="accent"></mat-spinner>
                 </button>
@@ -111,11 +111,11 @@
                                     <option value="SSS"> SSS </option>
                                 </select> -->
                                 <div class="labelline3"> Type </div>
-                            <!-- </form> -->
-                            <!-- </div> -->
+                            </form>
+                            </div>
 
-                            <!-- <div class="entryarea3"> -->
-                            <!-- <form [formGroupName]="2" tanggalin> -->
+                            <div class="entryarea3">
+                            <form [formGroupName]="0">
                                 <input formControlName="sub_type" value="EE Share" hidden>
                                 <input type="text" formControlName="amount"
                                  (keyup)="updateInvalidInput($event, 'deduction', '0', 'amount')">
@@ -143,11 +143,11 @@
                                         <option value="PHIC"> PHIC </option>
                                     </select> -->
                                     <div class="labelline3"> Type </div>
-                            <!-- </form>
+                            </form>
                             </div>
 
                             <div class="entryarea3">
-                            <form [formGroupName]="'2'" tanggalin>  -->
+                            <form [formGroupName]="2" tanggalin> 
                                 <input formControlName="sub_type" value="EE Share" hidden>
                                     <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, 'deduction', '2', 'amount')">
                                     <div class="labelline3"> EE Share </div>
@@ -170,17 +170,17 @@
                             <div class="entryarea4">
                             <form [formGroupName]="4">
                                 <input formControlName="type" value="HDMF">
-                                <select formControlName="type"> 
+                                <!-- <select formControlName="type"> 
                                     <option value="SSS"> SSS </option>
                                     <option value="PHIC" > PHIC </option>
                                     <option value="HDMF"> HDMF </option>
-                                </select>
+                                </select> -->
                                 <div class="labelline4"> Type </div>
-                            <!-- </form>
+                            </form>
                         </div>
 
                         <div class="entryarea4">
-                            <form [formGroupName]="8" tanggalin> -->
+                            <form [formGroupName]="4" tanggalin>
                                 <input formControlName="sub_type" value="EE Share" hidden>
                                 <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, 'deduction', '4', 'amount')">
                                 <div class="labelline4"> EE Share </div>

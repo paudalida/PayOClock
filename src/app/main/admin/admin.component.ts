@@ -21,8 +21,6 @@ export class AdminComponent implements OnInit {
   isLoading = true;
 
   ngOnInit(): void {
-    
-    console.log(sessionStorage.getItem('auth-token'))
     this.loadData();
   }
 

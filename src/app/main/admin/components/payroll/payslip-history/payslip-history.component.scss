@@ -65,5 +65,56 @@
     box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.322);
     border: 0.5px solid var(--table-border);
 
+    .table-head {
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px; 
     
+        .input-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .information-case {
+            font-size: 17px;
+            font-weight: 500;
+            padding-right: 15px;
+        }
+
+        td {
+            padding-left: 15px;
+        }
+    
+    }
+
+    .table-content1 {
+        width: auto;
+        height: auto;
+        border: 0.5px solid var(--table-border);
+        box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.322);
+
+
+        table,
+        th,
+        td {
+            padding: 20px;
+            font-family: 'Poppins';
+            font-size: 15px;
+            font-weight: 400;
+            border-bottom: 1.5px solid var(--table-border);
+        }
+
+        th {
+            background-color: var(--primary-color) !important;
+            color: var(--white);
+            font-size: 15px;
+            width: 10%;
+            letter-spacing: 0.8px;
+            
+
+        }
+    }
+
+
+
 }
