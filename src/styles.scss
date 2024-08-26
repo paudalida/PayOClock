@@ -57,6 +57,7 @@ $GM18-theme: mat.define-light-theme((
   --cancel-hover: #6B6B6B;
   --black: #000;
   --white: #FFF;
+  --disabled-button: #c6cac7;
 
 
 }
@@ -89,7 +90,7 @@ body {
 }
 
 .btn-invalid {
-  background-color: #424949;
+  background: var(--disabled-button);
 }
 
 .btn-loading-primary {

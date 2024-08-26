@@ -14,56 +14,58 @@
         <div class="input-row"> 
 
             <!-- LEFT PANEL -->
-            <div class="container"> 
-                <div class="container-head"> 
-                     Employee Details   
-                </div>
-                
-                <div class="content-details"> 
-                    <div class="input-row1">
-                        <div class="entryarea">
-                            <input type="text" name="id_number" disabled value="{{ employee.employee_id || '' }}">
-                            <div class="labelline"> ID Number </div>
-                        </div>
-
-                        <div class="entryarea">
-                            <input type="text" name="fullname" disabled
-                                value="{{employee.first_name}} {{employee.middle_name || ''}} {{employee.last_name}} {{employee.ext_name || ''}}">
-                            <div class="labelline"> Full name </div>
-                        </div>
-                    </div>
-
-                    <div class="input-row1">
-                        <div class="entryarea">
-                            <input type="text" name="position" disabled value="{{employee.position || ''}}">
-                            <div class="labelline"> Position </div>
-                        </div>
-
-                        <div class="entryarea">
-                            <input type="text" name="gender" disabled 
-                                value="{{employee.gender == 0 ? 'Female' : employee.gender == 1 ? 'Male' : 'Others'}}">
-                            <div class="labelline"> Gender </div>
-                        </div>
-                    </div>
-
-                    <div class="input-row1">
-                        <div class="entryarea1">
-                            <input type="text" name="per_hour" [value]="hourlyRate">
-                            <div class="labelline1"> Rate (hour) </div>
-                        </div>
-
-                        <div class="entryarea1">
-                            <input type="text" name="per_day" [value]="hourlyRate * 8">
-                            <div class="labelline1"> Rate (day) </div>
-                        </div>
-
-                        <div class="entryarea1">
-                            <input type="text" name="amount" [value]="hourlyRate * 8 * 15">
-                            <div class="labelline1"> AMT </div>
-                        </div>
-                    </div>
-                </div>
+           <div class="container"> 
+    <div class="container-head"> 
+        Employee Details   
+    </div>
+    
+    <div class="content-details"> 
+        <div class="input-row1">
+            <div class="entryarea">
+                <div class="detail-value">{{ employee.employee_id || '' }}</div>
+                <div class="labelline"> ID Number </div>
             </div>
+
+            <div class="entryarea">
+                <div class="detail-value">
+                    {{employee.first_name}} {{employee.middle_name || ''}} {{employee.last_name}} {{employee.ext_name || ''}}
+                </div>
+                <div class="labelline"> Full name </div>
+            </div>
+        </div>
+
+        <div class="input-row1">
+            <div class="entryarea">
+                <div class="detail-value">{{employee.position || ''}}</div>
+                <div class="labelline"> Position </div>
+            </div>
+
+            <div class="entryarea">
+                <div class="detail-value">
+                    {{employee.gender == 0 ? 'Female' : employee.gender == 1 ? 'Male' : 'Others'}}
+                </div>
+                <div class="labelline"> Gender </div>
+            </div>
+        </div>
+
+        <div class="input-row1">
+            <div class="entryarea1">
+                <input type="text" name="per_hour" [value]="hourlyRate">
+                <div class="labelline1"> Rate (hour) </div>
+            </div>
+
+            <div class="entryarea1">
+                <input type="text" name="per_day" [value]="hourlyRate * 8">
+                <div class="labelline1"> Rate (day) </div>
+            </div>
+
+            <div class="entryarea1">
+                <input type="text" name="amount" [value]="hourlyRate * 8 * 15">
+                <div class="labelline1"> AMT </div>
+            </div>
+        </div>
+    </div>
+</div>
 
             <!-- RIGHT PANEL -->
             <div class="container"> 
@@ -233,7 +235,7 @@
         </form>
 
         <!-- <form [formGroup]="form" (submit)="submit()"> -->
-                <div class="input-row"> 
+                <div class="input-row2"> 
                     <div class="container-others">
                         <div class="container-head"> 
                             Other Deductions 
@@ -264,10 +266,10 @@
                     </div>
 
             
-                    <div class="container-others">
+                    <div class="container-allowance">
                         <div class="container-head"> 
                             Allowance  
-                            <button class="add-other" type="button" (click)="addToFormsArray('allowance', 'add')"> Add </button>
+                            <button class="add-allowance" type="button" (click)="addToFormsArray('allowance', 'add')"> Add </button>
                         </div>
 
                         <div class="inputs-container">
