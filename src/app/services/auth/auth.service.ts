@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { PopupService } from '../popup/popup.service';
 import { HttpHeaders } from '@angular/common/http';
-import { DataService } from '../data/data.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +14,14 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private pop: PopupService,
-    private ds: DataService
+    private router: Router
   ) { }
   
   private apiUrl = 'http://localhost:8000/api/';
   private userType = '';
+  private httpHeaders = new HttpHeaders({
+    Authorization:  `Bearer ${sessionStorage.getItem('auth-token') || ''}`
+  });
 
   public get getUserType() {
     return this.userType;
@@ -29,12 +32,12 @@ export class AuthService {
   }
 
   public requestUserType() {
-    return this.http.post(this.apiUrl + 'auth/user', { });
+    return this.http.post(this.apiUrl + 'auth/user', {}, {headers: this.httpHeaders});
   }
 
-  public login(type: string, form: any): Observable<boolean> {
-    return this.http.post(this.apiUrl + 'auth/login/' + type, form).pipe(
-      map((res: any) => {
+  public login(type: string, form: any) {
+    this.http.post(this.apiUrl + 'auth/login/' + type, form).subscribe({
+      next: (res: any) => {
         // Store session data
         sessionStorage.setItem('name', res.data.name);
         sessionStorage.setItem('position', res.data.position);
@@ -43,9 +46,9 @@ export class AuthService {
 
         // Show success toast
         this.pop.toastWithTimer('success', res.message);
-        return true; // Indicate success
-      }),
-      catchError((err: any) => {
+        this.router.navigate([type]);
+      },
+      error: (err: any) => {
         // Handle error responses
         switch (err.error.message) {
           case 'Failed to fetch':
@@ -58,9 +61,7 @@ export class AuthService {
             this.pop.swalBasic('error', this.pop.genericErrorTitle, this.pop.genericErrorMessage);
             break;
         }
-
-        return of(false); // Return false for failed login
-      })
-    );
+      }
+    });
   }  
 }

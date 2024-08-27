@@ -18,9 +18,6 @@ import { FormsImportsModule } from './modules/forms-imports/forms-imports.module
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
-/* HTTP INTERCEPTOR */
-import { AuthInterceptor } from './services/auth/auth.interceptor';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +41,6 @@ import { AuthInterceptor } from './services/auth/auth.interceptor';
     provideAnimationsAsync(),
     provideHttpClient(
       withFetch(), 
-      withInterceptors([AuthInterceptor])
     )
   ],
   bootstrap: [AppComponent]
