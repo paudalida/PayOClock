@@ -17,6 +17,7 @@ import { PayslipHistoryComponent } from './components/payroll/payslip-history/pa
 import { PayrollComponent } from './components/payroll/payroll.component';
 import { AnnouncementsComponent } from './components/announcements/announcements.component';
 import { AnnouncementFormComponent } from './components/dialogs/announcement-form/announcement-form.component';
+import { ReportComponent } from './components/report/report.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AnnouncementFormComponent } from './components/dialogs/announcement-for
     PayslipHistoryComponent,
     PayrollComponent,
     AnnouncementsComponent,
+    ReportComponent,
 
     /* Dialog imports */
     AnnouncementFormComponent,

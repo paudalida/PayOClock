@@ -34,13 +34,8 @@ const routes: Routes = [
       loadChildren: ()=>import('./components/attendance/attendance.module').then((m)=>m.AttendanceModule)
     }]
   }, 
-  {
-    path: 'reports', 
-    component: ReportComponent, 
-    children: [{
-      path: '', 
-      loadChildren: ()=>import('./components/report/report.module').then((m)=>m.ReportModule)
-    }]
+  { 
+    path: 'reports', component: ReportComponent
   },
   { path: '**', redirectTo: 'dashboard' }
 ];
