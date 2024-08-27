@@ -13,6 +13,8 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { EditProfileComponent } from './components/popup/edit-profile/edit-profile.component';
 import { AnnouncementsComponent } from './components/announcements/announcements.component';
 
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [  
@@ -20,13 +22,17 @@ import { AnnouncementsComponent } from './components/announcements/announcements
     EmployeeComponent, 
     PayslipsComponent, 
     AttendanceComponent, 
-    ProfileComponent, EditProfileComponent, AnnouncementsComponent
+    ProfileComponent, 
+    EditProfileComponent, 
+    AnnouncementsComponent
   ],
   imports: [
     EmployeeRoutingModule,
     CommonModule,
     CommonImportsModule,
     FormsImportsModule,
+    MatSidenavModule, 
+    MatListModule
   ]
 })
 export class EmployeeMainModule { }
