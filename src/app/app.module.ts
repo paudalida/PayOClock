@@ -18,6 +18,12 @@ import { FormsImportsModule } from './modules/forms-imports/forms-imports.module
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
+
+/* Landing Page imports */ 
+
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +40,11 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
     CommonImportsModule,
     FormsImportsModule,
     SweetAlert2Module.forRoot(),
-    MatProgressSpinner
+    MatProgressSpinner,
+
+    /* Landing imports */ 
+    MatToolbarModule,
+    MatIconModule,
   ],
   providers: [
     provideClientHydration(),

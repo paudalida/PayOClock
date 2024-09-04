@@ -1,37 +1,166 @@
-<div class="landing"> 
-    <div class="header"> 
-        <div class="header-content">
-            <!-- <h1> GM-PAYROLL </h1> -->
-            <img class="logo" src="assets/images/gm18_without_bg.png"> 
-        </div>
+<header class="toolbar">
+    <div class="toolbar-row">
+        <span class="logo-section">
+            <img src="/assets/images/PayO'Clock logo.png" alt="PayO'clock Logo" class="logo">
+            <span class="website-name">PayO'clock</span>
+        </span>
+        <span class="spacer"></span>
+        <button class="hamburger" aria-label="Toggle navigation" (click)="toggleNavBar()">
+            <i class='bx bx-menu'></i>
+        </button>
+        <nav class="nav-bar" [class.show-nav-bar]="isNavBarVisible">
+            <a class="nav-link nav-text" href="#home">Home</a>
+            <a class="nav-link nav-text" href="#about">About</a>
+            <a class="nav-link nav-text" href="#team">Our Team</a>
+            <div class="dropdown">
+                <a class="nav-link dropdown-link" href="#" (click)="toggleDropdown($event)">Login</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/login/employee"><i class='bx bxs-group'></i>Employee</a>
+                    <a class="dropdown-item" href="/login/admin"><i class='bx bxs-user'></i>Admin</a>
+                </div>
+            </div>
+        </nav>
     </div>
-    <div class="content"> 
-        <div class="left"> 
-            <div class="container"></div>
-            <div class="container1"></div>
-            <div class="container-1"></div>
-            <div class="container1-1"></div>
-            <img class="vector" src="assets/images/landing2.png" alt="GM18 Image">
+</header>
+
+<main>
+    <section id="home" class="section home-section">
+        <div class="home-content">
+            <div class="left-content">
+            <h1>PayO'Clock</h1>
+            <p>Hit the road without a worry! Our payroll system keeps your earnings on track, 
+            ensuring every shift you work is rewarded right on time. Drive forward—we've got 
+            your pay in gear!</p>
+            <h2>Available now at</h2>
+            <img src="/assets/images/playstore.png" alt="Information Image" class="info-image">
+            </div>
+            <div class="right-content">
+            <img src="/assets/images/landing.png" class="vector-image">
+            </div>
+        </div>
+    </section>
+        
+    <section id="about" class="section about-section">
+        <h2>About Us</h2>
+
+        <div class="about-container">
+            <div class="about-item">
+                <mat-icon class="about-icon">paid</mat-icon>
+                    <h3>Payroll</h3>
+                    <p>Managing all processes with the employees' salary</p>
+            </div>
+            <div class="about-item">
+                <mat-icon class="about-icon">event_note</mat-icon>
+                    <h3>Attendance</h3>
+                    <p>Keeping track of all the performance of the employees</p>
+            </div>
+            <div class="about-item">
+                <mat-icon class="about-icon">announcement</mat-icon>
+                    <h3>Announcement</h3>
+                    <p>Posting Advisories for the Company</p>
+            </div>
+            <div class="about-item">
+                <mat-icon class="about-icon">people</mat-icon>
+                    <h3>Employees</h3>
+                    <p>Managing all personnel details</p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="team" class="section team-section">
+        <h2>Our Team</h2>
+
+        <div class="team-container">
+            <div class="team-item">
+                <div class="card">
+                    <div class="image-holder">
+                    <img src="/assets/images/project adviser.png" alt="adviser photo">
+                    </div>
+                    <div class="overlay">
+                    <h3>Jay Renz Morgado</h3>
+                    <p>Project Adviser</p>
+                    </div>
+                </div>
+            </div>
+            <div class="team-item">
+                <div class="card">
+                    <div class="image-holder">
+                    <img src="/assets/images/benef.png" alt="benef photo">
+                    </div>
+                    <div class="overlay">
+                    <h3>Monaliza Sanchez</h3>
+                    <p>Project Beneficiary</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="right">
-            <div class="main-text"> 
-                <h1> GM18 </h1> 
-                <h2> DRIVING SCHOOL </h2> 
-                <h3> Payroll System</h3>
+        <div class="team-container">
+            <div class="team-item">
+                <div class="card">
+                    <div class="image-holder1">
+                    <img src="/assets/images/hustler.png" alt="hustler photo">
+                    </div>
+                    <div class="overlay">
+                    <h3>Eunice Protasio</h3>
+                    <p>Project Hustler</p>
+                    </div>
+                </div>
             </div>
-            <div class="second-text"> 
-                <p> Hit the road without a worry! Our payroll 
-                    system keeps <br> your earnings on track, ensuring 
-                    every shift you work is <br> rewarded right on time. 
-                    Drive forward—we've got your pay <br> in gear! <p>
-                <h2> Login as? </h2>
+            <div class="team-item">
+                <div class="card">
+                    <div class="image-holder1">
+                    <img src="/assets/images/hacker.jpg" alt="hacker photo">
+                    </div>
+                    <div class="overlay">
+                    <h3>Charles John Malit</h3>
+                    <p>Project Hacker</p>
+                    </div>
+                </div>
             </div>
-
-            <div class="buttons">
-                <button class="btn-primary employee-portal" [routerLink]="'/login/employee'"> Employee </button>
-                <button class="btn-primary admin-portal" [routerLink]="'/login/admin'"> Admin </button>
+            <div class="team-item">
+                <div class="card">
+                    <div class="image-holder1 zoom">
+                        <img src="/assets/images/hipster.png" alt="hipster photo">
+                    </div>
+                    <div class="overlay">
+                        <h3>Pauleen Dalida</h3>
+                        <p>Project Hipster</p>
+                    </div>
+                </div>
             </div>
         </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            <img src="/assets/images/PayO'Clock logo.png" alt="PayO'clock Logo" class="footer-logo-img">
+            <span class="footer-website-name">PayO'clock</span>
+        </div>
+
+        <div class="footer-links">
+            <a href="#home" class="footer-link">Home</a>
+            <a href="#about" class="footer-link">About</a>
+            <a href="#team" class="footer-link">Our Team</a>
+        </div>
+
+        <div class="footer-socials">
+            <a href="https://www.facebook.com/share/UFYeMQmUhkCiJNUZ/?mibextid=qi2Omg" class="social-icon" aria-label="Facebook">
+                <mat-icon>facebook</mat-icon>
+            </a>
+            <a href="mailto:payoclock24@gmail.com" class="social-icon" aria-label="Email">
+                <mat-icon>email</mat-icon>
+            </a>
+        </div>
     </div>
-</div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2024 PayO'clock. All rights reserved.</p>
+    </div>
+</footer>
+
+
+  
+  
