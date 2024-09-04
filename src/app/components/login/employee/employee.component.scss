@@ -279,59 +279,88 @@ body {
   .login_box {
     flex-direction: column;
     height: auto;
-    max-width: 90%;
+    max-height: none;
+    margin-top: 120px; 
+    padding-right: 20px; 
   }
 
-  .login_box .left, .login_box .right {
+  .login_box .left {
     width: 100%;
-    height: auto;
+    display: block;
+    order: 1;
+  }
+
+  .vector {
+    margin-top: -20px;
+  }
+
+  .logo {
+    margin-left: -15px;
   }
 
   .login_box .right {
-    border-top-left-radius: 30px;
-    border-bottom-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 30px;
+    width: 93%;
+    border-radius: 20px; 
+    order: 2;
+    background: linear-gradient(-45deg, #dcd7e0, #fff); 
+    padding-left: 20px; 
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); 
   }
 
-  .vector, .logo {
-    margin: 20px auto;
-  }
-
-  .submit {
+  .right .contact {
     width: 100%;
-    padding: 15px;
+    padding-left: 20px;
+    padding-right: 30px;
+    margin-top: -50px;
   }
-}
 
-/* Loading button */
-.submit-default {
-  background-color: #254CA3;
-}
 
-.submit-loading {
-  background-color: #1e3e82;
-}
+  .input-container input {
+    width: calc(95% - 40px); 
+    font-size: 16px;
+    padding: 15px 10px;
+    margin-left: 15px;
+  }
 
-.spinner {
-  margin-left: 20px;
+  .input-container icon {
+    margin-left: -5px;
+  }
+
+  .login-btn {
+    width: 89%;
+    margin-top: -5px;
+    padding: 12px;
+    font-size: 18px;
+  }
+
+  .link {
+    padding-right: 15px;
+  }
 }
 
 @media (max-width: 480px) {
+  .login_box {
+    width: 90%;
+    padding-top: 20px; 
+    padding-right: 20px;
+  }
+
   .right h1 {
     font-size: 28px;
   }
 
   .right h3 {
-    font-size: 20px;
+    font-size: 18px;
   }
 
   .input-container input {
-    padding: 15px 0px 15px 35px;
-    font-size: 16px;
+    padding: 15px 10px;
+    font-size: 14px;
   }
 
-  .icon {
-    left: 5px;
+  .login-btn {
+    font-size: 16px;
+    padding: 10px;
   }
 }
+
