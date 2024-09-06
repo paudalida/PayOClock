@@ -45,7 +45,6 @@ export class PayrollFormsComponent implements OnInit{
 
     this.ds.request('GET', 'admin/transactions/latest/user/' + this.employee.id).subscribe({
       next: (res: any) => { 
-        let salaryCount = 0;
         res.data.forEach((element: any) => {
           let transaction_type = element.transaction_type.replace(' ', '_');
           let index = 0;
@@ -64,9 +63,9 @@ export class PayrollFormsComponent implements OnInit{
 
               case 'HDMF':
                 if(element.sub_type == 'EE Share') index = 4;
-                else if(element.sub_type == 'Salary' && salaryCount == 0) index = 5;
-                else if(element.sub_type == 'Calamity') index = 6;
-                else if(element.sub_type == 'Salary' && salaryCount == 1) index = 7;
+                else if(element.sub_type == 'ER Share') index = 5;
+                else if(element.sub_type == 'Salary') index = 6;
+                else if(element.sub_type == 'Calamity') index = 7;
                 break;
             }
             this.updateFormsArray(element.id, transaction_type, index, element.type, element.sub_type, element.amount, element.payday);
@@ -90,7 +89,6 @@ export class PayrollFormsComponent implements OnInit{
       this.formsArray('deduction').value.forEach((element: any) => {
         if(element.amount)
         this.totalDeductions += parseInt(element.amount as string);
-      console.log(this.totalDeductions)
       });
 
       this.formsArray('other_deduction').value.forEach((element: any) => {
@@ -117,7 +115,7 @@ export class PayrollFormsComponent implements OnInit{
       });
 
       if(type == 'HDMF') {
-        ['Salary', 'Calamity', 'Salary'].forEach(subtype => {
+        ['Salary', 'Calamity'].forEach(subtype => {
           this.addToFormsArray('deduction', 'add', type, subtype);
         });
       }

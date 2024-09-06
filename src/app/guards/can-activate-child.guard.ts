@@ -11,25 +11,26 @@ export const canActivateChildGuard: CanActivateChildFn = async (childRoute, stat
 
   if (!userType) {
     try {
-      // Use lastValueFrom to wait for the Observable to resolve
       const res: any = await lastValueFrom(authService.requestUserType());
 
-      userType = res.data;
+      userType = res?.data;
 
-      if (userType && state.url.includes(userType)) {
-        return true; // Allow access
-      } else {
-        await router.navigate(['/not-found']); // Navigate to "not-found" page
-        return false; // Deny access
+      if (!userType) {
+        await router.navigate(['/not-found']);
+        return false;
       }
     } catch (error) {
-      await router.navigate(['/not-found']); // Handle error
       return false;
     }
-  } else if (state.url.includes(userType)) {
-    return true; // Allow access
   } else {
-    await router.navigate(['/not-found']); // Navigate to "not-found" page
-    return false; // Deny access
+    console.log('UserType found:', userType);
+  }
+
+  // After resolving userType, check URL match
+  if (state.url.includes(userType)) {
+    return true;
+  } else {
+    await router.navigate(['/not-found']);
+    return false;
   }
 };

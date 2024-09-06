@@ -18,10 +18,12 @@ import { PayrollComponent } from './components/payroll/payroll.component';
 import { AnnouncementsComponent } from './components/announcements/announcements.component';
 import { AnnouncementFormComponent } from './components/dialogs/announcement-form/announcement-form.component';
 import { ReportComponent } from './components/report/report.component';
+import { AttendanceComponent } from './components/attendance/attendance.component';
 
 @NgModule({
   declarations: [
     AdminComponent,
+    AttendanceComponent,
     DashboardComponent,
     EmployeeComponent,
     PayslipFormComponent,

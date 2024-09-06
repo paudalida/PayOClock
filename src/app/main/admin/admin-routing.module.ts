@@ -24,19 +24,9 @@ const routes: Routes = [
       { path: 'payslips-history', component: PayslipHistoryComponent}
     ]
   },
-  {
-    path: 'announcements', component: AnnouncementsComponent }, 
-  {
-    path: 'attendance', 
-    component: AttendanceComponent, 
-    children: [{
-      path: '', 
-      loadChildren: ()=>import('./components/attendance/attendance.module').then((m)=>m.AttendanceModule)
-    }]
-  }, 
-  { 
-    path: 'reports', component: ReportComponent
-  },
+  { path: 'announcements', component: AnnouncementsComponent }, 
+  { path: 'attendance', component: AttendanceComponent }, 
+  { path: 'reports', component: ReportComponent },
   { path: '**', redirectTo: 'dashboard' }
 ];
 

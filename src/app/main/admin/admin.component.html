@@ -5,9 +5,9 @@
     
     <div class="body-content">
         <div class="admin-container"> 
-            <!-- <ng-container *ngIf="!isLoading"> -->
+            <ng-container *ngIf="!isLoading">
                 <router-outlet></router-outlet> 
-            <!-- </ng-container> -->
+            </ng-container>
         </div>
     </div>
 
@@ -16,7 +16,7 @@
     
             <div class="logo-title">
                 <div class="logo">
-                    <img src="assets/images/gm18.png">
+                    <img src="assets/images/PayO'Clock logo.png">
                 </div>
             </div>
     
@@ -41,10 +41,10 @@
                     <span class="tab-icon"> <i class='bx bx-clipboard'></i> </span>
                     <span class="tab-name">Attendance</span>
                 </a>
-                <a mat-list-item routerLink="reports" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+                <!-- <a mat-list-item routerLink="reports" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
                     <span class="tab-icon"> <i class='bx bxs-bookmarks'></i> </span>
                     <span class="tab-name">Reports</span>
-                </a>
+                </a> -->
             </mat-nav-list>
     
             <div class="logoutbtn">

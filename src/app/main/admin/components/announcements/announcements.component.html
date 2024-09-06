@@ -4,7 +4,7 @@
 
 <div class="main-content" *ngIf="!isLoading">
     <div id="first" class="header"> 
-        <h1> Latest Announcements </h1>
+        <h1> Latest Announcement </h1>
            <button class="add-announcement" type="button" (click)="openDialog()"> Add </button>
     
         </div>
@@ -30,7 +30,7 @@
 
     <!-- Do not get the latest  -->
     <ng-container *ngFor="let post of posts; let i = index;">
-        <ng-container *ngIf="i > 0">
+        <ng-container *ngIf="i >= paginatorIndex && i < paginatorIndex + paginatorCount">
 
             <!-- Container proper -->
             <div class="table-content">
@@ -49,5 +49,24 @@
 
         </ng-container>
     </ng-container>
+
+    <div class="paginator">
+        <div class="label"> 
+            Showing {{ paginatorIndex }} - 
+            {{ (this.paginatorIndex + this.paginatorCount) > this.posts.length ? this.posts.length-1 : this.paginatorIndex + this.paginatorCount-1 }} 
+            of {{ posts.length-1 }} 
+        </div>
+
+        <select (change)="changePaginator($event)" class="paginator-select">
+            <option value="5">   5 </option>
+            <option value="10"> 10 </option>
+            <option value="15"> 15 </option>
+        </select>
+
+        <button class="paginator-btn" (click)="first()">   << </button>
+        <button class="paginator-btn" (click)="previous()"> < </button>
+        <button class="paginator-btn" (click)="next()">     > </button>
+        <button class="paginator-btn" (click)="last()">    >> </button>
+    </div>
     
 </div>

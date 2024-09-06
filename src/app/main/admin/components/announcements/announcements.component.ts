@@ -20,6 +20,8 @@ export class AnnouncementsComponent implements OnInit{
   ) { }
 
   isLoading = true;
+  paginatorIndex = 1;
+  paginatorCount = 3;
   posts: any = [{
     image: '',
     title: '',
@@ -74,6 +76,34 @@ export class AnnouncementsComponent implements OnInit{
         error: (err: any) => { this.pop.swalBasic('error', 'Error', err.error.message); }
       });
     }
+  }
+
+  /* Paginator functions */
+  changePaginator(event: Event) {
+    const count = (event.target as HTMLSelectElement).value;
+    this.paginatorCount = Number(count);
+    this.paginatorIndex = 0;
+  }
+
+  first() {
+    this.paginatorIndex = 1;
+  }
+
+  next() {
+    if((this.paginatorIndex + this.paginatorCount) < this.posts.length)
+      this.paginatorIndex += this.paginatorCount;
+  }
+
+  previous() {
+    if((this.paginatorIndex - this.paginatorCount) >= 1 )
+      this.paginatorIndex -= this.paginatorCount;
+  }
+
+  last() {
+    const length = this.posts.length;
+    const excess = (length % this.paginatorCount) == 0 ? (this.paginatorCount) : (length % this.paginatorCount);
+    this.paginatorIndex = length - excess+1;
+    console.log(length -excess)
   }
 }
 

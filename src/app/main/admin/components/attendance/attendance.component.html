@@ -1,67 +1,44 @@
 <div class="main-content">
     <div class="header"></div>
 
-    <div class="table-content">
-        <div class="content-left">
-            <img src="/assets/images/background.jpg" alt="Description of Image" class="image-holder">
-        </div>
-        <div class="content-middle">
-            <h2 class="name">Mona Liza</h2>
-            <p class="position">Manager</p>
-        </div>
-        <div class="content-right">
-            <input type="checkbox" id="toggle1" class="toggle-checkbox">
-            <label for="toggle1" class="time-btn time-in">Time in</label>
-            <label for="toggle1" class="time-btn time-out">Time out</label>
-            <button class="time-btn3">Paid Leave</button>
-        </div>
-    </div>
+    <ng-container *ngFor="let employee of employees; let i = index;">
+        <ng-container *ngIf="i >= paginatorIndex && i < paginatorIndex + paginatorCount">
 
-    <div class="table-content">
-        <div class="content-left">
-            <img src="/assets/images/background.jpg" alt="Description of Image" class="image-holder">
-        </div>
-        <div class="content-middle">
-            <h2 class="name">Mona Liza</h2>
-            <p class="position">Manager</p>
-        </div>
-        <div class="content-right">
-            <input type="checkbox" id="toggle2" class="toggle-checkbox">
-            <label for="toggle2" class="time-btn time-in">Time in</label>
-            <label for="toggle2" class="time-btn time-out">Time out</label>
-            <button class="time-btn3">Paid Leave</button>
-        </div>
-    </div>
+            <div class="table-content">
+                <div class="content-left">
+                    <img [src]="employee.image || '/assets/images/background.jpg'" alt="Description of Image" class="image-holder">
+                </div>
+                <div class="content-middle">
+                    <h2 class="name"> {{employee.first_name}} {{employee.middle_name || ''}} {{employee.last_name}} {{employee.ext_name || ''}}</h2>
+                    <p class="position"> {{employee.position}}</p>
+                </div>
+                <div class="content-right">
+                    <input type="checkbox" id="toggle1" class="toggle-checkbox">
+                    <label for="toggle1" class="time-btn time-in">Time in</label>
+                    <label for="toggle1" class="time-btn time-out">Time out</label>
+                    <button class="time-btn3">Paid Leave</button>
+                </div>
+            </div>
 
-    <div class="table-content">
-        <div class="content-left">
-            <img src="/assets/images/background.jpg" alt="Description of Image" class="image-holder">
-        </div>
-        <div class="content-middle">
-            <h2 class="name">Mona Liza</h2>
-            <p class="position">Manager</p>
-        </div>
-        <div class="content-right">
-            <input type="checkbox" id="toggle3" class="toggle-checkbox">
-            <label for="toggle3" class="time-btn time-in">Time in</label>
-            <label for="toggle3" class="time-btn time-out">Time out</label>
-            <button class="time-btn3">Paid Leave</button>
-        </div>
-    </div>
+        </ng-container>
+    </ng-container>
 
-    <div class="table-content">
-        <div class="content-left">
-            <img src="/assets/images/background.jpg" alt="Description of Image" class="image-holder">
+    <div class="paginator">
+        <div class="label"> 
+            Showing {{ paginatorIndex + 1 }} - 
+            {{ (this.paginatorIndex + this.paginatorCount) > this.employees.length ? this.employees.length : this.paginatorIndex + this.paginatorCount }} 
+            of {{ employees.length }} 
         </div>
-        <div class="content-middle">
-            <h2 class="name">Mona Liza</h2>
-            <p class="position">Manager</p>
-        </div>
-        <div class="content-right">
-            <input type="checkbox" id="toggle4" class="toggle-checkbox">
-            <label for="toggle4" class="time-btn time-in">Time in</label>
-            <label for="toggle4" class="time-btn time-out">Time out</label>
-            <button class="time-btn3">Paid Leave</button>
-        </div>
+
+        <select (change)="changePaginator($event)" class="paginator-select">
+            <option value="5">   5 </option>
+            <option value="10"> 10 </option>
+            <option value="15"> 15 </option>
+        </select>
+
+        <button class="paginator-btn" (click)="first()">   << </button>
+        <button class="paginator-btn" (click)="previous()"> < </button>
+        <button class="paginator-btn" (click)="next()">     > </button>
+        <button class="paginator-btn" (click)="last()">    >> </button>
     </div>
 </div>

@@ -163,3 +163,27 @@
 .normal-font {
     font-weight: 500;
 }
+
+
+/* paginator buttons paedit na lang */
+.paginator {
+    float: right;
+    margin-right: 20px;
+    margin-bottom: 30px;
+}
+
+.paginator-select {
+    text-align: right;
+    width: 70px;
+    font-size: 20px;
+    padding: 5px;
+    margin: 5px;
+}
+
+.paginator-btn {
+    font-weight: bolder;
+    font-size: 20px;
+    padding: 5px;
+    width: 50px;
+    margin: 5px;
+}

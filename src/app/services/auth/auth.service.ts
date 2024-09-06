@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { PopupService } from '../popup/popup.service';
-import { HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { HeaderService } from '../header/header.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +14,12 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private pop: PopupService,
-    private router: Router
+    private router: Router,
+    private header: HeaderService
   ) { }
   
   private apiUrl = 'http://localhost:8000/api/';
   private userType = '';
-  private httpHeaders = new HttpHeaders({
-    Authorization:  `Bearer ${sessionStorage.getItem('auth-token') || ''}`
-  });
 
   public get getUserType() {
     return this.userType;
@@ -32,7 +30,7 @@ export class AuthService {
   }
 
   public requestUserType() {
-    return this.http.post(this.apiUrl + 'auth/user', {}, {headers: this.httpHeaders});
+    return this.http.post(this.apiUrl + 'auth/user', {}, {headers: this.header.authHeader});
   }
 
   public login(type: string, form: any) {

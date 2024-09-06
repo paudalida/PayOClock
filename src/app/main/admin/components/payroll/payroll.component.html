@@ -2,26 +2,43 @@
     <div class="content">
         <div class="input-row">
             <ng-container *ngFor="let employeeRecord of employees; let i = index">
-                <div class="card"> 
-                    <div class="card-header"> 
-                        <div class="card-image-holder">
-                            <img [src]="employeeRecord.image || '/assets/images/gm18.png'" alt="Image Holder">
+                <ng-container *ngIf="i >= paginatorIndex && i < paginatorIndex + paginatorCount">
+
+                    <div class="card"> 
+                        <div class="card-header"> 
+                            <div class="card-image-holder">
+                                <img [src]="employeeRecord.image || '/assets/images/gm18.png'" alt="Image Holder">
+                            </div>
+                        </div>
+                        <div class="card-content"> 
+                            <div class="name"> 
+                                {{employeeRecord.first_name}} {{employeeRecord.middle_name ? employeeRecord.middle_name[0] + '.' : ''}} {{employeeRecord.last_name}} {{employeeRecord.ext_name || ''}}
+                            </div>
+                            <div class="normal-font"> 
+                                {{ employeeRecord.position }}
+                            </div>
+                            <div class="buttons"> 
+                                <button class="btn-primary button" (click)="employee = employeeRecord; redirectToPayroll()"> Payroll </button>
+                                <button class="btn-primary button" (click)="employee = employeeRecord; redirectToPayslip()"> Payslip </button>
+                            </div>
                         </div>
                     </div>
-                    <div class="card-content"> 
-                        <div class="name"> 
-                            {{employeeRecord.first_name}} {{employeeRecord.middle_name ? employeeRecord.middle_name[0] + '.' : ''}} {{employeeRecord.last_name}} {{employeeRecord.ext_name || ''}}
-                        </div>
-                        <div class="normal-font"> 
-                            {{ employeeRecord.position }}
-                        </div>
-                        <div class="buttons"> 
-                            <button class="btn-primary button" (click)="employee = employeeRecord; redirectToPayroll()"> Payroll </button>
-                            <button class="btn-primary button" (click)="employee = employeeRecord; redirectToPayslip()"> Payslip </button>
-                        </div>
-                    </div>
-                </div>
+                    
+                </ng-container>
             </ng-container>
+        </div>
+
+        <div class="paginator">
+            <select (change)="changePaginator($event)" class="paginator-select">
+                <option value="5">   5 </option>
+                <option value="10"> 10 </option>
+                <option value="15"> 15 </option>
+            </select>
+    
+            <button class="paginator-btn" (click)="first()">   << </button>
+            <button class="paginator-btn" (click)="previous()"> < </button>
+            <button class="paginator-btn" (click)="next()">     > </button>
+            <button class="paginator-btn" (click)="last()">    >> </button>
         </div>
     </div>
 </main>
