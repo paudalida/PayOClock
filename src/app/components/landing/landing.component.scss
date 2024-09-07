@@ -155,8 +155,9 @@ body {
   }
 
   .left-content {
-    padding-top: 150px; 
+    // padding-top: 150px; 
     padding-left: 25px;
+    padding-right: 25px;
     max-width: 100%; 
 
     h1 {
@@ -222,6 +223,10 @@ body {
       padding-top: 150px; 
       padding-left: 25px;
       max-width: 50%;
+
+      h1 {
+        font-size: 3.5rem; 
+      }
     }
 
     .right-content {
@@ -232,15 +237,10 @@ body {
     }
   }
 
-  @media (max-width: 767px) {
+  @media (min-width: 1024px) {
     .left-content {
-      padding-top: 80px; 
-      padding-left: 15px;
-    }
-
-    .right-content {
-      .vector-image {
-        max-width: 90%; 
+      h1 {
+        font-size: 4.3rem; 
       }
     }
   }

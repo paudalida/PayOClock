@@ -1,7 +1,4 @@
-import { AfterViewChecked, AfterViewInit, Component, OnInit } from '@angular/core';
-import { DataService } from '../../../../services/data/data.service';
-import { PopupService } from '../../../../services/popup/popup.service';
-import { AdminService } from '../../../../services/admin/admin.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',

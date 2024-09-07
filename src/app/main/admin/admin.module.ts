@@ -19,6 +19,7 @@ import { AnnouncementsComponent } from './components/announcements/announcements
 import { AnnouncementFormComponent } from './components/dialogs/announcement-form/announcement-form.component';
 import { ReportComponent } from './components/report/report.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
+import { ViewDetailsComponent } from './components/employee/view-details/view-details.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { AttendanceComponent } from './components/attendance/attendance.componen
     /* Dialog imports */
     AnnouncementFormComponent,
     EmployeeFormComponent,
-    PayrollFormsComponent
+    PayrollFormsComponent,
+    ViewDetailsComponent
   ],
   imports: [
     AdminRoutingModule,

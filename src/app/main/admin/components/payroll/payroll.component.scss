@@ -1,189 +1,199 @@
-.content {
+main {
     justify-content: center;
     align-items: center;
     padding-left: 20px;
-    padding-right: 10px;
-    margin-left: 20px;
-    margin-right: 30px;
-}
-
-@media screen and (min-width: 1220px) {
-    content {
-        margin-top: 10px;
-        margin-left: 50px;
-        margin-right: 20px;
-    }
-}
-
-.input-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-
-    .card {
-        flex-basis: 23%;
-        position: relative;
-        margin: 2rem 0;
-        font-size: 12px;
-        color: var(--black);
-        background-color: var(--white);
-        border-radius: 10px;
-        width: 100%;
-        height: auto;
-        margin-top: 50px;
-        padding-bottom: 25px;
-        text-decoration: none;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    }
-
-    .card:hover {
-        box-shadow: 0px 8px 15px -10px rgb(125, 125, 125);
-        transform: translate(0px, -2px);
-        cursor: pointer;
-        text-decoration: none;
-    }
-    
-    .card-header {
-        font-size: 20px;
-        font-weight: 700;
-        padding-top: 15px;
-        background-image: url('/assets/images/bg1.jpg');
-        background-size: cover; 
-        background-position: center; 
-        color: var(--white);
-        height: 120px;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-        text-align: center;
-    }
-
-    .card-image-holder {
-        position: relative;
-        margin: 0 auto;
-        top: 40px;
-        width: 130px;
-        height: 130px;
-        border-radius: 50%;
-        overflow: hidden;
-        background-color: var(--white);
-        border: 3px solid var(--white);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-    }
-
-    .card-content {
-        padding-top: 60px;
-        text-align: center;
-    }
-
-    .name {
-        font-size: 20px;
-        font-weight: 700;
-        padding-top: 20px;
-        text-wrap-mode: wrap;
-    }
-
-    .normal-font {
-        font-size: 17px;
-        padding-top: 7px;
-    }
-
-   .button {
-        width: 115px;
-        height: 45px;
-        text-decoration: none;
-        text-transform: uppercase;
-        color: var(--white);
-        transition: .3s;
-        transform: translateY(-5px);
-        box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.322);
-        border-radius: 3px;
-        border: 1px;
-        padding: 10px;
-        font-weight: bold;
-        font-size: 14px;
-        font-family: "Poppins";
-        margin-top: 30px;
-        margin-right: 10px;
-        margin-left: 15px;
-        text-align: center;
-   }
-
-    @media (max-width: 1200px) {
-        .card {
-            flex-basis: 45%; 
-        }
-    }
-
-    @media (max-width: 768px) {
-        .card {
-            flex-basis: 100%; 
-        }
-    }
-
-    @media (max-width: 480px) {
-        .card {
-            margin-left: 10px;
-            margin-right: 10px;
-            height: auto; 
-        }
-        .card-header {
-            height: 100px;
-        }
-        .card-content {
-            padding-top: 50px;
-        }
-        .card-image-holder {
-            width: 80px;
-            height: 80px;
-            top: -30px;
-        }
-    }
+    padding-right: 5px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 
 
+// Table
 
-
-
-// .card-header, .card-content {
-//     padding: 10px 30px;
-//     font-weight: 700;
-// }
-
-
-.normal-font {
-    font-weight: 500;
-}
-
-
-/* paginator buttons paedit na lang */
-.paginator {
-    float: right;
-    margin-right: 20px;
+.table-content {
+    border-radius: 10px;
+    padding: 30px 45px;
+    margin-top: 25px;
+    margin-left: 25px;
+    margin-right: 15px;
+    background: var(--white);
+    width: auto;
+    height: auto;
     margin-bottom: 30px;
+    box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.322);
+    border: 0.5px solid var(--table-border);
 }
 
-.paginator-select {
-    text-align: right;
-    width: 70px;
-    font-size: 20px;
-    padding: 5px;
-    margin: 5px;
+.table-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px; 
+
 }
 
-.paginator-btn {
-    font-weight: bolder;
+.table-head h1 {
     font-size: 20px;
-    padding: 5px;
-    width: 50px;
-    margin: 5px;
+    font-weight: 700;
+    padding-left: 5px;
+    text-transform: uppercase;
 }
+
+.table-head input[type=text] {
+    padding-left: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-family: 'Poppins';
+    font-size: 14px;
+    font-weight: 400;
+    width: 250px;
+    height: 2em;
+    border: none;
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+}
+
+input:focus{
+    outline: none;
+}
+
+.table-head .search-container {
+    display: flex;
+    align-items: center;
+    border-radius: 7px;
+    height: 2.5em;
+    border: 1px solid var(--table-border);
+    background-color: var(--white);
+}
+
+.search-container button {
+    height: 2.5em;
+    width: 2.5em;
+    border: 1px solid var(--primary-color) ;
+    background: var(--primary-color);
+    color: var(--white);
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+    font-size: 16px;
+    cursor: default;
+}
+
+@media screen and (max-width: 600px) {
+    .table-head .search-container {
+    float: none;
+    }
+    .table-head a, .table-head input[type=text], .topnav .search-container button {
+    float: none;
+    display: block;
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    padding: 14px;
+    }
+    .table-head input[type=text] {
+    border: 1px solid #ccc;  
+    }
+}
+
+/* table */
+
+table {
+    border-radius: 5px;
+    border: 1px solid var(--table-border);
+}
+
+table,
+th,
+td {
+    padding: 20px;
+    font-family: 'Poppins';
+    font-size: 15px;
+    font-weight: 400;
+    text-align: center;
+    border-bottom: 1.5px solid var(--table-border);
+}
+
+
+
+th {
+    background-color: var(--primary-color) !important;
+    color: var(--white);
+    font-size: 15px;
+    letter-spacing: 0.8px;
+}
+
+table tr:hover{
+    background-color: #e9e9e9;
+}
+
+table td:nth-child(1) {
+    text-align: left;
+    padding-left: 35px;
+    min-width: 200px;
+    max-width: 200px;
+}
+
+table td:nth-child(2) {
+    min-width: 100px;
+    max-width: 100px;
+}
+
+table td:nth-child(3) {
+    min-width: 100px;
+    max-width: 100px;
+}
+
+table td:nth-child(4) {
+    min-width: 150px;
+    max-width: 150px;
+}
+
+table td:nth-child(5) {
+    min-width: 150px;
+    max-width: 150px;
+}
+
+.done {
+    text-transform: capitalize;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.not-yet-done {
+    text-transform: capitalize;
+    font-weight: 700;
+    color: var(--danger);
+}
+
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem; 
+  }
+  
+  .action-button {
+    padding: 1rem;
+    border-radius: 0.25rem;
+    color: var(--white);
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    text-transform: uppercase;
+  }
+  
+  .payroll-button {
+    background-color: var(--primary-color); 
+
+    &:hover {
+        background-color: var(--buttons-hover);
+    }
+  }
+  
+  .payslips-button {
+    background-color: var(--time-in-button); 
+
+    &:hover {
+        background-color: var(--time-in-button-hover);
+    }
+  }

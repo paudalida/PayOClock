@@ -195,6 +195,41 @@ table td:nth-child(4) {
 }
 
 table td:nth-child(5) {
+    padding-left: 55px;
     min-width: 150px;
     max-width: 150px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem; 
+}
+  
+  .action-button {
+    padding: 10px;
+    border-radius: 5px;
+    color: var(--white);
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    text-transform: uppercase;
+}
+  
+  .action-button i {
+    font-size: 24px; 
+}
+  
+  .view-button {
+    background-color:var(--time-in-button);
+    color: var(--white); 
+}
+  
+  .update-button {
+    background-color: var(--primary-color);
+    color: var(--white); 
+}
+  
+  .archive-button {
+    background-color: var(--absent);
+    color: var(--white); 
 }

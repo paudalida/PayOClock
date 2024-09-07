@@ -12,6 +12,7 @@ import { PopupService } from '../../../../services/popup/popup.service';
 import { AdminService } from '../../../../services/admin/admin.service';
 
 import { EmployeeFormComponent } from '../dialogs/employee-form/employee-form.component';
+import { ViewDetailsComponent } from './view-details/view-details.component';
 
 export interface Employee {
   id: string;
@@ -22,7 +23,7 @@ export interface Employee {
   employee_id: string;
   gender: number;
   position: string;
-  phone_number: string;
+  action: string;
 }
 
 @Component({
@@ -47,7 +48,7 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
     this.paginator = new MatPaginator(this.paginatorIntl, this.changeDetectorRef);
   }
 
-  displayedColumns: string[] = ['name', 'employee_id', 'gender', 'position', 'phone_number'];
+  displayedColumns: string[] = ['name', 'employee_id', 'gender', 'position', 'action'];
   dataSource: any;
 
   /* Employee getters */
@@ -121,29 +122,37 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
   }
 
   /* ACTIONS */
-  async showActions() {
-    const result = await this.pop.swalWith3Buttons('question', 'Select action', '', 'Update', 'Archive');
+  
+ // Method for handling the update action
+async showUpdateAction(employee: any) {
+  
+  this.openDialog('update');
+}
+  
 
-    switch(result) {
-      case 'confirmed':
-        this.openDialog('update');
-        break;
+// Method for handling the archive action
+async showArchiveAction(employee: any) {
+  const result = await this.pop.swalWith3Buttons('warning', 'Archive', 
+    'Are you sure you want to archive this employee?', 'Yes', 'No');
 
-      case 'denied':
-        const archive = await this.pop.swalWithCancel('warning', 'Archive', 'Are you sure you want to archive this employee?', 'Yes', 'No', false);
+  if (result === 'denied') {
+    const archive = await this.pop.swalWithCancel('warning', 'Archive', 
+      'Are you sure you want to archive this employee?', 'Yes', 'No', false);
 
-        if(archive) {
-          this.ds.request('DELETE', 'admin/employees/archive/' + this.employee.id, null).subscribe({
-            next: () => { 
-              this.pop.toastWithTimer('success', 'Employee archived successfully!');
-              this.dataSource.data = this.dataSource.data.filter((item: any) => item.id !== this.employee.id);
-            },
-            error: (err: any) => { this.pop.swalBasic('error', 'Error', err.error.message); }
-          });
+    if (archive) {
+      this.ds.request('DELETE', 'admin/employees/archive/' + employee.id, null).subscribe({
+        next: () => { 
+          this.pop.toastWithTimer('success', 'Employee archived successfully!');
+          this.dataSource.data = this.dataSource.data.filter((item: any) => item.id !== employee.id);
+        },
+        error: (err: any) => { 
+          this.pop.swalBasic('error', 'Error', err.error.message); 
         }
-        break;
+      });
     }
   }
+}
+
 
   openDialog(formType: string = 'add'): void {
     /* Header of modal */
@@ -176,5 +185,14 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
         this.setupTableFunctions();
       }
     });
+  }
+
+
+  viewDetails() {
+    if (this.dialog) {
+      this.dialog.open(ViewDetailsComponent);
+    } else {
+      console.error('Dialog is not initialized');
+    }
   }
 }

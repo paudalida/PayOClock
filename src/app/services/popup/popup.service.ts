@@ -129,8 +129,8 @@ export class PopupService {
   */
 
   async swalWith3Buttons(icon: SweetAlertIcon, title: string, text: string, 
-                        choice1: string, choice2: string, cancelText: string = 'Cancel', 
-                        reversed: boolean = true) {
+    choice1: string, choice2: string, cancelText: string = 'Cancel', 
+    reversed: boolean = true) {
     const result = await Swal.fire({
       title: title,
       text: text,
@@ -142,23 +142,24 @@ export class PopupService {
       cancelButtonText: cancelText,
       reverseButtons: reversed,
       customClass: {
-        confirmButton: 'btn-primary',
-        denyButton: 'btn-danger'
-      },
-      willOpen: () => {
-        document.body.style.overflowY = 'scroll';
-      },
-      willClose: () => {
-        document.body.style.overflowY = 'scroll';
-      },
-    });
+      confirmButton: 'btn-primary',
+      denyButton: 'btn-danger'
+    },
+    willOpen: () => {
+      document.body.style.overflowY = 'scroll';
+    },
+    willClose: () => {
+    document.body.style.overflowY = 'scroll';
+    },
+  });
 
-    if (result.isConfirmed) {
-      return 'confirmed';
-    } else if (result.isDenied) {
-      return 'denied';
-    } else {
-      return 'canceled';
-    }
+  if (result.isConfirmed) {
+    return 'confirmed';
+  } else if (result.isDenied) {
+    return 'denied';
+  } else {
+    return 'canceled';
+  }
   }
 }
+
