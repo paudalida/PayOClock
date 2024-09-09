@@ -1,6 +1,11 @@
 <div class="content">
     <div class="header">
         <h1> Payroll Management System </h1>
+
+        <div class="current-date-time">
+            <i class='bx bx-calendar'></i>
+            {{ currentDateTime }}
+        </div>
     </div>
     
     <div class="body-content">
@@ -44,10 +49,10 @@
                     <span class="tab-icon"> <i class='bx bx-clipboard'></i> </span>
                     <span class="tab-name">Attendance</span>
                 </a>
-                <!-- <a mat-list-item routerLink="reports" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+                <a mat-list-item routerLink="reports" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
                     <span class="tab-icon"> <i class='bx bxs-bookmarks'></i> </span>
                     <span class="tab-name">Reports</span>
-                </a> -->
+                </a>
             </mat-nav-list>
     
             <div class="logoutbtn">

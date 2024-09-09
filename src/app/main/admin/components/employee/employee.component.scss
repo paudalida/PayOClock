@@ -81,10 +81,10 @@
 }
 
 .table-head h1 {
-    font-size: 20px;
+    color: var(--landing-font);
+    font-size: 1.5rem;
     font-weight: 700;
     padding-left: 5px;
-    text-transform: uppercase;
 }
 
 .table-head input[type=text] {

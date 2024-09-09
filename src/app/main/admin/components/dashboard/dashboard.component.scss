@@ -77,42 +77,51 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
-    h1 {
-        color: var(--landing-font);
-        font-size: 1.5rem;
-        margin-bottom: 20px;
-    }
-
-    .legend {
+    .header-content {
         display: flex;
-        gap: 15px;
-        margin-bottom: 30px;
+        align-items: center; 
+        justify-content: space-between; 
+        margin-bottom: 30px; 
+        
+        h1 {
+            color: var(--landing-font);
+            font-size: 1.5rem;
+            margin: 0; 
+        }
 
-        .legend-item {
+        .legend {
             display: flex;
-            align-items: center;
-
-            .square {
-                width: 20px;
-                height: 20px;
-                margin-right: 5px;
-                &.green {
-                    background-color: var(--time-in-button);
-                }
-                &.yellow {
-                    background-color: var(--late);
-                }
-                &.red {
-                    background-color: var(--absent);
-                }
-            }
+            gap: 15px; 
+            align-items: center; 
             
-            span {
-                font-size: 14px;
-                color: #333;
+            .legend-item {
+                display: flex;
+                align-items: center;
+
+                .square {
+                    width: 20px;
+                    height: 20px;
+                    margin-right: 5px;
+
+                    &.green {
+                        background-color: var(--time-in-button); 
+                    }
+                    &.yellow {
+                        background-color: var(--late); 
+                    }
+                    &.red {
+                        background-color: var(--absent); 
+                    }
+                }
+
+                span {
+                    font-size: 14px;
+                    color: #333; 
+                }
             }
         }
     }
+
     .table {
         table {
             width: 100%;

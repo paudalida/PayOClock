@@ -17,6 +17,7 @@ export class AdminComponent implements OnInit {
   ) { }
 
   isLoading = true;
+  currentDateTime: string = '';
 
   ngOnInit(): void {
     this.ds.request('GET', 'admin/employees').subscribe({
@@ -34,5 +35,32 @@ export class AdminComponent implements OnInit {
         this.isLoading = false;
       }
     });    
+
+    this.updateDateTime();
+    setInterval(() => {
+      this.updateDateTime();
+    }, 1000);
+  }
+
+  updateDateTime(): void {
+    const now = new Date();
+    
+    const dateOptions: Intl.DateTimeFormatOptions = {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric'
+    };
+    
+    const timeOptions: Intl.DateTimeFormatOptions = {
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: true
+    };
+  
+    const datePart = now.toLocaleDateString('en-US', dateOptions);
+    const timePart = now.toLocaleTimeString('en-US', timeOptions);
+  
+    this.currentDateTime = `${datePart}, ${timePart}`;
   }
 }

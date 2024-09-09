@@ -20,6 +20,7 @@ import { AnnouncementFormComponent } from './components/dialogs/announcement-for
 import { ReportComponent } from './components/report/report.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { ViewDetailsComponent } from './components/employee/view-details/view-details.component';
+import { ViewProofComponent } from './components/attendance/view-proof/view-proof.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { ViewDetailsComponent } from './components/employee/view-details/view-de
     AnnouncementFormComponent,
     EmployeeFormComponent,
     PayrollFormsComponent,
-    ViewDetailsComponent
+    ViewDetailsComponent,
+    ViewProofComponent
   ],
   imports: [
     AdminRoutingModule,
