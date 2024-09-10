@@ -33,33 +33,54 @@ export class AuthService {
     return this.http.post(this.apiUrl + 'auth/user', {}, {headers: this.header.authHeader});
   }
 
-  public login(type: string, form: any) {
-    this.http.post(this.apiUrl + 'auth/login/' + type, form).subscribe({
+  public login(type: string, form: any): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.http.post(this.apiUrl + 'auth/login/' + type, form).subscribe({
+        next: (res: any) => {
+          // Store session data
+          sessionStorage.setItem('name', res.data.name);
+          sessionStorage.setItem('position', res.data.position);
+          sessionStorage.setItem('auth-token', res.data.token);
+          this.userType = type;
+  
+          // Show success toast
+          this.pop.toastWithTimer('success', res.message);
+          this.router.navigate([type]);
+  
+          // Resolve true on success
+          resolve(true);
+        },
+        error: (err: any) => {
+          // Handle error responses
+          switch (err.error.message) {
+            case 'Failed to fetch':
+              this.pop.swalBasic('error', 'Login Error', 'Could not contact server, please try again later');
+              break;
+            case 'Invalid credentials':
+              this.pop.swalBasic('error', 'Login Error', 'Invalid username or password');
+              break;
+            default:
+              this.pop.swalBasic('error', this.pop.genericErrorTitle, this.pop.genericErrorMessage);
+              break;
+          }
+  
+          // Resolve false on failure
+          resolve(false);
+        }
+      });
+    });
+  }
+  
+  public logout() {
+    this.http.post(this.apiUrl + 'auth/logout', null).subscribe({
       next: (res: any) => {
-        // Store session data
-        sessionStorage.setItem('name', res.data.name);
-        sessionStorage.setItem('position', res.data.position);
-        sessionStorage.setItem('auth-token', res.data.token);
-        this.userType = type;
-
-        // Show success toast
+        sessionStorage.clear();
         this.pop.toastWithTimer('success', res.message);
-        this.router.navigate([type]);
+        this.router.navigate(['./login/' + this.userType]);
       },
       error: (err: any) => {
-        // Handle error responses
-        switch (err.error.message) {
-          case 'Failed to fetch':
-            this.pop.swalBasic('error', 'Login Error', 'Could not contact server, please try again later');
-            break;
-          case 'Invalid credentials':
-            this.pop.swalBasic('error', 'Login Error', 'Invalid username or password');
-            break;
-          default:
-            this.pop.swalBasic('error', this.pop.genericErrorTitle, this.pop.genericErrorMessage);
-            break;
-        }
+        this.pop.toastWithTimer('success', err.error.message);
       }
-    });
-  }  
+    })
+  }
 }

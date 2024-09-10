@@ -21,7 +21,7 @@ export class AnnouncementsComponent implements OnInit{
 
   isLoading = true;
   paginatorIndex = 1;
-  paginatorCount = 3;
+  paginatorCount = 5;
   posts: any = [{
     image: '',
     title: '',
@@ -29,7 +29,7 @@ export class AnnouncementsComponent implements OnInit{
   }];
 
   ngOnInit() {
-    this.ds.request('GET', 'admin/announcements').subscribe({
+    this.ds.request('GET', 'view/announcements').subscribe({
       next: (res: any) => { this.posts = res.data; },
       error: () => { 
         this.pop.swalBasic(
@@ -82,7 +82,7 @@ export class AnnouncementsComponent implements OnInit{
   changePaginator(event: Event) {
     const count = (event.target as HTMLSelectElement).value;
     this.paginatorCount = Number(count);
-    this.paginatorIndex = 0;
+    this.paginatorIndex = 1;
   }
 
   first() {

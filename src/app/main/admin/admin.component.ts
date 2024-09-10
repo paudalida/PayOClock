@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { DataService } from "../../services/data/data.service";
 import { AdminService } from "../../services/admin/admin.service";
 import { PopupService } from "../../services/popup/popup.service";
+import { AuthService } from "../../services/auth/auth.service";
 
 @Component({
   selector: 'app-admin',
@@ -13,6 +14,7 @@ export class AdminComponent implements OnInit {
   constructor (
     private ds: DataService,
     private as: AdminService,
+    private auth: AuthService,
     private pop: PopupService
   ) { }
 
@@ -22,6 +24,12 @@ export class AdminComponent implements OnInit {
   ngOnInit(): void {
     this.ds.request('GET', 'admin/employees').subscribe({
       next: (res: any) => {
+        res.data.forEach((element: any) => {
+          element.full_name = element.first_name + ' ';
+          if(element.middle_name) element.full_name += element.middle_name[0].toUpperCase() + '. ';
+          element.full_name += element.last_name;
+          if(element.ext_name) element.full_name += ' ' + element.ext_name;
+        });
         this.as.setEmployees(res.data);
       },
       error: () => {
@@ -62,5 +70,9 @@ export class AdminComponent implements OnInit {
     const timePart = now.toLocaleTimeString('en-US', timeOptions);
   
     this.currentDateTime = `${datePart}, ${timePart}`;
+  }
+
+  logout() {
+    this.as
   }
 }

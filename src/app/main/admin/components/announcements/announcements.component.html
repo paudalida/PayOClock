@@ -1,5 +1,5 @@
-<div class="main-content" *ngIf="isLoading">
-    <mat-spinner></mat-spinner>
+<div class="spinner" *ngIf="isLoading">
+    <app-spinner></app-spinner>
 </div>
 
 <div class="main-content" *ngIf="!isLoading">
@@ -15,6 +15,7 @@
             </div>
             <div class="content-right">
                 <h2 class="title"> {{ posts[0].title }} </h2>
+                <p class="author"> By {{ posts[0].author }} </p>
                 <pre class="description"> {{ posts[0].content }} </pre>
             </div>
             <div class="button-container">
@@ -39,6 +40,7 @@
                 </div>
                 <div class="content-right">
                     <h2 class="title"> {{ post.title }} </h2>
+                    <p class="author"> By {{ post.author }} </p>
                     <pre class="description">{{ post.content }}</pre>
                 </div>
                 <div class="button-container">

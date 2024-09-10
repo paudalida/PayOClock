@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../../../../services/admin/admin.service';
 import { Router } from '@angular/router';
 import { DataService } from '../../../../../services/data/data.service';
+import { PopupService } from '../../../../../services/popup/popup.service';
 
 @Component({
   selector: 'app-payslip-history',
@@ -13,73 +14,86 @@ export class PayslipHistoryComponent implements OnInit{
   constructor(
     private as: AdminService,
     private ds: DataService,
+    private pop: PopupService,
     private router: Router
   ) { }
 
   payslips: any = [];
   activeTable = 0; hasActive = true;
 
+  isLoading = true;
+  payslipDetails: any = [];
+
   ngOnInit(): void {
-    
-    if(!this.employee.id) this.router.navigate(['admin/payrolls']);
+    if(!this.employee.id) { this.router.navigate(['/admin/payrolls']); } // return to payrolls if employee data is not set (browser refreshed)
 
-    this.ds.request('GET', 'admin/transactions/history/user/' + this.employee.id).subscribe({
+    this.ds.request('GET', 'admin/payslips/history/user/' + this.employee.id).subscribe({
       next: (res: any) => {
-        res.data.forEach((element: any) => {
-          const data = {
-            payday: element.payday,
-            type: element.type,
-            amount: element.amount
-          };
+        res.data.forEach((element: any) => {      
+          let values = [];
 
-          // Find the index of the entry with the same payday
-          const index = this.payslips.findIndex((item: any) => item.payday === data.payday);
+          this.payslipDetails.push({
+            payday           : element.payday,
+            base_pay         : element.base_pay,
+            adjusted_pay     : element.adjusted_pay,
+            total_additions  : element.total_additions,
+            total_deductions : element.total_deductions,
+            gross_pay        : element.gross_pay,
+            net_pay          : element.net_pay
+          });
 
-          if (index === -1) { // does not exist
+          let lastIndex = 0;
+          let attAddition = element.payslip['attendance addition'] || [];
+          let attDeduction = element.payslip['attendance deduction'] || [];
+          
+          let longest = attAddition.types.length + attDeduction.types.length + 1; /* Include basic salary field */
+          if(longest < element.payslip.allowance.types.length) longest = element.payslip.allowance.types.length;
+          if(longest < element.payslip.deduction.types.length) longest = element.payslip.deduction.types.length;
 
-            if(element.transaction_type == 'addition') {
-              if(data.type == 'hourly wage') this.payslips.push({payday: data.payday, hourlyWage: data.amount, totalAllowance: 0, totalDeductions: 0, allowances: [], deductions: []});
-            } 
-            else if(element.transaction_type == 'allowance') {
-              this.payslips.push({payday: data.payday, hourlyWage: 0, totalAllowance: 0, totalDeductions: 0, allowances: [data], deductions: []});
-              this.payslips[this.payslips.length - 1].totalAllowance += data.amount;
-            } 
-            else if(element.transaction_type == 'deduction' || element.transaction_type == 'other deduction') {
-              this.payslips.push({payday: data.payday, hourlyWage: 0, totalAllowance: 0, totalDeductions: 0, allowances : [], deductions: [data]});
-              this.payslips[this.payslips.length - 1].totalDeductions += data.amount;
+          for(let i = 0; i < longest; i ++) {
+            let col1 = '';
+            let col2 = '';
+            let col3 = '';
+            let col4 = element.payslip.allowance.types[i]   || '';
+            let col5 = '';
+            let col6 = element.payslip.allowance.amounts[i] || '';
+            let col7 = element.payslip.deduction.types[i]   || '';
+            let col8 = element.payslip.deduction.amounts[i] || '';
+
+            if(i == 0) {
+
+              col1 = 'Base Pay';
+              col3 = String(element.base_pay);
+
+            } else if(i > 0) {
+
+              if(i < attAddition.types.length+1) {
+                col1 = attAddition.types[i-1];
+                col3 = attAddition.amounts[i-1];
+              } else if(i < attAddition.types.length+1 + attDeduction.types.length) {
+                col1 = attDeduction.types[i - attAddition.types.length-1];
+                col3 = attDeduction.amounts[i - attAddition.types.length-1];
+              }
+
             }
-          } else { // exists
 
-            switch(element.transaction_type) {
-              case 'addition':
-                if(data.type == 'hourly wage') this.payslips[index].hourlyWage = data.amount;
-                break;
+            if(element.payslip.allowance.sub_types[i])
+              col4 += ' ' + element.payslip.allowance.sub_types[i];
 
-              case 'allowance':
-                this.payslips[index].allowances.push(data);
-                this.payslips[index].totalAllowance += data.amount;
-                break;
-
-              case 'deduction':
-                // Find the index of the existing deduction type
-                const deductionIndex = this.payslips[index].deductions.findIndex((ded: any) => ded.type === data.type);
-                
-                if (deductionIndex === -1) { this.payslips[index].deductions.push(data); } 
-                else { this.payslips[index].deductions[deductionIndex].amount += data.amount; }
-                
-                this.payslips[index].totalDeductions += data.amount; 
-                break;
-
-              case 'other deduction':
-                this.payslips[index].deductions.push(data);
-                this.payslips[index].totalDeductions += data.amount; 
-                break;
-            }
+            if(element.payslip.deduction.sub_types[i])
+              col7 += ' ' + element.payslip.deduction.sub_types[i];
+            
+            values.push([col1, col2, col3, col4, col5, col6, col7, col8]);
           }
+          
+          this.payslips.push(values);
         });
       },
-      error: () => {
-
+      error: (err: any) => {
+        this.pop.swalBasic('error', 'Oops!', 'Cannot fetch payslips at the moment. Please try again later')
+      },
+      complete: () => {
+        this.isLoading = false;
       }
     });
   }

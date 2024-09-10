@@ -5,6 +5,7 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { DataService } from '../../../../services/data/data.service';
+import { AdminService } from '../../../../services/admin/admin.service';
 import { PopupService } from '../../../../services/popup/popup.service';
 import { ViewProofComponent } from './view-proof/view-proof.component';
 
@@ -26,17 +27,24 @@ export interface AttendanceRecord {
 })
 export class AttendanceComponent implements OnInit {
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
     private dialog: MatDialog,
     private paginatorIntl: MatPaginatorIntl,
     private changeDetectorRef: ChangeDetectorRef,
     private ds: DataService,
-    private pop: PopupService,
+    private as: AdminService,
+    private pop: PopupService
+  ) { }
 
-  ) {
-    this.paginator = new MatPaginator(this.paginatorIntl, this.changeDetectorRef);
+  paginatorIndex = 0;
+  paginatorCount = 5;
+  attendance: any = null;
+  clockedIn: any = [];
+
+  get employees() {
+    return this.as.getEmployees();
   }
 
   displayedColumns: string[] = ['name', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'proof'];
@@ -44,35 +52,47 @@ export class AttendanceComponent implements OnInit {
  
 
   ngOnInit(): void {
-    this.dataSource = [
-      {
-        name: 'John Doe Doe Doe',
-        monday: 'present',
-        tuesday: 'late',
-        wednesday: 'absent',
-        thursday: 'present',
-        friday: 'present',
-        saturday: 'late'
-      },
-      {
-        name: 'John Doe',
-        monday: 'present',
-        tuesday: 'present',
-        wednesday: 'absent',
-        thursday: 'present',
-        friday: 'present',
-        saturday: 'present'
-      },
-      {
-        name: 'John Doe',
-        monday: 'present',
-        tuesday: 'late',
-        wednesday: 'absent',
-        thursday: 'present',
-        friday: 'present',
-        saturday: 'late'
+    this.ds.request('GET', 'admin/attendance/today').subscribe((res:any) => {
+      this.attendance = res.data;
+      if(this.attendance) {
+        this.attendance.forEach((element: any) => {
+          if(!(element.leave_type || element.time_out))
+            this.clockedIn.push(element.user_id);
+        });
       }
-    ];
+    })
+  }
+
+  timeBtnClick(action: string, id: string) {
+    this.ds.request('POST', `admin/attendance/${action}/user/${id}`).subscribe({
+      next: (res: any) => {
+        this.pop.toastWithTimer('success', res.message);
+        if(action == 'time-in') {
+          this.clockedIn.push(id);
+        } else if(action == 'time-out') {
+          this.clockedIn.splice(this.clockedIn.indexOf(id), 1)
+        }
+      },
+      error: (err: any) => {
+        this.pop.toastWithTimer('error', 'err.error.message');
+      }
+    });
+  }
+
+  /* Paginator functions */
+  changePaginator(event: Event) {
+    const count = (event.target as HTMLSelectElement).value;
+    this.paginatorCount = Number(count);
+    this.paginatorIndex = 0;
+  }
+
+  first() {
+    this.paginatorIndex = 0;
+  }
+
+  next() {
+    if((this.paginatorIndex + this.paginatorCount) < this.employees.length)
+      this.paginatorIndex += this.paginatorCount;
   }
 
   getStatusClass(status: string): string {
