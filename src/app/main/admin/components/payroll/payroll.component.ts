@@ -8,11 +8,15 @@ import { MatSort } from '@angular/material/sort';
 import { DataService } from '../../../../services/data/data.service';
 import { AdminService } from '../../../../services/admin/admin.service';
 
-export interface PeriodicElement {
-  name: string;
+export interface Employee {
   id: string;
+  first_name: string;
+  middle_name: string;
+  last_name: string;
+  ext_name: string;
+  employee_id: string;
+  gender: number;
   position: string;
-  status: string;
   action: string;
 }
 
@@ -21,14 +25,12 @@ export interface PeriodicElement {
   templateUrl: './payroll.component.html',
   styleUrls: ['./payroll.component.scss']
 })
-export class PayrollComponent implements OnInit, AfterViewInit {
+export class PayrollComponent implements OnInit {
   displayedColumns: string[] = ['name', 'id', 'position', 'status', 'action'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  dataSource = new MatTableDataSource<Employee>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;  
-
-  employeeRecord: any;
 
   constructor(
     private as: AdminService,
@@ -43,15 +45,12 @@ export class PayrollComponent implements OnInit, AfterViewInit {
   action: any;
   ds: any;
 
-  set employee(data: any) {
+  setEmployee(data: any) {
     this.as.setEmployee(data);
   }
   
-  ngOnInit(): void {
-    this.employees = this.as.getEmployees();
-  }
-
-  ngAfterViewInit(): void {
+  ngOnInit(): void {    
+    this.dataSource.data = this.as.getEmployees();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -64,15 +63,3 @@ export class PayrollComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/admin/payrolls/payslip']);
   }
 }
-
-// Sample data
-const ELEMENT_DATA: PeriodicElement[] = [
-  { name: 'John Doe', id: 'E001', position: 'Manager', status: 'done', action: ' ' },
-  { name: 'Jane Smith', id: 'E002', position: 'Developer', status: 'done',  action: ' ' },
-  { name: 'Jane Smith', id: 'E003', position: 'Driver', status: 'not yet done',  action: ' ' },
-  { name: 'Jane Smith', id: 'E004', position: 'Manager', status: 'done',  action: ' ' },
-  { name: 'Jane Smith', id: 'E005', position: 'Admin', status: 'not yet done',  action: ' ' },
-  { name: 'Jane Smith', id: 'E006', position: 'Employee', status: 'done',  action: ' ' },
-  { name: 'Jane Smith', id: 'E007', position: 'Driver', status: 'not yet done',  action: ' ' },
-  { name: 'Jane Smith', id: 'E008', position: 'Developer', status: 'not yet done',  action: ' ' },
-];

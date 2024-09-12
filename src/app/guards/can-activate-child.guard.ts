@@ -19,14 +19,18 @@ export const canActivateChildGuard: CanActivateChildFn = async (childRoute, stat
         await router.navigate(['/not-found']);
         return false;
       }
-    } catch (error) {
+    } catch (err: any) {
+      if(err) {
+        if(err.error.message.toLowerCase().includes('unauthenticated')) { await router.navigate(['/not-found']); }
+      }
+      
       return false;
     }
   } else {
     console.log('UserType found:', userType);
   }
 
-  // After resolving userType, check URL match
+  /* After resolving userType, check URL match */
   if (state.url.includes(userType)) {
     return true;
   } else {

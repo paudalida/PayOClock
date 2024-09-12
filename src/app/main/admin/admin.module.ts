@@ -20,6 +20,7 @@ import { AnnouncementFormComponent } from './components/dialogs/announcement-for
 import { ReportComponent } from './components/report/report.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { ViewDetailsComponent } from './components/employee/view-details/view-details.component';
+import { SpinnerComponent } from '../materials/spinner/spinner.component';
 import { ViewProofComponent } from './components/attendance/view-proof/view-proof.component';
 import { AttendanceDetailPopupComponent } from './components/attendance/attendance-detail-popup/attendance-detail-popup.component';
 import { AttendanceHistoryComponent } from './components/attendance/attendance-history/attendance-history.component';
@@ -35,6 +36,7 @@ import { AttendanceHistoryComponent } from './components/attendance/attendance-h
     PayrollComponent,
     AnnouncementsComponent,
     ReportComponent,
+    SpinnerComponent,
 
     /* Dialog imports */
     AnnouncementFormComponent,

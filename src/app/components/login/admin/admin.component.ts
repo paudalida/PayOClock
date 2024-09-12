@@ -23,9 +23,11 @@ export class AdminComponent {
 
   isLoading = false;
   
-  submitLogin() {
+  async submitLogin() {
     this.isLoading = true;
 
-    this.as.login('admin', this.loginForm.value);
+    const success = await this.as.login('admin', this.loginForm.value);
+
+    this.isLoading = false;
   }
 }
