@@ -21,6 +21,8 @@ import { ReportComponent } from './components/report/report.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { ViewDetailsComponent } from './components/employee/view-details/view-details.component';
 import { ViewProofComponent } from './components/attendance/view-proof/view-proof.component';
+import { AttendanceDetailPopupComponent } from './components/attendance/attendance-detail-popup/attendance-detail-popup.component';
+import { AttendanceHistoryComponent } from './components/attendance/attendance-history/attendance-history.component';
 
 @NgModule({
   declarations: [
@@ -39,14 +41,16 @@ import { ViewProofComponent } from './components/attendance/view-proof/view-proo
     EmployeeFormComponent,
     PayrollFormsComponent,
     ViewDetailsComponent,
-    ViewProofComponent
+    ViewProofComponent,
+    AttendanceDetailPopupComponent,
+    AttendanceHistoryComponent
   ],
   imports: [
     AdminRoutingModule,
     CommonImportsModule,
     FormsImportsModule,
     MatSidenavModule, 
-    MatListModule
+    MatListModule, 
   ]
 })
 export class AdminMainModule { }

@@ -63,6 +63,10 @@
         &.red {
             background-color: var(--absent);
         }
+        &.blue {
+            background-color: var(--primary-color);
+        }
+
     }
 
     span {
@@ -113,6 +117,14 @@
 
     td.status-absent {
         background-color: var(--absent);
+    }
+
+    td.status-leave {
+        background-color: var(--primary-color); 
+    }
+    
+    td.status-paid-leave {
+        background-color: var(--primary-color);  
     }
 
     .proof-btn {

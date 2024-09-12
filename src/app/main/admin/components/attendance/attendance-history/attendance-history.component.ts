@@ -4,14 +4,14 @@ import { Router } from '@angular/router';
 
 
 @Component({
-  selector: 'app-view-proof',
-  templateUrl: './view-proof.component.html',
-  styleUrl: './view-proof.component.scss'
+  selector: 'app-attendance-history',
+  templateUrl: './attendance-history.component.html',
+  styleUrls: ['./attendance-history.component.scss']
 })
-export class ViewProofComponent {
+export class AttendanceHistoryComponent {
 
   constructor(
-    private dialogRef: MatDialogRef<ViewProofComponent>, 
+    private dialogRef: MatDialogRef<AttendanceHistoryComponent>, 
     private router: Router
   ) {}
 
@@ -19,5 +19,4 @@ export class ViewProofComponent {
     this.dialogRef.close(); 
     this.router.navigate(['/admin/attendance']);
   }
-
 }

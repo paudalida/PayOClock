@@ -1,13 +1,9 @@
-import { Component, ElementRef, OnInit, ViewChild, ChangeDetectorRef, AfterViewInit } from '@angular/core';
-
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-
-import { DataService } from '../../../../services/data/data.service';
-import { PopupService } from '../../../../services/popup/popup.service';
+import { AttendanceDetailPopupComponent } from './attendance-detail-popup/attendance-detail-popup.component';
 import { ViewProofComponent } from './view-proof/view-proof.component';
-
+import { AttendanceHistoryComponent } from './attendance-history/attendance-history.component';
 
 export interface AttendanceRecord {
   name: string;
@@ -17,6 +13,7 @@ export interface AttendanceRecord {
   thursday: string;
   friday: string;
   saturday: string;
+  [key: string]: string;
 }
 
 @Component({
@@ -28,63 +25,123 @@ export class AttendanceComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  displayedColumns: string[] = ['name', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'proof'];
+  dataSource: AttendanceRecord[] = [];
+
   constructor(
     private dialog: MatDialog,
     private paginatorIntl: MatPaginatorIntl,
     private changeDetectorRef: ChangeDetectorRef,
-    private ds: DataService,
-    private pop: PopupService,
-
   ) {
     this.paginator = new MatPaginator(this.paginatorIntl, this.changeDetectorRef);
   }
-
-  displayedColumns: string[] = ['name', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'proof'];
-  dataSource: AttendanceRecord[] = [];
- 
 
   ngOnInit(): void {
     this.dataSource = [
       {
         name: 'John Doe Doe Doe',
-        monday: 'present',
-        tuesday: 'late',
-        wednesday: 'absent',
-        thursday: 'present',
-        friday: 'present',
-        saturday: 'late'
+        monday: '',
+        tuesday: '',
+        wednesday: '',
+        thursday: '',
+        friday: '',
+        saturday: ''
       },
       {
         name: 'John Doe',
-        monday: 'present',
-        tuesday: 'present',
-        wednesday: 'absent',
-        thursday: 'present',
-        friday: 'present',
-        saturday: 'present'
+        monday: '',
+        tuesday: '',
+        wednesday: '',
+        thursday: '',
+        friday: '',
+        saturday: ''
       },
       {
-        name: 'John Doe',
-        monday: 'present',
-        tuesday: 'late',
-        wednesday: 'absent',
-        thursday: 'present',
-        friday: 'present',
-        saturday: 'late'
-      }
+        name: 'Byeon Woo Seok',
+        monday: '',
+        tuesday: '',
+        wednesday: '',
+        thursday: '',
+        friday: '',
+        saturday: ''
+      }, 
     ];
   }
 
   getStatusClass(status: string): string {
     switch (status) {
-      case 'present':
-        return 'status-present';
-      case 'late':
-        return 'status-late';
-      case 'absent':
-        return 'status-absent';
-      default:
-        return '';
+        case 'present':
+            return 'status-present';
+        case 'late':
+            return 'status-late';
+        case 'absent':
+            return 'status-absent';
+        case 'leave':
+            return 'status-leave';
+        case 'paid-leave':
+            return 'status-paid-leave';
+        default:
+            return 'status-default'; 
+    }
+  }
+
+  updateAttendanceStatus(day: string, status: string, name: string): void {
+    const index = this.dataSource.findIndex(employee => employee.name === name);
+    if (index === -1) return;
+  
+    const dayKey = day.toLowerCase() as keyof AttendanceRecord;
+    this.dataSource[index][dayKey] = status;
+  
+    this.changeDetectorRef.detectChanges();
+  }
+
+  openAttendanceDetail(day: string, status: string, name: string): void {
+    const dialogRef = this.dialog.open(AttendanceDetailPopupComponent, {
+      data: { day, status, name }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const index = this.dataSource.findIndex(employee => employee.name === name);
+        if (index === -1) return;
+  
+        const currentTime = new Date();
+        const eightAM = new Date();
+        eightAM.setHours(8, 0, 0);
+        const sixPM = new Date();
+        sixPM.setHours(18, 0, 0);
+  
+        const dayKey = day.toLowerCase() as keyof AttendanceRecord;
+  
+        if (result.timeIn) {
+          const timeIn = new Date();
+          timeIn.setHours(result.manualHour || 0, result.manualMinute || 0, 0);
+          
+          if (timeIn <= eightAM) {
+            this.dataSource[index][dayKey] = 'present';
+          } else if (timeIn > eightAM && timeIn < sixPM) {
+            this.dataSource[index][dayKey] = 'late';
+          } else if (timeIn >= sixPM) {
+            this.dataSource[index][dayKey] = 'absent';
+          }
+        } else if (result.leave) {
+          this.dataSource[index][dayKey] = 'leave';
+        } else if (result.paidLeave) {
+          this.dataSource[index][dayKey] = 'paid-leave';
+        } else if (!result.timeIn && currentTime >= sixPM) {
+          this.dataSource[index][dayKey] = 'absent';
+        }
+  
+        this.changeDetectorRef.detectChanges();
+      }
+    });
+  }
+
+  openAttendanceHistory() {
+    if (this.dialog) {
+      this.dialog.open(AttendanceHistoryComponent);
+    } else {
+      console.error('Dialog is not initialized');
     }
   }
 

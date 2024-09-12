@@ -1,40 +1,49 @@
 <main>
-    <div class="main-container">
+  <div class="main-container">
       <form class="form-info">
-        <div class="header">
-          <h1>Employee's Personal Information</h1>
-          <button type="button" class="close-button" (click)="closePopup('employee')">X</button>
-        </div>
+          <div class="header">
+            <h1>Employee's Personal Information</h1>
+            <button type="button" class="close-button" (click)="closePopup()">
+              <i class='bx bx-x'></i>
+            </button>
+          </div>
+
         <div class="detailsbody">
           <div class="employee-container">
-            <div class="employee-image">
-              <img src="employee-photo.jpg" alt="Employee Photo">
-            </div>
-            <div class="employee-details">
-              <div class="detail-item">
-                <label>Full Name:</label>
-                <p>John Doe</p>
+              <div class="employee-image">
+                <img src="employee-photo.jpg" alt="Employee Photo">
               </div>
-              <div class="detail-item">
-                <label>ID Number:</label>
-                <p>123456</p>
+
+              <div class="employee-details">
+                <div class="detail-item">
+                  <label>Full Name:</label>
+                  <p>John Doe</p>
+                </div>
+
+                <div class="detail-item">
+                  <label>ID Number:</label>
+                  <p>123456</p>
+                </div>
+
+                <div class="detail-item">
+                  <label>Gender:</label>
+                  <p>Male</p>
+                </div>
+
+                <div class="detail-item">
+                  <label>Contact Number:</label>
+                  <p>+1 234 567 890</p>
+                </div>
+
+                <div class="detail-item">
+                  <label>Position:</label>
+                  <p>Software Engineer</p>
+                </div>
+
               </div>
-              <div class="detail-item">
-                <label>Gender:</label>
-                <p>Male</p>
-              </div>
-              <div class="detail-item">
-                <label>Contact Number:</label>
-                <p>+1 234 567 890</p>
-              </div>
-              <div class="detail-item">
-                <label>Position:</label>
-                <p>Software Engineer</p>
-              </div>
-            </div>
           </div>
         </div>
-      </form>
-    </div>
-  </main>
+    </form>
+  </div>
+</main>
   

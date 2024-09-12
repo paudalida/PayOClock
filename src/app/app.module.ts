@@ -20,9 +20,9 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 
 /* Landing Page imports */ 
-
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
+
 
 @NgModule({
   declarations: [
@@ -44,7 +44,7 @@ import { MatIconModule } from '@angular/material/icon';
 
     /* Landing imports */ 
     MatToolbarModule,
-    MatIconModule,
+    MatIconModule
   ],
   providers: [
     provideClientHydration(),

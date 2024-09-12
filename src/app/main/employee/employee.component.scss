@@ -17,19 +17,34 @@
     background-color: var(--header-color);
     height: 60px;
     width: 100%;
-    margin-top: -10px;
-    padding-left: 20px;
-    padding-bottom: 10px;
+    padding: 5px 20px; 
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
     z-index: 5;
 }
 
 h1 {
-    margin-left: 245px;
-    margin-top: 24px;
+    margin-left: 15.5rem; 
     text-transform: uppercase;
     font-size: 22px;
     font-weight: 700;
+    flex: 1; 
+}
 
+.current-date-time {
+    display: flex;
+    align-items: center;
+    font-size: 17px;
+    font-weight: 500;
+    margin-right: 4vw; 
+    color: var(--cancel);
+}
+
+.current-date-time i {
+    margin-right: 8px; 
+    font-size: 20px; 
+    color: var(--cancel);
 }
 
 // SIDEBAR CONTENT 
@@ -45,13 +60,22 @@ h1 {
     transition: all 0.3s ease;
 
     .logo img {
-        height: 213px;
-        width: 213px;
+        height: 200px;
+        width: 200px;
         display: flex;
         justify-content: center;
         margin-top: 25px;
         margin-left: 5px;
         
+    }
+
+    .burger-icon {
+        font-size: 24px; 
+        color: var(--white);
+        margin-left: auto; 
+        cursor: pointer;
+        display: flex;
+        flex-direction: row-reverse;
     }
 
     mat-sidenav {
@@ -70,22 +94,21 @@ h1 {
 
         a {
             display: flex;
-            font-weight: 500;
-            font-size: 16px;
             padding: 10px 10px 10px 10px;
             text-decoration: none;
 
             .tab-name {
                 margin-top: 3px;
+                font-size: 17px;
                 padding-left: 10px;
                 padding-top: 2px;
                 color: var(--white);
             }
 
             .tab-icon {
-                font-size: 20px;
+                font-size: 18px;
                 padding-left: 10px;
-                margin-top: 3px;
+                margin-top: 30px;
                 color: var(--white);
             }
         }
@@ -96,7 +119,6 @@ h1 {
 
             .tab-icon, .tab-name {
                 color: var(--white); 
-                font-weight: 700;
             }
         }
 

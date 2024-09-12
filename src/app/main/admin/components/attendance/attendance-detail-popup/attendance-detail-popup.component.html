@@ -1,0 +1,77 @@
+<main>
+  <div class="main-container">
+    <div class="attendance-detail">
+      <div class="header">
+        <h1>{{ selectedDay }}</h1>
+        <button type="button" class="close-button" (click)="closePopup()">
+          <i class='bx bx-x'></i>
+        </button>
+      </div>
+
+      <div class="popup-content">
+        <div class="time-row">
+          <p><strong>Time In:</strong> {{ timeIn | date: 'MMMM dd, yyyy, h:mm a' }}</p>
+          <p><strong>Time Out:</strong> {{ timeOut | date: 'MMMM dd, yyyy, h:mm a' }}</p>
+        </div>        
+
+        <div class="button-row">
+          <div class="action-dropdown">
+            <button class="action-btn" (click)="toggleDropdown()">Action</button>
+            <div class="dropdown-content" *ngIf="dropdownOpen">
+              <button (click)="selectAction('manual')">Manual</button>
+              <button (click)="selectAction('button')">Button</button>
+              <button (click)="selectAction('leave')">Leave</button>
+            </div>
+          </div>
+          <div class="action-display">
+            <ng-container [ngSwitch]="selectedAction">
+              <div *ngSwitchCase="'manual'" class="manual-action">
+                <div *ngIf="!timeInEntered" class="time-input">
+                  <select [(ngModel)]="manualHour">
+                    <option *ngFor="let hour of hours" [value]="hour">{{ hour }}</option>
+                  </select>
+                  <select [(ngModel)]="manualMinute">
+                    <option *ngFor="let minute of minutes" [value]="minute">{{ minute }}</option>
+                  </select>
+                  <select [(ngModel)]="manualAmPm">
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                  </select>
+                  <button class="time-btn time-in" (click)="applyManualTime()">Time In</button>
+                </div>
+                <div *ngIf="timeInEntered" class="time-input">
+                  <select [(ngModel)]="manualOutHour">
+                    <option *ngFor="let hour of hours" [value]="hour">{{ hour }}</option>
+                  </select>
+                  <select [(ngModel)]="manualOutMinute">
+                    <option *ngFor="let minute of minutes" [value]="minute">{{ minute }}</option>
+                  </select>
+                  <select [(ngModel)]="manualOutAmPm">
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                  </select>
+                  <button class="time-btn time-out" (click)="applyManualOutTime()">Time Out</button>
+                </div>
+              </div>
+              <div *ngSwitchCase="'button'" class="button-action">
+                <button class="time-btn" [ngClass]="timeInActive ? 'time-out' : 'time-in'" (click)="toggleTimeInOut()">
+                  {{ timeInActive ? 'Time Out' : 'Time In' }}
+                </button>
+              </div>
+              <div *ngSwitchCase="'leave'" class="leave-action">
+                <select [(ngModel)]="selectedLeaveType" class="leave-select">
+                  <option value="Paid Leave">Paid Leave</option>
+                  <option value="Sick Leave">Sick Leave</option>
+                  <option value="Vacation Leave">Vacation Leave</option>
+                  <option value="Maternal Leave">Maternal Leave</option>
+                  <option value="Bereavement Leave">Bereavement Leave</option>
+                </select>
+                <button class="leave-btn" (click)="applyLeave()">Leave</button>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
