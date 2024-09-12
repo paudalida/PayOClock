@@ -5,6 +5,7 @@ import { catchError, map } from 'rxjs/operators';
 import { PopupService } from '../popup/popup.service';
 import { Router } from '@angular/router';
 import { HeaderService } from '../header/header.service';
+import { EmployeeService } from '../employee/employee.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class AuthService {
     private http: HttpClient,
     private pop: PopupService,
     private router: Router,
+    private es: EmployeeService,
     private header: HeaderService
   ) { }
   
@@ -29,8 +31,19 @@ export class AuthService {
     this.userType = data;
   }
 
-  public requestUserType() {
-    return this.http.post(this.apiUrl + 'auth/user', {}, {headers: this.header.authHeader});
+  public requestUserDetails() {
+    return new Promise((resolve, reject) => {
+      return this.http.post(this.apiUrl + 'auth/user', {}, {headers: this.header.authHeader}).subscribe({
+        next: (res: any) => {
+          this.userType = res.data.type;
+          this.es.setEmployee(res.data.details);
+          resolve(true);
+        },
+        error: (err: any) => {
+          resolve(false);
+        }
+      });
+    });
   }
 
   public login(type: string, form: any): Promise<boolean> {
@@ -41,6 +54,7 @@ export class AuthService {
           sessionStorage.setItem('name', res.data.name);
           sessionStorage.setItem('position', res.data.position);
           sessionStorage.setItem('auth-token', res.data.token);
+          this.es.setEmployee(res.data.user);
           this.userType = type;
   
           // Show success toast
@@ -72,14 +86,14 @@ export class AuthService {
   }
   
   public logout() {
-    this.http.post(this.apiUrl + 'auth/logout', null).subscribe({
+    this.http.post(this.apiUrl + 'auth/logout', null, { headers: this.header.authHeader }).subscribe({
       next: (res: any) => {
+        this.router.navigate(['../login/' + this.userType]);
         sessionStorage.clear();
         this.pop.toastWithTimer('success', res.message);
-        this.router.navigate(['./login/' + this.userType]);
       },
       error: (err: any) => {
-        this.pop.toastWithTimer('success', err.error.message);
+        this.pop.toastWithTimer('error', err.error.message);
       }
     })
   }

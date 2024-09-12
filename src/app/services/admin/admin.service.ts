@@ -21,7 +21,8 @@ export class AdminService {
     position: null,
     phone_number: null,
     image: null,
-    hourly_rate: null
+    hourly_rate: null,
+    completed_payday: null
   };
 
   public setEmployees(data: any[]) {

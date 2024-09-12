@@ -28,9 +28,23 @@ export class PayrollFormsComponent implements OnInit{
   hourlyRate: number = 0; netPay: number = 0; totalDeductions: number = 0;
   isLoading = false; changedValues = false;
   savedValue: any;
+  basePay = 0;
 
   ngOnInit(): void {
     this.form = this.fb.group({
+      base_pay: this.fb.array([
+        this.fb.group({
+          formKey: [''],
+          operation_type: ['base_pay', [Validators.required, Validators.maxLength(20)]],
+          id: [''],
+          user_id: [''],
+          category: ['base_pay'],
+          type: ['base pay'],
+          sub_type: [, [Validators.maxLength(30)]],
+          amount: ['', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]],
+          payday: ['', [dateValidator()]]
+        })
+      ]),
       deduction: this.fb.array([]),
       other_deduction: this.fb.array([]),
       allowance: this.fb.array([]),
@@ -40,39 +54,36 @@ export class PayrollFormsComponent implements OnInit{
     this.employee = this.as.getEmployee();
 
     if(!this.employee.id) { this.router.navigate(['/admin/payrolls']); } // return to payrolls if employee data is not set (browser refreshed)
-    this.initializePeriodicalTransactions();
+    // this.initializePeriodicalTransactions();
     this.hourlyRate = this.employee.hourly_rate;
 
     this.ds.request('GET', 'admin/transactions/latest/user/' + this.employee.id).subscribe({
       next: (res: any) => { 
         res.data.forEach((element: any) => {
-          let transaction_type = element.transaction_type.replace(' ', '_');
           let index = 0;
 
-          if(transaction_type == 'deduction') {
-            switch(element.type) {
-              case 'SSS':
-                if(element.sub_type == 'EE Share') index = 0;
-                else if(element.sub_type == 'ER Share') index = 1;
-                break;
+          // if(element.category == 'deduction') {
+          //   this.updateFormsArray(element.id, element.category, index, element.type, element.sub_type, element.amount, element.payday);
+          //   this.savedValue = this.form.value;
+          // } else {
+          if(element.category == 'base_pay'){
+            this.form.get('base_pay').at(0).patchValue({
+              formKey: 'update',
+              operation_type: element.operation_type,
+              id: element.id,
+              user_id: this.employee.id,
+              type: element.type,
+              sub_type: element.sub_type,
+              amount: element.amount,
+              payday: element.payday
+            });
 
-              case 'PHIC':
-                if(element.sub_type == 'EE Share') index = 2;
-                else if(element.sub_type == 'ER Share') index = 3;
-                break;
-
-              case 'HDMF':
-                if(element.sub_type == 'EE Share') index = 4;
-                else if(element.sub_type == 'ER Share') index = 5;
-                else if(element.sub_type == 'Salary') index = 6;
-                else if(element.sub_type == 'Calamity') index = 7;
-                break;
-            }
-            this.updateFormsArray(element.id, transaction_type, index, element.type, element.sub_type, element.amount, element.payday);
-            this.savedValue = this.form.value;
-          } else {
-            this.addToFormsArray(transaction_type, 'update', element.type, element.sub_type, element.id, element.amount, element.payday);
+            this.basePay = element.amount;
           }
+
+          if(element.category == 'deduction' || element.category == 'allowance' || element.category == 'other_deduction')
+            this.addToFormsArray(element.category, 'update', element.operation_type, element.type, element.sub_type, element.id, element.amount, element.payday);
+          // }
         });
       },
       error: () => { this.pop.toastWithTimer('error', 'Error fetching employee transactions'); }
@@ -87,8 +98,14 @@ export class PayrollFormsComponent implements OnInit{
       else this.changedValues = false;
 
       this.formsArray('deduction').value.forEach((element: any) => {
-        if(element.amount)
-        this.totalDeductions += parseInt(element.amount as string);
+        if(element.amount) {
+          if(element.operation_type == 'deduction') {
+            this.totalDeductions += parseInt(element.amount as string);
+          } else if(element.operation_type == 'percentage deduction') {
+            this.totalDeductions += (parseInt(element.amount as string) * (parseInt(this.formsArray('base_pay').at(0).get('amount')?.value as string) * .01));
+            console.log(parseInt(element.amount as string) * (parseInt(this.formsArray('base_pay').at(0).get('amount')?.value as string) * .01));
+          }
+        }
       });
 
       this.formsArray('other_deduction').value.forEach((element: any) => {
@@ -104,48 +121,48 @@ export class PayrollFormsComponent implements OnInit{
     });
   }
 
-  formsArray(type: string) {
-      return this.form.get(type) as FormArray;
+  changeBasePay(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    let inputValue = inputElement.value;
+  
+    // Allow only numbers and a single period
+    const validInput = inputValue.match(/^\d*\.?\d*$/);
+  
+    // if (!validInput) {
+    //   inputValue = inputValue.slice(0, -1);
+    //   inputElement.value = inputValue;
+    // }
+    
+    this.form.get('base_pay').at(0).patchValue({
+      amount: inputValue
+    });
   }
 
-  initializePeriodicalTransactions() {
-    ['SSS', 'PHIC', 'HDMF'].forEach(type => {
-      ['EE Share', 'ER Share'].forEach(subtype => {        
-        this.addToFormsArray('deduction', 'add', type, subtype);
-      });
-
-      if(type == 'HDMF') {
-        ['Salary', 'Calamity'].forEach(subtype => {
-          this.addToFormsArray('deduction', 'add', type, subtype);
-        });
-      }
-    });
+  formsArray(type: string) {
+      return this.form.get(type) as FormArray;
   }
 
   addToFormsArray(
     formType: string,
     formKey: string, 
+    operation_type: string,
     type?: string, 
     sub_type?: string, 
     id?: number, 
     amount?: number,
-    payday: string = '2024-08-31'
+    payday: string = '2024-09-15',
   ) {
     const formArray = this.formsArray(formType);
     formArray.push(this.fb.group({
-      'formKey': [formKey],
-      'id': [id],
-      'user_id': [this.employee.id],
-      'type': [type, [Validators.required, Validators.maxLength(30)]],
-      'sub_type': [sub_type, [Validators.maxLength(30)]],
-      'amount': [amount, [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]],
-      'payday': [payday, [dateValidator()]]
-      })
-    );
-
-    if(formType == 'deduction') {
-      formArray.at(formArray.length - 1).get('type')?.disable();
-    }
+      formKey: [formKey],
+      operation_type: [operation_type, [Validators.required, Validators.maxLength(20)]],
+      id: [id],
+      user_id: [this.employee.id],
+      type: [type, [Validators.required, Validators.maxLength(30)]],
+      sub_type: [sub_type, [Validators.maxLength(30)]],
+      amount: [amount, [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]],
+      payday: [payday, [dateValidator()]]
+    }));    
   }
 
   updateFormsArray(
@@ -155,16 +172,18 @@ export class PayrollFormsComponent implements OnInit{
     type?: string, 
     sub_type?: string, 
     amount?: number,
-    payday: string = '2024-08-30'
+    payday: string = '2024-08-30',
+    operation_type?: string,
   ) {
     this.formsArray(formType).get(String(index))?.patchValue({
-      'id': id,
-      'formKey': 'update',
-      'type': type,
-      'sub_type': sub_type,
-      'amount': amount,
-      'payday': payday
-    });
+      id: id,
+      formKey: 'update',
+      type: type,
+      sub_type: sub_type,
+      amount: amount,
+      payday: payday,
+      operation_type: operation_type
+    });    
   }
 
   async removeFromFormsArray(type: string, index: number) {
@@ -193,6 +212,7 @@ export class PayrollFormsComponent implements OnInit{
 
   }
 
+  /* Error catching */
   invalidInputLabel(controlName: string) {
     const control = this.form.get(controlName);
     return control ? control.invalid && (control.dirty || control.touched) : false;
@@ -220,6 +240,7 @@ export class PayrollFormsComponent implements OnInit{
     }
   }
 
+  /* Submissions */
   async submit() {
     this.pop.swalWithCancel('question', 'Confirm Submission?', 'Are you sure you want to save these records?')
       .then(isConfirmed => {
@@ -229,19 +250,11 @@ export class PayrollFormsComponent implements OnInit{
 
   submitToServer(){
     this.isLoading = true;
-    const formArray = this.formsArray('deduction');
-    // for(let i = 4; i <= 8; i++) {
-    //   formArray.get(''+i)?.patchValue({
-    //     amount: 100
-    //   })
-    // }
-
-    for(let i = 0; i < formArray.length; i++) {
-      formArray.at(i).get('type')?.enable();
-    }
+    console.log(this.formsArray('base_pay').at(0).get('amount')?.errors);
+    console.log(this.formsArray('base_pay'))
 
     if(this.form.valid) {
-      this.ds.request('POST', 'admin/transactions/process', { form: this.form.value }).subscribe({
+      this.ds.request('POST', 'admin/transactions/process/user/' + this.employee.id, { form: this.form.value }).subscribe({
         next: (res: any) => {
           this.isLoading = false;
           this.pop.toastWithTimer('success', res.message, 5);
@@ -249,14 +262,12 @@ export class PayrollFormsComponent implements OnInit{
         error: (err: any) => {
           this.isLoading = false;
           this.pop.swalBasic('error', 'Submission error!', err.error.message);
-        },
-        complete: () => {
-          for(let i = 0; i < formArray.length; i++) {
-            formArray.at(i).get('type')?.enable();
-          }
         }
       });
+    } else {
+      this.pop.swalBasic('error', 'Invalid Form', 'Oops! It looks like you are sending an invalid form. Please fix inputs first');
     }
+    this.isLoading = false;
   }
 
   async backRoute() {

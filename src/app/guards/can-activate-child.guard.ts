@@ -11,30 +11,29 @@ export const canActivateChildGuard: CanActivateChildFn = async (childRoute, stat
 
   if (!userType) {
     try {
-      const res: any = await lastValueFrom(authService.requestUserType());
+      const res: any = await authService.requestUserDetails();
 
-      userType = res?.data;
-
-      if (!userType) {
-        await router.navigate(['/not-found']);
+      console.log(res)
+      if(res){
+        userType = authService.getUserType;
+      } else {
+        await router.navigate(['./landing']);
         return false;
       }
     } catch (err: any) {
       if(err) {
-        if(err.error.message.toLowerCase().includes('unauthenticated')) { await router.navigate(['/not-found']); }
+        if(err.error.message.toLowerCase().includes('unauthenticated')) { await router.navigate(['./landing']); }
       }
       
       return false;
     }
-  } else {
-    console.log('UserType found:', userType);
   }
 
   /* After resolving userType, check URL match */
   if (state.url.includes(userType)) {
     return true;
   } else {
-    await router.navigate(['/not-found']);
+    await router.navigate(['./landing']);
     return false;
   }
 };

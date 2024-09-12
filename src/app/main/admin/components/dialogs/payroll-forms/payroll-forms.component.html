@@ -2,10 +2,8 @@
     <div class="header"> 
         <h1> Employee Payroll </h1>
             <div class="input-row"> 
-                <button class="btn-primary save-payroll" type="button" (click)="submit()" 
-                    [ngClass]="{ 'btn-loading-primary': isLoading, 'btn-primary': !isLoading && changedValues, 'btn-invalid': !isLoading && !changedValues}"> 
-                        {{ isLoading ? 'Saving' : 'Save' }} <mat-spinner *ngIf="isLoading" class="spinner" diameter="23" color="accent"></mat-spinner>
-                </button>
+                <button class="btn-primary save-payroll" type="button" (click)="submit()"> Save as Completed </button>
+                <button class="btn-primary save-payroll" type="button" (click)="submit()"> Save as Unfinished </button>
                 <button class="btn-secondary back" type="button" (click)="backRoute()"> Back </button>
             </div>    
     </div>
@@ -28,7 +26,7 @@
 
                 <div class="entryarea">
                     <div class="detail-value">
-                        {{employee.first_name}} {{employee.middle_name || ''}} {{employee.last_name}} {{employee.ext_name || ''}}
+                        {{ employee.full_name }}
                     </div>
                     <div class="labelline"> Full name </div>
                 </div>
@@ -60,9 +58,11 @@
                 </div>
 
                 <div class="entryarea1">
-                    <input type="text" name="amount" [value]="hourlyRate * 8 * 15">
+                    <!-- Access the 'amount' form control at index 0 in 'base_pay' FormArray -->
+                    <input type="text" [value]="basePay" (keyup)="changeBasePay($event)">
                     <div class="labelline1"> AMT </div>
                 </div>
+                  
             </div>
         </div>
     </div>
@@ -87,7 +87,7 @@
                     <div class="input-row1">
                         <div class="entryarea2">
                             <input type="text" name="received"
-                            value="{{employee.first_name}} {{employee.middle_name || ''}} {{employee.last_name}} {{employee.ext_name || ''}}">
+                            value="{{employee.full_name}}">
                             <div class="labelline2"> Received by </div>
                         </div>
                     </div>
@@ -103,132 +103,35 @@
                             Deduction
                         </div>
 
-                        <!-- 1ST ROW SSS -->
-                        <div class="input-row1"> 
-                            <div class="entryarea3">
-                            <form [formGroupName]="0">
-                                <input formControlName="type" value="SSS">
-                                <!-- <select formControlName="type"> 
-                                    <option value="PHIC"> PHIC </option>
-                                    <option value="SSS"> SSS </option>
-                                </select> -->
-                                <div class="labelline3"> Type </div>
-                            </form>
-                            </div>
+                        <div *ngFor="let control of formsArray('deduction').controls; let i = index">
+                            <form [formGroupName]="i">
+                                <div class="input-row1"> 
+                                    <div class="entryarea4">
+                                        <input type="text" formControlName="type">
+                                        <div class="labelline4"> Type </div>
+                                    </div>
 
-                            <div class="entryarea3">
-                            <form [formGroupName]="0">
-                                <input formControlName="sub_type" value="EE Share" hidden>
-                                <input type="text" formControlName="amount"
-                                 (keyup)="updateInvalidInput($event, 'deduction', '0', 'amount')">
-                                <div class="labelline3"> EE Share </div>
-                            </form>
-                            </div>
+                                    <div class="entryarea4">
+                                        <input type="text" formControlName="sub_type">
+                                        <div class="labelline4"> Sub Type </div>
+                                    </div>
 
-                            <div class="entryarea3">
-                            <form [formGroupName]="1">
-                                <input formControlName="type" [value]="formsArray('deduction').get('0')?.get('type')?.value" hidden>
-                                <input formControlName="sub_type" value="ER Share" hidden>
-                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, 'deduction', '1', 'amount')">
-                                    <div class="labelline3"> ER Share </div>
-                            </form>
-                            </div>
-                        </div>
-
-                        <!-- 2ND ROW PHIC -->
-                        <div class="input-row1"> 
-                            <div class="entryarea3">
-                            <form [formGroupName]="2">
-                                <input formControlName="type" value="PHIC">
-                                    <!-- <select formControlName="type"> 
-                                        <option value="SSS"> SSS </option>
-                                        <option value="PHIC"> PHIC </option>
-                                    </select> -->
-                                    <div class="labelline3"> Type </div>
-                            </form>
-                            </div>
-
-                            <div class="entryarea3">
-                            <form [formGroupName]="2" tanggalin> 
-                                <input formControlName="sub_type" value="EE Share" hidden>
-                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, 'deduction', '2', 'amount')">
-                                    <div class="labelline3"> EE Share </div>
-                            </form>
-                            </div>
-
-                            <div class="entryarea3">
-                            <form [formGroupName]="3">
-                                <input formControlName="type" [value]="formsArray('deduction').get('2')?.get('type')?.value" hidden>
-                                <input formControlName="sub_type" value="ER Share" hidden>
-
-                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, 'deduction', '3', 'amount')">
-                                    <div class="labelline3"> ER Share </div>
-                            </form>
-                            </div>
-                        </div>
-
-                        <!-- 3RD ROW HDMF -->
-                        <div class="input-row1"> 
-                            <div class="entryarea4">
-                            <form [formGroupName]="4">
-                                <input formControlName="type" value="HDMF">
-                                <!-- <select formControlName="type"> 
-                                    <option value="SSS"> SSS </option>
-                                    <option value="PHIC" > PHIC </option>
-                                    <option value="HDMF"> HDMF </option>
-                                </select> -->
-                                <div class="labelline4"> Type </div>
+                                    <div class="entryarea4">
+                                        <select formControlName="operation_type">
+                                            <option value="deduction"> - </option>
+                                            <option value="percentage deduction"> % </option>
+                                        </select>
+                                        <div class="labelline4"> Operation </div>
+                                    </div>
+            
+                                    <div class="entryarea4">
+                                        <input type="text" formControlName="amount">
+                                        <div class="labelline4"> Amount </div>
+                                    </div>
+                                </div>
                             </form>
                         </div>
 
-                        <div class="entryarea4">
-                            <form [formGroupName]="4" tanggalin>
-                                <input formControlName="sub_type" value="EE Share" hidden>
-                                <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, 'deduction', '4', 'amount')">
-                                <div class="labelline4"> EE Share </div>
-                            </form>
-                        </div>
-
-                        <div class="entryarea4">
-                            <form [formGroupName]="5">
-                                <input formControlName="type" [value]="formsArray('deduction').get('4')?.get('type')?.value" hidden>
-                                <input formControlName="sub_type" value="ER Share" hidden>
-
-                                <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, 'deduction', '5', 'amount')">
-                                <div class="labelline4"> ER Share </div>
-                            </form>
-                        </div>
-
-                        <div class="entryarea4">
-                            <form [formGroupName]="6">
-                                <input formControlName="type" [value]="formsArray('deduction').get('4')?.get('type')?.value" hidden>
-                                <input formControlName="sub_type" value="Salary" hidden>
-
-                                <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, 'deduction', '6', 'amount')">
-                                <div class="labelline4"> Salary </div>
-                            </form>
-                        </div>
-
-                        <div class="entryarea4">
-                            <form [formGroupName]="7">
-                                <input formControlName="type" [value]="formsArray('deduction').get('4')?.get('type')?.value" hidden>
-                                <input formControlName="sub_type" value="Calamity" hidden>
-
-                                <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, 'deduction', '7', 'amount')">
-                                <div class="labelline4"> Calamity </div>
-                            </form>
-                        </div>
-                        
-                        <!-- <div class="entryarea4">
-                            <form [formGroupName]="8">
-                                <input formControlName="type" [value]="formsArray('deduction').get('4')?.get('type')?.value" hidden>
-                                <input formControlName="sub_type" value="Salary" hidden>
-
-                                    <input type="text" formControlName="amount" (keyup)="updateInvalidInput($event, 'deduction', '8', 'amount')">
-                                    <div class="labelline4"> Salary </div>
-                            </form>
-                        </div> -->
-                        </div>
                     </div>
                 </div>
             <!-- </form> -->
@@ -239,7 +142,7 @@
                     <div class="container-others">
                         <div class="container-head"> 
                             Other Deductions 
-                            <button class="add-other" type="button" (click)="addToFormsArray('other_deduction', 'add')"> Add </button>
+                            <button class="add-other" type="button" (click)="addToFormsArray('other_deduction', 'add', 'deduction')"> Add </button>
                         </div>
 
                         <form formArrayName="other_deduction">
@@ -269,7 +172,7 @@
                     <div class="container-allowance">
                         <div class="container-head"> 
                             Allowance  
-                            <button class="add-allowance" type="button" (click)="addToFormsArray('allowance', 'add')"> Add </button>
+                            <button class="add-allowance" type="button" (click)="addToFormsArray('allowance', 'add', 'addition')"> Add </button>
                         </div>
 
                         <div class="inputs-container">

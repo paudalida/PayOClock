@@ -25,9 +25,9 @@ export interface Employee {
   templateUrl: './payroll.component.html',
   styleUrls: ['./payroll.component.scss']
 })
-export class PayrollComponent implements OnInit {
+export class PayrollComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['name', 'id', 'position', 'status', 'action'];
-  dataSource = new MatTableDataSource<Employee>();
+  dataSource: any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;  
@@ -50,9 +50,24 @@ export class PayrollComponent implements OnInit {
   }
   
   ngOnInit(): void {    
-    this.dataSource.data = this.as.getEmployees();
+    this.dataSource = new MatTableDataSource<Employee>(this.as.getEmployees());
+  }
+
+  ngAfterViewInit(): void {    
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  laterThanNow(date: string) {
+    if(!date) return false;
+    const inputDate = new Date(date);
+        
+    // Get the current date and zero out the time (for comparison)
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0); // Reset time to midnight for accuracy
+
+    // Compare the input date with the current date
+    return inputDate > currentDate;
   }
 
   redirectToPayroll() {

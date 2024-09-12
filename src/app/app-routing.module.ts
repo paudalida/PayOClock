@@ -34,8 +34,8 @@ const routes: Routes = [
       loadChildren: ()=>import('./main/employee/employee.module').then((m)=>m.EmployeeMainModule)
     }]
   },
-  { path: 'not-found', component: NotFoundComponent },
-  { path: '**', redirectTo: 'not-found' }
+  // { path: 'not-found', component: NotFoundComponent },
+  // { path: '**', redirectTo: 'not-found' }
 ];
 
 @NgModule({
