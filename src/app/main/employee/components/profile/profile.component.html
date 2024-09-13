@@ -1,129 +1,78 @@
 <div class="container">
-    <div class="profile">
-        <div class="blue">
-            <img src="assets/images/gm18.png" style="width: 230px; height: 230px;"
-            >
+    <!-- Profile Card Section -->
+    <div class="profile-card">
+        <div class="blue-header">
+            <img src="assets/images/bg1.jpg" alt="Profile Picture" class="profile-picture">
         </div>
-        <div class="content">
-           <div class="context">
-            <div class="instructor">
-                <h4>Eunice Protasio</h4>
-                <h6>Driving Instructor</h6>
+        <div class="card-content">
+            <h4>Albert S. Block The III</h4>
+            <h6>Employee</h6>
+
+            <div class="contentcontainer">
+                <ul class="content">
+                    <li>ID Number:</li>
+                    <li>Gender:</li>
+                    <li>Contact Number:</li>
+                </ul>
+
+                <ul class="content1">
+                    <li>1717</li>
+                    <li>Male</li>
+                    <li>09982315478</li>
+                </ul>
             </div>
-            
-            <div class="contact-info">
-                <div class="number">
-                    <p>09999999</p>
-                </div>
-                <div class="email">
-                    <p>eunicegmail.com</p>
-                </div>
-            </div>
-
-            <div class="demographics">
-                <h3>Demographics</h3>
-
-                <div class="demo-content">
-                    <ul class="left-content">
-                        <li>Employee ID</li>
-                        <li>Date of Hire</li>
-                        <li>Work Schedule</li>
-                        <li>Department</li>
-                        <li>Manager</li>
-                    </ul>
-
-                    <ul class="right-content">
-                        <li>0001</li>
-                        <li>09/04/20</li>
-                        <li>20</li>
-                        <li>course</li>
-                        <li>Maester</li>
-                    </ul>
-                </div>
-
-                <div class="edit-content">
-                    <button type="button" (click)="openDialog()"> Edit </button>
-                </div>
-
-            </div>
-
-           </div>
         </div>
     </div>
 
+    <!-- Personal Information Form Section -->
+    <div class="form-section">
+        <h3>Personal Information</h3>
+        <form class="personal-info-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="firstName">First name</label>
+                    <input type="text" id="firstName" value="Albert">
+                </div>
+                <div class="form-group">
+                    <label for="middleName">Middle name</label>
+                    <input type="text" id="middleName" value="S">
+                </div>
+            </div>
 
-    <div class="payslip">
-        <div class="main-content">
-            <div class="header"> 
-                <h1> Payslip </h1>
-            </div>
-        
-            <div class="table-content">
-                <div class="table-head">
-        
-                    <div class="input-row">
-                        <div class="information-case">
-                            <th> EMPLOYEE NAME: </th>  
-                            <td></td>
-                        </div>
-            
-                        <div class="information-case">
-                            <th> PAYROLL PERIOD: </th> 
-                            <td> August </td>  
-                        </div>
-                    </div>
-        
-                    <div class="input-row">
-                        <div class="information-case">
-                            <th> ID NUMBER: </th>  
-                            <td>  </td>
-                        </div>
-        
-                        <div class="information-case">
-                            <th> RATE: </th>  
-                            <td> ewan </td> 
-                        </div>
-                    </div>
-        
-                    <div class="input-row">
-                        <div class="information-case">
-                            <th> POSITION: </th> 
-                            <td>  </td> 
-                        </div>
-                    </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="lastName">Last name</label>
+                    <input type="text" id="lastName" value="Block The">
                 </div>
-        
-                <div class="table-content1">
-        
-                    <table>
-                        <tr class="table-header">
-                            <th> Earnings </th>
-                            <th> </th>
-                            <th> Amount </th>
-                            <th> Earnings </th>
-                            <th> </th>
-                            <th> Amount </th>
-                            <th> Deductions </th>
-                            <th> Amount </th>
-                        </tr>
-        
-                        <tr>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                        </tr>
-                    </table>
+                <div class="form-group">
+                    <label for="extName">Ext name</label>
+                    <input type="text" id="extName" value="III">
                 </div>
-        
-        
-        
             </div>
-        </div>
-        
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <input type="text" id="gender" value="Male" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="contactNumber">Contact Number</label>
+                    <input type="text" id="contactNumber" value="09982315478">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password">
+                </div>
+                <div class="form-group">
+                    <label for="uploadImage">Upload Image</label>
+                    <input type="file" id="uploadImage">
+                </div>
+            </div>
+
+            <button type="button" class="edit-btn">Edit</button>
+        </form>
     </div>
 </div>
