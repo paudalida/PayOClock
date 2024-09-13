@@ -63,6 +63,48 @@ export class AttendanceComponent implements OnInit {
     })
   }
 
+  // ngOnInit(): void {
+  //   this.dataSource = [
+  //     {
+  //       name: 'John Doe Doe Doe',
+  //       monday: 'present',
+  //       tuesday: 'late',
+  //       wednesday: 'absent',
+  //       thursday: 'present',
+  //       friday: 'present',
+  //       saturday: 'late'
+  //     },
+  //     {
+  //       name: 'John Doe Doe Doe',
+  //       monday: 'present',
+  //       tuesday: 'late',
+  //       wednesday: 'absent',
+  //       thursday: 'present',
+  //       friday: 'present',
+  //       saturday: 'late'
+  //     },
+  //     {
+  //       name: 'John Doe Doe Doe',
+  //       monday: 'present',
+  //       tuesday: 'late',
+  //       wednesday: 'absent',
+  //       thursday: 'present',
+  //       friday: 'present',
+  //       saturday: 'late'
+  //     },
+  //     {
+  //       name: 'John Doe Doe Doe',
+  //       monday: 'present',
+  //       tuesday: 'late',
+  //       wednesday: 'absent',
+  //       thursday: 'present',
+  //       friday: 'present',
+  //       saturday: 'late'
+  //     },
+  //   ];
+  // }
+
+
   timeBtnClick(action: string, id: string) {
     this.ds.request('POST', `admin/attendance/${action}/user/${id}`).subscribe({
       next: (res: any) => {

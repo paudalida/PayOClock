@@ -24,6 +24,7 @@ import { SpinnerComponent } from '../materials/spinner/spinner.component';
 import { ViewProofComponent } from './components/attendance/view-proof/view-proof.component';
 import { AttendanceDetailPopupComponent } from './components/attendance/attendance-detail-popup/attendance-detail-popup.component';
 import { AttendanceHistoryComponent } from './components/attendance/attendance-history/attendance-history.component';
+import { ImagePopupComponent } from './components/attendance/image-popup/image-popup.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { AttendanceHistoryComponent } from './components/attendance/attendance-h
     ViewDetailsComponent,
     ViewProofComponent,
     AttendanceDetailPopupComponent,
-    AttendanceHistoryComponent
+    AttendanceHistoryComponent,
+    ImagePopupComponent
   ],
   imports: [
     AdminRoutingModule,

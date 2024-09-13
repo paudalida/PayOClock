@@ -1,0 +1,15 @@
+<main>
+  <div class="main-container" (click)="onBackgroundClick($event)">
+    <div class="view-proof" (click)="$event.stopPropagation()">
+      <div mat-dialog-content class="image-popup-container">
+        <button *ngIf="currentIndex > 0" class="nav-button prev-button" (click)="prevImage()">
+          <i class='bx bx-chevron-left'></i>
+        </button>
+        <img [src]="data.imageUrls[currentIndex]" alt="Proof Image" class="large-image" />
+        <button *ngIf="currentIndex < data.imageUrls.length - 1" class="nav-button next-button" (click)="nextImage()">
+          <i class='bx bx-chevron-right'></i>
+        </button>
+      </div>
+    </div>
+  </div>  
+</main>
