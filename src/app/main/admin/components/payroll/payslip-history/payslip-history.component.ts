@@ -43,11 +43,16 @@ export class PayslipHistoryComponent implements OnInit{
           });
 
           let lastIndex = 0;
-          let attAddition = element.payslip['attendance addition'] || [];
-          let attDeduction = element.payslip['attendance deduction'] || [];
+          // let attAddition = element.payslip['attendance addition'] || [];
+          // let attDeduction = element.payslip['attendance deduction'] || [];
           
-          let longest = attAddition.types.length + attDeduction.types.length + 1; /* Include basic salary field */
-          if(longest < element.payslip.allowance.types.length) longest = element.payslip.allowance.types.length;
+          // let attAddition = res.data.payslip['attendance addition'] || [];
+          // let attDeduction = res.data.payslip['attendance deduction'] || [];
+          
+          // let longest = attAddition.types.length + attDeduction.types.length + 1; /* Include basic salary field */
+          console.log(element.payslip.allowance.types);
+          let longest = element.payslip.allowance.types.length;
+          // if(longest < res.data.payslip.allowance.types.length) longest = res.data.payslip.allowance.types.length;
           if(longest < element.payslip.deduction.types.length) longest = element.payslip.deduction.types.length;
 
           for(let i = 0; i < longest; i ++) {
@@ -67,13 +72,13 @@ export class PayslipHistoryComponent implements OnInit{
 
             } else if(i > 0) {
 
-              if(i < attAddition.types.length+1) {
-                col1 = attAddition.types[i-1];
-                col3 = attAddition.amounts[i-1];
-              } else if(i < attAddition.types.length+1 + attDeduction.types.length) {
-                col1 = attDeduction.types[i - attAddition.types.length-1];
-                col3 = attDeduction.amounts[i - attAddition.types.length-1];
-              }
+              // if(i < attAddition.types.length+1) {
+              //   col1 = attAddition.types[i-1];
+              //   col3 = attAddition.amounts[i-1];
+              // } else if(i < attAddition.types.length+1 + attDeduction.types.length) {
+              //   col1 = attDeduction.types[i - attAddition.types.length-1];
+              //   col3 = attDeduction.amounts[i - attAddition.types.length-1];
+              // }
 
             }
 

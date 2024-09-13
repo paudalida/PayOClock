@@ -69,7 +69,7 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
   }
 
   protected getData() {
-    this.dataSource = new MatTableDataSource<any>(this.as.getEmployees());
+    this.dataSource = new MatTableDataSource<Employee>(this.as.getEmployees());
   }
 
   protected setupTableFunctions() {

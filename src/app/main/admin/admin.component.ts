@@ -3,6 +3,7 @@ import { DataService } from "../../services/data/data.service";
 import { AdminService } from "../../services/admin/admin.service";
 import { PopupService } from "../../services/popup/popup.service";
 import { AuthService } from "../../services/auth/auth.service";
+import { EmployeeService } from "../../services/employee/employee.service";
 
 @Component({
   selector: 'app-admin',
@@ -15,6 +16,7 @@ export class AdminComponent implements OnInit {
     private ds: DataService,
     private as: AdminService,
     private auth: AuthService,
+    private es: EmployeeService,
     private pop: PopupService
   ) { }
 
@@ -22,6 +24,7 @@ export class AdminComponent implements OnInit {
   currentDateTime: string = '';
 
   ngOnInit(): void {
+    console.log(this.es.getEmployee())
     this.ds.request('GET', 'admin/employees').subscribe({
       next: (res: any) => {
         res.data.forEach((element: any) => {
@@ -72,7 +75,11 @@ export class AdminComponent implements OnInit {
     this.currentDateTime = `${datePart}, ${timePart}`;
   }
 
-  logout() {
-    this.as
+  async logout() {
+    let res = await this.pop.swalWithCancel(
+      'question', 
+      'Are you sure you want to log out?'
+    );
+    if(res) { this.auth.logout(); }    
   }
 }
