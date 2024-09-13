@@ -11,10 +11,11 @@ import { PayslipsComponent } from './components/payslips/payslips.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { EditProfileComponent } from './components/popup/edit-profile/edit-profile.component';
-import { AnnouncementsComponent } from './components/announcements/announcements.component';
+import { AnnouncementsComponent } from './components/dashboard/announcements/announcements.component';
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
+import { ViewAnnouncementComponent } from './components/dashboard/view-announcement/view-announcement.component';
 
 @NgModule({
   declarations: [  
@@ -24,7 +25,8 @@ import { MatListModule } from '@angular/material/list';
     AttendanceComponent, 
     ProfileComponent, 
     EditProfileComponent, 
-    AnnouncementsComponent
+    AnnouncementsComponent, ViewAnnouncementComponent
+
   ],
   imports: [
     EmployeeRoutingModule,

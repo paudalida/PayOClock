@@ -1,0 +1,35 @@
+<div class="main-content">
+    <div class="header"> 
+      <h1>Latest Announcement</h1>
+      <button class="dashboard" type="button" (click)="redirectToDashboard()"> Back </button>
+    </div>
+
+    <div class="content"> 
+        <div class="content-left">
+          <img [src]="announcementImage" alt="Description of Image" class="image-holder">
+        </div>
+        <div class="content-right">
+          <h2 class="title">{{ announcementTitle }}</h2>
+          <pre class="description">{{ announcementDescription }}</pre>
+          <div class="publish-info">
+            <p class="publish-date">Date Published: {{ publishDate | date:'MMMM d, y' }} - {{ publishTime | date:'shortTime' }}</p>
+          </div>
+        </div>
+    </div>
+
+    <div class="previous-announcements">
+        <div class="header"> 
+            <h1>Previous Announcements</h1>
+        </div>
+        <div class="announcement-cards">
+            <div class="announcement-card" *ngFor="let announcement of previousAnnouncements" (click)="viewAnnouncement(announcement.id)">
+                <img [src]="announcement.image" alt="Announcement Image" class="card-image">
+                <div class="card-content">
+                    <h3 class="card-title">{{ announcement.title }}</h3>
+                    <p class="card-description">{{ announcement.shortDescription }}</p>
+                    <p class="card-date">Date: {{ announcement.date | date:'MMMM d, y' }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
