@@ -12,8 +12,7 @@
     border-radius: 8px;
     padding: 35px 65px;
     background: var(--white);
-    width: 100%;
-    max-width: 93%;
+    width: 90%;
     box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.322);
   
     .employee-left {
@@ -74,4 +73,40 @@
       }
     }
   }
+
+  .attendance-table {
+    margin-top: 50px;
+    margin-right: 10px;
+    background: var(--white);
+    width: 1350px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+
+    .table {
+    table {
+        width: 100%;
+        background: var(--white);
+        border-collapse: collapse;
+
+        th, td {
+            padding: 20px;
+            text-align: center;
+            border: none;
+        }
+    }
+
+    th {
+      background-color: var(--primary-color);
+      color: var(--white);
+      padding: 10px;
+    }
+
+    .label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+      }
+    }
+}
   
