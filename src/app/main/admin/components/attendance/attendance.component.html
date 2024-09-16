@@ -25,8 +25,11 @@
             </div>
         </div>
            
+        <div class="spinner" *ngIf="isLoading">
+            <app-spinner></app-spinner>
+        </div>
 
-        <table mat-table [dataSource]="dataSource" matSort class="attendance-table">
+        <table mat-table [dataSource]="dataSource" matSort class="attendance-table" *ngIf="!isLoading">
 
             <!-- Employee Name Column -->
             <ng-container matColumnDef="name">
@@ -39,55 +42,55 @@
             <!-- Monday Column -->
             <ng-container matColumnDef="monday">
                 <th mat-header-cell *matHeaderCellDef> Monday </th>
-                <td mat-cell *matCellDef="let element" [ngClass]="getStatusClass(element.monday)"
-                (click)="openAttendanceDetail('Monday', element.monday, element.name)"></td>
+                <td mat-cell *matCellDef="let element" [ngClass]="getStatusClass(element.mon.status)"
+                (click)="openAttendanceDetail('Monday', element.mon)"></td>
             </ng-container>
 
             <!-- Tuesday Column -->
             <ng-container matColumnDef="tuesday">
                 <th mat-header-cell *matHeaderCellDef> Tuesday </th>
-                <td mat-cell *matCellDef="let element" [ngClass]="getStatusClass(element.tuesday)"
-                (click)="openAttendanceDetail('Tuesday', element.tuesday, element.name)"></td>
+                <td mat-cell *matCellDef="let element" [ngClass]="getStatusClass(element.tue.status)"
+                (click)="openAttendanceDetail('Tuesday', element.tue)"></td>
             </ng-container>
 
             <!-- Wednesday Column -->
             <ng-container matColumnDef="wednesday">
                 <th mat-header-cell *matHeaderCellDef> Wednesday </th>
-                <td mat-cell *matCellDef="let element" [ngClass]="getStatusClass(element.wednesday)"
-                (click)="openAttendanceDetail('Wednesday', element.wednesday, element.name)"></td>
+                <td mat-cell *matCellDef="let element" [ngClass]="getStatusClass(element.wed.status)"
+                (click)="openAttendanceDetail('Wednesday', element.wed)"></td>
             </ng-container>
 
             <!-- Thursday Column -->
             <ng-container matColumnDef="thursday">
                 <th mat-header-cell *matHeaderCellDef> Thursday </th>
-                <td mat-cell *matCellDef="let element" [ngClass]="getStatusClass(element.thursday)"
-                (click)="openAttendanceDetail('Thursday', element.thursday, element.name)"></td>
+                <td mat-cell *matCellDef="let element" [ngClass]="getStatusClass(element.thu.status)"
+                (click)="openAttendanceDetail('Thursday', element.thu)"></td>
             </ng-container>
 
             <!-- Friday Column -->
             <ng-container matColumnDef="friday">
                 <th mat-header-cell *matHeaderCellDef> Friday </th>
-                <td mat-cell *matCellDef="let element" [ngClass]="getStatusClass(element.friday)"
-                (click)="openAttendanceDetail('Friday', element.friday, element.name)"></td>
+                <td mat-cell *matCellDef="let element" [ngClass]="getStatusClass(element.fri.status)"
+                (click)="openAttendanceDetail('Friday', element.fri)"></td>
             </ng-container>
 
             <!-- Saturday Column -->
             <ng-container matColumnDef="saturday">
                 <th mat-header-cell *matHeaderCellDef> Saturday </th>
-                <td mat-cell *matCellDef="let element" [ngClass]="getStatusClass(element.saturday)"
-                (click)="openAttendanceDetail('Saturday', element.saturday, element.name)"></td>
+                <td mat-cell *matCellDef="let element" [ngClass]="getStatusClass(element.sat.status)"
+                (click)="openAttendanceDetail('Saturday', element.sat)"></td>
             </ng-container>
 
             <!-- Proof Column -->
             <ng-container matColumnDef="proof">
                 <th mat-header-cell *matHeaderCellDef> Proof </th>
                 <td mat-cell *matCellDef="let element">
-                    <button mat-button class="proof-btn" (click)="viewProof()">View</button>
+                    <button mat-button class="proof-btn" (click)="viewProof(element)">View</button>
                 </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="setEmployee(row.user_id)"></tr>
         </table>
 
         <mat-paginator class="paginator" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons

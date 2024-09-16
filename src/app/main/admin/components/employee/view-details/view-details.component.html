@@ -8,37 +8,37 @@
         </button>
       </div>
 
-      <div class="detailsbody">
-        <div class="employee-container">
-          <div class="employee-image">
-            <img [src]="employee.image" alt="Employee Photo">
-          </div>
+        <div class="detailsbody">
+          <div class="employee-container">
+              <div class="employee-image">
+                <img [src]="employee.image || 'assets/images/no image.png'" alt="Employee Photo">
+              </div>
 
-          <div class="employee-details">
-            <div class="detail-item">
-              <label>Full Name:</label>
-              <p>{{ employee.fullName }}</p>
-            </div>
+              <div class="employee-details">
+                <div class="detail-item">
+                  <label>Full Name:</label>
+                  <p> {{ employee.full_name }} </p>
+                </div>
 
-            <div class="detail-item">
-              <label>ID Number:</label>
-              <p>{{ employee.idNumber }}</p>
-            </div>
+                <div class="detail-item">
+                  <label>ID Number:</label>
+                  <p> {{ employee.employee_id }} </p>
+                </div>
 
-            <div class="detail-item">
-              <label>Gender:</label>
-              <p>{{ employee.gender }}</p>
-            </div>
+                <div class="detail-item">
+                  <label>Gender:</label>
+                  <p> {{ employee.gender == 0 ? 'Female' : employee.gender == 1 ? 'Male' : 'Non-binary' }}</p>
+                </div>
 
-            <div class="detail-item">
-              <label>Contact Number:</label>
-              <p>{{ employee.contactNumber }}</p>
-            </div>
+                <div class="detail-item">
+                  <label>Contact Number:</label>
+                  <p> {{ employee.phone_number }} </p>
+                </div>
 
-            <div class="detail-item">
-              <label>Position:</label>
-              <p>{{ employee.position }}</p>
-            </div>
+                <div class="detail-item">
+                  <label>Position:</label>
+                  <p> {{ employee.position }} </p>
+                </div>
 
           </div>
         </div>

@@ -24,7 +24,6 @@ export class AdminComponent implements OnInit {
   currentDateTime: string = '';
 
   ngOnInit(): void {
-    console.log(this.es.getEmployee())
     this.ds.request('GET', 'admin/employees').subscribe({
       next: (res: any) => {
         res.data.forEach((element: any) => {

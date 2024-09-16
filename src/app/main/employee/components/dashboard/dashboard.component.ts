@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DataService } from '../../../../services/data/data.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit{
 
   announcementImage: string = '/assets/images/no image.png';
   announcementTitle: string = 'Title';
@@ -25,11 +26,20 @@ export class DashboardComponent {
   `;
   publishDate: Date = new Date(); 
   publishTime: Date = new Date();
+  announcements: any;
 
   constructor(
-    private router: Router
+    private router: Router,
+    private ds: DataService
   ) { }
 
+  ngOnInit(): void {
+    this.ds.request('GET', 'view/announcements').subscribe({
+      next: (res: any) => {
+        this.announcements = res.data;
+      }
+    })
+  }
   redirectToAnnouncements() {
     this.router.navigate(['/employee/announcements']);
   }

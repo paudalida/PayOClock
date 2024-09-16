@@ -26,19 +26,9 @@ export class AdminService {
   };
 
   public setEmployees(data: any[]) {
-    data.sort((a, b) => {
-      // Assuming you want to sort by the 'name' property
-      if (a.first_name < b.first_name) {
-        return -1;  // a comes before b
-      }
-      if (a.first_name > b.first_name) {
-        return 1;   // b comes before a
-      }
-      return 0;    // a and b are equal
-    });
+    data.sort((a, b) => a.first_name.localeCompare(b.first_name));
     this.employeesArray = data;
-  }
-  
+  }  
 
   public setEmployee(data: any) {
     this.employeeData = data;

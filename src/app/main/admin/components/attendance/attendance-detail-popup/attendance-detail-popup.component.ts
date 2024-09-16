@@ -1,6 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { DataService } from '../../../../../services/data/data.service';
+import { PopupService } from '../../../../../services/popup/popup.service';
 
 @Component({
   selector: 'app-attendance-detail-popup',
@@ -29,7 +31,9 @@ export class AttendanceDetailPopupComponent {
   constructor(
     public dialogRef: MatDialogRef<AttendanceDetailPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private router: Router
+    private router: Router,
+    private ds: DataService,
+    private pop: PopupService
   ) {
     this.selectedDay = data.day;
   }
@@ -99,13 +103,30 @@ export class AttendanceDetailPopupComponent {
 
   toggleTimeInOut(): void {
     if (this.selectedAction === 'button') {
+      console.log(this.data.details)
       if (this.timeInActive) {
-        this.timeOut = new Date();
-        this.timeInActive = false;
+        
+        this.ds.request('POST', 'admin/attendance/time-in/user/' + this.data.details.user_id).subscribe({
+          next: (res: any) => {
+            this.pop.toastWithTimer('success', res.message);
+            this.data.time_in = res.data.time_in;
+            this.timeInActive = false;
+          },
+          error: (err: any) => {
+            this.pop.swalBasic('error', 'Oops! An error has occured', err.error.message);
+          }
+        });
         // this.dialogRef.close({ timeIn: true });
       } else {
-        this.timeIn = new Date();
-        this.timeInActive = true;
+        this.ds.request('POST', 'admin/attendance/time-in/user/' + this.data.details.user_id).subscribe({
+          next: (res: any) => {
+            this.pop.toastWithTimer('success', res.message);
+            this.timeInActive = false;
+          },
+          error: (err: any) => {
+            this.pop.swalBasic('error', 'Oops! An error has occured', err.error.message);
+          }
+        })
         // this.dialogRef.close({ timeOut: true });
       }
     }

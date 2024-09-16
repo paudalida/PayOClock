@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { DataService } from '../../../../services/data/data.service';
@@ -29,9 +30,10 @@ export interface AttendanceRecord {
 export class AttendanceComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;  
 
   displayedColumns: string[] = ['name', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'proof'];
-  dataSource: AttendanceRecord[] = [];
+  dataSource: any;
 
   constructor(
     private dialog: MatDialog,
@@ -42,25 +44,94 @@ export class AttendanceComponent implements OnInit {
     private pop: PopupService
   ) { }
 
-  paginatorIndex = 0;
-  paginatorCount = 5;
-  attendance: any = null;
+  isLoading = false;
+  records: any = [];
   clockedIn: any = [];
+  defaultRecord = {
+    user_id: '',
+    status: ''
+  };
 
   get employees() {
     return this.as.getEmployees();
   }
 
-  ngOnInit(): void {
-    this.ds.request('GET', 'admin/attendance/today').subscribe((res:any) => {
-      this.attendance = res.data;
-      if(this.attendance) {
-        this.attendance.forEach((element: any) => {
-          if(!(element.leave_type || element.time_out))
-            this.clockedIn.push(element.user_id);
+  // ngOnInit(): void {
+  //   this.ds.request('GET', 'admin/attendance/today').subscribe((res:any) => {
+  //     this.attendance = res.data;
+  //     if(this.attendance) {
+  //       this.attendance.forEach((element: any) => {
+  //         if(!(element.leave_type || element.time_out))
+  //           this.clockedIn.push(element.user_id);
+  //       });
+  //     }
+  //   })
+  // }
+
+  ngOnInit(): void {    
+    this.isLoading = true;
+    this.ds.request('GET', 'admin/attendance/weekly').subscribe({
+      next: (res: any) => {
+
+        this.employees.forEach((element: any) => {
+          this.records.push(
+            {
+              id: element.id,
+              user_id: element.user_id,
+              name: element.full_name,
+              mon: this.defaultRecord,
+              tue: this.defaultRecord,
+              wed: this.defaultRecord,
+              thu: this.defaultRecord,
+              fri: this.defaultRecord,
+              sat: this.defaultRecord
+            }
+          );
         });
-      }
-    })
+
+        res.data.forEach((element: any) => {
+          let foundRecord = this.records.find((record: any) => record.id === element.user_id);
+          foundRecord.user_id = element.user_id;
+
+          switch(element.day) {
+            case 'Monday':
+              foundRecord.mon = element;
+              break;
+
+            case 'Tuesday':
+              foundRecord.tue = element;
+              break;
+
+            case 'Wednesday':
+              foundRecord.wed = element;
+              break;
+
+            case 'Thursday':
+              foundRecord.thu = element;
+              break;
+
+            case 'Friday':
+              foundRecord.fri = element;
+              break;
+
+            case 'Saturday':
+              foundRecord.sat = element;
+          }
+        });
+
+        this.dataSource = new MatTableDataSource(this.records);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      error: (err: any) => {
+
+      },
+      complete: () => { this.isLoading = false; }
+    });
+  }
+
+  setEmployee(id: string) {
+    this.defaultRecord.user_id = id;
   }
 
   // ngOnInit(): void {
@@ -121,22 +192,6 @@ export class AttendanceComponent implements OnInit {
     });
   }
 
-  /* Paginator functions */
-  changePaginator(event: Event) {
-    const count = (event.target as HTMLSelectElement).value;
-    this.paginatorCount = Number(count);
-    this.paginatorIndex = 0;
-  }
-
-  first() {
-    this.paginatorIndex = 0;
-  }
-
-  next() {
-    if((this.paginatorIndex + this.paginatorCount) < this.employees.length)
-      this.paginatorIndex += this.paginatorCount;
-  }
-
   getStatusClass(status: string): string {
     switch (status) {
         case 'present':
@@ -155,7 +210,7 @@ export class AttendanceComponent implements OnInit {
   }
 
   updateAttendanceStatus(day: string, status: string, name: string): void {
-    const index = this.dataSource.findIndex(employee => employee.name === name);
+    const index = this.dataSource.findIndex((employee: any) => employee.name === name);
     if (index === -1) return;
   
     const dayKey = day.toLowerCase() as keyof AttendanceRecord;
@@ -164,14 +219,17 @@ export class AttendanceComponent implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
-  openAttendanceDetail(day: string, status: string, name: string): void {
+  openAttendanceDetail(day: string, data: any): void {
     const dialogRef = this.dialog.open(AttendanceDetailPopupComponent, {
-      data: { day, status, name }
+      data: {
+        selectedDay: day,
+        details: data
+      }
     });
   
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const index = this.dataSource.findIndex(employee => employee.name === name);
+        const index = this.dataSource.findIndex((employee: any) => employee.name === name);
         if (index === -1) return;
   
         const currentTime = new Date();
@@ -180,7 +238,7 @@ export class AttendanceComponent implements OnInit {
         const sixPM = new Date();
         sixPM.setHours(18, 0, 0);
   
-        const dayKey = day.toLowerCase() as keyof AttendanceRecord;
+        const dayKey = data.day.toLowerCase() as keyof AttendanceRecord;
   
         if (result.timeIn) {
           const timeIn = new Date();
@@ -214,9 +272,9 @@ export class AttendanceComponent implements OnInit {
     }
   }
 
-  viewProof() {
+  viewProof(data: any) {
     if (this.dialog) {
-      this.dialog.open(ViewProofComponent);
+      this.dialog.open(ViewProofComponent, { data: data });
     } else {
       console.error('Dialog is not initialized');
     }

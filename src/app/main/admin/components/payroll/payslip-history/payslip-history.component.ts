@@ -42,28 +42,49 @@ export class PayslipHistoryComponent implements OnInit{
             net_pay          : element.net_pay
           });
 
-          let lastIndex = 0;
-          // let attAddition = element.payslip['attendance addition'] || [];
-          // let attDeduction = element.payslip['attendance deduction'] || [];
+          let attAddMax = 0; let attDedMax = 0; let lastIndex = 0;
+          let attAddition = element.payslip['attendance addition'] || null;
+          let attDeduction = element.payslip['attendance deduction'] || null;
+          let deduction = element.payslip.deduction || null;
+          let allowance = element.payslip.allowance || null;
+          let other_deduction = element.payslip.other_deduction || null;
           
-          // let attAddition = res.data.payslip['attendance addition'] || [];
-          // let attDeduction = res.data.payslip['attendance deduction'] || [];
-          
-          // let longest = attAddition.types.length + attDeduction.types.length + 1; /* Include basic salary field */
-          console.log(element.payslip.allowance.types);
-          let longest = element.payslip.allowance.types.length;
-          // if(longest < res.data.payslip.allowance.types.length) longest = res.data.payslip.allowance.types.length;
-          if(longest < element.payslip.deduction.types.length) longest = element.payslip.deduction.types.length;
+          /* get longest index */
+          let longest = 1; /* basic salary field */
+          if(attAddition) {
+            attAddMax = attAddition.types.length;
+            longest += attAddition.types.length;
+          }
 
+          if(attDeduction) {
+            attDedMax = attDeduction.types.length;
+            longest += attDeduction.types.length;
+          }
+
+          if(allowance) {
+            if(longest < allowance.types.length) 
+              longest = allowance.types.length;
+          }
+
+          if(deduction) {
+            let total = deduction.types.length;
+
+            if(other_deduction)
+              total += other_deduction.types.length;
+
+            if(longest < total) 
+              longest = total;
+          }
+          
           for(let i = 0; i < longest; i ++) {
             let col1 = '';
             let col2 = '';
             let col3 = '';
-            let col4 = element.payslip.allowance.types[i]   || '';
+            let col4 = allowance.types[i]   || '';
             let col5 = '';
-            let col6 = element.payslip.allowance.amounts[i] || '';
-            let col7 = element.payslip.deduction.types[i]   || '';
-            let col8 = element.payslip.deduction.amounts[i] || '';
+            let col6 = allowance.amounts[i] || '';
+            let col7 = deduction.types[i]   || '';
+            let col8 = deduction.amounts[i] || '';
 
             if(i == 0) {
 
@@ -72,15 +93,26 @@ export class PayslipHistoryComponent implements OnInit{
 
             } else if(i > 0) {
 
-              // if(i < attAddition.types.length+1) {
-              //   col1 = attAddition.types[i-1];
-              //   col3 = attAddition.amounts[i-1];
-              // } else if(i < attAddition.types.length+1 + attDeduction.types.length) {
-              //   col1 = attDeduction.types[i - attAddition.types.length-1];
-              //   col3 = attDeduction.amounts[i - attAddition.types.length-1];
-              // }
+              if(attAddition) {
+                if(i < attAddition.types.length+1) {
+                  col1 = attAddition.types[i-1];
+                  col3 = attAddition.amounts[i-1];
+                }
+              }
 
+              if(attDeduction){
+              
+                if(i < attAddMax + attDeduction.types.length + 1) {
+                  col1 = attDeduction.types[i - attAddMax-1];
+                  col3 = attDeduction.amounts[i - attAddMax-1];
+                }
+              }
             }
+
+            if(i >= deduction.types.length) {
+              col7 = other_deduction.types[i-deduction.types.length] || '';
+              col8 = other_deduction.amounts[i-deduction.types.length] || '';
+            }  
 
             if(element.payslip.allowance.sub_types[i])
               col4 += ' ' + element.payslip.allowance.sub_types[i];

@@ -29,8 +29,11 @@ export class PayrollFormsComponent implements OnInit{
   isLoading = false; changedValues = false;
   savedValue: any;
   basePay = 0;
+  data: any = null;
 
   ngOnInit(): void {
+    this.isLoading = true;
+
     this.form = this.fb.group({
       base_pay: this.fb.array([
         this.fb.group({
@@ -47,8 +50,7 @@ export class PayrollFormsComponent implements OnInit{
       ]),
       deduction: this.fb.array([]),
       other_deduction: this.fb.array([]),
-      allowance: this.fb.array([]),
-      delete: this.fb.array([])
+      allowance: this.fb.array([])
     });
 
     this.employee = this.as.getEmployee();
@@ -59,39 +61,24 @@ export class PayrollFormsComponent implements OnInit{
 
     this.ds.request('GET', 'admin/transactions/latest/user/' + this.employee.id).subscribe({
       next: (res: any) => { 
-        res.data.forEach((element: any) => {
-          let index = 0;
+        this.data = res.data;
 
-          // if(element.category == 'deduction') {
-          //   this.updateFormsArray(element.id, element.category, index, element.type, element.sub_type, element.amount, element.payday);
-          //   this.savedValue = this.form.value;
-          // } else {
-          if(element.category == 'base_pay'){
-            this.form.get('base_pay').at(0).patchValue({
-              formKey: 'update',
-              operation_type: element.operation_type,
-              id: element.id,
-              user_id: this.employee.id,
-              type: element.type,
-              sub_type: element.sub_type,
-              amount: element.amount,
-              payday: element.payday
-            });
-
-            this.basePay = element.amount;
-          }
-
-          if(element.category == 'deduction' || element.category == 'allowance' || element.category == 'other_deduction')
-            this.addToFormsArray(element.category, 'update', element.operation_type, element.type, element.sub_type, element.id, element.amount, element.payday);
-          // }
-        });
+        if(this.data.length) { this.updateData(); this.isLoading = false; }
+        else {
+          this.ds.request('GET', 'admin/periodic-transactions/user/' + this.employee.id).subscribe({
+            next: (res1: any) => { this.data = res1.data; this.updateData(); this.isLoading = false; },
+            error: (err1: any) => { this.pop.toastWithTimer('error', err1.error.message); },
+            complete: () => { this.isLoading = false; }
+          });
+        }
+        
       },
-      error: () => { this.pop.toastWithTimer('error', 'Error fetching employee transactions'); }
+      error: (err: any) => { this.pop.toastWithTimer('error', err.error.message); }
     });
-    
+
     // check for changes with timer for totals
     this.form.valueChanges.pipe(
-      debounceTime(2000)
+      debounceTime(1000)
     ).subscribe((value: any) => {
       this.totalDeductions = 0; this.netPay = 0;
       if(this.savedValue != value) { this.changedValues = true; } 
@@ -102,8 +89,7 @@ export class PayrollFormsComponent implements OnInit{
           if(element.operation_type == 'deduction') {
             this.totalDeductions += parseInt(element.amount as string);
           } else if(element.operation_type == 'percentage deduction') {
-            this.totalDeductions += (parseInt(element.amount as string) * (parseInt(this.formsArray('base_pay').at(0).get('amount')?.value as string) * .01));
-            console.log(parseInt(element.amount as string) * (parseInt(this.formsArray('base_pay').at(0).get('amount')?.value as string) * .01));
+            this.totalDeductions += (parseInt(element.amount as string) * (parseInt(this.formsArray('base_pay').at(0).get('amount')?.value as string) / 100));
           }
         }
       });
@@ -113,11 +99,42 @@ export class PayrollFormsComponent implements OnInit{
         this.totalDeductions += parseInt(element.amount as string);
       });
 
-      this.netPay += this.hourlyRate * 8 * 15;
       this.formsArray('allowance').value.forEach((element: any) => {
         if(element.amount)
         this.netPay += parseInt(element.amount as string);
       });
+      
+      this.netPay += this.basePay;
+      this.netPay -= this.totalDeductions;
+    });
+  }
+
+  updateData() {
+    this.data.forEach((element: any) => {
+      let index = 0;
+
+      // if(element.category == 'deduction') {
+      //   this.updateFormsArray(element.id, element.category, index, element.type, element.sub_type, element.amount, element.payday);
+      //   this.savedValue = this.form.value;
+      // } else {
+      if(element.category == 'base_pay'){
+        this.form.get('base_pay').at(0).patchValue({
+          formKey: 'update',
+          operation_type: element.operation_type,
+          id: element.id,
+          user_id: this.employee.id,
+          type: element.type,
+          sub_type: element.sub_type,
+          amount: element.amount,
+          payday: element.payday
+        });
+
+        this.basePay = element.amount;
+      }
+
+      if(element.category == 'deduction' || element.category == 'allowance' || element.category == 'other_deduction')
+        this.addToFormsArray(element.category, 'update', element.operation_type, element.type, element.sub_type, element.id, element.amount, element.payday);
+      // }
     });
   }
 
@@ -199,15 +216,8 @@ export class PayrollFormsComponent implements OnInit{
       );
       
       if(confirm){
-        this.formsArray('delete').push(this.fb.group({
-          id: idField.value,
-          type: 'delete'
-        }));
-
         this.formsArray(type).removeAt(index);
       }
-    } else {
-      this.formsArray(type).removeAt(index);
     }
 
   }

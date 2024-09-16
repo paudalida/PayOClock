@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { DataService } from '../../../../../services/data/data.service';
 import { ViewAnnouncementComponent } from '../view-announcement/view-announcement.component';
 
 @Component({
@@ -49,12 +50,21 @@ export class AnnouncementsComponent {
 
   ];
 
+  announcements: any;
 
   constructor(
     private dialog: MatDialog, 
-    private router: Router
+    private router: Router,
+    private ds: DataService
   ) { }
 
+  ngOnInit(): void {
+    this.ds.request('GET', 'view/announcements').subscribe({
+      next: (res: any) => {
+        this.announcements = res.data;
+      }
+    })
+  }
   redirectToDashboard() {
     this.router.navigate(['/employee/dashboard']);
   }

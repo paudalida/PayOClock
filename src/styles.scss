@@ -61,7 +61,7 @@ $GM18-theme: mat.define-light-theme((
   --landing-font: #454444;
   --about-section: #DDE0EC;
   --present: #479c4b;
-  --late: #f7c504;
+  --late: #f7c604f4;
   --absent: #e1060a;
 
 
@@ -110,6 +110,14 @@ body {
 
 .btn-success:hover {
   background-color: #196f3d;
+}
+
+.btn-pending {
+  background-color: var(--late);
+}
+
+.btn-pending:hover {
+  background-color: #be9800f4;
 }
 
 /* Other buttons */

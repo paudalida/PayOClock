@@ -72,7 +72,7 @@ export class ViewProofComponent {
   constructor(
     private dialogRef: MatDialogRef<ViewProofComponent>, 
     private router: Router
-  ) {}
+  ) { }
 
   closePopup() {
     this.dialogRef.close(); 

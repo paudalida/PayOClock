@@ -1,14 +1,18 @@
 <div class="main-content">
     <div class="header"> 
         <h1> Employee Payroll </h1>
-            <div class="input-row"> 
-                <button class="btn-primary save-payroll" type="button" (click)="submit()"> Save as Completed </button>
-                <button class="btn-primary save-payroll" type="button" (click)="submit()"> Save as Unfinished </button>
+            <div class="input-row" *ngIf="!isLoading"> 
+                <button class="btn-primary save-payroll" type="button" (click)="submit()"> Completed </button>
+                <button class="btn-pending save-payroll" type="button" (click)="submit()"> Pending </button>
                 <button class="btn-secondary back" type="button" (click)="backRoute()"> Back </button>
             </div>    
     </div>
 
-    <div class="content"> 
+    <div class="spinner" *ngIf="isLoading">
+        <app-spinner></app-spinner>
+    </div>
+
+    <div class="content" *ngIf="!isLoading"> 
         <div class="input-row"> 
 
             <!-- LEFT PANEL -->

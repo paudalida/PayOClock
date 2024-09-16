@@ -2,10 +2,10 @@
     <!-- Profile Card Section -->
     <div class="profile-card">
         <div class="blue-header">
-            <img src="assets/images/bg1.jpg" alt="Profile Picture" class="profile-picture">
+            <img [src]="employee.image || 'assets/images/bg1.jpg'" alt="Profile Picture" class="profile-picture">
         </div>
         <div class="card-content">
-            <h4>Albert S. Block The III</h4>
+            <h4> {{ employee.full_name }} </h4>
             <h6>Employee</h6>
 
             <div class="contentcontainer">
@@ -16,9 +16,9 @@
                 </ul>
 
                 <ul class="content1">
-                    <li>1717</li>
-                    <li>Male</li>
-                    <li>09982315478</li>
+                    <li> {{ employee.employee_id }}</li>
+                    <li> {{ employee.gender == 0 ? 'Female' : employee.gender == 1 ? 'Male' : 'Other' }} </li>
+                    <li> {{ employee.phone_number }} </li>
                 </ul>
             </div>
         </div>
@@ -31,33 +31,33 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="firstName">First name</label>
-                    <input type="text" id="firstName" value="Albert">
+                    <input type="text" id="firstName" [value]="employee.first_name">
                 </div>
                 <div class="form-group">
                     <label for="middleName">Middle name</label>
-                    <input type="text" id="middleName" value="S">
+                    <input type="text" id="middleName" [value]="employee.middle_name">
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
                     <label for="lastName">Last name</label>
-                    <input type="text" id="lastName" value="Block The">
+                    <input type="text" id="lastName" [value]="employee.last_name">
                 </div>
                 <div class="form-group">
                     <label for="extName">Ext name</label>
-                    <input type="text" id="extName" value="III">
+                    <input type="text" id="extName" [value]="employee.ext_name">
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
                     <label for="gender">Gender</label>
-                    <input type="text" id="gender" value="Male" readonly>
+                    <input type="text" id="gender" [value]="employee.gender == 0 ? 'Female' : employee.gender == 1 ? 'Male' : 'Other'" readonly>
                 </div>
                 <div class="form-group">
                     <label for="contactNumber">Contact Number</label>
-                    <input type="text" id="contactNumber" value="09982315478">
+                    <input type="text" id="contactNumber" [value]="employee.phone_number">
                 </div>
             </div>
 

@@ -23,8 +23,11 @@ export class EmployeeComponent {
 
   isLoading = false;
   
-  submitLogin() {
+  async submitLogin() {
     this.isLoading = true;
-    this.as.login('employee', this.loginForm.value);
+
+    const success = await this.as.login('employee', this.loginForm.value);
+
+    this.isLoading = false;
   }
 }

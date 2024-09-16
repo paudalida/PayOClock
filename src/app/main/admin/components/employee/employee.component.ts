@@ -56,7 +56,8 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
     return this.as.getEmployee();
   }
 
-  set employee(data: any) {
+  setEmployee(data: any) {
+    console.log(this.employee)
     this.as.setEmployee(data);
   }
 
@@ -132,14 +133,14 @@ async showUpdateAction(employee: any) {
 
 // Method for handling the archive action
 async showArchiveAction(employee: any) {
-  const result = await this.pop.swalWith3Buttons('warning', 'Archive', 
-    'Are you sure you want to archive this employee?', 'Yes', 'No');
+  const result = await this.pop.swalWithCancel('warning', 'Archive', 
+    'Are you sure you want to archive this employee?', 'Yes', 'No', false);
 
-  if (result === 'denied') {
-    const archive = await this.pop.swalWithCancel('warning', 'Archive', 
-      'Are you sure you want to archive this employee?', 'Yes', 'No', false);
+  if (result) {
+    // const archive = await this.pop.swalWithCancel('warning', 'Archive', 
+    //   'Are you sure you want to archive this employee?', 'Yes', 'No', false);
 
-    if (archive) {
+    // if (archive) {
       this.ds.request('DELETE', 'admin/employees/archive/' + employee.id, null).subscribe({
         next: () => { 
           this.pop.toastWithTimer('success', 'Employee archived successfully!');
@@ -149,7 +150,7 @@ async showArchiveAction(employee: any) {
           this.pop.swalBasic('error', 'Error', err.error.message); 
         }
       });
-    }
+    // }
   }
 }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { DataService } from "../../services/data/data.service";
 import { PopupService } from "../../services/popup/popup.service";
+import { AuthService } from "../../services/auth/auth.service";
 
 
 @Component({
@@ -12,6 +13,7 @@ export class EmployeeComponent implements OnInit {
   
   constructor (
     private ds: DataService,
+    private auth: AuthService,
     private pop: PopupService
   ) { }
 
@@ -61,5 +63,13 @@ export class EmployeeComponent implements OnInit {
     const timePart = now.toLocaleTimeString('en-US', timeOptions);
   
     this.currentDateTime = `${datePart}, ${timePart}`;
+  }
+
+  async logout() {
+    let res = await this.pop.swalWithCancel(
+      'question', 
+      'Are you sure you want to log out?'
+    );
+    if(res) { this.auth.logout(); }    
   }
 }

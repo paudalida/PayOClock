@@ -2,7 +2,7 @@
   <div class="main-container">
     <div class="attendance-detail">
       <div class="header">
-        <h1>{{ selectedDay }}</h1>
+        <h1>{{ data.selectedDay }}</h1>
         <button type="button" class="close-button" (click)="closePopup()">
           <i class='bx bx-x'></i>
         </button>
@@ -10,8 +10,16 @@
 
       <div class="popup-content">
         <div class="time-row">
-          <p><strong>Time In:</strong> {{ timeIn | date: 'MMMM dd, yyyy, h:mm a' }}</p>
-          <p><strong>Time Out:</strong> {{ timeOut | date: 'MMMM dd, yyyy, h:mm a' }}</p>
+          <!-- With Records -->
+          <p *ngIf="data.details.time_in" >   <strong>Time In:</strong> {{ data.details.time_in | date: 'MMMM dd, yyyy, h:mm:ss a' }}</p>
+          <p *ngIf="data.details.time_out">   <strong>Time Out:</strong> {{ data.details.time_out | date: 'MMMM dd, yyyy, h:mm:ss a' }}</p>
+
+          <!-- With leave or absent  -->
+          <p *ngIf="data.details.leave_type" ><strong> Leave Type: </strong> {{ data.details.leave_type }}</p>
+          <p *ngIf="data.details.is_absent">  <strong> Absent </strong></p>
+
+          <!-- No data -->
+          <p *ngIf="!data.details.status" ><strong> No Data Available </strong></p>
         </div>        
 
         <div class="button-row">
