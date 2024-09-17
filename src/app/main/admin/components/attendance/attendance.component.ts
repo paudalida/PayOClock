@@ -34,6 +34,7 @@ export class AttendanceComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'proof'];
   dataSource: any;
+  dates: any = [];
 
   constructor(
     private dialog: MatDialog,
@@ -42,13 +43,24 @@ export class AttendanceComponent implements OnInit {
     private ds: DataService,
     private as: AdminService,
     private pop: PopupService
-  ) { }
+  ) { 
+    const now = new Date();
+    const currentDay = (now.getDay() + 6) % 7;  // Adjust to make Monday = 0, Sunday = 6
+    const firstDay = new Date(now);             // Create a new date object to avoid mutation
+    firstDay.setDate(now.getDate() - currentDay);
+    
+    for (let i = 0; i < 6; i++) {
+      const newDate = new Date(firstDay);
+      newDate.setDate(firstDay.getDate() + i);
+      this.dates.push(newDate);
+    }
+  }
 
   isLoading = false;
   records: any = [];
   clockedIn: any = [];
+  user_id: any;
   defaultRecord = {
-    user_id: '',
     status: ''
   };
 
@@ -56,17 +68,13 @@ export class AttendanceComponent implements OnInit {
     return this.as.getEmployees();
   }
 
-  // ngOnInit(): void {
-  //   this.ds.request('GET', 'admin/attendance/today').subscribe((res:any) => {
-  //     this.attendance = res.data;
-  //     if(this.attendance) {
-  //       this.attendance.forEach((element: any) => {
-  //         if(!(element.leave_type || element.time_out))
-  //           this.clockedIn.push(element.user_id);
-  //       });
-  //     }
-  //   })
-  // }
+  get employee() {
+    return this.as.getEmployee();
+  }
+
+  setEmployee(data: any) {
+    this.as.setEmployee(data);
+  }
 
   ngOnInit(): void {    
     this.isLoading = true;
@@ -77,7 +85,6 @@ export class AttendanceComponent implements OnInit {
           this.records.push(
             {
               id: element.id,
-              user_id: element.user_id,
               name: element.full_name,
               mon: this.defaultRecord,
               tue: this.defaultRecord,
@@ -130,51 +137,19 @@ export class AttendanceComponent implements OnInit {
     });
   }
 
-  setEmployee(id: string) {
-    this.defaultRecord.user_id = id;
+  formatTime(time: string) {
+    if(!time)
+      return '';
+
+    let hour = parseInt(time.slice(0, 2), 10);
+    let ampm = 'AM';
+    if(hour > 12) {
+      hour = hour - 12;
+      ampm = 'PM';
+    }
+
+    return String(hour) + time.slice(2, -3) + ' ' + ampm;    
   }
-
-  // ngOnInit(): void {
-  //   this.dataSource = [
-  //     {
-  //       name: 'John Doe Doe Doe',
-  //       monday: 'present',
-  //       tuesday: 'late',
-  //       wednesday: 'absent',
-  //       thursday: 'present',
-  //       friday: 'present',
-  //       saturday: 'late'
-  //     },
-  //     {
-  //       name: 'John Doe Doe Doe',
-  //       monday: 'present',
-  //       tuesday: 'late',
-  //       wednesday: 'absent',
-  //       thursday: 'present',
-  //       friday: 'present',
-  //       saturday: 'late'
-  //     },
-  //     {
-  //       name: 'John Doe Doe Doe',
-  //       monday: 'present',
-  //       tuesday: 'late',
-  //       wednesday: 'absent',
-  //       thursday: 'present',
-  //       friday: 'present',
-  //       saturday: 'late'
-  //     },
-  //     {
-  //       name: 'John Doe Doe Doe',
-  //       monday: 'present',
-  //       tuesday: 'late',
-  //       wednesday: 'absent',
-  //       thursday: 'present',
-  //       friday: 'present',
-  //       saturday: 'late'
-  //     },
-  //   ];
-  // }
-
 
   timeBtnClick(action: string, id: string) {
     this.ds.request('POST', `admin/attendance/${action}/user/${id}`).subscribe({
@@ -219,49 +194,56 @@ export class AttendanceComponent implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
-  openAttendanceDetail(day: string, data: any): void {
+  openAttendanceDetail(date: any, day: string, data: any): void {
     const dialogRef = this.dialog.open(AttendanceDetailPopupComponent, {
       data: {
+        selectedDate: date,
         selectedDay: day,
         details: data
       }
     });
   
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        const index = this.dataSource.findIndex((employee: any) => employee.name === name);
-        if (index === -1) return;
+    // dialogRef.afterClosed().subscribe((res: any) => {
+    //   if (res) {
+    //     const index = this.dataSource.findIndex((employee: any) => (employee.id === this.employee.id));
+    //     if (index === -1) return;
   
-        const currentTime = new Date();
-        const eightAM = new Date();
-        eightAM.setHours(8, 0, 0);
-        const sixPM = new Date();
-        sixPM.setHours(18, 0, 0);
+    //     console.log(res)
+    //     switch(res.data.selectedDate) {
+
+    //     }
+        // const currentTime = new Date();
+        // const eightAM = new Date();
+        // eightAM.setHours(8, 0, 0);
+        // const sixPM = new Date();
+        // sixPM.setHours(18, 0, 0);
   
-        const dayKey = data.day.toLowerCase() as keyof AttendanceRecord;
+        // const dayKey = data.day.toLowerCase() as keyof AttendanceRecord;
   
-        if (result.timeIn) {
-          const timeIn = new Date();
-          timeIn.setHours(result.manualHour || 0, result.manualMinute || 0, 0);
+        // if (result.timeIn) {
+        //   const timeIn = new Date();
+        //   timeIn.setHours(result.manualHour || 0, result.manualMinute || 0, 0);
           
-          if (timeIn <= eightAM) {
-            this.dataSource[index][dayKey] = 'present';
-          } else if (timeIn > eightAM && timeIn < sixPM) {
-            this.dataSource[index][dayKey] = 'late';
-          } else if (timeIn >= sixPM) {
-            this.dataSource[index][dayKey] = 'absent';
-          }
-        } else if (result.leave) {
-          this.dataSource[index][dayKey] = 'leave';
-        } else if (result.paidLeave) {
-          this.dataSource[index][dayKey] = 'paid-leave';
-        } else if (!result.timeIn && currentTime >= sixPM) {
-          this.dataSource[index][dayKey] = 'absent';
-        }
+        //   if (timeIn <= eightAM) {
+        //     this.dataSource[index][dayKey] = 'present';
+        //   } else if (timeIn > eightAM && timeIn < sixPM) {
+        //     this.dataSource[index][dayKey] = 'late';
+        //   } else if (timeIn >= sixPM) {
+        //     this.dataSource[index][dayKey] = 'absent';
+        //   }
+        // } else if (result.leave) {
+        //   this.dataSource[index][dayKey] = 'leave';
+        // } else if (result.paidLeave) {
+        //   this.dataSource[index][dayKey] = 'paid-leave';
+        // } else if (!result.timeIn && currentTime >= sixPM) {
+        //   this.dataSource[index][dayKey] = 'absent';
+        // }
+
+
   
-        this.changeDetectorRef.detectChanges();
-      }
-    });
+        // this.changeDetectorRef.detectChanges();
+      // }
+    // });
   }
 
   openAttendanceHistory() {

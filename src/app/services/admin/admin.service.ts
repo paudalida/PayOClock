@@ -31,7 +31,22 @@ export class AdminService {
   }  
 
   public setEmployee(data: any) {
-    this.employeeData = data;
+    this.employeeData = {
+      id: data.id || null,
+      type: data.type || null,
+      employee_id: data.employee_id || null,
+      full_name: data.full_name || null,
+      first_name: data.first_name || null,
+      middle_name: data.middle_name || null,
+      last_name: data.last_name,
+      ext_name: data.ext_name || null,
+      gender: data.gender || null,
+      position: data.postiion || null,
+      phone_number: data.phone_number || null,
+      image: data.image || null,
+      hourly_rate: data.hourly_rate || null,
+      completed_payday: data.completed_payday || null
+    };
   }
 
   public getEmployees() {
