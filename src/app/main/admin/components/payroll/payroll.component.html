@@ -1,10 +1,31 @@
-<main> 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<div class="main-content">
+    <div class="header"> 
+    </div>
+
     <div class="table-content">
         <div class="table-head">
 
-            <div class="header-text">
-                <h1> Employees Payroll </h1>
+           <!----------- DATE PICKER ----------->
+               
+           <div class="input-row">
+            <div class="txt_field">
+                <label for="datepicker"> From: </label>
+                    <input type="date" autocomplete="off">
             </div>
+            <div class="txt_field">
+                <label for="datepicker"> To: </label>
+                    <input type="date" autocomplete="off">
+            </div>
+
+        <!----------- EXPORT ----------------> 
+
+            <div class="txt_field">
+                <button class="print">Print</button>
+            </div>
+        </div>
 
             <div class="search-container">
                 <input id="search" type="text" placeholder="Search..." name="search">
@@ -14,54 +35,53 @@
         </div>
           
         <div class="mat-elevation-z8">
-            <table mat-table [dataSource]="dataSource">
+            <table mat-table [dataSource]="dataSource" matSort>
 
-                <!-- Employee Name Column -->
-                <ng-container matColumnDef="name">
-                    <th mat-header-cell *matHeaderCellDef> Employee Name </th>
-                    <td mat-cell *matCellDef="let element"> {{element.full_name}} </td>
-                </ng-container>
+             <!-- Id Number Column -->
+             <ng-container matColumnDef="employee_id">
+                <th mat-header-cell *matHeaderCellDef> ID Number </th>
+                <td mat-cell *matCellDef="let element"> {{element.employee_id}} </td>
+            </ng-container>
+        
+            <!-- Employee Name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Employee Name </th>
+                <td mat-cell *matCellDef="let element"> 
+                    {{element.first_name}} {{element.middle_name ? element.middle_name[0] + '.' : ''}} {{element.last_name}} {{element.ext_name || ''}}
+                </td>
+            </ng-container>
+        
+            <!-- Position Column -->
+            <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef> Position </th>
+                <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+            </ng-container>
 
-                <!-- Id Number Column -->
-                <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef> ID Number </th>
-                    <td mat-cell *matCellDef="let element"> {{element.employee_id}} </td>
-                </ng-container>
+            <!-- Net Salary Column -->
+            <ng-container matColumnDef="net_salary">
+                <th mat-header-cell *matHeaderCellDef> Net Salary </th>
+                <td mat-cell *matCellDef="let element"> {{element.phone_number}} </td>
+            </ng-container>
 
-                <!-- Position Column -->
-                <ng-container matColumnDef="position">
-                    <th mat-header-cell *matHeaderCellDef> Position </th>
-                    <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-                </ng-container>
+             <!-- Total Deduction Column -->
+             <ng-container matColumnDef="total_deduction">
+                <th mat-header-cell *matHeaderCellDef> Total Deduction </th>
+                <td mat-cell *matCellDef="let element"> {{element.phone_number}} </td>
+            </ng-container>
 
-                <!-- Status Column -->
-                <ng-container matColumnDef="status">
-                    <th mat-header-cell *matHeaderCellDef> Status </th>
-                    <td mat-cell *matCellDef="let element">
-                        <span [ngClass]="{'done': laterThanNow(element.completed_payday), 'not-yet-done': !laterThanNow(element.completed_payday)}">
-                            {{ laterThanNow(element.completed_payday) ? 'Done' : 'Pending'}}
-                        </span>
-                    </td>
-                </ng-container>
+            <!-- Total Salary Column -->
+            <ng-container matColumnDef="total_salary">
+                <th mat-header-cell *matHeaderCellDef> Total Salary </th>
+                <td mat-cell *matCellDef="let element"> {{element.phone_number}} </td>
+            </ng-container>
 
-                <!-- Action Column -->
-                <ng-container matColumnDef="action">
-                    <th mat-header-cell *matHeaderCellDef> Action </th>
-                    <td mat-cell *matCellDef="let element">
-                    <div class="action-buttons">
-                        <button mat-button class="action-button payroll-button" (click)="setEmployee(element); redirectToPayroll()">Payroll</button>
-                        <button mat-button class="action-button payslips-button" (click)="setEmployee(element); redirectToPayslip()">Payslip</button>
-                    </div>
-                    </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
 
             <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons
                 aria-label="Select page of periodic elements">
             </mat-paginator>
-        </div>    
+        </div>   
     </div>
-</main>
+</div>

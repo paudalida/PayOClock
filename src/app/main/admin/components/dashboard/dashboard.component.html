@@ -31,76 +31,66 @@
         <div class="attendance">
             <div class="header-content">
                 <h1>Attendance Summary</h1>
-                <div class="legend">
-                    <div class="legend-item">
-                        <div class="square green"></div>
-                        <span>Present</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="square yellow"></div>
-                        <span>Late</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="square red"></div>
-                        <span>Absent</span>
-                    </div>
-                </div>
             </div>
             <div class="table">
                 <table>
                     <thead>
                         <tr>
+                            <th>Status</th>
                             <th>Monday</th>
                             <th>Tuesday</th>
                             <th>Wednesday</th>
                             <th>Thursday</th>
                             <th>Friday</th>
+                            <th>Saturday</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="green-row">
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
+                        <tr>
+                            <td [ngClass]="getStatusClass(0)">{{ getStatus(0) }}</td>
+                            <td>{{ tableData[0].monday }}</td>
+                            <td>{{ tableData[0].tuesday }}</td>
+                            <td>{{ tableData[0].wednesday }}</td>
+                            <td>{{ tableData[0].thursday }}</td>
+                            <td>{{ tableData[0].friday }}</td>
+                            <td>{{ tableData[0].saturday }}</td>
                         </tr>
-                        <tr class="yellow-row">
-                            <td>2</td>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>2</td>
+                        <tr>
+                            <td [ngClass]="getStatusClass(1)">{{ getStatus(1) }}</td>
+                            <td>{{ tableData[1].monday }}</td>
+                            <td>{{ tableData[1].tuesday }}</td>
+                            <td>{{ tableData[1].wednesday }}</td>
+                            <td>{{ tableData[1].thursday }}</td>
+                            <td>{{ tableData[1].friday }}</td>
+                            <td>{{ tableData[1].saturday }}</td>
                         </tr>
-                        <tr class="red-row">
-                            <td>3</td>
-                            <td>3</td>
-                            <td>3</td>
-                            <td>3</td>
-                            <td>3</td>
+                        <tr>
+                            <td class="status-absent">Absent</td>
+                            <td>{{ tableData[2].monday }}</td>
+                            <td>{{ tableData[2].tuesday }}</td>
+                            <td>{{ tableData[2].wednesday }}</td>
+                            <td>{{ tableData[2].thursday }}</td>
+                            <td>{{ tableData[2].friday }}</td>
+                            <td>{{ tableData[2].saturday }}</td>
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            </div>                               
         </div>
-        
-        
+
         <div class="graph-container">
-            <div class="right">
-                <span class="header"> Year 2024 </span>
-                    <div class="chart-container">
-                        <div class="base"></div>
-                        <div class="bar one"></div>   
-                        <div class="bar two"></div>   
-                        <div class="bar three"></div>
-                        <div class="bar four"></div>   
-                        <div class="bar five"></div>   
-                        <div class="bar six"></div>
-                    </div>
+            <div class="right" style="height: 450px;">
+                <span class="header">Payroll Summary of Year 2024</span>
+                <div class="bar-container" style="height: 100%;">
+                    <p-chart type="bar" [data]="barChartData" [options]="options.bar" style="height: 100%;"></p-chart>
+                </div>
             </div>
-            <div class="left">
-                <span class="header"> Month </span>
-                    <div class="piechart"></div>
+
+            <div class="left" style="height: 450px;">
+                <span class="header">Attendance Summary per Month</span>
+                <div class="doughnut-container" style="height: 300px;">
+                    <p-chart type="doughnut" [data]="doughnutChartData" [options]="options.doughnut"></p-chart>
+                </div>
             </div>
         </div>
     </div>

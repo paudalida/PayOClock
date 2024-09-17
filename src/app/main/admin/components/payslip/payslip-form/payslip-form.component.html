@@ -1,0 +1,100 @@
+<div class="main-content">
+    <div class="header"> 
+        <h1> Payslip </h1>
+            <button class="btn-secondary paylip-back" (click)="redirectToPayrolls()"> Back </button>
+            <button class="btn-primary paylip-history" button (click)="redirectToPayslipHistory()"> History </button>
+    </div>
+
+    <div class="table-content">
+        <div class="table-head">
+
+            <div class="input-row">
+                <div class="information-case">
+                    <th> EMPLOYEE NAME: </th>  
+                    <td> {{ employee.full_name }} </td>
+                </div>
+    
+                <div class="information-case">
+                    <th> PAYROLL PERIOD: </th> 
+                    <td> {{ payday | date: 'MMMM' }} {{ getPayDateRange(payday) }}, {{ payday | date: 'YYYY' }} </td>  
+                </div>
+            </div>
+
+            <div class="input-row">
+                <div class="information-case">
+                    <th> ID NUMBER: </th>  
+                    <td> {{ employee.employee_id }} </td>
+                </div>
+
+                <div class="information-case">
+                    <th> RATE: </th>  
+                    <td> {{ employee.hourly_rate }} </td> 
+                </div>
+            </div>
+
+            <div class="input-row">
+                <div class="information-case">
+                    <th> POSITION: </th> 
+                    <td> {{ employee.position }} </td> 
+                </div>
+            </div>
+        </div>
+
+
+        <div class="loading" *ngIf="isLoading">
+            <app-spinner></app-spinner>
+        </div>
+
+        <div class="table-content1" *ngIf="!isLoading">
+
+            <table>
+                <tr class="table-header">
+                    <th> Earnings </th>
+                    <th> </th>
+                    <th> Amount </th>
+                    <th> Earnings </th>
+                    <th> </th>
+                    <th> Amount </th>
+                    <th> Deductions </th>
+                    <th> Amount </th>
+                </tr>
+
+                <ng-container *ngFor="let value of values">
+                    <tr>
+                        <td> {{ value[0] }} </td>
+                        <td> {{ value[1] }} </td>
+                        <td> {{ value[2] }} </td>
+                        <td> {{ value[3] }} </td>
+                        <td> {{ value[4] }} </td>
+                        <td> {{ value[5] }} </td>
+                        <td> {{ value[6] }} </td>
+                        <td> {{ value[7] }} </td>
+                    </tr>
+                </ng-container>
+
+                <tr class="totals">
+                    <td> Adjusted Pay </td>
+                    <td> </td>
+                    <td> {{ adjusted_pay }} </td>
+                    <td> Total Additions </td>
+                    <td> </td>
+                    <td> {{ total_additions  }}</td>
+                    <td> Total Deductions </td>
+                    <td> {{ total_deductions }}</td>
+                </tr>
+
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> Gross Pay </td>
+                    <td> </td>
+                    <td> {{ gross_pay }}</td>
+                    <td> Net Pay </td>
+                    <td> {{ net_pay }}</td>
+                </tr>
+                
+            </table>
+        </div>
+    </div>
+</div>

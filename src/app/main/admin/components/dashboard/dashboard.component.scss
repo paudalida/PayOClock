@@ -88,228 +88,104 @@
             font-size: 1.5rem;
             margin: 0; 
         }
-
-        .legend {
-            display: flex;
-            gap: 15px; 
-            align-items: center; 
-            
-            .legend-item {
-                display: flex;
-                align-items: center;
-
-                .square {
-                    width: 20px;
-                    height: 20px;
-                    margin-right: 5px;
-
-                    &.green {
-                        background-color: var(--time-in-button); 
-                    }
-                    &.yellow {
-                        background-color: var(--late); 
-                    }
-                    &.red {
-                        background-color: var(--absent); 
-                    }
-                }
-
-                span {
-                    font-size: 14px;
-                    color: #333; 
-                }
-            }
-        }
     }
 
     .table {
         table {
             width: 100%;
             border-collapse: collapse;
-
+    
             th, td {
                 padding: 20px;
                 text-align: center;
-                border: none;
+                border: 1px solid var(--table-border);
             }
+    
             thead {
                 th {
-                    background-color: var(--table-background);
+                    background-color: var(--primary-color);
+                    color: var(--white);
                     font-weight: bold;
                     padding: 20px;
+                    border: none;
                 }
             }
+
             tbody {
-                .green-row {
-                    background-color: var(--time-in-button);
-                    color: var(--white);
+                
+                .status-present {
+                    color: var(--present);
+                    font-weight: bold;
                 }
-                .yellow-row {
-                    background-color: var(--late);
-                    color: var(--white);
+    
+                .status-late {
+                    color:var(--late);
+                    font-weight: bold;
                 }
-                .red-row {
-                    background-color: var(--absent);
-                    color: var(--white);
+    
+                .status-absent {
+                    color: var(--absent);
+                    font-weight: bold;
                 }
             }
         }
-    }
-}
+    }     
+}    
 
 
 // GRAPHS
 
 .graph-container {
     display: flex;
-    justify-content: space-between; 
+    justify-content: space-between;
     flex-wrap: wrap;
+    padding: 20px;
+    height: 100%; 
 }
 
 .graph-container .right, .graph-container .left {
-    width: calc(49% - 30px);
-    max-width: 100%; 
-    height: 500px;
+    width: calc(45% - 30px);
+    max-width: 100%;
+    height: 500px; 
     margin-top: 30px;
     border-radius: 10px;
+    padding: 15px;
     display: flex;
+    background: var(--white);
+    flex-direction: column; 
 }
 
 .graph-container .right {
-    margin-left: 35px; 
+    margin-left: 25px;
+    padding: 35px;
 }
 
 .graph-container .left {
-    margin-right: 20px; 
+    padding: 35px;
 }
 
-.right, .left{
+.right, .left {
     font-size: 20px;
     font-weight: 600;
     padding-top: 20px;
     padding-bottom: 20px;
     align-items: center;
-    flex-direction: column;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);    
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    position: relative; 
 }
 
-// BAR GRAPH
-
-.base {
-    position: absolute;
-    bottom: 0;
-    left: -55px;
-    width: auto;
-    height: 20px;
-    background-color: rgba(255,255,255,0.05);
-}
-  
-.chart-container {
-    position: relative;
-    z-index: 0;
-    width: 800px;
-    height: 500px;
-    margin-left: 85px;
-    color: rgba(255,255,255,0.75);
+.header {
+    padding-bottom: 45px;
+    color: var(--landing-font);
+    font-size: 1.3rem;
 }
 
-.chart-container:after {
-    content:"";
-    position: absolute;
-    top: -15px;
-    left: -8px;
-    height: 15px;
-    width: 800px;
-    background-color: rgba(255,255,255,0.055);
-    -moz-transform: skew(45deg);
-    -o-transform: skew(45deg);
-    -webkit-transform: skew(45deg);
-    transform: skew(45deg);
-}
-
-.bar {
-    float: left;
-    position: absolute;
-    bottom: 0;
-    z-index: 99;
-    width: 40px;
-    margin: 0 170px;
-    background-color: var(--primary-color);
-}
-
-.bar:before {
-    content: "";
-    position: absolute;
-    left: -15px;
-    bottom: 7px;
+.bar-container {
+    width: 100%;
     height: 100%;
-    width: 15px;
-    background-color: var(--dark-blue);
 }
 
-.bar:after {
-    content: "";
-    position: absolute;
-    top: -15px;
-    left: -8px;
-    width: 40px;
-    height: 15px;
-    background-color: var(--light-blue);
-    -moz-transform: skewX(45deg);
-    -o-transform: skewX(45deg);
-    -webkit-transform: skewX(45deg);
-    transform: skewX(45deg);
-}
-
-.one{
-    height: 30%;
-    margin-left: 150px;
-    margin-right: 0px;
-}
-
-.two {
-    left: 12.5%;
-    height: 57%;
-    margin-left: 130px;
-    margin-right: 130px;
-}
-
-.three {
-    left: 25%;
-    height: 85%;
-    margin-left: 115px;
-    margin-right: 130px;
-}
-
-.four {
-    left: 37.5%;
-    height: 35%;
-    margin-left: 100px;
-    margin-right: 130px;
-}
-
-.five {
-    left: 50%;
-    height: 63%;
-    margin-left: 90px;
-    margin-right: 130px;
-}
-
-.six {
-    left: 62.5%;
-    height: 45%;
-    margin-left: 80px;
-    margin-right: 130px;
-}
-
-.piechart {
-    margin-top: 35px;
-    width: 65%;
-    height: 80%;
-    border-radius: 50%;
-    background-image: conic-gradient(
-        var(--primary-color) 70deg,
-        var(--dark-blue) 0 235deg,
-        var(--light-blue) 0 
-    );
+.doughnut-container {
+    width: 100%;
+    height: 300px;
 }

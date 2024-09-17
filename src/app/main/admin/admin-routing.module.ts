@@ -3,22 +3,29 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { EmployeeComponent } from './components/employee/employee.component';
-import { PayrollComponent } from './components/payroll/payroll.component';
+// import { PayrollComponent } from './components/payroll/payroll.component';
+import { PayslipComponent } from './components/payslip/payslip.component';
 import { AnnouncementsComponent } from './components/announcements/announcements.component';
-import { ReportComponent } from './components/report/report.component';
+
+// import { ReportComponent } from './components/report/report.component';
+import { PayrollComponent } from './components/payroll/payroll.component';
+
 import { PayrollFormsComponent } from './components/dialogs/payroll-forms/payroll-forms.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
-import { PayslipFormComponent } from './components/payroll/payslip-form/payslip-form.component';
-import { PayslipHistoryComponent } from './components/payroll/payslip-history/payslip-history.component';
+
+// import { PayslipFormComponent } from './components/payroll/payslip-form/payslip-form.component';
+// import { PayslipHistoryComponent } from './components/payroll/payslip-history/payslip-history.component';
+import { PayslipFormComponent } from './components/payslip/payslip-form/payslip-form.component';
+import { PayslipHistoryComponent } from './components/payslip/payslip-history/payslip-history.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, 
   { path: 'dashboard', component: DashboardComponent}, 
   { path: 'employees', component: EmployeeComponent}, 
   {
-    path: 'payrolls',
+    path: 'payslips',
     children: [
-      { path: '', component: PayrollComponent, pathMatch: 'full'}, 
+      { path: '', component: PayslipComponent, pathMatch: 'full'}, 
       { path: 'form', component: PayrollFormsComponent}, 
       { path: 'payslip', component: PayslipFormComponent},
       { path: 'payslips-history', component: PayslipHistoryComponent}
@@ -26,7 +33,7 @@ const routes: Routes = [
   },
   { path: 'announcements', component: AnnouncementsComponent }, 
   { path: 'attendance', component: AttendanceComponent }, 
-  { path: 'reports', component: ReportComponent },
+  { path: 'payroll', component: PayrollComponent },
   { path: '**', redirectTo: 'dashboard' }
 ];
 

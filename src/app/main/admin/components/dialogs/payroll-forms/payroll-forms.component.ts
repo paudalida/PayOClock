@@ -283,7 +283,7 @@ export class PayrollFormsComponent implements OnInit{
   async backRoute() {
     this.pop.swalWithCancel('question', 'Leave this page?', 'Changes you have made may not be saved.')
       .then(isConfirmed => {
-        if (isConfirmed) this.router.navigate(['admin/payrolls']);
+        if (isConfirmed) this.router.navigate(['admin/payslips']);
       });
   }
 }

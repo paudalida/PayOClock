@@ -23,7 +23,6 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +43,8 @@ import { MatIconModule } from '@angular/material/icon';
 
     /* Landing imports */ 
     MatToolbarModule,
-    MatIconModule
+    MatIconModule 
+    
   ],
   providers: [
     provideClientHydration(),
@@ -53,6 +53,6 @@ import { MatIconModule } from '@angular/material/icon';
       withFetch(), 
     )
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent], 
 })
 export class AppModule { }
