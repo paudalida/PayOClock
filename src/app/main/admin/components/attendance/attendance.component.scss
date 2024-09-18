@@ -45,12 +45,25 @@
     align-items: center; 
 }
 
+.date-range-dropdown {
+    select {
+        width: 210px;
+        padding: 10px;
+        border-radius: 3px;
+        font-family: "poppins";
+        background: var(--white);
+        border: 0.5px solid var(--table-border);
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+    }
+}
+
 .legend-item {
     display: flex;
     align-items: center;
 
     .square {
-        width: 20px;
+        width: 50px;
         height: 20px;
         margin-right: 5px;
 
@@ -66,9 +79,8 @@
         &.blue {
             background-color: var(--primary-color);
         }
-
     }
-
+    
     span {
         font-size: 14px;
         color: #333;
@@ -103,28 +115,41 @@
     }
 
     .name-column {
-        width: 200px; 
-        text-align: center; 
+        width: 350px;
+        text-align: left;  
+        padding-left: 45px;
+    }
+
+    .day-column {
+        width: 130px; 
+        text-align: center;
     }
 
     td.status-present {
         background-color: var(--time-in-button);
+        color: var(--white);
+        font-weight: 700;
     }
 
     td.status-late {
         background-color: var(--late);
+        color: var(--white);
+        font-weight:700;
     }
 
     td.status-absent {
         background-color: var(--absent);
+        color: var(--white);
+        font-weight: 700;
     }
 
-    td.status-leave {
-        background-color: var(--primary-color); 
-    }
+    // td.status-leave {
+    //     background-color: var(--primary-color); 
+    // }
     
     td.status-paid-leave {
         background-color: var(--primary-color);  
+        color: var(--white);
     }
 
     .proof-btn {

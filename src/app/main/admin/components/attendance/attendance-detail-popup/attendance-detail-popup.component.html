@@ -34,14 +34,14 @@
           <div class="action-display">
             <ng-container [ngSwitch]="selectedAction">
               <div *ngSwitchCase="'manual'" class="manual-action">
-                <div>
-                  <div class="label"> Time In </div>
-                  <input type="time" [(ngModel)]="manual.timeIn" />
+                <div class="time-row">
+                  <div class="label">Time In</div>
+                  <input type="time" [(ngModel)]="manual.timeIn" class="time-input" />
                 </div>
-
-                <div class="label"> Time Out </div>
-                <div>
-                  <input type="time" [(ngModel)]="manual.timeOut" />
+          
+                <div class="time-row">
+                  <div class="label">Time Out</div>
+                  <input type="time" [(ngModel)]="manual.timeOut" class="time-input" />
                 </div>
                 <!-- <div *ngIf="!timeInEntered" class="time-input">
                   <select [(ngModel)]="manualTimeIn.hours">
@@ -70,7 +70,7 @@
                     <option value="AM">AM</option>
                     <option value="PM">PM</option>
                   </select> -->
-                  <button class="time-btn time-out" (click)="applyManualTime()"> Save </button>
+                  <button class="time-btn save-btn" (click)="applyManualTime()"> Save </button>
                 <!-- </div> -->
               </div>
               <!-- <div *ngSwitchCase="'button'" class="button-action">

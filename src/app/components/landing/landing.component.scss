@@ -13,7 +13,7 @@ body {
 
 .toolbar {
   background-color: var(--primary-color);
-  padding: 20px 35px;
+  padding: 15px 60px;
 
   .toolbar-row {
     display: flex;
@@ -37,7 +37,7 @@ body {
     }
 
     .website-name {
-      font-size: 1rem; 
+      font-size: 17px; 
       color: var(--white);
     }
   }
@@ -63,13 +63,12 @@ body {
       color: var(--white);
       padding: 10px;
       text-decoration: none;
-      font-size: 15px;
+      font-size: 17px;
       cursor: pointer;
       display: block;
 
       &:hover {
-        background-color: var(--buttons-hover);
-        border-radius: 4px;
+        color: var(--black);
       }
     }
 
@@ -82,7 +81,7 @@ body {
       border-radius: 4px;
       min-width: 160px;
       right: 0;
-      top: 42px;
+      top: 65px;
     }
 
     .dropdown-item {
@@ -98,7 +97,7 @@ body {
       }
 
       &:hover {
-        background-color: var(--buttons-hover);
+        background-color: var(--primary-color);
         color: var(--white);
       }
     }
@@ -145,7 +144,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 40px 20px;
+  padding: 40px 40px;
 
   .home-content {
     display: flex;
@@ -204,7 +203,8 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
+    position: relative; 
+  
     .vector-image {
       width: 100%; 
       max-width: 400px; 
@@ -212,6 +212,15 @@ body {
       margin-top: 25px;
       margin-bottom: 20px;
     }
+  
+    // .logo {
+    //   position: absolute;
+    //   bottom: 10px; 
+    //   top: 450px; 
+    //   left: -15px;    
+    //   width: 250px;  
+    //   height: auto;
+    // }
   }
 
   @media (min-width: 768px) {
@@ -233,6 +242,10 @@ body {
       .vector-image {
         width: 600px;
         max-width: 100%; 
+      }
+  
+      .logo {
+        width: 200px; 
       }
     }
   }
@@ -259,6 +272,7 @@ body {
     font-size: 2.5rem;
     margin-top: 40px;
     margin-bottom: 100px;
+    
   }
 
   p {
@@ -293,13 +307,6 @@ body {
       transform: translate(0px, -2px);
       cursor: pointer;
       text-decoration: none;
-
-      .about-icon,
-      h3,
-      p {
-        font-weight: 700;
-        color: var(--primary-color);
-      }
     }
 
     .about-icon {

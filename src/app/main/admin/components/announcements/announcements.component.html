@@ -16,11 +16,12 @@
             <div class="content-right">
                 <h2 class="title"> {{ posts[0].title }} </h2>
                 <p class="author"> By {{ posts[0].author }} </p>
-                <pre class="description"> {{ posts[0].content }} </pre>
-            </div>
-            <div class="button-container">
-                <button class="btn edit-btn" type="button" (click)="openDialog(posts[0], 'update')">Edit</button>
-                <button class="btn delete-btn" (click)="archive(posts[0].id)">Delete</button>
+                <pre class="description">{{ posts[0].content }}</pre>
+
+                <div class="button-container">
+                    <button class="btn edit-btn" type="button" (click)="openDialog(posts[0], 'update')">Edit</button>
+                    <button class="btn delete-btn" (click)="archive(posts[0].id)">Delete</button>
+                </div>
             </div>
         </div>
         

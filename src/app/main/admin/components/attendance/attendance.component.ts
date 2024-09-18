@@ -36,6 +36,9 @@ export class AttendanceComponent implements OnInit {
   dataSource: any;
   dates: any = [];
 
+  dateRanges: string[] = [];
+  selectedDateRange: string = '';
+
   constructor(
     private dialog: MatDialog,
     private paginatorIntl: MatPaginatorIntl,
@@ -49,6 +52,9 @@ export class AttendanceComponent implements OnInit {
     const firstDay = new Date(now);             // Create a new date object to avoid mutation
     firstDay.setDate(now.getDate() - currentDay);
     
+    // Generate date ranges
+    this.generateDateRanges();
+
     for (let i = 0; i < 6; i++) {
       const newDate = new Date(firstDay);
       newDate.setDate(firstDay.getDate() + i);
@@ -135,6 +141,43 @@ export class AttendanceComponent implements OnInit {
       },
       complete: () => { this.isLoading = false; }
     });
+  }
+
+  generateDateRanges(): void {
+    const startYear = new Date().getFullYear(); // Start from the current year
+    const endYear = 2025; // End at December 2025
+    let currentYear = startYear;
+    let currentMonth = new Date().getMonth(); // Current month (0-based index)
+
+    // Generate ranges until December 2025
+    while (currentYear < endYear || (currentYear === endYear && currentMonth <= 11)) {
+      let startDate = new Date(currentYear, currentMonth, 1); // Start of the current month
+      let endDate = new Date(startDate); // Clone start date
+      endDate.setDate(startDate.getDate() + 34); // Set end date 34 days ahead (total 35 days)
+
+      // Format dates as MM/DD/YYYY
+      const formattedStartDate = this.formatDate(startDate);
+      const formattedEndDate = this.formatDate(endDate);
+      const range = `${formattedStartDate} - ${formattedEndDate}`;
+      this.dateRanges.push(range);
+
+      // Move to the next range starting from the day after the current end date
+      currentMonth = endDate.getMonth() + 1; // Move to the month after the current end date
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      }
+    }
+
+    // Set the default selection
+    this.selectedDateRange = this.dateRanges[0];
+  }
+
+  formatDate(date: Date): string {
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const day = String(date.getDate()).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
   }
 
   formatTime(time: string) {

@@ -23,6 +23,12 @@
                     <span>Leave</span>
                 </div>
             </div>
+
+            <div class="date-range-dropdown">
+                <select [(ngModel)]="selectedDateRange">
+                    <option *ngFor="let date of dateRanges" [value]="date">{{ date }}</option>
+                </select>
+            </div>
         </div>
            
         <div class="spinner" *ngIf="isLoading">
@@ -34,52 +40,53 @@
             <!-- Employee Name Column -->
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef> Employee Name </th>
-                <td mat-cell *matCellDef="let element" (click)="openAttendanceHistory()">
-                    {{element.name}}
+                <td mat-cell *matCellDef="let element" class="name-column" (click)="openAttendanceHistory()">
+                    {{ element.name }}
                 </td>
             </ng-container>
 
             <!-- Monday Column -->
             <ng-container matColumnDef="monday">
-                <th mat-header-cell *matHeaderCellDef> Monday </th>
+                <th mat-header-cell *matHeaderCellDef class="day-column"> Monday </th>
                 <td mat-cell *matCellDef="let element" [ngClass]="getStatusClass(element.mon.status)"
-                (click)="openAttendanceDetail(dates[0], 'Monday', element.mon)"> {{ formatTime(element.mon.time_in) }} </td>
+                    (click)="openAttendanceDetail(dates[0], 'Monday', element.mon)"> {{ formatTime(element.mon.time_in) }} </td>
             </ng-container>
 
             <!-- Tuesday Column -->
             <ng-container matColumnDef="tuesday">
-                <th mat-header-cell *matHeaderCellDef> Tuesday </th>
+                <th mat-header-cell *matHeaderCellDef class="day-column"> Tuesday </th>
                 <td mat-cell *matCellDef="let element" [ngClass]="getStatusClass(element.tue.status)"
-                (click)="openAttendanceDetail(dates[1], 'Tuesday', element.tue)"> {{ formatTime(element.tue.time_in) }} </td>
+                    (click)="openAttendanceDetail(dates[1], 'Tuesday', element.tue)"> {{ formatTime(element.tue.time_in) }} </td>
             </ng-container>
 
             <!-- Wednesday Column -->
             <ng-container matColumnDef="wednesday">
-                <th mat-header-cell *matHeaderCellDef> Wednesday </th>
+                <th mat-header-cell *matHeaderCellDef class="day-column"> Wednesday </th>
                 <td mat-cell *matCellDef="let element" [ngClass]="getStatusClass(element.wed.status)"
-                (click)="openAttendanceDetail(dates[2], 'Wednesday', element.wed)"> {{ formatTime(element.wed.time_in) }} </td>
+                    (click)="openAttendanceDetail(dates[2], 'Wednesday', element.wed)"> {{ formatTime(element.wed.time_in) }} </td>
             </ng-container>
 
             <!-- Thursday Column -->
             <ng-container matColumnDef="thursday">
-                <th mat-header-cell *matHeaderCellDef> Thursday </th>
+                <th mat-header-cell *matHeaderCellDef class="day-column"> Thursday </th>
                 <td mat-cell *matCellDef="let element" [ngClass]="getStatusClass(element.thu.status)"
-                (click)="openAttendanceDetail(dates[3], 'Thursday', element.thu)"> {{ formatTime(element.thu.time_in) }} </td>
+                    (click)="openAttendanceDetail(dates[3], 'Thursday', element.thu)"> {{ formatTime(element.thu.time_in) }} </td>
             </ng-container>
 
             <!-- Friday Column -->
             <ng-container matColumnDef="friday">
-                <th mat-header-cell *matHeaderCellDef> Friday </th>
+                <th mat-header-cell *matHeaderCellDef class="day-column"> Friday </th>
                 <td mat-cell *matCellDef="let element" [ngClass]="getStatusClass(element.fri.status)"
-                (click)="openAttendanceDetail(dates[4], 'Friday', element.fri)"> {{ formatTime(element.fri.time_in) }} </td>
+                    (click)="openAttendanceDetail(dates[4], 'Friday', element.fri)"> {{ formatTime(element.fri.time_in) }} </td>
             </ng-container>
 
             <!-- Saturday Column -->
             <ng-container matColumnDef="saturday">
-                <th mat-header-cell *matHeaderCellDef> Saturday </th>
+                <th mat-header-cell *matHeaderCellDef class="day-column"> Saturday </th>
                 <td mat-cell *matCellDef="let element" [ngClass]="getStatusClass(element.sat.status)"
-                (click)="openAttendanceDetail(dates[5], 'Saturday', element.sat)"> {{ formatTime(element.sat.time_in) }} </td>
+                    (click)="openAttendanceDetail(dates[5], 'Saturday', element.sat)"> {{ formatTime(element.sat.time_in) }} </td>
             </ng-container>
+
 
             <!-- Proof Column -->
             <ng-container matColumnDef="proof">
