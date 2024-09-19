@@ -10,6 +10,10 @@
     
     <div class="body-content">
         <div class="admin-container"> 
+            <div class="loading" *ngIf="isLoading">
+                <app-spinner></app-spinner>
+            </div>
+
             <ng-container *ngIf="!isLoading">
                 <router-outlet></router-outlet> 
             </ng-container>
@@ -33,9 +37,9 @@
                     <span class="tab-icon"> <i class='bx bxs-dashboard'></i> </span>
                     <span class="tab-name">Dashboard</span>
                 </a>
-                <a mat-list-item routerLink="employees" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
-                    <span class="tab-icon"> <i class='bx bxs-user-detail'></i> </span>
-                    <span class="tab-name">Employees</span>
+                <a mat-list-item routerLink="attendance" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+                    <span class="tab-icon"> <i class='bx bx-clipboard'></i> </span>
+                    <span class="tab-name">Attendance</span>
                 </a>
                 <!-- <a mat-list-item routerLink="payrolls" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
                     <span class="tab-icon"> <i class='bx bxs-coin-stack'></i> </span>
@@ -49,13 +53,13 @@
                     <span class="tab-icon"> <i class='bx bxs-coin-stack'></i> </span>
                     <span class="tab-name">Payroll</span>
                 </a>
+                <a mat-list-item routerLink="employees" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
+                    <span class="tab-icon"> <i class='bx bxs-user-detail'></i> </span>
+                    <span class="tab-name">Employees</span>
+                </a>
                 <a mat-list-item routerLink="announcements" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
                     <span class="tab-icon"> <i class='bx bxs-megaphone'></i> </span>
                     <span class="tab-name">Announcements</span>
-                </a>
-                <a mat-list-item routerLink="attendance" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
-                    <span class="tab-icon"> <i class='bx bx-clipboard'></i> </span>
-                    <span class="tab-name">Attendance</span>
                 </a>
                 <!-- <a mat-list-item routerLink="reports" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
                     <span class="tab-icon"> <i class='bx bxs-bookmarks'></i> </span>

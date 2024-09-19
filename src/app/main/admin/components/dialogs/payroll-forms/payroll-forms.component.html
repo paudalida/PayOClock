@@ -2,8 +2,8 @@
     <div class="header"> 
         <h1> Employee Payroll </h1>
             <div class="input-row" *ngIf="!isLoading"> 
-                <button class="btn-primary save-payroll" type="button" (click)="submit()"> Completed </button>
-                <button class="btn-pending save-payroll" type="button" (click)="submit()"> Pending </button>
+                <button class="btn-primary save-payroll" type="button" (click)="submit('final')"> Completed </button>
+                <button class="btn-pending save-payroll" type="button" (click)="submit('incomplete')"> Pending </button>
                 <button class="btn-secondary back" type="button" (click)="backRoute()"> Back </button>
             </div>    
     </div>
@@ -13,63 +13,76 @@
     </div>
 
     <div class="content" *ngIf="!isLoading"> 
-        <div class="input-row"> 
+
+        <button class="btn" (click)="openDialog()"> Configuration </button>
+        <button class="btn" (click)="resetClick('saved')"> Reset to Saved </button>
+        <button class="btn" (click)="resetClick('default')"> Reset to Default </button>
+
+        <form [formGroup]="form">
+
+            <!-- Di ko alam san ilalagay to hehe -->
+            <div formGroupName="details">
+                <input type="date" formControlName="payday_start" />            
+                <input type="date" formControlName="payday_end" />
+            </div>
+
+            <div class="input-row"> 
 
             <!-- LEFT PANEL -->
-        <div class="container"> 
-            <div class="container-head"> 
-                Employee Details   
-            </div>
+            <div class="container"> 
+                <div class="container-head"> 
+                    Employee Details   
+                </div>
         
-        <div class="content-details"> 
-            <div class="input-row1">
-                <div class="entryarea">
-                    <div class="detail-value">{{ employee.employee_id || '' }}</div>
-                    <div class="labelline"> ID Number </div>
-                </div>
-
-                <div class="entryarea">
-                    <div class="detail-value">
-                        {{ employee.full_name }}
+            <div class="content-details"> 
+                <div class="input-row1">
+                    <div class="entryarea">
+                        <div class="detail-value">{{ employee.employee_id || '' }}</div>
+                        <div class="labelline"> ID Number </div>
                     </div>
-                    <div class="labelline"> Full name </div>
-                </div>
-            </div>
 
-            <div class="input-row1">
-                <div class="entryarea">
-                    <div class="detail-value">{{employee.position || ''}}</div>
-                    <div class="labelline"> Position </div>
-                </div>
-
-                <div class="entryarea">
-                    <div class="detail-value">
-                        {{employee.gender == 0 ? 'Female' : employee.gender == 1 ? 'Male' : 'Others'}}
+                    <div class="entryarea">
+                        <div class="detail-value">
+                            {{ employee.full_name }}
+                        </div>
+                        <div class="labelline"> Full name </div>
                     </div>
-                    <div class="labelline"> Gender </div>
-                </div>
-            </div>
-
-            <div class="input-row1">
-                <div class="entryarea1">
-                    <input type="text" name="per_hour" [value]="hourlyRate">
-                    <div class="labelline1"> Rate (hour) </div>
                 </div>
 
-                <div class="entryarea1">
-                    <input type="text" name="per_day" [value]="hourlyRate * 8">
-                    <div class="labelline1"> Rate (day) </div>
+                <div class="input-row1">
+                    <div class="entryarea">
+                        <div class="detail-value">{{employee.position || ''}}</div>
+                        <div class="labelline"> Position </div>
+                    </div>
+
+                    <div class="entryarea">
+                        <div class="detail-value">
+                            {{employee.gender == 0 ? 'Female' : employee.gender == 1 ? 'Male' : 'Others'}}
+                        </div>
+                        <div class="labelline"> Gender </div>
+                    </div>
                 </div>
 
-                <div class="entryarea1">
-                    <!-- Access the 'amount' form control at index 0 in 'base_pay' FormArray -->
-                    <input type="text" [value]="basePay" (keyup)="changeBasePay($event)">
-                    <div class="labelline1"> AMT </div>
+                <div class="input-row1">
+                    <div class="entryarea1">
+                        <input type="text" name="per_hour" [value]="hourlyRate" disabled>
+                        <div class="labelline1"> Rate (hour) </div>
+                    </div>
+
+                    <div class="entryarea1">
+                        <input type="text" name="per_day" [value]="hourlyRate * 8" disabled>
+                        <div class="labelline1"> Rate (day) </div>
+                    </div>
+
+                    <!-- <div class="entryarea1"> -->
+                        <!-- Access the 'amount' form control at index 0 in 'base_pay' FormArray -->
+                        <!-- <input type="text" [value]="basePay" (keyup)="changeBasePay($event)">
+                        <div class="labelline1"> AMT </div>
+                    </div> -->
+                    
                 </div>
-                  
             </div>
         </div>
-    </div>
 
             <!-- RIGHT PANEL -->
             <div class="container"> 
@@ -99,7 +112,6 @@
         </div>
 
         <!-- FORMS ARRAY -->
-        <form [formGroup]="form" (submit)="submit()">
             <form formArrayName="deduction">
                 <div class="input-row">
                     <div class="container-deduction">

@@ -49,11 +49,9 @@
 
             <table>
                 <tr class="table-header">
-                    <th> Earnings </th>
-                    <th> </th>
+                    <th> Attendance Earnings </th>
                     <th> Amount </th>
-                    <th> Earnings </th>
-                    <th> </th>
+                    <th> Other Earnings </th>
                     <th> Amount </th>
                     <th> Deductions </th>
                     <th> Amount </th>
@@ -67,17 +65,13 @@
                         <td> {{ value[3] }} </td>
                         <td> {{ value[4] }} </td>
                         <td> {{ value[5] }} </td>
-                        <td> {{ value[6] }} </td>
-                        <td> {{ value[7] }} </td>
                     </tr>
                 </ng-container>
 
                 <tr class="totals">
                     <td> Adjusted Pay </td>
-                    <td> </td>
                     <td> {{ adjusted_pay }} </td>
                     <td> Total Additions </td>
-                    <td> </td>
                     <td> {{ total_additions  }}</td>
                     <td> Total Deductions </td>
                     <td> {{ total_deductions }}</td>
@@ -86,9 +80,7 @@
                 <tr>
                     <td> </td>
                     <td> </td>
-                    <td> </td>
                     <td> Gross Pay </td>
-                    <td> </td>
                     <td> {{ gross_pay }}</td>
                     <td> Net Pay </td>
                     <td> {{ net_pay }}</td>

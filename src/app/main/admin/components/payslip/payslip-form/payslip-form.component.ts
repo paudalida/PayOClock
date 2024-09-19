@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../../../../services/admin/admin.service';
 import { Router } from '@angular/router';
 import { DataService } from '../../../../../services/data/data.service';
-import { MatListSubheaderCssMatStyler } from '@angular/material/list';
 import { PopupService } from '../../../../../services/popup/popup.service';
 
 @Component({
@@ -36,50 +35,26 @@ export class PayslipFormComponent implements OnInit{
         this.total_deductions = res.data.total_deductions;
         this.gross_pay        = res.data.gross_pay;
         this.net_pay          = res.data.net_pay;
-
-        let attendanceIndex = 0; let addDeductIndex = 0; let lastIndex = 0;
-        // let attAddition = res.data.payslip['attendance addition'] || [];
-        // let attDeduction = res.data.payslip['attendance deduction'] || [];
         
-        // let longest = attAddition.types.length + attDeduction.types.length + 1; /* Include basic salary field */
-        let longest = res.data.payslip.allowance.types.length;
-        // if(longest < res.data.payslip.allowance.types.length) longest = res.data.payslip.allowance.types.length;
+        let longest = res.data.payslip.attendance.types.length;
+        if(longest < res.data.payslip.allowance.types.length) longest = res.data.payslip.allowance.types.length;
         if(longest < res.data.payslip.deduction.types.length) longest = res.data.payslip.deduction.types.length;
 
         for(let i = 0; i < longest; i ++) {
-          let col1 = '';
-          let col2 = '';
-          let col3 = '';
-          let col4 = res.data.payslip.allowance.types[i]   || '';
-          let col5 = '';
-          let col6 = res.data.payslip.allowance.amounts[i] || '';
-          let col7 = res.data.payslip.deduction.types[i]   || '';
-          let col8 = res.data.payslip.deduction.amounts[i] || '';
-
-          if(i == 0) {
-
-            col1 = 'Base Pay';
-            col3 = String(this.base_pay);
-
-          } else if(i > 0) {
-
-            // if(i < attAddition.types.length+1) {
-            //   col1 = attAddition.types[i-1];
-            //   col3 = attAddition.amounts[i-1];
-            // } else if(i < attAddition.types.length+1 + attDeduction.types.length) {
-            //   col1 = attDeduction.types[i - attAddition.types.length-1];
-            //   col3 = attDeduction.amounts[i - attAddition.types.length-1];
-            // }
-
-          }
+          let col1 = res.data.payslip.attendance.types[i]   || '';
+          let col2 = res.data.payslip.attendance.amounts[i] || '';
+          let col3 = res.data.payslip.allowance.types[i]    || '';
+          let col4 = res.data.payslip.allowance.amounts[i]  || '';
+          let col5 = res.data.payslip.deduction.types[i]    || '';
+          let col6 = res.data.payslip.deduction.amounts[i]  || '';
 
           if(res.data.payslip.allowance.sub_types[i])
-            col4 += ' ' + res.data.payslip.allowance.sub_types[i];
+            col3 += ' ' + res.data.payslip.allowance.sub_types[i];
 
           if(res.data.payslip.deduction.sub_types[i])
-            col7 += ' ' + res.data.payslip.deduction.sub_types[i];
+            col5 += ' ' + res.data.payslip.deduction.sub_types[i];
           
-          this.values.push([col1, col2, col3, col4, col5, col6, col7, col8]);
+          this.values.push([col1, col2, col3, col4, col5, col6]);
         }
       },
       error: (err: any) => {

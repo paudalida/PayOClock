@@ -1,1 +1,114 @@
-<p>config-form works!</p>
+<div class="main">
+    <div class="title"> Deduction Configurations </div>
+    <button class="close" type="button" (click)="close()"> Close </button>
+
+    <form [formGroup]="form" (submit)="submit()">
+
+        <div class="formarray">
+
+            <form formArrayName="deduction" class="container">
+                <div class="label"> Deductions </div>
+                <button class="add" (click)="addToFormsArray('deduction', 'add', 'deduction')"> Add </button>
+
+                <div *ngFor="let control of formsArray('deduction').controls; let i = index">
+                    <form [formGroupName]="i" class="row">
+                        <div class="entryarea">
+                            <input type="text" formControlName="type">
+                            <div class="labelline"> Type </div>
+                        </div>
+
+                        <div class="entryarea">
+                            <input type="text" formControlName="sub_type">
+                            <div class="labelline"> Sub Type </div>
+                        </div>
+
+                        <div class="entryarea">
+                            <select formControlName="operation_type">
+                                <option value="deduction"> Normal deduction </option>
+                                <option value="percentage deduction"> Percentage Deduction </option>
+                            </select>
+                            <div class="labelline"> Operation </div>
+                        </div>
+
+                        <div class="entryarea">
+                            <input type="text" formControlName="amount">
+                            <div class="labelline"> Amount </div>
+                        </div>
+
+                        <button class="remove" type="button" (click)="removeFromFormsArray('deduction', i)"> X </button>
+                    </form>
+                </div>
+            </form>
+
+            <form formArrayName="other_deduction" class="container">
+                <div class="label"> Other Deductions </div>
+                <button class="add" (click)="addToFormsArray('other_deduction', 'add', 'deduction')"> Add </button>
+
+                <div *ngFor="let control of formsArray('other_deduction').controls; let i = index">
+                    <form [formGroupName]="i" class="row">
+                        <div class="entryarea">
+                            <input type="text" formControlName="type">
+                            <div class="labelline"> Type </div>
+                        </div>
+
+                        <div class="entryarea">
+                            <input type="text" formControlName="sub_type">
+                            <div class="labelline"> Sub Type </div>
+                        </div>
+
+                        <!-- <div class="entryarea">
+                            <select formControlName="operation_type">
+                                <option value="deduction"> Normal deduction </option>
+                                <option value="percentage deduction"> Percentage Deduction </option>
+                            </select>
+                            <div class="labelline"> Operation </div>
+                        </div> -->
+
+                        <div class="entryarea">
+                            <input type="text" formControlName="amount">
+                            <div class="labelline"> Amount </div>
+                        </div>
+
+                        <button class="remove" type="button" (click)="removeFromFormsArray('other_deduction', i)"> X </button>
+                    </form>
+                </div>
+            </form>
+
+            <form formArrayName="allowance" class="container">
+                <div class="label"> Allowances </div>
+                <button class="add" (click)="addToFormsArray('allowance', 'add', 'addition')"> Add </button>
+
+                <div *ngFor="let control of formsArray('allowance').controls; let i = index">
+                    <form [formGroupName]="i" class="row">
+                        <div class="entryarea">
+                            <input type="text" formControlName="type">
+                            <div class="labelline"> Type </div>
+                        </div>
+
+                        <div class="entryarea">
+                            <input type="text" formControlName="sub_type">
+                            <div class="labelline"> Sub Type </div>
+                        </div>
+
+                        <!-- <div class="entryarea">
+                            <select formControlName="operation_type">
+                                <option value="deduction"> Normal deduction </option>
+                                <option value="percentage deduction"> Percentage Deduction </option>
+                            </select>
+                            <div class="labelline"> Operation </div>
+                        </div> -->
+
+                        <div class="entryarea">
+                            <input type="text" formControlName="amount">
+                            <div class="labelline"> Amount </div>
+                        </div>
+
+                        <button class="remove" type="button" (click)="removeFromFormsArray('allowance', i)"> X </button>
+                    </form>
+                </div>
+            </form>
+        </div>
+
+        <button class="btn-primary"> Update </button>
+    </form>
+</div>

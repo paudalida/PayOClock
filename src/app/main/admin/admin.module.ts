@@ -33,6 +33,7 @@ import { AttendanceHistoryComponent } from './components/attendance/attendance-h
 import { ImagePopupComponent } from './components/attendance/image-popup/image-popup.component';
 
 import { ChartModule } from 'primeng/chart';
+import { ConfigFormComponent } from './components/dialogs/config-form/config-form.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { ChartModule } from 'primeng/chart';
     ViewProofComponent,
     AttendanceDetailPopupComponent,
     AttendanceHistoryComponent,
-    ImagePopupComponent
+    ImagePopupComponent,
+    ConfigFormComponent
   ],
   imports: [
     AdminRoutingModule,
