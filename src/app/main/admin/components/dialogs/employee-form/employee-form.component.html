@@ -6,6 +6,8 @@
             </div>
             <div class="detailsbody">
 
+                <h1> Personal Information </h1>
+
                 <div class="input-row">
                     <div class="entryarea">
                         <input type="text" formControlName="first_name" 
@@ -14,68 +16,103 @@
                             (change)="trimSpaces('first_name')">
                         <div class="labelline"> First name </div>
                     </div>
-                </div>
 
-                <div class="input-row">
-                    <div class="entryarea1">
+                    <div class="entryarea">
                         <input type="text"  formControlName="middle_name" (keyup)="updateInvalidInput($event, 'middle_name')"> 
-                        <div class="labelline1"> Middle name </div>
+                        <div class="labelline"> Middle name </div>
                     </div>
-                </div>
 
-                <div class="input-row1">
                     <div class="entryarea">
                         <input type="text" formControlName="last_name" (keyup)="updateInvalidInput($event, 'last_name')">
                         <div class="labelline"> Last name </div>
                     </div>
-
-                    <div class="entryarea-1">
-                        <input type="text" formControlName="ext_name" (keyup)="updateInvalidInput($event, 'ext_name')">
-                        <div class="labelline-1"> Ext name </div>
-                    </div>
                 </div>
 
-                <div class="input-row1">
-                    <div class="entryarea1">
+                <div class="input-row">
+                    <div class="entryarea">
+                        <input type="text" formControlName="ext_name" (keyup)="updateInvalidInput($event, 'ext_name')">
+                        <div class="labelline"> Ext name </div>
+                    </div>
+
+                    <div class="entryarea">
                         <select formControlName="gender"> 
                             <option value="0"> Female </option>
                             <option value="1"> Male </option>
                             <option value="2"> Other </option>
                         </select>
-                        <div class="labelline1"> Gender  </div>
+                        <div class="labelline"> Gender </div>
                     </div>
 
-                    <div class="entryarea1"> 
+                    <div class="entryarea">
                         <input formControlName="employee_id" (keyup)="updateInvalidInput($event, 'employee_id')">
-                        <div class="labelline1"> ID Number </div>
+                        <div class="labelline"> ID Number </div>
                     </div>
                 </div>
 
-                <div class="input-row1">
-                    <div class="entryarea2">
+                <div class="input-row">
+                    <div class="entryarea">
+                        <input type="text" formControlName="email_address" (keyup)="updateInvalidInput($event, 'email_address')">
+                        <div class="labelline"> Email Address </div>
+                    </div>
+
+                    <div class="entryarea">
+                        <input type="text" formControlName="phone_number" (keyup)="updateInvalidInput($event, 'phone_number')">
+                        <div class="labelline"> Contact Number </div>
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <div class="entryarea">
+                        <input type="text" formControlName="province" (keyup)="updateInvalidInput($event, 'province')">
+                        <div class="labelline">Province</div>
+                    </div>
+                
+                    <div class="entryarea">
+                        <input type="text" formControlName="city" (keyup)="updateInvalidInput($event, 'city')">
+                        <div class="labelline">City/Municipality</div>
+                    </div>
+                
+                    <div class="entryarea">
+                        <input type="text" formControlName="barangay" (keyup)="updateInvalidInput($event, 'barangay')">
+                        <div class="labelline">Barangay</div>
+                    </div>
+                </div>
+                
+                <div class="input-row">
+                    <div class="entryarea">
+                        <input type="text" formControlName="street" (keyup)="updateInvalidInput($event, 'street')">
+                        <div class="labelline">Street</div>
+                    </div>
+
+                    <div class="entryarea">
+                        <input formControlName="house_number" (keyup)="updateInvalidInput($event, 'house_number')">
+                        <div class="labelline"> House Number </div>
+                    </div>
+
+                    <div class="entryarea">
+                        <input formControlName="zip_code" (keyup)="updateInvalidInput($event, 'zip_code')">
+                        <div class="labelline"> Zip Code  </div>
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <div class="entryarea">
                         <select formControlName="type"> 
                             <option value="admin"> Admin </option>
                             <option value="employee"> Employee </option>
                         </select>
-                        <div class="labelline2"> Type  </div>
+                        <div class="labelline"> Type </div>
                     </div>
-
-                    <div class="entryarea2">
+                
+                    <div class="entryarea">
                         <input type="text" formControlName="position" (keyup)="updateInvalidInput($event, 'position')">
-                        <div class="labelline2"> Position </div>
+                        <div class="labelline"> Position </div>
                     </div>
-                </div>
-
-                <div class="input-row1"> 
-                    <div class="entryarea3">
-                        <input type="text" formControlName="phone_number" (keyup)="updateInvalidInput($event, 'phone_number')">
-                        <div class="labelline3"> Contact Number </div>
-                    </div>
-
-                    <div class="entryarea4">
+                
+                    <div class="entryarea1">
                         <input class="inputtxt" type="file" (change)="onFileChange($event)">
                         <span></span>
-                        <div class="labelline4"> Upload Image </div>
+                        <div class="labelline1"> Upload Image </div>
                     </div>
                 </div>
 
@@ -96,7 +133,7 @@
                         <button class = "button" type="button" value="Cancel" id="cancel" (click)="close()"> CANCEL </button>
                     </div>
                     
-                </div>
+                </div> 
             </div>
         </form>
     </div>

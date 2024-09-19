@@ -4,32 +4,33 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.3); 
+    background-color: rgba(0, 0, 0, 0.3);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 999;
-
 }
 
 .form-info {
     position: relative;
     background: var(--white);
-    width: 900px;
+    width: 1100px;
     height: 100%;
     left: 100px;
     border-radius: 5px;
     padding-bottom: 20px;
     box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.322);
     max-height: 675px;
-    overflow-y: auto;
+    // overflow-y: auto;
 }
 
 .header {
     display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 20px 30px 30px;
     position: fixed;
-    width: 840px;
+    width: 1040px;
     background-color: var(--primary-color);
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
@@ -47,6 +48,15 @@
     }
 }
 
+h1 {
+    color: var(--black);
+    padding-top: 25px;
+    padding-left: 25px;
+    width: 880px;
+    font-weight: 700;
+    font-size: 20px;
+}
+
 .exit-button {
     position: relative;
     top: 0;
@@ -60,372 +70,123 @@
 
 .detailsbody {
     padding: 80px 30px 120px 30px;
-    height: 70%; 
+    height: 70%;
 }
 
-// Form
+// Form Styles
 
 .input-row {
-    gap: 1.5rem;
+    padding-top: 25px;
+    padding-right: 25px;
+    padding-left: 25px;
     display: flex;
-    padding-left: 20px;
+    gap: 25px; 
 
-    .entryarea, .entryarea1, .entryarea2 {
-        flex-basis: 100%;
+    .entryarea, .entryarea1 {
+        flex: 1; 
+        position: relative; 
     }
 
     .entryarea input {
         font-family: "Poppins";
-        position: absolute;
-        width: 85%;
-        height: 23px;
+        width: 100%; 
+        height: 52px;
         outline: none;
         font-size: 16px;
-        padding: 0 18px;
-        margin-top: 45px;
-        height: 52px;
+        padding: 20px 15px; 
         border-radius: 5px;
-        border: 1px solid var(--header-color);
+        border: 1.5px solid var(--header-color);
         background: var(--white);
-        transition: 0.1s ease;
+        transition: 0.2s ease; 
+        box-sizing: border-box; 
     }
 
     .entryarea1 input {
         font-family: "Poppins";
-        position: absolute;
-        width: 85%;
-        height: 23px;
+        width: 100%; 
+        height: 52px;
         outline: none;
         font-size: 16px;
-        padding: 0 18px;
-        margin-top: 130px;
-        height: 52px;
         border-radius: 5px;
-        border: 1px solid var(--header-color);
+        border: 1.5px solid var(--header-color);
         background: var(--white);
-        transition: 0.1s ease;
+        transition: 0.2s ease; 
+        box-sizing: border-box; 
     }
 
-    .entryarea2 input {
+    .entryarea select {
         font-family: "Poppins";
-        position: absolute;
-        width: 85%;
-        height: 23px;
+        width: 100%; 
+        height: 52px;
         outline: none;
         font-size: 16px;
-        padding: 0 18px;
-        margin-top: 215px;
-        height: 52px;
+        padding: 5px 15px; 
         border-radius: 5px;
-        border: 1px solid var(--header-color);
+        border: 1.5px solid var(--header-color);
         background: var(--white);
-        transition: 0.1s ease;
-    }
-    
-    .labelline {
-        position: absolute;
-        font-size: 16px;
-        padding: 0 10px;
-        margin-top: 33px;
-        margin-left: 12px;
-        background-color: var(--white);
-        transition: 0.2s ease;
-    }
-
-    .labelline1 {
-        position: absolute;
-        font-size: 16px;
-        padding: 0 10px;
-        margin-top: 118px;
-        margin-left: 12px;
-        background-color: var(--white);
-        transition: 0.2s ease;
-    }
-
-    .labelline2 {
-        position: absolute;
-        font-size: 16px;
-        padding: 0 10px;
-        margin-top: 203px;
-        margin-left: 12px;
-        background-color: var(--white);
-        transition: 0.2s ease;
-    }
-    
-    .entryarea input:focus, 
-    .entryarea input:valid,
-    .entryarea1 input:focus, 
-    .entryarea1 input:valid, 
-    .entryarea2 input:focus, 
-    .entryarea2 input:valid {
-        color: #000;
-        border: 1.5px solid var(--black);
-    }
-    
-    .entryarea input:focus + .labelline, 
-    .entryarea input:valid + .labelline, 
-    .entryarea1 input:focus + .labelline1, 
-    .entryarea1 input:valid + .labelline1, 
-    .entryarea2 input:focus + .labelline2, 
-    .entryarea2 input:valid + .labelline2 {
-        color: var(--black);
-    }
-    
-}
-
-.input-row1 {
-    gap: 1.5rem;
-    display: flex;
-    padding-left: 20px;
-    justify-content: space-between;
-
-    .entryarea, .entryarea-1, .entryarea1, .entryarea2, .entryarea3, .entryarea4 {
-        flex-basis: 100%;
-        position: relative;
-    }
-
-    .entryarea input {
-        font-family: "Poppins";
-        position: absolute;
-        width: 145%;
-        height: 23px;
-        outline: none;
-        font-size: 16px;
-        padding: 0 18px;
-        margin-top: 215px;
-        height: 52px;
-        border-radius: 5px;
-        border: 1px solid var(--header-color);
-        background: var(--white);
-        transition: 0.1s ease;
-    }
-
-    .entryarea-1 input {
-        font-family: "Poppins";
-        position: absolute;
-        width: 25%;
-        height: 23px;
-        outline: none;
-        font-size: 16px;
-        padding: 0 18px;
-        margin-top: 215px;
-        margin-left: 240px;
-        height: 52px;
-        border-radius: 5px;
-        border: 1px solid var(--header-color);
-        background: var(--white);
-        transition: 0.1s ease;
-    }
-
-    .entryarea1 input {
-        font-family: "Poppins";
-        position: absolute;
-        width: 85%;
-        height: 23px;
-        outline: none;
-        font-size: 16px;
-        padding: 0 18px;
-        margin-top: 300px;
-        height: 52px;
-        border-radius: 5px;
-        border: 1px solid var(--header-color);
-        background: var(--white);
-        transition: 0.1s ease;
-    }
-
-    .entryarea1 select {
-        font-family: "Poppins";
-        position: absolute;
-        width: 95%;
-        height: 23px;
-        outline: none;
-        font-size: 16px;
-        padding: 0 18px;
-        margin-top: 300px;
-        height: 52px;
-        border-radius: 5px;
-        border: 1px solid var(--header-color);
-        background: var(--white);
-        transition: 0.1s ease;
-    }
-    
-    .entryarea2 input {
-        font-family: "Poppins";
-        position: absolute;
-        width: 85%;
-        height: 23px;
-        outline: none;
-        font-size: 16px;
-        padding: 0 18px;
-        margin-top: 385px;
-        height: 52px;
-        border-radius: 5px;
-        border: 1px solid var(--header-color);
-        background: var(--white);
-        transition: 0.1s ease;
-    }
-
-    .entryarea2 select {
-        font-family: "Poppins";
-        position: absolute;
-        width: 95%;
-        height: 23px;
-        outline: none;
-        font-size: 16px;
-        padding: 0 18px;
-        margin-top: 385px;
-        height: 52px;
-        border-radius: 5px;
-        border: 1px solid var(--header-color);
-        background: var(--white);
-        transition: 0.1s ease;
-    }
-
-    .entryarea3 input {
-        font-family: "Poppins";
-        position: absolute;
-        width: 85%;
-        height: 23px;
-        outline: none;
-        font-size: 16px;
-        padding: 0 18px;
-        margin-top: 470px;
-        height: 52px;
-        border-radius: 5px;
-        border: 1px solid var(--header-color);
-        background: var(--white);
-        transition: 0.1s ease;
-    }
-
-    .entryarea4 input {
-        font-family: "Poppins";
-        position: absolute;
-        width: 95%;
-        height: 23px;
-        outline: none;
-        font-size: 16px;
-        margin-top: 470px;
-        height: 52px;
-        border-radius: 5px;
-        border: 1px solid var(--header-color);
-        background: var(--white);
-        transition: 0.1s ease;
+        transition: 0.2s ease; 
+        box-sizing: border-box; 
     }
 
     .labelline {
         position: absolute;
         font-size: 16px;
-        padding: 0 10px;
-        margin-top: 203px;
-        margin-left: 12px;
-        background-color: var(--white);
-        transition: 0.2s ease;
-    }
-
-    .labelline-1 {
-        position: absolute;
-        font-size: 16px;
-        padding: 0 10px;
-        margin-top: 203px;
-        margin-left: 250px;
-        background-color: var(--white);
-        transition: 0.2s ease;
-    }
-
-    .labelline1 {
-        position: absolute;
-        font-size: 16px;
-        padding: 0 10px;
-        margin-top: 288px;
-        margin-left: 12px;
-        background-color: var(--white);
-        transition: 0.2s ease;
-    }
-
-    .labelline2 {
-        position: absolute;
-        font-size: 16px;
-        padding: 0 10px;
-        margin-top: 373px;
-        margin-left: 12px;
-        background-color: var(--white);
-        transition: 0.2s ease;
-    }
-
-    .labelline3 {
-        position: absolute;
-        font-size: 16px;
-        padding: 0 10px;
-        margin-top: 458px;
-        margin-left: 12px;
-        background-color: var(--white);
-        transition: 0.2s ease;
-    }
-
-    .labelline4 {
-        position: absolute;
-        margin-top: 460px;
-        margin-left: 5px;
-        color: #44474E;
+        left: 18px;
+        top: 50%;
         transform: translateY(-50%);
+        background-color: var(--white);
+        padding: 0 4px;
+        transition: 0.2s ease;
+        pointer-events: none; 
+    }
+
+    .labelline1 {
+        position: absolute;
         font-size: 12px;
-        font-weight: 500;
-        opacity: 70%;
-        pointer-events: none;
-        transition: .3s;
-    } 
+        left: 0;
+        top: -10px;
+        transform: translateY(-50%);
+        padding: 0 4px;
+        transition: 0.2s ease;
+        pointer-events: none; 
+    }
 
     input[type="file"]::file-selector-button {
-        border-top-left-radius: 3px;
-        border-bottom-left-radius: 3px;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
         font-family: "Poppins";
         font-size: 14px;
+        margin-top: -2px;
+        margin-left: -2px;
         background: var(--primary-color);
         color: var(--white);
         padding-top: 5px;
-        height: 52px;
-        border: 1px solid rgba(0, 0, 0, 0.16);
+        height: 53px;
+        border: 1.5px solid var(--header-color);
         transition: background-color 200ms;
         cursor: pointer;
     }
 
-    .entryarea input:focus, 
-    .entryarea input:valid,
-    .entryarea-1 input:focus, 
-    .entryarea-1 input:valid,
-    .entryarea1 input:focus, 
-    .entryarea1 input:valid, 
-    .entryarea1 select:focus, 
-    .entryarea1 select:valid,
-    .entryarea2 input:focus, 
-    .entryarea2 input:valid, 
-    .entryarea2 select:focus, 
-    .entryarea2 select:valid, 
-    .entryarea3 input:focus, 
-    .entryarea3 input:valid, 
-    .entryarea4 input:focus, 
-    .entryarea4 input:valid {
-        color: #000;
-        border: 1.5px solid var(--black);
-    }
-
-    .entryarea input:focus + .labelline, 
-    .entryarea input:valid + .labelline, 
-    .entryarea-1 input:focus + .labelline-1, 
-    .entryarea-1 input:valid + .labelline-1,
-    .entryarea1 input:focus + .labelline1, 
-    .entryarea1 input:valid + .labelline1, 
-    .entryarea1 select:focus + .labelline1, 
-    .entryarea1 select:valid + .labelline1,
-    .entryarea2 input:focus + .labelline2, 
-    .entryarea2 input:valid + .labelline2, 
-    .entryarea2 select:focus + .labelline2, 
-    .entryarea2 select:valid + .labelline2, 
-    .entryarea3 input:focus + .labelline3, 
-    .entryarea3 input:valid + .labelline3 {
+    .entryarea input:focus + .labelline,
+    .entryarea input:not(:placeholder-shown) + .labelline, 
+    .entryarea1 input:focus + .labelline,
+    .entryarea1 input:not(:placeholder-shown) + .labelline, 
+    .entryarea select:focus + .labelline,
+    .entryarea select:not(:placeholder-shown) + .labelline {
+        top: 0;
+        left: 15px;
+        font-size: 15px;
         color: var(--black);
     }
 
+    .entryarea input:focus, 
+    .entryarea input:not(:placeholder-shown), 
+    .entryarea1 input:focus, 
+    .entryarea1 input:not(:placeholder-shown), 
+    .entryarea select:focus, 
+    .entryarea select:not(:placeholder-shown) {
+        border: 1.5px solid var(--black);
+    }
 }
 
 .buttons{
@@ -442,8 +203,8 @@
         background: var(--cancel);
         text-decoration: none;
         height: 50px;
-        margin-top: 548px;
-        margin-left: 29%;
+        margin-top: 25px;
+        margin-left: 31%;
         width: 45%;
         width: 155px;
         font-size: 15px;
@@ -468,8 +229,8 @@
         // background: var(--primary-color);
         text-decoration: none;
         height: 50px;
-        margin-top: 548px;
-        margin-left: 48%;
+        margin-top: 25px;
+        margin-left: 47%;
         width: 45%;
         width: 155px;
         font-size: 15px;
