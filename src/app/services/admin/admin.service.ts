@@ -19,10 +19,20 @@ export class AdminService {
     ext_name: null,
     gender: null,
     position: null,
-    phone_number: null,
     image: null,
     hourly_rate: null,
-    completed_payday: null
+    status: null,
+    contact: {
+      phone_number: null,
+      email: null,
+      address: null,
+      province: null,
+      city: null,
+      barangay: null,
+      street: null,
+      house_number: null,
+      zip_code: null
+    }
   };
 
   public setEmployees(data: any[]) {
@@ -41,12 +51,23 @@ export class AdminService {
       last_name: data.last_name,
       ext_name: data.ext_name || null,
       gender: data.gender || null,
-      position: data.postiion || null,
-      phone_number: data.phone_number || null,
+      position: data.position || null,
       image: data.image || null,
       hourly_rate: data.hourly_rate || null,
-      completed_payday: data.completed_payday || null
+      status: data.status || null,
+      contact: {
+        phone_number: data.contact.phone_number || null,
+        email: data.contact.email || null,
+        address: data.contact.address || null,
+        province: data.contact.province || null,
+        city: data.contact.city || null,
+        barangay: data.contact.barangay || null,
+        street: data.contact.street || null,
+        house_number: data.contact.house_number || null,
+        zip_code: data.contact.zip_code || null
+      }
     };
+    console.log(this.employeeData)
   }
 
   public getEmployees() {

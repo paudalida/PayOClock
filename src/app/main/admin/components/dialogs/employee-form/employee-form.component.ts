@@ -15,16 +15,25 @@ import { AdminService } from '../../../../../services/admin/admin.service';
 export class EmployeeFormComponent {
 
   form: FormGroup = this.fb.group({
-    'id': [''],
-    'type': ['employee', [Validators.required, inArrayValidator(['admin', 'employee'])]],
-    'employee_id': ['', [Validators.required, Validators.min(1), Validators.pattern(/^\d+$/)]],
-    'first_name': ['', [Validators.required, Validators.maxLength(30)]],
-    'middle_name': ['', [Validators.maxLength(20)]],
-    'last_name': ['', [Validators.required, Validators.maxLength(20)]],
-    'ext_name': ['', [Validators.maxLength(10)]],
-    'gender': ['0', [Validators.required, inArrayValidator(['0', '1', '2'])]],
-    'position': ['', [Validators.required, Validators.maxLength(20)]],
-    'phone_number': ['09', [Validators.maxLength(11), Validators.minLength(11), isPhoneNumber()]], 
+    id: [''],
+    type: ['employee', [Validators.required, inArrayValidator(['admin', 'employee'])]],
+    employee_id: ['', [Validators.required, Validators.min(1), Validators.pattern(/^\d+$/)]],
+    first_name: ['', [Validators.required, Validators.maxLength(30)]],
+    middle_name: ['', [Validators.maxLength(20)]],
+    last_name: ['', [Validators.required, Validators.maxLength(20)]],
+    ext_name: ['', [Validators.maxLength(10)]],
+    gender: ['0', [Validators.required, inArrayValidator(['0', '1', '2'])]],
+    position: ['', [Validators.required, Validators.maxLength(20)]],
+    contact: this.fb.group({
+      phone_number: ['09', [Validators.maxLength(11), Validators.minLength(11), isPhoneNumber()]],
+      email: ['', [Validators.required, Validators.maxLength(30)]],
+      province: ['', [Validators.required, Validators.maxLength(20)]],
+      city: ['', [Validators.required, Validators.maxLength(20)]],
+      barangay: ['', [Validators.required, Validators.maxLength(20)]],
+      street: ['', [Validators.required, Validators.maxLength(20)]],
+      house_number: ['', [Validators.required, Validators.maxLength(20)]],
+      zip_code: ['', [Validators.required, Validators.maxLength(10)]],
+    })
   });
 
   constructor (
@@ -38,16 +47,25 @@ export class EmployeeFormComponent {
     if(data.formType == 'update') {
       let employee = this.as.getEmployee();
       this.form.patchValue({
-        'id': employee.id,
-        'type': employee.type,
-        'employee_id': employee.employee_id,
-        'first_name': employee.first_name,
-        'middle_name': employee.middle_name || '',
-        'last_name': employee.last_name,
-        'ext_name': employee.ext_name || '', 
-        'gender': String(employee.gender), 
-        'position': employee.position, 
-        'phone_number': employee.phone_number, 
+        id: employee.id,
+        type: employee.type,
+        employee_id: employee.employee_id,
+        first_name: employee.first_name,
+        middle_name: employee.middle_name || '',
+        last_name: employee.last_name,
+        ext_name: employee.ext_name || '', 
+        gender: String(employee.gender), 
+        position: employee.position, 
+        contact: {
+          phone_number: employee.contact.phone_number,
+          email: employee.contact.email,
+          province: employee.contact.province,
+          city: employee.contact.city,
+          barangay: employee.contact.barangay,
+          street: employee.contact.street,
+          house_number: employee.contact.house_number,
+          zip_code: employee.contact.zip_code
+        }
       });
     }
   }
@@ -141,12 +159,28 @@ export class EmployeeFormComponent {
       this.isLoading = true;
       let method = 'POST';
 
-      let formData = new FormData();
+      const formData = new FormData();
 
+      // Append regular form controls
       Object.keys(this.form.controls).forEach(key => {
-        const control = this.form.get(key);
-        if (control) { formData.append(key, control.value); }
+          const control = this.form.get(key);
+          if (control) {
+              if (key === 'contact') {
+                  // Handle nested contact object
+                  const contactGroup = control as FormGroup;
+                  Object.keys(contactGroup.controls).forEach(contactKey => {
+                      const contactControl = contactGroup.get(contactKey);
+                      if (contactControl) {
+                          formData.append(`contact[${contactKey}]`, contactControl.value);
+                      }
+                  });
+              } else {
+                  // Append regular form control
+                  formData.append(key, control.value);
+              }
+          }
       });
+
 
       if(this.selectedFile) { formData.append('image', this.selectedFile); }
 

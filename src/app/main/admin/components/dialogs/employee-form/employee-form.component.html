@@ -49,51 +49,53 @@
                     </div>
                 </div>
 
-                <div class="input-row">
-                    <div class="entryarea">
-                        <input type="text" formControlName="email_address" (keyup)="updateInvalidInput($event, 'email_address')">
-                        <div class="labelline"> Email Address </div>
+                <form formGroupName="contact">
+                    <div class="input-row">
+                        <div class="entryarea">
+                            <input type="text" formControlName="email" (keyup)="updateInvalidInput($event, 'email')">
+                            <div class="labelline"> Email Address </div>
+                        </div>
+
+                        <div class="entryarea">
+                            <input type="text" formControlName="phone_number" (keyup)="updateInvalidInput($event, 'phone_number')">
+                            <div class="labelline"> Contact Number </div>
+                        </div>
                     </div>
 
-                    <div class="entryarea">
-                        <input type="text" formControlName="phone_number" (keyup)="updateInvalidInput($event, 'phone_number')">
-                        <div class="labelline"> Contact Number </div>
+                    <div class="input-row">
+                        <div class="entryarea">
+                            <input type="text" formControlName="province" (keyup)="updateInvalidInput($event, 'province')">
+                            <div class="labelline">Province</div>
+                        </div>
+                    
+                        <div class="entryarea">
+                            <input type="text" formControlName="city" (keyup)="updateInvalidInput($event, 'city')">
+                            <div class="labelline">City/Municipality</div>
+                        </div>
+                    
+                        <div class="entryarea">
+                            <input type="text" formControlName="barangay" (keyup)="updateInvalidInput($event, 'barangay')">
+                            <div class="labelline">Barangay</div>
+                        </div>
                     </div>
-                </div>
+                    
+                    <div class="input-row">
+                        <div class="entryarea">
+                            <input type="text" formControlName="street" (keyup)="updateInvalidInput($event, 'street')">
+                            <div class="labelline">Street</div>
+                        </div>
 
-                <div class="input-row">
-                    <div class="entryarea">
-                        <input type="text" formControlName="province" (keyup)="updateInvalidInput($event, 'province')">
-                        <div class="labelline">Province</div>
-                    </div>
-                
-                    <div class="entryarea">
-                        <input type="text" formControlName="city" (keyup)="updateInvalidInput($event, 'city')">
-                        <div class="labelline">City/Municipality</div>
-                    </div>
-                
-                    <div class="entryarea">
-                        <input type="text" formControlName="barangay" (keyup)="updateInvalidInput($event, 'barangay')">
-                        <div class="labelline">Barangay</div>
-                    </div>
-                </div>
-                
-                <div class="input-row">
-                    <div class="entryarea">
-                        <input type="text" formControlName="street" (keyup)="updateInvalidInput($event, 'street')">
-                        <div class="labelline">Street</div>
-                    </div>
+                        <div class="entryarea">
+                            <input formControlName="house_number" (keyup)="updateInvalidInput($event, 'house_number')">
+                            <div class="labelline"> House Number </div>
+                        </div>
 
-                    <div class="entryarea">
-                        <input formControlName="house_number" (keyup)="updateInvalidInput($event, 'house_number')">
-                        <div class="labelline"> House Number </div>
+                        <div class="entryarea">
+                            <input formControlName="zip_code" (keyup)="updateInvalidInput($event, 'zip_code')">
+                            <div class="labelline"> Zip Code  </div>
+                        </div>
                     </div>
-
-                    <div class="entryarea">
-                        <input formControlName="zip_code" (keyup)="updateInvalidInput($event, 'zip_code')">
-                        <div class="labelline"> Zip Code  </div>
-                    </div>
-                </div>
+                </form>
 
                 <div class="input-row">
                     <div class="entryarea">

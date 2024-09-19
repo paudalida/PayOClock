@@ -298,16 +298,18 @@ export class PayrollFormsComponent implements OnInit{
   }
 
   /* Submissions */
-  async submit(status: string) {
+  async submit(status: number) {
     this.pop.swalWithCancel('question', 'Confirm Submission?', 'Are you sure you want to save these records?')
       .then(isConfirmed => {
         if (isConfirmed) this.submitToServer(status);
       });
   }
 
-  submitToServer(status: string){
+  submitToServer(status: number){
     this.isLoading = true;
-    this.form.get('details').status = status;
+    this.form.get('details').patchValue({
+      status: status
+    });
 
     if(this.form.valid) {
       this.ds.request('POST', 'admin/transactions/process/user/' + this.employee.id, { form: this.form.value }).subscribe({
