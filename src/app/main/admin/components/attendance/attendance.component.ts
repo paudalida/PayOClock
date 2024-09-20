@@ -68,6 +68,7 @@ export class AttendanceComponent implements OnInit {
   clockedIn: any = [];
   user_id: any;
   defaultRecord = {
+    user_id: '',
     status: ''
   };
 
@@ -79,8 +80,9 @@ export class AttendanceComponent implements OnInit {
     return this.as.getEmployee();
   }
 
-  setEmployee(data: any) {
-    this.as.setEmployee(data);
+  setEmployeeID(data: any) {
+    console.log(data)
+    this.defaultRecord.user_id = data;
   }
 
   ngOnInit(): void {    
@@ -88,7 +90,6 @@ export class AttendanceComponent implements OnInit {
     this.ds.request('GET', 'admin/attendance/weekly').subscribe({
       next: (res: any) => {
 
-        console.log('idk')
         this.employees.forEach((element: any) => {
           this.records.push(
             {
@@ -215,8 +216,11 @@ export class AttendanceComponent implements OnInit {
   }
 
   openAttendanceDetail(date: any, day: string, data: any): void {
-    console.log(this.records)
     this.selectedDate = date;
+    if(!data.user_id) {
+      data = this.defaultRecord;
+    }
+
     const dialogRef = this.dialog.open(AttendanceDetailPopupComponent, {
       data: {
         selectedDate: date,

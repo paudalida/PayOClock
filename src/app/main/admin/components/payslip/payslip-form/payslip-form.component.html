@@ -16,7 +16,7 @@
     
                 <div class="information-case">
                     <th> PAYROLL PERIOD: </th> 
-                    <td> {{ payday | date: 'MMMM' }} {{ getPayDateRange(payday) }}, {{ payday | date: 'YYYY' }} </td>  
+                    <td> {{ payday_start | date: 'mediumDate' }} - {{ payday_end | date: 'mediumDate' }} </td>  
                 </div>
             </div>
 

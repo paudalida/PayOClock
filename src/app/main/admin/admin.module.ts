@@ -12,9 +12,6 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
-// import { PayslipFormComponent } from './components/payroll/payslip-form/payslip-form.component';
-// import { PayslipHistoryComponent } from './components/payroll/payslip-history/payslip-history.component';
-// import { PayrollComponent } from './components/payroll/payroll.component';
 
 import { PayslipComponent } from './components/payslip/payslip.component';
 import { PayslipFormComponent } from './components/payslip/payslip-form/payslip-form.component';
@@ -23,7 +20,6 @@ import { PayrollComponent } from './components/payroll/payroll.component';
 
 import { AnnouncementsComponent } from './components/announcements/announcements.component';
 import { AnnouncementFormComponent } from './components/dialogs/announcement-form/announcement-form.component';
-// import { ReportComponent } from './components/report/report.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { ViewDetailsComponent } from './components/employee/view-details/view-details.component';
 import { SpinnerComponent } from '../materials/spinner/spinner.component';
@@ -34,6 +30,7 @@ import { ImagePopupComponent } from './components/attendance/image-popup/image-p
 
 import { ChartModule } from 'primeng/chart';
 import { ConfigFormComponent } from './components/dialogs/config-form/config-form.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -41,16 +38,12 @@ import { ConfigFormComponent } from './components/dialogs/config-form/config-for
     AttendanceComponent,
     DashboardComponent,
     EmployeeComponent,
-    // PayslipFormComponent,
-    // PayslipHistoryComponent,
-    // PayrollComponent,
     PayslipComponent,
     PayslipFormComponent,
     PayslipHistoryComponent,
     PayrollComponent,
 
     AnnouncementsComponent,
-    // ReportComponent,
     SpinnerComponent,
 
     /* Dialog imports */
@@ -62,7 +55,8 @@ import { ConfigFormComponent } from './components/dialogs/config-form/config-for
     AttendanceDetailPopupComponent,
     AttendanceHistoryComponent,
     ImagePopupComponent,
-    ConfigFormComponent
+    ConfigFormComponent,
+    SettingsComponent
   ],
   imports: [
     AdminRoutingModule,

@@ -19,7 +19,7 @@ export class PayslipFormComponent implements OnInit{
   ) { }
 
   isLoading = true;
-  payday = ''; base_pay = 0; adjusted_pay = 0; total_additions = 0; total_deductions = 0; gross_pay = 0; net_pay = 0;
+  payday_start = ''; payday_end = ''; base_pay = 0; adjusted_pay = 0; total_additions = 0; total_deductions = 0; gross_pay = 0; net_pay = 0;
   attendance: any = []; deductions: any = []; additions: any = [];
   values: any = [];
 
@@ -28,7 +28,9 @@ export class PayslipFormComponent implements OnInit{
 
     this.ds.request('GET', 'admin/payslips/latest/user/' + this.employee.id).subscribe({
       next: (res: any) => {
-        this.payday           = res.data.payday;
+        console.log(res)
+        this.payday_start     = res.data.payday_start;
+        this.payday_end       = res.data.payday_end;
         this.base_pay         = res.data.base_pay;
         this.adjusted_pay     = res.data.adjusted_pay;
         this.total_additions  = res.data.total_additions;
@@ -37,46 +39,43 @@ export class PayslipFormComponent implements OnInit{
         this.net_pay          = res.data.net_pay;
         
         let longest = res.data.payslip.attendance.types.length;
-        if(longest < res.data.payslip.allowance.types.length) longest = res.data.payslip.allowance.types.length;
-        if(longest < res.data.payslip.deduction.types.length) longest = res.data.payslip.deduction.types.length;
+        const payslip = res.data.payslip;
+        if(longest < payslip.allowance.types.length) longest = payslip.allowance.types.length;
+        if(longest < payslip.deduction.types.length + payslip.other_deduction.types.length) longest = payslip.deduction.types.length + payslip.other_deduction.types.length;
 
         for(let i = 0; i < longest; i ++) {
-          let col1 = res.data.payslip.attendance.types[i]   || '';
-          let col2 = res.data.payslip.attendance.amounts[i] || '';
-          let col3 = res.data.payslip.allowance.types[i]    || '';
-          let col4 = res.data.payslip.allowance.amounts[i]  || '';
-          let col5 = res.data.payslip.deduction.types[i]    || '';
-          let col6 = res.data.payslip.deduction.amounts[i]  || '';
+          let col1 = payslip.attendance.types[i]   || '';
+          let col2 = payslip.attendance.amounts[i] || '';
+          let col3 = payslip.allowance.types[i]    || '';
+          let col4 = payslip.allowance.amounts[i]  || '';
+          let col5 = payslip.deduction.types[i]    || '';
+          let col6 = payslip.deduction.amounts[i]  || '';
 
-          if(res.data.payslip.allowance.sub_types[i])
-            col3 += ' ' + res.data.payslip.allowance.sub_types[i];
+          /* For other deductions */
+          if(i >= payslip.deduction.types.length) {        
+            if(i - payslip.deduction.types.length < payslip.other_deduction.types.length) {
+              col5 = payslip.other_deduction.types[i]    || '';
+              col6 = payslip.other_deduction.amounts[i]  || '';
+            }    
+          }
 
-          if(res.data.payslip.deduction.sub_types[i])
-            col5 += ' ' + res.data.payslip.deduction.sub_types[i];
+          /* Append subtypes */
+          if(payslip.allowance.subtypes[i])
+            col3 += ' ' + payslip.allowance.subtypes[i];
+
+          if(payslip.deduction.subtypes[i])
+            col5 += ' ' + payslip.deduction.subtypes[i];
           
           this.values.push([col1, col2, col3, col4, col5, col6]);
         }
       },
       error: (err: any) => {
-        this.pop.swalBasic('error', 'Oops!', 'Cannot fetch payslips at the moment. Please try again later')
+        this.pop.swalBasic('error', 'Oops!', err.error.message)
       },
       complete: () => {
         this.isLoading = false;
       }
     });
-  }
-
-  getPayDateRange(date: string): string {
-    const day = new Date().getDate();
-    const payday = new Date(date);
-
-    // Assuming payday is the end of the month if day > 15, otherwise 1-15
-    if (day > 15) {
-      const endOfMonth = new Date(payday.getFullYear(), payday.getMonth() + 1, 0);
-      return `16 - ${endOfMonth.getDate()}`;
-    } else {
-      return '1 - 15';
-    }
   }
 
   get employee() {

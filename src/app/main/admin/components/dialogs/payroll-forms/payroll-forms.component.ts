@@ -71,7 +71,7 @@ export class PayrollFormsComponent implements OnInit{
                     'update',
                     element.operation_type, 
                     element.type, 
-                    element.sub_type, 
+                    element.subtype, 
                     element.amount,
                     element.id, 
                   );
@@ -105,7 +105,7 @@ export class PayrollFormsComponent implements OnInit{
                   'add',
                   element.operation_type, 
                   element.type, 
-                  element.sub_type, 
+                  element.subtype, 
                   element.amount,
                   element.id, 
                 );
@@ -160,7 +160,7 @@ export class PayrollFormsComponent implements OnInit{
     formKey: string, 
     operation_type: string,
     type?: string, 
-    sub_type?: string, 
+    subtype?: string, 
     amount?: number,
     id?: number
   ) {
@@ -171,7 +171,7 @@ export class PayrollFormsComponent implements OnInit{
       id: [id],
       user_id: [this.employee.id],
       type: [type, [Validators.required, Validators.maxLength(30)]],
-      sub_type: [sub_type, [Validators.maxLength(30)]],
+      subtype: [subtype, [Validators.maxLength(30)]],
       amount: [amount, [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]],
     }));    
   }
@@ -238,7 +238,7 @@ export class PayrollFormsComponent implements OnInit{
                 'update',
                 element.operation_type, 
                 element.type, 
-                element.sub_type, 
+                element.subtype, 
                 element.amount,
                 element.id, 
               );
@@ -260,7 +260,7 @@ export class PayrollFormsComponent implements OnInit{
                 'update',
                 element.operation_type, 
                 element.type, 
-                element.sub_type, 
+                element.subtype, 
                 element.amount,
                 element.id, 
               );

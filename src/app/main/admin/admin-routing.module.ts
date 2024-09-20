@@ -17,6 +17,7 @@ import { AttendanceComponent } from './components/attendance/attendance.componen
 // import { PayslipHistoryComponent } from './components/payroll/payslip-history/payslip-history.component';
 import { PayslipFormComponent } from './components/payslip/payslip-form/payslip-form.component';
 import { PayslipHistoryComponent } from './components/payslip/payslip-history/payslip-history.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, 
@@ -32,9 +33,10 @@ const routes: Routes = [
     ]
   },
   { path: 'announcements', component: AnnouncementsComponent }, 
-  { path: 'attendance', component: AttendanceComponent }, 
-  { path: 'payroll', component: PayrollComponent },
-  { path: '**', redirectTo: 'dashboard' }
+  { path: 'attendance',    component: AttendanceComponent }, 
+  { path: 'payroll',       component: PayrollComponent },
+  { path: 'settings',      component: SettingsComponent },
+  { path: '**',            redirectTo: 'dashboard' }
 ];
 
 @NgModule({

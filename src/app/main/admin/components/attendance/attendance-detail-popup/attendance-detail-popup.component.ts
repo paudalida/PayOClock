@@ -123,7 +123,7 @@ export class AttendanceDetailPopupComponent {
   }
 
   submit(data: any) {
-    this.ds.request('POST', 'admin/attendance/manual/user/' + this.employee.id, data).subscribe({
+    this.ds.request('POST', 'admin/attendance/manual/user/' + this.data.details.user_id, data).subscribe({
       next: (res: any) => {
         this.closePopup(res.data)
         this.pop.toastWithTimer('success', res.message);

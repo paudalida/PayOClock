@@ -40,6 +40,15 @@ export class AdminService {
     this.employeesArray = data;
   }  
 
+  public getEmployees() {
+    return this.employeesArray;
+  }
+
+  public getEmployee() {
+    return this.employeeData;
+  }
+
+  /* Single record */
   public setEmployee(data: any) {
     this.employeeData = {
       id: data.id || null,
@@ -67,14 +76,34 @@ export class AdminService {
         zip_code: data.contact.zip_code || null
       }
     };
-    console.log(this.employeeData)
   }
 
-  public getEmployees() {
-    return this.employeesArray;
-  }
-
-  public getEmployee() {
-    return this.employeeData;
+  public nullEmployee() {
+    this.employeeData = {
+      id: null,
+      type: null,
+      employee_id: null,
+      full_name: null,
+      first_name: null,
+      middle_name: null,
+      last_name: null,
+      ext_name: null,
+      gender: null,
+      position: null,
+      image: null,
+      hourly_rate: null,
+      status: null,
+      contact: {
+        phone_number: null,
+        email: null,
+        address: null,
+        province: null,
+        city: null,
+        barangay: null,
+        street: null,
+        house_number: null,
+        zip_code: null
+      }
+    };
   }
 }

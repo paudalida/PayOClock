@@ -82,11 +82,11 @@ export class PayslipHistoryComponent implements OnInit{
 
             }
 
-            if(element.payslip.allowance.sub_types[i])
-              col4 += ' ' + element.payslip.allowance.sub_types[i];
+            if(element.payslip.allowance.subtypes[i])
+              col4 += ' ' + element.payslip.allowance.subtypes[i];
 
-            if(element.payslip.deduction.sub_types[i])
-              col7 += ' ' + element.payslip.deduction.sub_types[i];
+            if(element.payslip.deduction.subtypes[i])
+              col7 += ' ' + element.payslip.deduction.subtypes[i];
             
             values.push([col1, col2, col3, col4, col5, col6, col7, col8]);
           }

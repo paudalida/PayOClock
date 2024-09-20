@@ -13,7 +13,6 @@ export const canActivateChildGuard: CanActivateChildFn = async (childRoute, stat
     try {
       const res: any = await authService.requestUserDetails();
 
-      console.log(res)
       if(res){
         userType = authService.getUserType;
       } else {
@@ -21,7 +20,7 @@ export const canActivateChildGuard: CanActivateChildFn = async (childRoute, stat
         return false;
       }
     } catch (err: any) {
-      if(err) {
+      if(err.error) {
         if(err.error.message.toLowerCase().includes('unauthenticated')) { await router.navigate(['./landing']); }
       }
       
