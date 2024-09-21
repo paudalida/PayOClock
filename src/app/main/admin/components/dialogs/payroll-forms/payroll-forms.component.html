@@ -14,14 +14,13 @@
 
     <div class="content" *ngIf="!isLoading"> 
 
-        <button class="btn" (click)="openDialog()"> Configuration </button>
-        <button class="btn" (click)="resetClick('saved')"> Reset to Saved </button>
-        <button class="btn" (click)="resetClick('default')"> Reset to Default </button>
+        <button class="btn-primary config" (click)="openDialog()"> Configuration </button>
+        <button class="btn-primary btns" (click)="resetClick('saved')"> Saved </button>
+        <button class="btn-primary btns" (click)="resetClick('default')"> Default </button>
 
         <form [formGroup]="form">
 
-            <!-- Di ko alam san ilalagay to hehe -->
-            <div formGroupName="details">
+            <div class="date-range" formGroupName="details">
                 <input type="date" formControlName="payday_start" />            
                 <input type="date" formControlName="payday_end" />
             </div>
@@ -40,7 +39,9 @@
                         <div class="detail-value">{{ employee.employee_id || '' }}</div>
                         <div class="labelline"> ID Number </div>
                     </div>
+                </div>
 
+                <div class="input-row1"> 
                     <div class="entryarea">
                         <div class="detail-value">
                             {{ employee.full_name }}
@@ -50,16 +51,16 @@
                 </div>
 
                 <div class="input-row1">
-                    <div class="entryarea">
-                        <div class="detail-value">{{employee.position || ''}}</div>
-                        <div class="labelline"> Position </div>
+                    <div class="entryarea1">
+                        <div class="detail-value1">{{employee.position || ''}}</div>
+                        <div class="labelline1"> Position </div>
                     </div>
 
-                    <div class="entryarea">
-                        <div class="detail-value">
+                    <div class="entryarea1">
+                        <div class="detail-value1">
                             {{employee.gender == 0 ? 'Female' : employee.gender == 1 ? 'Male' : 'Others'}}
                         </div>
-                        <div class="labelline"> Gender </div>
+                        <div class="labelline1"> Gender </div>
                     </div>
                 </div>
 
@@ -84,32 +85,33 @@
             </div>
         </div>
 
-            <!-- RIGHT PANEL -->
-            <div class="container"> 
-                <div class ="container-head"></div>
-                    <div class="input-row1">
-                        <div class="entryarea2">
-                            <input type="text" name="deductions" [value]="totalDeductions">
-                            <div class="labelline2"> Total Deductions </div>
-                        </div>
-                    </div>
+        <!-- RIGHT PANEL -->
+        <div class="container"> 
+            <div class="container-head"></div>
+            
+            <div class="input-row1">
+                <div class="entryarea2">
+                    <div class="value-display">{{ totalDeductions }}</div>
+                    <div class="labelline2"> Total Deductions </div>
+                </div>
+            </div>
 
-                    <div class="input-row1">
-                        <div class="entryarea2">
-                            <input type="text" name="pay" [value]="netPay">
-                            <div class="labelline2"> NET Pay </div>
-                        </div>
-                    </div>
+            <div class="input-row1">
+                <div class="entryarea2">
+                    <div class="value-display">{{ netPay }}</div>
+                    <div class="labelline2"> Total Additions </div>
+                </div>
+            </div>
 
-                    <div class="input-row1">
-                        <div class="entryarea2">
-                            <input type="text" name="received"
-                            value="{{employee.full_name}}">
-                            <div class="labelline2"> Received by </div>
-                        </div>
-                    </div>
+            <div class="input-row1">
+                <div class="entryarea2">
+                    <div class="value-display">{{ employee.full_name }}</div>
+                    <div class="labelline2"> Received by </div>
+                </div>
             </div>
         </div>
+    </div>
+
 
         <!-- FORMS ARRAY -->
             <form formArrayName="deduction">
@@ -119,26 +121,26 @@
                             Deduction
                         </div>
 
-                        <div *ngFor="let control of formsArray('deduction').controls; let i = index">
+                        <div *ngFor="let control of formsArray('deduction')?.controls; let i = index">
                             <form [formGroupName]="i">
                                 <div class="input-row1"> 
                                     <div class="entryarea4">
-                                        <input type="text" formControlName="type">
+                                        <div class="display"> {{ control.get('type')?.value }} </div>
                                         <div class="labelline4"> Type </div>
                                     </div>
 
                                     <div class="entryarea4">
-                                        <input type="text" formControlName="subtype">
+                                        <div class="display"> {{ control.get('subtype')?.value }} </div>
                                         <div class="labelline4"> Sub Type </div>
                                     </div>
 
-                                    <div class="entryarea4">
+                                    <!-- <div class="entryarea4">
                                         <select formControlName="operation_type">
                                             <option value="deduction"> - </option>
                                             <option value="percentage deduction"> % </option>
                                         </select>
                                         <div class="labelline4"> Operation </div>
-                                    </div>
+                                    </div> -->
             
                                     <div class="entryarea4">
                                         <input type="text" formControlName="amount">

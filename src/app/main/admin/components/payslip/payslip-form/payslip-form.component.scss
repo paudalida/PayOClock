@@ -2,13 +2,31 @@
     justify-content: center;
     align-items: center;
     padding-left: 20px;
-    padding-right: 40px;
+    padding-right: 30px;
     padding-top: 20px;
     padding-bottom: 20px;
 
-    .payslip-back,
-    .paylip-history {
-        background: var(--primary-color);
+    .header {
+        display: flex;
+        justify-content: space-between; 
+        align-items: center; 
+        padding-bottom: 20px;
+        padding-left: 25px; 
+    }
+    
+    .header h1 {
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 22px;
+        padding-left: 5px;
+        padding-top: 35px;
+    }
+    
+    .header .button-group {
+        display: flex;
+    }
+    
+    .payslip-back, .payslip-history {
         width: 140px;
         height: 45px;
         text-decoration: none;
@@ -28,36 +46,24 @@
         text-align: center;
     }
     
-    .paylip-back:hover {
+    .payslip-back:hover {
         box-shadow: 0px 8px 15px -10px rgb(125, 125, 125);
         transform: translate(0px, -2px);
         background: var(--cancel-hover);
         cursor: pointer;
-        text-decoration: none;
     }
     
-    .paylip-history:hover {
+    .payslip-history {
+        background: var(--primary-color);
+    }
+    
+    .payslip-history:hover {
         box-shadow: 0px 8px 15px -10px rgb(125, 125, 125);
         transform: translate(0px, -2px);
         background: var(--buttons-hover);
         cursor: pointer;
-        text-decoration: none;
     }
     
-    
-    .header {
-        display: flex;
-        justify-content: space-between;
-        padding-bottom: 20px;
-    }
-    
-    .header h1 {
-        font-weight: 700;
-        text-transform: uppercase;
-        font-size: 22px;
-        padding-left: 25px;
-        padding-top: 35px;
-    }
 }
 
 
