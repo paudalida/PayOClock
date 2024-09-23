@@ -24,7 +24,7 @@ export class PayslipHistoryComponent implements OnInit{
   employee: any;
 
   ngOnInit(): void {
-    if(!this.employee.id) { this.router.navigate(['/admin/payrolls']); } // return to payrolls if employee data is not set (browser refreshed)
+    if(!this.employee.id) { this.router.navigate(['/employee/payslips']); } // return to payrolls if employee data is not set (browser refreshed)
 
     this.ds.request('GET', 'admin/payslips/history/user/' + this.employee.id).subscribe({
       next: (res: any) => {

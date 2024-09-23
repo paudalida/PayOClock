@@ -83,7 +83,7 @@ export class PayslipsComponent implements OnInit{
   // }
 
   redirectToPayslipHistory() {
-    this.router.navigate(['/employee/payslip-history']);
+    this.router.navigate(['/employee/payslips/payslip-history']);
   }
 
 }

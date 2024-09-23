@@ -13,8 +13,13 @@ const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, 
   { path: 'dashboard', component: DashboardComponent}, 
   { path: 'announcements', component: AnnouncementsComponent},
-  { path: 'payslips', component: PayslipsComponent}, 
-  { path: 'payslip-history', component: PayslipHistoryComponent},
+  { 
+    path: 'payslips',
+    children: [
+      { path: '', component: PayslipsComponent, pathMatch: 'full'}, 
+      { path: 'payslip-history', component: PayslipHistoryComponent}
+    ]  
+  },
   { path: 'attendance', component: AttendanceComponent}, 
   { path: 'profile', component: ProfileComponent}, 
   
