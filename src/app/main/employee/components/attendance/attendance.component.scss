@@ -1,99 +1,129 @@
 .main-content {
-    justify-content: center;
-    align-items: center;
-    padding: 60px 50px;
-    padding-bottom: 20px;
-  }  
+  justify-content: center;
+  align-items: center;
+  padding: 60px 50px;
+  padding-right: 10px;
+  padding-bottom: 50px;
+} 
   
-  .employee-container {
+.employee-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border);
+  padding: 35px 65px;
+  background: var(--white);
+  width: 90%;
+  border-radius: 10px;
+  box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.322);
+  border: 0.5px solid var(--table-border);
+
+  .employee-left {
+    flex: 0 0 auto;
+    margin-right: 15px;
+
+    .employee-image {
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+  
+  .employee-middle {
+    flex: 1;
     display: flex;
-    align-items: center;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 35px 65px;
-    background: var(--white);
-    width: 90%;
-    box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.322);
-  
-    .employee-left {
-      flex: 0 0 auto;
-      margin-right: 15px;
-  
-      .employee-image {
-        width: 250px;
-        height: 250px;
-        border-radius: 50%;
-        object-fit: cover;
-      }
+    flex-direction: column;
+    justify-content: center;
+
+    .employee-name {
+      font-size: 1.7rem;
+      margin-top: 20px;
+      margin-left: 20px;
     }
-  
-    .employee-middle {
-      flex: 1;
+
+    .employee-position {
+      font-size: 1.2rem;
+      color: #666;
+      margin-top: 5px;
+      margin-left: 20px;
+    }
+
+    .upload {
+      width: 140px;
+      height: 45px;
+      text-decoration: none;
+      color: var(--white);
+      box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.322);
+      transition: .3s;
+      transform: translateY(-5px);
+      border-radius: 3px;
+      border: 1px;
+      font-weight: bold;
+      font-size: 16px;
+      margin-top: 25px;
+      margin-left: 20px;
+      text-align: center;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-  
-      .employee-name {
-        font-size: 1.5rem;
-        margin-left: 20px;
-      }
-  
-      .employee-position {
-        font-size: 1rem;
-        color: #666;
-        margin-top: 5px;
-        margin-left: 20px;
-      }
+      align-items: center;
+      justify-content: center; 
     }
+
+    .upload:hover {
+      box-shadow: 0px 8px 15px -10px rgb(125, 125, 125);
+      transform: translate(0px, -2px);
+      cursor: pointer;
+      text-decoration: none;
+    }
+  }
   
-    .employee-right {
-      flex: 0 0 auto;
-      text-align: right;
-      font-weight: 600;
-  
-      .time-in {
-        font-size: 4rem;
-        margin-right: 90px;
-      }
-  
-      .time-in-info {
-        display: flex;
-        align-items: center;
-        margin-top: 5px;
-        margin-left: 70px;
+  .employee-right {
+    flex: 0 0 auto;
+    text-align: right;
+    font-weight: 600;
+
+    .time-in {
+      font-size: 4rem;
+      margin-right: 90px;
+      font-weight: 500;
+      color: var(--landing-font);
+    }
+
+    .time-in-info {
+      display: flex;
+      align-items: center;
+      margin-top: 5px;
+      margin-left: 70px;
+      font-size: 1.4rem;
+      font-weight: 500;
+
+      .icon-timein {
+        font-size: 1.2rem;
+        margin-right: 5px;
         font-size: 1.4rem;
         font-weight: 500;
-  
-        .icon-timein {
-          font-size: 1.2rem;
-          margin-right: 5px;
-          font-size: 1.4rem;
-          font-weight: 500;
-        }
       }
     }
   }
+}
 
-  .attendance-table {
-    margin-top: 50px;
-    margin-right: 10px;
-    background: var(--white);
-    width: 1350px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+.attendance-table {
+  margin-top: 50px;
+  background: var(--white);
+  width: 1370px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
 
-    .table {
-    table {
-        width: 100%;
-        background: var(--white);
-        border-collapse: collapse;
+  .table {
+      table {
+      width: 100%;
+      background: var(--white);
+      border-collapse: collapse;
 
-        th, td {
-            padding: 20px;
-            text-align: center;
-            border: none;
-        }
+      th, td {
+        padding: 20px;
+        text-align: center;
+        border: none;
+      }
     }
 
     th {
@@ -103,10 +133,11 @@
     }
 
     .label {
-        font-weight: bold;
-        display: block;
-        margin-bottom: 5px;
-      }
+      font-size: 15px;
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
     }
+  }
 }
   

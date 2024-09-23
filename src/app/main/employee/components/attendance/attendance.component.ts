@@ -33,3 +33,6 @@ export class AttendanceComponent {
     saturday: { timeIn: new Date('2024-09-16T08:00:00'), timeOut: new Date('2024-09-16T12:00:00') }
   };
 }
+
+
+

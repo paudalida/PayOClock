@@ -16,6 +16,9 @@ import { AnnouncementsComponent } from './components/dashboard/announcements/ann
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { ViewAnnouncementComponent } from './components/dashboard/view-announcement/view-announcement.component';
+import { UploadProofComponent } from './components/attendance/upload-proof/upload-proof.component';
+import { PayslipHistoryComponent } from './components/payslips/payslip-history/payslip-history.component';
+
 
 @NgModule({
   declarations: [  
@@ -25,7 +28,7 @@ import { ViewAnnouncementComponent } from './components/dashboard/view-announcem
     AttendanceComponent, 
     ProfileComponent, 
     EditProfileComponent, 
-    AnnouncementsComponent, ViewAnnouncementComponent
+    AnnouncementsComponent, ViewAnnouncementComponent, UploadProofComponent, PayslipHistoryComponent
 
   ],
   imports: [
