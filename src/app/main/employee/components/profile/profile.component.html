@@ -1,78 +1,138 @@
-<div class="container">
-    <!-- Profile Card Section -->
-    <div class="profile-card">
-        <div class="blue-header">
-            <img [src]="employee.image || 'assets/images/bg1.jpg'" alt="Profile Picture" class="profile-picture">
+<main> 
+    <div class="main-content">
+        <div class="container-left">
+            <div class="card-header"> 
+                <div class="card-image-holder">
+                    <img [src]="employee.image || 'assets/images/no image.png'" alt="Employee Photo">
+                </div>
+            </div>
+            <div class="card-content"> 
+                <div class="name"> 
+                    {{ employee.full_name }} 
+                </div>
+
+                <div class="normal-font"> 
+                    {{ employee.position }}
+                </div>
+
+                <p class="password"  (click)="openDialog()">Change Password</p>
+
+                <div class="employee-details">
+                
+                    <div class="detail-item">
+                        <i class='bx bxs-id-card'></i>
+                        <label>ID Number:</label>
+                        <p>{{ employee.employee_id }}</p>
+                    </div>
+        
+                    <div class="detail-item">
+                        <i class='bx bxs-user-pin'></i>
+                        <label>Gender:</label>
+                        <p>{{ employee.gender == 0 ? 'Female' : employee.gender == 1 ? 'Male' : 'Non-binary' }}</p>
+                    </div>
+
+                    <div class="detail-item">
+                        <i class='bx bxs-phone'></i>
+                        <label>Contact Number:</label>
+                        <p>{{ employee.phone_number }}</p>
+                    </div>
+            
+                    <div class="detail-item">
+                        <i class='bx bxs-envelope'></i>
+                        <label>Email:</label>
+                        <p>adampkoeppgmail.com</p>
+                        <!-- <p>{{ employee.email_address }}</p> -->
+                    </div>
+        
+                    <div class="detail-item">
+                        <i class='bx bxs-map'></i>
+                        <label>Address:</label>
+                        <p>13 Rizal Ext. Barretto Olongapo City Zambales, 2200</p>
+                        <!-- <p>{{ employee.full_adress }}</p> -->
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="card-content">
-            <h4> {{ employee.full_name }} </h4>
-            <h6>Employee</h6>
 
-            <div class="contentcontainer">
-                <ul class="content">
-                    <li>ID Number:</li>
-                    <li>Gender:</li>
-                    <li>Contact Number:</li>
-                </ul>
+        <div class="container-right" [ngClass]="{'expanded': hasActive}">
+            <div class="header"> 
+                Contact Information 
+                <div *ngFor="let item of items; let i = index">
+                    <div class="icon" (click)="clickTable(i)">
+                        <i class='bx bxs-edit'></i>
+                    </div>
+                </div>
+            </div>
+        
+            <div *ngIf="hasActive && activeTable === 0" class="detailsbody">
+                <div class="input-row">
+                    <div class="entryarea">
+                        <input type="text" formControlName="email">
+                        <div class="labelline">Email Address</div>
+                    </div>
+                </div>
 
-                <ul class="content1">
-                    <li> {{ employee.employee_id }}</li>
-                    <li> {{ employee.gender == 0 ? 'Female' : employee.gender == 1 ? 'Male' : 'Other' }} </li>
-                    <li> {{ employee.phone_number }} </li>
-                </ul>
+                <div class="input-row">
+                    <div class="entryarea">
+                        <input type="text" formControlName="phone_number">
+                        <div class="labelline">Contact Number</div>
+                    </div>
+
+                    <div class="entryarea">
+                        <!-- <input type="text" formControlName="province" (keyup)="updateInvalidInput($event, 'province')"> -->
+                        <input type="text" formControlName="province">
+                        <div class="labelline">Province</div>
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <div class="entryarea">
+                        <!-- <input type="text" formControlName="city" (keyup)="updateInvalidInput($event, 'city')"> -->
+                        <input type="text" formControlName="city">
+                        <div class="labelline">City/Municipality</div>
+                    </div>
+
+                    <div class="entryarea">
+                        <!-- <input type="text" formControlName="barangay" (keyup)="updateInvalidInput($event, 'barangay')"> -->
+                        <input type="text" formControlName="barangay">
+                        <div class="labelline">Barangay</div>
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <div class="entryarea">
+                        <!-- <input type="text" formControlName="street" (keyup)="updateInvalidInput($event, 'street')"> -->
+                        <input type="text" formControlName="street">
+                        <div class="labelline">Street</div>
+                    </div>
+
+                    
+                    <div class="entryarea">
+                        <!-- <input formControlName="house_number" (keyup)="updateInvalidInput($event, 'house_number')"> -->
+                        <input formControlName="house_number">
+                        <div class="labelline"> House Number </div>
+                    </div>
+
+                    <div class="entryarea">
+                        <!-- <input formControlName="zip_code" (keyup)="updateInvalidInput($event, 'zip_code')"> -->
+                        <input formControlName="zip_code">
+                        <div class="labelline"> Zip Code  </div>
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <div class="entryarea1">
+                        <!-- <input class="inputtxt" type="file" (change)="onFileChange($event)"> -->
+                        <input class="inputtxt" type="file">
+                        <span></span>
+                        <div class="labelline1"> Upload Image </div>
+                    </div>
+                </div>
+
+                <div class="add-btn">
+                    <button class = "button" type="button" value="Update"> Update </button>
+                </div>
             </div>
         </div>
     </div>
-
-    <!-- Personal Information Form Section -->
-    <div class="form-section">
-        <h3>Personal Information</h3>
-        <form class="personal-info-form">
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="firstName">First name</label>
-                    <input type="text" id="firstName" [value]="employee.first_name">
-                </div>
-                <div class="form-group">
-                    <label for="middleName">Middle name</label>
-                    <input type="text" id="middleName" [value]="employee.middle_name">
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="lastName">Last name</label>
-                    <input type="text" id="lastName" [value]="employee.last_name">
-                </div>
-                <div class="form-group">
-                    <label for="extName">Ext name</label>
-                    <input type="text" id="extName" [value]="employee.ext_name">
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="gender">Gender</label>
-                    <input type="text" id="gender" [value]="employee.gender == 0 ? 'Female' : employee.gender == 1 ? 'Male' : 'Other'" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="contactNumber">Contact Number</label>
-                    <input type="text" id="contactNumber" [value]="employee.phone_number">
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password">
-                </div>
-                <div class="form-group">
-                    <label for="uploadImage">Upload Image</label>
-                    <input type="file" id="uploadImage">
-                </div>
-            </div>
-
-            <button type="button" class="edit-btn">Edit</button>
-        </form>
-    </div>
-</div>
+</main>

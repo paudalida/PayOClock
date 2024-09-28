@@ -116,14 +116,20 @@
         <!-- FORMS ARRAY -->
             <form formArrayName="deduction">
                 <div class="input-row">
-                    <div class="container-deduction">
+                    <div class="container-deduction" [ngClass]="{'expanded': hasActive}">
                         <div class="container-head1"> 
                             Deduction
+
+                            <div *ngFor="let item of items; let i = index">
+                                <div class="icon" (click)="clickTable(i)">
+                                    <i class='bx bx-collapse'></i>
+                                </div>
+                            </div>
                         </div>
 
                         <div *ngFor="let control of formsArray('deduction')?.controls; let i = index">
                             <form [formGroupName]="i">
-                                <div class="input-row1"> 
+                                <div *ngIf="hasActive && activeTable === 0"  class="input-row1"> 
                                     <div class="entryarea4">
                                         <div class="display"> {{ control.get('type')?.value }} </div>
                                         <div class="labelline4"> Type </div>

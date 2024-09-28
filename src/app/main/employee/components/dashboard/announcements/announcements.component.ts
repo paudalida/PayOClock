@@ -33,21 +33,23 @@ export class AnnouncementsComponent {
     { id: 1, 
       title: 'Lorem ipsum', 
       shortDescription: 'Lorem ipsum dolor sit amet...', 
-      image: '/assets/images/no image.png', date: new Date() },
+      image: '/assets/images/no image.png', date: new Date() 
+    },
     { id: 2, 
       title: 'Lorem ipsum', 
       shortDescription: 'Lorem ipsum dolor sit amet...', 
-      image: '/assets/images/no image.png', date: new Date() },
+      image: '/assets/images/no image.png', date: new Date() 
+    },
     { id: 3, 
       title: 'Lorem ipsum', 
       shortDescription: 'Lorem ipsum dolor sit amet...', 
-      image: '/assets/images/no image.png', date: new Date() },
+      image: '/assets/images/no image.png', date: new Date() 
+    },
     { id: 4, 
       title: 'Lorem ipsum', 
       shortDescription: 'Lorem ipsum dolor sit amet...', 
-      image: '/assets/images/no image.png', date: new Date() },
-  
-
+      image: '/assets/images/no image.png', date: new Date() 
+    },
   ];
 
   announcements: any;
@@ -65,17 +67,18 @@ export class AnnouncementsComponent {
       }
     })
   }
+  
   redirectToDashboard() {
-    this.router.navigate(['/employee/dashboard']);
+    this.router.navigate(['/employee/dashboards']);
   }
 
   viewAnnouncement(announcement: any): void {
     this.dialog.open(ViewAnnouncementComponent, {
       data: {
         title: announcement.title,
-        description: announcement.shortDescription,
+        description: announcement.shortDescription, 
         image: announcement.image,
-        date: announcement.date
+        created_at: announcement.date
       }
     });
   }

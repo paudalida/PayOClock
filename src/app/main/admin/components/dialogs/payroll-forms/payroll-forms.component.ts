@@ -34,6 +34,21 @@ export class PayrollFormsComponent implements OnInit{
   savedValue: any;
   basePay = 0;
 
+  activeTable = -1; 
+  hasActive = false; 
+  items: any = [1]; 
+
+  clickTable(index: number) {
+    
+    if (this.activeTable === index) {
+      this.hasActive = !this.hasActive;
+    } else {
+      
+      this.activeTable = index;
+      this.hasActive = true;  
+    }
+  }
+
   ngOnInit(): void {
     this.isLoading = true;
 

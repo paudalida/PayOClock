@@ -11,13 +11,17 @@ import { AnnouncementsComponent } from './components/dashboard/announcements/ann
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, 
-  { path: 'dashboard', component: DashboardComponent}, 
-  { path: 'announcements', component: AnnouncementsComponent},
+  { path: 'dashboards', 
+    children: [ 
+      { path: '', component: DashboardComponent, pathMatch: 'full' },
+      { path: 'announcement', component: AnnouncementsComponent }
+    ]
+  },
   { 
     path: 'payslips',
     children: [
       { path: '', component: PayslipsComponent, pathMatch: 'full'}, 
-      { path: 'payslip-history', component: PayslipHistoryComponent}
+      { path: 'payslips-history', component: PayslipHistoryComponent}
     ]  
   },
   { path: 'attendance', component: AttendanceComponent}, 

@@ -1,1 +1,24 @@
-<p>view-announcement works!</p>
+<div class="main-container">
+    <form class="form-info">
+        <div class="header">
+            <button type="button" class="close-button" (click)="closePopup()">
+            <i class='bx bx-x'></i>
+            </button>
+        </div>
+
+        <div class="form-details">
+            <div class="content-left">
+                <img [src]="image || 'assets/images/background.jpg'" alt="Image" class="image-holder">
+            </div>
+
+            <div class="content-right">
+                <h2 class="title">{{ title }}</h2>
+                    <pre class="description">{{ content }}</pre>
+                <div class="publish-info">
+                    <p class="publish-date">Date Published: {{ createdAt | date:'MMMM d, y' }} - {{ createdAt | date:'shortTime' }}</p>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+  

@@ -41,6 +41,6 @@ export class DashboardComponent implements OnInit{
     })
   }
   redirectToAnnouncements() {
-    this.router.navigate(['/employee/announcements']);
+    this.router.navigate(['/employee/dashboards/announcement']);
   }
 }
