@@ -122,7 +122,7 @@
 
                             <div *ngFor="let item of items; let i = index">
                                 <div class="icon" (click)="clickTable(i)">
-                                    <i class='bx bx-collapse'></i>
+                                    <i [ngClass]="hasActive && activeTable === i ? 'bx bx-collapse' : 'bx bx-expand'"></i>
                                 </div>
                             </div>
                         </div>
