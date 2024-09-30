@@ -18,6 +18,7 @@ import { ViewAnnouncementComponent } from './components/dashboard/view-announcem
 import { UploadProofComponent } from './components/attendance/upload-proof/upload-proof.component';
 import { PayslipHistoryComponent } from './components/payslips/payslip-history/payslip-history.component';
 import { ChangePasswordComponent } from './components/profile/change-password/change-password.component';
+import { ProofHistoryComponent } from './components/attendance/proof-history/proof-history.component';
 
 
 @NgModule({
@@ -31,7 +32,7 @@ import { ChangePasswordComponent } from './components/profile/change-password/ch
     ViewAnnouncementComponent, 
     UploadProofComponent, 
     PayslipHistoryComponent, 
-    ChangePasswordComponent
+    ChangePasswordComponent, ProofHistoryComponent
 
   ],
   imports: [

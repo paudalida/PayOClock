@@ -5,6 +5,7 @@ import { PopupService } from '../../../../services/popup/popup.service';
 import { DataService } from '../../../../services/data/data.service';
 
 import { UploadProofComponent } from './upload-proof/upload-proof.component';
+import { ProofHistoryComponent } from './proof-history/proof-history.component';
 
 export interface DaySchedule {
   timeIn: Date;
@@ -49,6 +50,14 @@ export class AttendanceComponent implements OnInit {
     friday: { timeIn: new Date('2024-09-15T08:00:00'), timeOut: new Date('2024-09-15T17:00:00') },
     saturday: { timeIn: new Date('2024-09-16T08:00:00'), timeOut: new Date('2024-09-16T12:00:00') }
   };
+
+  openHistory() {
+    if (this.dialog) {
+      this.dialog.open(ProofHistoryComponent);
+    } else {
+      console.error('Dialog is not initialized');
+    }
+  }
 
   openDialog() {
     if (this.dialog) {

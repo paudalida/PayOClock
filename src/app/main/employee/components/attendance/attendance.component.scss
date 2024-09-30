@@ -44,12 +44,34 @@
     .employee-position {
       font-size: 1.2rem;
       color: #666;
-      margin-top: 5px;
       margin-left: 20px;
     }
 
+    .history { 
+      color: var(--primary-color);
+      font-size: 1rem;
+      margin-top: 2px;
+      margin-left: 20px;
+      font-weight: 500;
+      padding-bottom: 25px;
+      cursor: pointer;
+    }
+  }
+  
+  .employee-right {
+    flex: 0 0 auto;
+    text-align: right;
+    font-weight: 600;
+
+    .time-in {
+      font-size: 4rem;
+      margin-right: 90px;
+      font-weight: 300;
+      color: var(--landing-font); 
+    }
+
     .upload {
-      width: 140px;
+      width: 205px;
       height: 45px;
       text-decoration: none;
       color: var(--white);
@@ -61,7 +83,7 @@
       font-weight: bold;
       font-size: 16px;
       font-family: 'Poppins';
-      margin-top: 25px;
+      margin-top: 15px; 
       margin-left: 20px;
       text-align: center;
       display: flex;
@@ -74,35 +96,6 @@
       transform: translate(0px, -2px);
       cursor: pointer;
       text-decoration: none;
-    }
-  }
-  
-  .employee-right {
-    flex: 0 0 auto;
-    text-align: right;
-    font-weight: 600;
-
-    .time-in {
-      font-size: 4rem;
-      margin-right: 90px;
-      font-weight: 500;
-      color: var(--landing-font);
-    }
-
-    .time-in-info {
-      display: flex;
-      align-items: center;
-      margin-top: 5px;
-      margin-left: 70px;
-      font-size: 1.4rem;
-      font-weight: 500;
-
-      .icon-timein {
-        font-size: 1.2rem;
-        margin-right: 5px;
-        font-size: 1.4rem;
-        font-weight: 500;
-      }
     }
   }
 }

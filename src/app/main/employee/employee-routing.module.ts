@@ -11,7 +11,7 @@ import { AnnouncementsComponent } from './components/dashboard/announcements/ann
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, 
-  { path: 'dashboards', 
+  { path: 'dashboard', 
     children: [ 
       { path: '', component: DashboardComponent, pathMatch: 'full' },
       { path: 'announcement', component: AnnouncementsComponent }

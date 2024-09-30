@@ -69,7 +69,7 @@ export class AnnouncementsComponent {
   }
   
   redirectToDashboard() {
-    this.router.navigate(['/employee/dashboards']);
+    this.router.navigate(['/employee/dashboard']);
   }
 
   viewAnnouncement(announcement: any): void {

@@ -1,12 +1,38 @@
 <main>
-    <div class="main-container">
-      <form class="form-info">
-        <div class="header">
-            <h1>Upload Proof</h1>
-            <button type="button" class="close-button" (click)="closePopup()">
-            <i class='bx bx-x'></i>
+  <div class="main-container">
+    <form class="form-info">
+      <div class="header">
+        <h1>Upload Proof</h1>
+        <button type="button" class="close-button" (click)="closePopup()">
+          <i class='bx bx-x'></i>
+        </button>
+      </div>
+
+      <div class="form-body">
+        <div class="body-header"> 
+          Upload Proof of Attendance 
+        </div>
+
+        <div class="entryarea1">
+          <input class="inputtxt" type="file" (change)="onFileChange($event)" multiple accept="image/*">
+        </div>
+
+        <div class="preview-container">
+          <div *ngFor="let file of files; let i = index" class="file-preview">
+            <img [src]="file.url" *ngIf="file.type.startsWith('image')" />
+            <span *ngIf="!file.type.startsWith('image')">{{ file.name }}</span>
+            <button type="button" class="remove-button" (click)="removeFile(i)">
+              <i class='bx bx-x'></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="upload-button-container">
+          <button class="btn-primary upload" type="button" (click)="uploadFiles()">
+            Upload
           </button>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
+  </div>
 </main>

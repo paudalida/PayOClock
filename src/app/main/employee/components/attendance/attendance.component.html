@@ -6,14 +6,11 @@
       <div class="employee-middle">
           <h2 class="employee-name">{{ employeeName }}</h2>
           <p class="employee-position">{{ employeePosition }}</p>
-          <button class="btn-primary upload"  type="button" (click)="openDialog()"> Upload Proof </button>
+          <p class="history"  (click)="openHistory()">Proof History</p>
       </div>
       <div class="employee-right">
           <p class="time-in">{{ timeIn }}</p>
-          <div class="time-in-info">
-              <i class="bx bxs-time icon-timein"></i>
-              <span>Timein</span>
-          </div>
+          <button class="btn-primary upload"  type="button" (click)="openDialog()"> Proof </button>
       </div>
   </div>
 
