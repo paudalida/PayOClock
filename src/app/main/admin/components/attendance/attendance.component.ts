@@ -46,27 +46,14 @@ export class AttendanceComponent implements OnInit {
     private ds: DataService,
     private as: AdminService,
     private pop: PopupService
-  ) { 
-    const now = new Date();
-    const currentDay = (now.getDay() + 6) % 7;  // Adjust to make Monday = 0, Sunday = 6
-    const firstDay = new Date(now);             // Create a new date object to avoid mutation
-    firstDay.setDate(now.getDate() - currentDay);
-    
-    // Generate date ranges
-    this.generateDateRanges();
-
-    for (let i = 0; i < 6; i++) {
-      const newDate = new Date(firstDay);
-      newDate.setDate(firstDay.getDate() + i);
-      this.dates.push(newDate);
-    }
-  }
+  ) { }
 
   isLoading = false;
   selectedDate = null;
-  records: any = [];
   clockedIn: any = [];
   user_id: any;
+  attendanceWeeks: any;
+  attendance: any;
   defaultRecord = {
     user_id: '',
     status: ''
@@ -87,57 +74,12 @@ export class AttendanceComponent implements OnInit {
 
   ngOnInit(): void {    
     this.isLoading = true;
-    this.ds.request('GET', 'admin/attendance/weekly').subscribe({
+    this.ds.request('GET', 'admin/attendance').subscribe({
       next: (res: any) => {
-
-        this.employees.forEach((element: any) => {
-          this.records.push(
-            {
-              id: element.id,
-              name: element.full_name,
-              mon: this.defaultRecord,
-              tue: this.defaultRecord,
-              wed: this.defaultRecord,
-              thu: this.defaultRecord,
-              fri: this.defaultRecord,
-              sat: this.defaultRecord
-            }
-          );
-        });
-
-        res.data.forEach((element: any) => {
-          let foundRecord = this.records.find((record: any) => record.id === element.user_id);
-          foundRecord.user_id = element.user_id;
-
-          switch(element.day) {
-            case 'Monday':
-              foundRecord.mon = element;
-              break;
-
-            case 'Tuesday':
-              foundRecord.tue = element;
-              break;
-
-            case 'Wednesday':
-              foundRecord.wed = element;
-              break;
-
-            case 'Thursday':
-              foundRecord.thu = element;
-              break;
-
-            case 'Friday':
-              foundRecord.fri = element;
-              break;
-
-            case 'Saturday':
-              foundRecord.sat = element;
-          }
-        });
-
-        this.dataSource = new MatTableDataSource(this.records);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.attendance = res.data;
+        this.attendanceWeeks = Object.keys(this.attendance);
+        this.generateDateRange(this.attendanceWeeks[this.attendanceWeeks.length-1]);
+        this.formatData(this.attendance[this.attendanceWeeks[this.attendanceWeeks.length - 1]]);
       },
       error: (err: any) => {
 
@@ -146,34 +88,78 @@ export class AttendanceComponent implements OnInit {
     });
   }  
 
-  generateDateRanges(): void {
-    const startYear = new Date().getFullYear(); // Start from the current year
-    const endYear = 2025; // End at December 2025
-    let currentYear = startYear;
-    let currentMonth = new Date().getMonth(); // Current month (0-based index)
+  formatData(data: any) {
+    let records: any = [];
+    this.employees.forEach((element: any) => {
+      records.push(
+        {
+          id: element.id,
+          name: element.full_name,
+          mon: this.defaultRecord,
+          tue: this.defaultRecord,
+          wed: this.defaultRecord,
+          thu: this.defaultRecord,
+          fri: this.defaultRecord,
+          sat: this.defaultRecord
+        }
+      );
+    });
 
-    // Generate ranges until December 2025
-    while (currentYear < endYear || (currentYear === endYear && currentMonth <= 11)) {
-      let startDate = new Date(currentYear, currentMonth, 1); // Start of the current month
-      let endDate = new Date(startDate); // Clone start date
-      endDate.setDate(startDate.getDate() + 34); // Set end date 34 days ahead (total 35 days)
+    data.forEach((element: any) => {
+      let foundRecord = records.find((record: any) => record.id === element.user_id);
+      foundRecord.user_id = element.user_id;
 
-      // Format dates as MM/DD/YYYY
-      const formattedStartDate = this.formatDate(startDate);
-      const formattedEndDate = this.formatDate(endDate);
-      const range = `${formattedStartDate} - ${formattedEndDate}`;
-      this.dateRanges.push(range);
+      switch(element.day) {
+        case 'Monday':
+          foundRecord.mon = element;
+          break;
 
-      // Move to the next range starting from the day after the current end date
-      currentMonth = endDate.getMonth() + 1; // Move to the month after the current end date
-      if (currentMonth > 11) {
-        currentMonth = 0;
-        currentYear++;
+        case 'Tuesday':
+          foundRecord.tue = element;
+          break;
+
+        case 'Wednesday':
+          foundRecord.wed = element;
+          break;
+
+        case 'Thursday':
+          foundRecord.thu = element;
+          break;
+
+        case 'Friday':
+          foundRecord.fri = element;
+          break;
+
+        case 'Saturday':
+          foundRecord.sat = element;
       }
+    });
+
+    this.dataSource = new MatTableDataSource(records);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  generateDateRange(key: string) {
+    const [start, end] = key.split(' - ').map(date => new Date(date));
+    const dates: string[] = [];
+
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      const year = d.getFullYear();
+
+      dates.push(`${year}-${month}-${day}`);
     }
 
-    // Set the default selection
-    this.selectedDateRange = this.dateRanges[0];
+    this.dates = dates;
+    console.log(this.dates)
+  }
+
+  dateFilter(event: Event) {
+    const date = (event.target as HTMLSelectElement).value
+    this.formatData(this.attendance[date]);
+    this.generateDateRange(date);
   }
 
   formatDate(date: Date): string {

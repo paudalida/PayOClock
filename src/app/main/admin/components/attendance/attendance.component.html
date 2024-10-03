@@ -25,8 +25,8 @@
             </div>
 
             <div class="date-range-dropdown">
-                <select [(ngModel)]="selectedDateRange">
-                    <option *ngFor="let date of dateRanges" [value]="date">{{ date }}</option>
+                <select [(ngModel)]="selectedDateRange" (change)="dateFilter($event)">
+                    <option *ngFor="let date of attendanceWeeks; let last = last;" [selected]="last">{{ date }}</option>
                 </select>
             </div>
         </div>

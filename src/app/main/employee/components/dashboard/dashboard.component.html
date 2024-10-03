@@ -1,38 +1,37 @@
 <div class="main-content">
-  <div class="header"> 
-    <h1>New Announcement</h1>
-    <button class="more-announcements" type="button" (click)="redirectToAnnouncements()">
-      More <i class='bx bx-chevrons-right'></i>
-    </button>
-  </div>
-
-  <div class="content">
-    <div class="content-left">
-      <img [src]="announcements[0].image" alt="Announcement Image" class="image-holder">
+    <div class="header"> 
+      <h1>New Announcement</h1>
+      <button class="more-announcements" type="button" (click)="redirectToAnnouncements()">
+        More <i class='bx bx-chevrons-right'></i>
+      </button>
+    </div>
+  
+    <div class="content"> 
+        <div class="content-left">
+          <img [src]="announcement.image || 'assets/images/no image.png'" alt="Announcement Image" class="image-holder">
+        </div>
+        <div class="content-right">
+          <h2 class="title">{{ announcement.title }}</h2>
+          <pre class="description">{{ announcement.content }}</pre>
+          <div class="publish-info">
+            <p class="publish-date">Date Published: {{ announcement.published_at | date:'MMMM d, y' }} - {{ announcement.published_at | date:'shortTime' }}</p>
+          </div>
+        </div>
     </div>
 
-    <div class="content-right">
-      <h2 class="title">{{ announcements[0].title }}</h2>
-      <pre class="description">{{ announcements[0].content }}</pre>
-      <div class="publish-info">
-        <p class="publish-date">Date Published: {{ announcements[0].created_at | date:'MMMM d, y' }} - {{ announcements[0].created_at | date:'shortTime' }}</p>
-      </div>
+    <div class="cards-row">
+        <div class="card">
+          <div class="card-header">
+            <h3>Total Number of Lates</h3>
+            <p class="number"> {{ lates }} </p>
+          </div>
+        </div>
+    
+        <div class="card">
+          <div class="card-header">
+            <h3>Total Number of Absences</h3>
+            <p class="number"> {{ absences }} </p>
+          </div>
+        </div>
     </div>
-  </div>
-
-  <div class="cards-row">
-    <div class="card">
-      <div class="card-header">
-        <h3>Total Number of Late</h3>
-        <p class="number">5</p>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-header">
-        <h3>Total Number of Absence</h3>
-        <p class="number">2</p>
-      </div>
-    </div>
-  </div>
 </div>

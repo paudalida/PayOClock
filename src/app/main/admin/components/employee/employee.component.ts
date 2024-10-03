@@ -57,7 +57,6 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
   }
 
   setEmployee(data: any) {
-    console.log(this.employee)
     this.as.setEmployee(data);
   }
 

@@ -29,8 +29,8 @@
                 </div>
 
                 <div class="information-case">
-                    <th> RATE: </th>  
-                    <td> {{ employee.hourly_rate }} </td> 
+                    <th> RATE/HOUR: </th>  
+                    <td> {{ hourly_rate }} </td> 
                 </div>
             </div>
 
@@ -52,6 +52,7 @@
             <table>
                 <tr class="table-header">
                     <th> Attendance Earnings </th>
+                    <th> Hours </th>
                     <th> Amount </th>
                     <th> Other Earnings </th>
                     <th> Amount </th>
@@ -67,10 +68,12 @@
                         <td> {{ value[3] }} </td>
                         <td> {{ value[4] }} </td>
                         <td> {{ value[5] }} </td>
+                        <td> {{ value[6] }} </td>
                     </tr>
                 </ng-container>
 
                 <tr class="totals">
+                    <td> </td>
                     <td> Adjusted Pay </td>
                     <td> {{ adjusted_pay }} </td>
                     <td> Total Additions </td>
@@ -80,6 +83,7 @@
                 </tr>
 
                 <tr>
+                    <td> </td>
                     <td> </td>
                     <td> </td>
                     <td> Gross Pay </td>

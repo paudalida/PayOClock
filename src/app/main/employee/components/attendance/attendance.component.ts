@@ -26,8 +26,17 @@ export class AttendanceComponent implements OnInit {
     private pop: PopupService
   ) { }
 
+  attendances: any;
+
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    this.ds.request('GET', 'employee/attendance').subscribe({
+      next: (res: any) => {
+        this.attendances = res.data;
+      },
+      error: (err: any) => {
+        this.pop.swalBasic('error', this.pop.genericErrorTitle, 'Error fetching attendance data. Please try again later');
+      }
+    });
   }
   
   employeeImage: string = '/assets/images/no image.png'; 

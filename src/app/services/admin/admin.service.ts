@@ -51,18 +51,18 @@ export class AdminService {
   /* Single record */
   public setEmployee(data: any) {
     this.employeeData = {
-      id: data.id || null,
-      type: data.type || null,
-      employee_id: data.employee_id || null,
-      full_name: data.full_name || null,
-      first_name: data.first_name || null,
+      id: data.id,
+      type: data.type,
+      employee_id: data.employee_id,
+      full_name: data.full_name,
+      first_name: data.first_name,
       middle_name: data.middle_name || null,
       last_name: data.last_name,
       ext_name: data.ext_name || null,
-      gender: data.gender || null,
-      position: data.position || null,
+      gender: data.gender,
+      position: data.position,
       image: data.image || null,
-      hourly_rate: data.hourly_rate || null,
+      hourly_rate: data.hourly_rate,
       status: data.status || null,
       contact: {
         phone_number: data.contact.phone_number || null,

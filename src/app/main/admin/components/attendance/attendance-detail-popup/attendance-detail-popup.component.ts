@@ -38,6 +38,7 @@ export class AttendanceDetailPopupComponent {
     private pop: PopupService
   ) {
     this.selectedDay = data.day;
+    console.log(data)
   }
 
   get employee() {

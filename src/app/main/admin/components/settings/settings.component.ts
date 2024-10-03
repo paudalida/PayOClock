@@ -49,7 +49,21 @@ export class SettingsComponent {
   }
 
   getConfig() {
-    this.ds.request('GET', 'admin/periodic-transactions/config')
+    this.ds.request('GET', 'admin/periodic-transactions/config').subscribe({
+      next: (res: any) => {
+        res.data.forEach((element: any) => {
+          this.addToConfigForm(
+            element.category,
+            'update',
+            element.operation_type,
+            element.type,
+            element.subtype,
+            element.amount,
+            element.id
+          );
+        });
+      }
+    })
   }
 
   formsArray(formType: string, category: string) {

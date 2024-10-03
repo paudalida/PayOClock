@@ -9,24 +9,14 @@ import { DataService } from '../../../../services/data/data.service';
 })
 export class DashboardComponent implements OnInit{
 
-  announcementImage: string = '/assets/images/no image.png';
-  announcementTitle: string = 'Title';
-  announcementDescription: string = `
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-  Vestibulum eget vehicula sapien. Cras sit amet augue magna. 
-  Proin suscipit diam nec justo suscipit, in viverra lacus fringilla. 
-  Quisque vitae felis vel arcu viverra fermentum sit amet et justo. 
-  Nulla facilisi. Mauris vitae magna eu odio sollicitudin commodo. 
-  Vestibulum tempus sem nec tellus congue, in tempus tortor feugiat. 
-  Cras facilisis metus ac orci gravida, in aliquam massa cursus. 
-  Duis at risus at eros vehicula sagittis vel at purus. Etiam vel lorem in purus iaculis bibendum. 
-  Integer at orci et felis sodales ultrices. Sed vitae dolor odio. 
-  Proin dictum eros non tortor placerat, in interdum nulla sagittis. 
-  Suspendisse potenti. Morbi dapibus risus id sapien consequat, non consequat velit lacinia. 
-  `;
-  publishDate: Date = new Date(); 
-  publishTime: Date = new Date();
-  announcements: any;
+  absences = 0;
+  lates = 0;
+  announcement = {
+    image: '',
+    title: '',
+    content: '',
+    published_at: ''
+  };
 
   constructor(
     private router: Router,
@@ -34,9 +24,15 @@ export class DashboardComponent implements OnInit{
   ) { }
 
   ngOnInit(): void {
-    this.ds.request('GET', 'view/announcements').subscribe({
+    this.ds.request('GET', 'employee/dashboard').subscribe({
       next: (res: any) => {
-        this.announcements = res.data;
+        this.announcement.image = res.data.announcement.image;
+        this.announcement.title = res.data.announcement.title;
+        this.announcement.content = res.data.announcement.content;
+        this.announcement.published_at = res.data.announcement.published_at;
+
+        this.absences = res.data.attendance.absences;
+        this.lates = res.data.attendance.lates;
       }
     })
   }
