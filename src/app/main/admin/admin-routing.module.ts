@@ -3,8 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { EmployeeComponent } from './components/employee/employee.component';
+
 import { PayslipComponent } from './components/payslip/payslip.component';
 import { AnnouncementsComponent } from './components/announcements/announcements.component';
+
 
 import { PayrollComponent } from './components/payroll/payroll.component';
 
@@ -14,11 +16,12 @@ import { AttendanceComponent } from './components/attendance/attendance.componen
 import { PayslipFormComponent } from './components/payslip/payslip-form/payslip-form.component';
 import { PayslipHistoryComponent } from './components/payslip/payslip-history/payslip-history.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { RequestComponent } from './components/request/request.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, 
   { path: 'dashboard', component: DashboardComponent}, 
-  { path: 'employees', component: EmployeeComponent}, 
+  { path: 'attendance', component: AttendanceComponent }, 
   {
     path: 'payslips',
     children: [
@@ -28,11 +31,12 @@ const routes: Routes = [
       { path: 'payslips-history', component: PayslipHistoryComponent}
     ]
   },
+  { path: 'payroll', component: PayrollComponent },
+  { path: 'employees', component: EmployeeComponent}, 
+  { path: 'request', component: RequestComponent},
   { path: 'announcements', component: AnnouncementsComponent }, 
-  { path: 'attendance',    component: AttendanceComponent }, 
-  { path: 'payroll',       component: PayrollComponent },
-  { path: 'settings',      component: SettingsComponent },
-  { path: '**',            redirectTo: 'dashboard' }
+  { path: 'settings', component: SettingsComponent },
+  { path: '**', redirectTo: 'dashboard' }
 ];
 
 @NgModule({

@@ -12,8 +12,9 @@ body {
 // Nav Bar
 
 .toolbar {
-  background-color: var(--primary-color);
-  padding: 15px 60px;
+  padding-top: 35px;
+  padding-left: 60px;
+  padding-right: 60px;
 
   .toolbar-row {
     display: flex;
@@ -27,18 +28,18 @@ body {
     align-items: center;
 
     .logo {
-      width: 40px; 
-      height: 40px;
-      margin-right: 10px;
+      width: 90px; 
+      height: 90px;
+      margin-right: 5px;
       border-radius: 50%;
       overflow: hidden;
-      background-color: var(--white);
       object-fit: cover;
     }
 
     .website-name {
-      font-size: 17px; 
-      color: var(--white);
+      font-size: 23px; 
+      font-weight: 700;
+      color: var(--primary-color);
     }
   }
 
@@ -46,30 +47,46 @@ body {
     display: flex;
     align-items: center;
 
-    @media (max-width: 768px) {
-      display: none; 
-      flex-direction: column;
-      position: absolute;
-      top: 100%;
-      right: 0;
-      background-color: var(--primary-color);
-      width: 100%;
-      padding: 10px;
-      border-radius: 4px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
+    // @media (max-width: 768px) {
+    //   display: none; 
+    //   flex-direction: column;
+    //   position: absolute;
+    //   top: 100%;
+    //   right: 0;
+    //   background-color: var(--white);
+    //   width: 100%;
+    //   padding: 10px;
+    //   border-radius: 4px;
+    //   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    //   z-index: 999;
+    // }
 
     .nav-link {
-      color: var(--white);
-      padding: 10px;
+      color: var(--primary-color);
+      padding: 15px 30px;
       text-decoration: none;
-      font-size: 17px;
+      font-size: 18px;
+      font-weight: 700;
       cursor: pointer;
       display: block;
 
       &:hover {
-        color: var(--black);
+        background-color: var(--buttons-hover);
+        border-radius: 50px;
+        color: var(--white);
       }
+    }
+
+    .dropdown-link {
+      background-color: var(--primary-color);
+      color: var(--white);
+      border-radius: 50px;
+      padding: 15px 60px;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      display: block;
     }
 
     .dropdown-menu {
@@ -109,11 +126,11 @@ body {
     border: none;
     cursor: pointer;
     padding: 10px;
-    color: var(--white); 
+    color: var(--primary-color); 
 
-    @media (max-width: 768px) {
-      display: block; 
-    }
+    // @media (max-width: 768px) {
+    //   display: block; 
+    // }
 
     i {
       font-size: 24px; 
@@ -125,14 +142,45 @@ body {
   }
 
   @media (max-width: 768px) {
+    padding-left: 30px;
+    padding-right: 30px;
+
+    .nav-bar {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: var(--white);
+      width: 100%;
+      padding: 10px;
+      border-radius: 4px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 999;
+
+      .nav-link {
+        padding: 15px 20px;
+        font-size: 16px;
+      }
+
+      .dropdown-link {
+        padding: 15px 20px;
+        font-size: 16px;
+      }
+    }
+
+    .hamburger {
+      display: block;
+    }
+
     .logo-section {
       .logo {
-        width: 30px; 
+        width: 30px;
         height: 30px;
       }
 
       .website-name {
-        font-size: 0.9rem; 
+        font-size: 0.9rem;
       }
     }
   }
@@ -144,20 +192,21 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 40px 40px;
+  padding: 50px 40px;
 
   .home-content {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    flex-direction: column; 
+    padding-bottom: 50px;
+    flex-direction: column;   
   }
 
   .left-content {
-    // padding-top: 150px; 
-    padding-left: 25px;
-    padding-right: 25px;
+    padding-left: 15px;
+    padding-right: 15px;
     max-width: 100%; 
+    animation: slideInLeft 1s ease-out;
 
     h1 {
       color: var(--landing-font);
@@ -167,7 +216,7 @@ body {
 
     p {
       color: var(--landing-font);
-      font-size: 1rem; 
+      font-size: 1.1rem; 
       margin-bottom: 20px;
     }
 
@@ -204,48 +253,43 @@ body {
     align-items: center;
     justify-content: center;
     position: relative; 
+    animation: slideInLeft 1s ease-out 0.5s; 
+    animation-fill-mode: both;
   
     .vector-image {
       width: 100%; 
       max-width: 400px; 
       height: auto;
-      margin-top: 25px;
       margin-bottom: 20px;
     }
   
-    // .logo {
-    //   position: absolute;
-    //   bottom: 10px; 
-    //   top: 450px; 
-    //   left: -15px;    
-    //   width: 250px;  
-    //   height: auto;
-    // }
   }
+
 
   @media (min-width: 768px) {
     .home-content {
-      flex-direction: row; 
+      flex-direction: row;
     }
 
     .left-content {
-      padding-top: 150px; 
+      padding-top: 150px;
       padding-left: 25px;
       max-width: 50%;
 
       h1 {
-        font-size: 3.5rem; 
+        font-size: 2.5rem;
       }
     }
 
     .right-content {
       .vector-image {
-        width: 600px;
-        max-width: 100%; 
+        width: 100%;
+        max-width: 100%;
+        margin-top: -50px;
       }
-  
+
       .logo {
-        width: 200px; 
+        width: 200px;
       }
     }
   }
@@ -253,8 +297,25 @@ body {
   @media (min-width: 1024px) {
     .left-content {
       h1 {
-        font-size: 4.3rem; 
+        padding-top: 50px;
+        font-size: 4.3rem;
       }
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 20px;
+
+    .home-content {
+      padding-bottom: 30px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+    }
+
+    p {
+      font-size: 1rem;
     }
   }
 }
@@ -263,37 +324,42 @@ body {
 
 .about-section {
   text-align: center;
-  padding: 60px 40px;
+  padding: 5px 15px;
   background-color: var(--about-section);
   height: auto;
 
   h2 {
     color: #333;
     font-size: 2.5rem;
-    margin-top: 40px;
-    margin-bottom: 100px;
-    
+    margin-top: 150px;
+    margin-bottom: 20px;
+    animation: slideIn 1s ease-out;
   }
 
   p {
-    color: var(--landing-font);
-    font-size: 1.2rem;
-    margin-bottom: 40px;
+    color: #666;
+    font-size: 1.3rem;
+    margin-bottom: 120px;
+    margin-left: 32px;
+    margin-right: 32px;
+    animation: slideIn 1s ease-out;
   }
 
   .about-container {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 25px;
-    padding-bottom: 40px;
+    gap: 10px;
+    padding-bottom: 210px;
     
   }
 
   .about-item {
-    flex: 1 1 calc(20% - 20px);
+    flex: 1 1 calc(22% - 20px);
     background-color: var(--white);
-    padding: 50px 20px;
+    padding: 65px 10px;
+    margin-left: 28px;
+    margin-right: 28px;
     height: auto;
     border-radius: 10px;
     text-align: center;
@@ -301,6 +367,7 @@ body {
     transition: .3s;
     transform: translateY(-5px);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: pulse 1.5s infinite;
 
     &:hover {
       box-shadow: 0px 8px 15px -10px rgb(125, 125, 125);
@@ -331,9 +398,10 @@ body {
       font-size: 1rem;
       font-weight: 500;
       margin-bottom: 0;
+      margin-left: 15px;
+      margin-right: 15px;
+      animation: none;
     }
-
-
   }
 }
   
@@ -346,6 +414,11 @@ body {
 @media (max-width: 576px) {
   .about-item {
     flex: 1 1 100%;
+    margin-top: 50px;
+  }
+  
+  p {
+    padding-bottom: 10px;
   }
 }
 
@@ -353,12 +426,14 @@ body {
 
 .team-section {
   text-align: center;
-  padding: 60px 40px;
+  padding: 50px 40px;
 
   h2 {
-    color: var(--landing-font);
+    color: #333;
     font-size: 2.5rem;
-    margin-bottom: 60px;
+    margin-top: 90px;
+    margin-bottom: 50px;
+    animation: slideIn 1s ease-out;
 
     @media (max-width: 576px) {
       font-size: 2rem; 
@@ -369,19 +444,22 @@ body {
   .team-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 30px;
-    padding-bottom: 40px;
+    gap: 10px;
+    padding-bottom: 80px;
 
     .team-item {
-      flex: 1 1 calc(33.333% - 20px); 
+      flex: 1 1 calc(30% - 20px); 
       background-color: var(--white);
       border-radius: 10px;
+      margin-left: 28px;
+      margin-right: 28px;
       box-sizing: border-box; 
+      animation: slideIn 0.9s ease-out;
 
       .card {
         position: relative;
         width: 100%;
-        height: 250px;
+        height: 380px;
         border-radius: 10px;
         overflow: hidden;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -462,7 +540,7 @@ body {
 .footer {
   background-color: var(--primary-color);
   color: var(--white);
-  padding: 2rem 1rem;
+  padding: 4rem 1rem;
   text-align: center;
 
   .footer-content {
@@ -481,15 +559,15 @@ body {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      margin-left: 0; 
+      margin-left: 35px; 
 
       .footer-logo-img {
-        width: 40px;
-        height: 40px;
+        width: 60px;
+        height: 60px;
       }
 
       .footer-website-name {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         font-weight: bold;
       }
     }
@@ -498,19 +576,19 @@ body {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.5rem;
+      gap: 2.5rem;
       margin-right: 0; 
 
       @media (min-width: 768px) {
         flex-direction: row;
         align-items: flex-start;
-        margin-right: 50px; 
+        margin-right: 100px; 
       }
 
       .footer-link {
         color: var(--white);
         text-decoration: none;
-        font-size: 1rem;
+        font-size: 1.2rem;
 
         &:hover {
           text-decoration: underline;
@@ -524,7 +602,7 @@ body {
       margin-right: 0; 
 
       @media (min-width: 768px) {
-        margin-right: 25px; 
+        margin-right: 55px; 
       }
 
       .social-icon {
@@ -532,19 +610,19 @@ body {
         font-size: 1.5rem;
 
         &:hover {
-          color: var(--buttons-hover);
+          color: #333;
         }
       }
     }
   }
 
   .footer-bottom {
-    margin-top: 1rem;
-    font-size: 0.875rem;
+    margin-top: 0.3rem;
+    font-size: 1.2rem;
     margin-left: 0; 
 
     @media (min-width: 768px) {
-      margin-left: 60px; 
+      margin-left: 40px; 
     }
   }
 }

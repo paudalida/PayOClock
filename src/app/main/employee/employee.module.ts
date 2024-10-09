@@ -19,6 +19,7 @@ import { UploadProofComponent } from './components/attendance/upload-proof/uploa
 import { PayslipHistoryComponent } from './components/payslips/payslip-history/payslip-history.component';
 import { ChangePasswordComponent } from './components/profile/change-password/change-password.component';
 import { ProofHistoryComponent } from './components/attendance/proof-history/proof-history.component';
+import { RequestComponent } from './components/request/request.component';
 
 
 @NgModule({
@@ -32,7 +33,7 @@ import { ProofHistoryComponent } from './components/attendance/proof-history/pro
     ViewAnnouncementComponent, 
     UploadProofComponent, 
     PayslipHistoryComponent, 
-    ChangePasswordComponent, ProofHistoryComponent
+    ChangePasswordComponent, ProofHistoryComponent, RequestComponent
 
   ],
   imports: [

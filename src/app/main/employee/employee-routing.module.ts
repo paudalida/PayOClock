@@ -6,6 +6,7 @@ import { PayslipHistoryComponent } from './components/payslips/payslip-history/p
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AnnouncementsComponent } from './components/dashboard/announcements/announcements.component';
+import { RequestComponent } from './components/request/request.component';
 
 
 
@@ -24,6 +25,7 @@ const routes: Routes = [
       { path: 'payslips-history', component: PayslipHistoryComponent}
     ]  
   },
+  { path: 'request', component: RequestComponent},
   { path: 'attendance', component: AttendanceComponent}, 
   { path: 'profile', component: ProfileComponent}, 
   

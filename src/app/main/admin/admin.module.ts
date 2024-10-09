@@ -31,6 +31,7 @@ import { ImagePopupComponent } from './components/attendance/image-popup/image-p
 import { ChartModule } from 'primeng/chart';
 import { ConfigFormComponent } from './components/dialogs/config-form/config-form.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { RequestComponent } from './components/request/request.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { SettingsComponent } from './components/settings/settings.component';
     AttendanceHistoryComponent,
     ImagePopupComponent,
     ConfigFormComponent,
-    SettingsComponent
+    SettingsComponent,
+    RequestComponent
   ],
   imports: [
     AdminRoutingModule,
