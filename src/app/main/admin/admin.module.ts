@@ -13,6 +13,12 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatDialogModule } from '@angular/material/dialog';
+
 import { PayslipComponent } from './components/payslip/payslip.component';
 import { PayslipFormComponent } from './components/payslip/payslip-form/payslip-form.component';
 import { PayslipHistoryComponent } from './components/payslip/payslip-history/payslip-history.component';
@@ -59,6 +65,7 @@ import { RequestComponent } from './components/request/request.component';
     ConfigFormComponent,
     SettingsComponent,
     RequestComponent
+    
   ],
   imports: [
     AdminRoutingModule,
@@ -67,6 +74,12 @@ import { RequestComponent } from './components/request/request.component';
     MatSidenavModule, 
     MatListModule, 
     ChartModule,
+
+    MatTabsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatDialogModule,
   ]
 })
 export class AdminMainModule { }

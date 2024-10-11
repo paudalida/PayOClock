@@ -64,9 +64,6 @@ $GM18-theme: mat.define-light-theme((
   --present: #479c4b;
   --late: #e8bb07f4;
   --absent: #e1060a;
-
-
-
 }
 
 * { 
@@ -77,6 +74,19 @@ body {
   background-color: var(--background-color);
   font-family: 'poppins';
   transition: all 0.5s ease;
+}
+
+.mat-mdc-tab .mdc-tab--active .mdc-tab__text-label {
+  color: var(--mat-tab-header-active-label-text-color);
+  font-size: 16px;
+}
+
+.mat-mdc-tab .mdc-tab__text-label {
+  color: var(--mat-tab-header-inactive-label-text-color);
+  display: inline-flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 /* Main buttons */
@@ -135,6 +145,9 @@ body {
 .toast {
   width: fit-content;
 }
+
+
+/* Animations */ 
 
 @keyframes slideIn {
   from {

@@ -23,6 +23,8 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 
+import { MatDialogModule } from '@angular/material/dialog';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +45,8 @@ import { MatIconModule } from '@angular/material/icon';
 
     /* Landing imports */ 
     MatToolbarModule,
-    MatIconModule 
+    MatIconModule, 
+    MatDialogModule
     
   ],
   providers: [
