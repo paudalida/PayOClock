@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import Swal from 'sweetalert2';
 import { PopupService } from '../../../../services/popup/popup.service';
+import { MatDialog } from '@angular/material/dialog';
 
 interface EmployeeRequest {
   full_name: string;
@@ -8,6 +9,7 @@ interface EmployeeRequest {
   request_type: string;
   reason: string;
   status: string;
+  proofs: { name: string; url: string }[];  
 }
 
 @Component({
@@ -16,9 +18,11 @@ interface EmployeeRequest {
   styleUrl: './request.component.scss'
 })
 export class RequestComponent {
-  dialog: any;
 
-  constructor(private popupService: PopupService) { }
+  constructor(
+    private popupService: PopupService, 
+    private dialog: MatDialog 
+  ) { }
 
   allRequests: EmployeeRequest[] = [
     {
@@ -26,51 +30,65 @@ export class RequestComponent {
       employee_id: 'E001',
       request_type: 'Leave',
       reason: 'Medical Leave',
-      status: 'Approved'
+      status: 'Approved',
+      proofs: [
+        { name: 'medical_certificate.pdf', url: '/assets/images/admin.png' }
+      ]
     },
     {
       full_name: 'Jane Smith',
       employee_id: 'E002',
       request_type: 'Overtime',
       reason: 'Project Deadline',
-      status: 'Pending'
+      status: 'Pending',
+      proofs: []
     },
     {
       full_name: 'Fyangiee Sweet',
       employee_id: 'E004',
       request_type: 'Overtime',
       reason: 'Extra Hours Needed',
-      status: 'Pending'
+      status: 'Pending',
+      proofs: [
+        { name: 'medical_certificate.pdf', url: '/assets/images/admin.png' },
+        { name: 'leave_form.pdf', url: '/assets/images/admin.png' }
+      ]
     },
     {
       full_name: 'Mike Johnson',
       employee_id: 'E003',
       request_type: 'Leave',
       reason: 'Family Emergency',
-      status: 'Denied'
+      status: 'Denied',
+      proofs: []
     },
     {
       full_name: 'Emily Davis',
       employee_id: 'E004',
       request_type: 'Overtime',
       reason: 'Extra Hours Needed',
-      status: 'Approved'
+      status: 'Approved',
+      proofs: [
+        { name: 'medical_certificate.pdf', url: '/assets/images/admin.png' },
+        { name: 'leave_form.pdf', url: '/assets/images/admin.png' }
+      ]
     },
     {
       full_name: 'Chris Lee',
       employee_id: 'E005',
       request_type: 'Leave',
       reason: 'Vacation',
-      status: 'Cancelled'
+      status: 'Cancelled',
+      proofs: []
     }
   ];
-
+  
   // Separate data sources
   pendingRequests: EmployeeRequest[] = this.allRequests.filter(request => request.status === 'Pending');
   finishedRequests: EmployeeRequest[] = this.allRequests.filter(request => request.status !== 'Pending');
 
-  // Columns displayed in both tables
-  displayedColumns: string[] = ['name', 'employee_id', 'request_type', 'reason', 'status', 'action'];
+  pendingColumns: string[] = ['name', 'employee_id', 'request_type', 'reason', 'status', 'proof', 'action'];
+  finishedColumns: string[] = ['name', 'employee_id', 'request_type', 'reason', 'status', 'proof'];
 
   // Approve request method
   async approveRequest(element: EmployeeRequest) {
@@ -88,7 +106,7 @@ export class RequestComponent {
       this.updateDataSources(); 
       this.popupService.toastWithTimer('success', 'The request has been approved.');
     } else {
-      this.popupService.toastWithTimer('error', 'Approval canceled.');
+      this.popupService.toastWithTimer('error', 'Approval cancelled.');
     }
   }
   
@@ -134,9 +152,9 @@ export class RequestComponent {
         // Display a success toast notification
         this.popupService.toastWithTimer('success', 'The request has been denied.');
     } else if (result.dismiss === Swal.DismissReason.cancel) {
-        this.popupService.toastWithTimer('error', 'Denial canceled.');
+        this.popupService.toastWithTimer('error', 'Denial cancelled.');
     }
-}
+  }
 
   // Update data sources after status change
   updateDataSources() {

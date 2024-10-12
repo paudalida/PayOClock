@@ -13,6 +13,7 @@ import { AdminService } from '../../../../services/admin/admin.service';
 
 import { EmployeeFormComponent } from '../dialogs/employee-form/employee-form.component';
 import { ViewDetailsComponent } from './view-details/view-details.component';
+import { ImportComponent } from './import/import.component';
 
 export interface Employee {
   id: string;
@@ -152,6 +153,14 @@ async showArchiveAction(employee: any) {
     // }
   }
 }
+
+  importEmployee() {
+    if (this.dialog) {
+      this.dialog.open(ImportComponent);
+    } else {
+      console.error('Dialog is not initialized');
+    }
+  }
 
 
   openDialog(formType: string = 'add'): void {

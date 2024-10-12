@@ -38,6 +38,7 @@ import { ChartModule } from 'primeng/chart';
 import { ConfigFormComponent } from './components/dialogs/config-form/config-form.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { RequestComponent } from './components/request/request.component';
+import { ImportComponent } from './components/employee/import/import.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { RequestComponent } from './components/request/request.component';
     ImagePopupComponent,
     ConfigFormComponent,
     SettingsComponent,
-    RequestComponent
+    RequestComponent,
+    ImportComponent
     
   ],
   imports: [
