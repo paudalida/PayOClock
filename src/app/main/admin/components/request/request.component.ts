@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { PopupService } from '../../../../services/popup/popup.service';
 import { MatDialog } from '@angular/material/dialog';
+import { DataService } from '../../../../services/data/data.service';
+import { AdminService } from '../../../../services/admin/admin.service';
 
 interface EmployeeRequest {
+  id: number;
+  user_id: string;
   full_name: string;
   employee_id: string;
   request_type: string;
@@ -17,83 +21,50 @@ interface EmployeeRequest {
   templateUrl: './request.component.html',
   styleUrl: './request.component.scss'
 })
-export class RequestComponent {
+export class RequestComponent implements OnInit{
 
   constructor(
-    private popupService: PopupService, 
+    private ds: DataService,
+    private as: AdminService,
+    private popupService: PopupService,
     private dialog: MatDialog 
   ) { }
 
-  allRequests: EmployeeRequest[] = [
-    {
-      full_name: 'John Doe',
-      employee_id: 'E001',
-      request_type: 'Leave',
-      reason: 'Medical Leave',
-      status: 'Approved',
-      proofs: [
-        { name: 'medical_certificate.pdf', url: '/assets/images/admin.png' }
-      ]
-    },
-    {
-      full_name: 'Jane Smith',
-      employee_id: 'E002',
-      request_type: 'Overtime',
-      reason: 'Project Deadline',
-      status: 'Pending',
-      proofs: []
-    },
-    {
-      full_name: 'Fyangiee Sweet',
-      employee_id: 'E004',
-      request_type: 'Overtime',
-      reason: 'Extra Hours Needed',
-      status: 'Pending',
-      proofs: [
-        { name: 'medical_certificate.pdf', url: '/assets/images/admin.png' },
-        { name: 'leave_form.pdf', url: '/assets/images/admin.png' }
-      ]
-    },
-    {
-      full_name: 'Mike Johnson',
-      employee_id: 'E003',
-      request_type: 'Leave',
-      reason: 'Family Emergency',
-      status: 'Denied',
-      proofs: []
-    },
-    {
-      full_name: 'Emily Davis',
-      employee_id: 'E004',
-      request_type: 'Overtime',
-      reason: 'Extra Hours Needed',
-      status: 'Approved',
-      proofs: [
-        { name: 'medical_certificate.pdf', url: '/assets/images/admin.png' },
-        { name: 'leave_form.pdf', url: '/assets/images/admin.png' }
-      ]
-    },
-    {
-      full_name: 'Chris Lee',
-      employee_id: 'E005',
-      request_type: 'Leave',
-      reason: 'Vacation',
-      status: 'Cancelled',
-      proofs: []
-    }
-  ];
-  
+  pendingRequests: any = null;
+  finishedRequests: any = null;
+  employees: any = null;
+
   // Separate data sources
-  pendingRequests: EmployeeRequest[] = this.allRequests.filter(request => request.status === 'Pending');
-  finishedRequests: EmployeeRequest[] = this.allRequests.filter(request => request.status !== 'Pending');
+  // pendingRequests: EmployeeRequest[] = this.allRequests.filter(request => request.status === 'Pending');
+  // finishedRequests: EmployeeRequest[] = this.allRequests.filter(request => request.status !== 'Pending');
 
   pendingColumns: string[] = ['name', 'employee_id', 'request_type', 'reason', 'status', 'proof', 'action'];
   finishedColumns: string[] = ['name', 'employee_id', 'request_type', 'reason', 'status', 'proof'];
 
+  ngOnInit(): void {
+    this.employees = this.as.getEmployees();
+
+    this.ds.request('GET', 'admin/requests').subscribe({
+      next: (res: any) => {
+        res.data.forEach((element: any) => {
+          const matchedEmployee = this.employees.find((employee: any) => employee.id === element.user_id);
+
+          if(matchedEmployee) {
+            element.full_name = matchedEmployee.full_name;
+            element.employee_id = matchedEmployee.employee_id;
+            element.user_id = matchedEmployee.id
+          }
+        });
+        this.pendingRequests = res.data.filter((request: any) => request.status === 0);
+        this.finishedRequests = res.data.filter((request: any) => request.status !== 0);
+      }
+    })
+  }
+
   // Approve request method
   async approveRequest(element: EmployeeRequest) {
     const isConfirmed = await this.popupService.swalWithCancel(
-      'warning',
+      'question',
       'APPROVE REQUEST?',
       'Are you sure you want to approve this request?',
       'Yes',
@@ -101,10 +72,20 @@ export class RequestComponent {
     );
   
     if (isConfirmed) {
-      console.log('Approved:', element);
-      element.status = 'Approved'; 
-      this.updateDataSources(); 
-      this.popupService.toastWithTimer('success', 'The request has been approved.');
+      const data = {
+        user_id: element.user_id,
+        status: 1
+      };
+
+      this.ds.request('POST', 'admin/requests/action/' + element.id, data).subscribe({
+        next: (res: any) => {
+          this.popupService.toastWithTimer('success', 'The request has been approved.');
+          this.updateDataSources(res.data);
+        },
+        error: (err: any) => {
+          this.popupService.swalBasic('error', 'Oops! An Error has occured.', this.popupService.genericErrorMessage);
+        }
+      });
     } else {
       this.popupService.toastWithTimer('error', 'Approval cancelled.');
     }
@@ -143,22 +124,43 @@ export class RequestComponent {
     });
 
     if (result.isConfirmed && result.value) {
-        // result.value contains the reason for denial
-        console.log('Denied:', element, 'Reason:', result.value);
-        element.status = 'Denied';
-        element.reason = result.value; // Store the reason in the request element
-        this.updateDataSources();
+      const data = {
+        user_id: element.user_id,
+        status: 2,
+        denial_reason: result.value
+      };
 
-        // Display a success toast notification
-        this.popupService.toastWithTimer('success', 'The request has been denied.');
+      this.ds.request('POST', 'admin/requests/action/' + element.id, data).subscribe({
+        next: (res: any) => {
+          this.popupService.toastWithTimer('success', 'The request has been denied.');
+          this.updateDataSources(res.data);
+        },
+        error: (err: any) => {
+          this.popupService.swalBasic('error', 'Oops! An Error has occured.', this.popupService.genericErrorMessage);
+        }
+      });
     } else if (result.dismiss === Swal.DismissReason.cancel) {
         this.popupService.toastWithTimer('error', 'Denial cancelled.');
     }
   }
 
   // Update data sources after status change
-  updateDataSources() {
-    this.pendingRequests = this.allRequests.filter(request => request.status === 'Pending');
-    this.finishedRequests = this.allRequests.filter(request => request.status !== 'Pending');
+  updateDataSources(data: any) {
+    const index = this.pendingRequests.findIndex((request: any) => request.id === data.id);
+
+    if (index !== -1) {
+      this.pendingRequests.splice(index, 1);
+      this.pendingRequests = [...this.pendingRequests];
+    }
+    
+    const matchedEmployee = this.employees.find((employee: any) => employee.id === data.user_id);
+
+    if(matchedEmployee) {
+      data.full_name = matchedEmployee.full_name;
+      data.employee_id = matchedEmployee.employee_id;
+      data.user_id = matchedEmployee.id
+    }
+    this.finishedRequests.unshift(data);
+    this.finishedRequests = [...this.finishedRequests];
   }
 }
