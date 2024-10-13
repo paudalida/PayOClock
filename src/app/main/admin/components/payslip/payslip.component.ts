@@ -7,6 +7,8 @@ import { MatSort } from '@angular/material/sort';
 
 import { DataService } from '../../../../services/data/data.service';
 import { AdminService } from '../../../../services/admin/admin.service';
+import { UpdateComponent } from './update/update.component';
+import { MatDialog } from '@angular/material/dialog';
 
 export interface Employee {
   id: string;
@@ -33,6 +35,7 @@ export class PayslipComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;  
 
   constructor(
+    private dialog: MatDialog,
     private as: AdminService,
     private router: Router
   ) { }
@@ -68,6 +71,14 @@ export class PayslipComponent implements OnInit, AfterViewInit {
 
     // Compare the input date with the current date
     return inputDate > currentDate;
+  }
+
+  setupdate() {
+    if (this.dialog) {
+      this.dialog.open(UpdateComponent);
+    } else {
+      console.error('Dialog is not initialized');
+    }
   }
 
   redirectToPayroll() {

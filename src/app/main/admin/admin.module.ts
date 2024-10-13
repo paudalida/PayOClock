@@ -39,6 +39,8 @@ import { ConfigFormComponent } from './components/dialogs/config-form/config-for
 import { SettingsComponent } from './components/settings/settings.component';
 import { RequestComponent } from './components/request/request.component';
 import { ImportComponent } from './components/employee/import/import.component';
+import { ViewRequestComponent } from './components/request/view-request/view-request.component';
+import { UpdateComponent } from './components/payslip/update/update.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +68,9 @@ import { ImportComponent } from './components/employee/import/import.component';
     ConfigFormComponent,
     SettingsComponent,
     RequestComponent,
-    ImportComponent
+    ImportComponent,
+    ViewRequestComponent,
+    UpdateComponent
     
   ],
   imports: [

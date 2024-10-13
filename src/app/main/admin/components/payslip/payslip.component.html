@@ -6,9 +6,15 @@
                 <h1> Employees Payslips </h1>
             </div>
 
-            <div class="search-container">
-                <input id="search" type="text" placeholder="Search..." name="search">
-                <button ><i class="fa fa-search"></i></button>
+            <div class="action-container">
+                <div class="search-container">
+                    <input id="search" type="text" placeholder="Search..." name="search">
+                    <button id="search-btn"><i class="fa fa-search"></i></button>
+                </div>
+        
+                <div class="update-container">
+                    <button id="update-btn" (click)="setupdate()">Update</button>
+                </div>
             </div>
 
         </div>

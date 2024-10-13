@@ -1,0 +1,65 @@
+<main>
+  <div class="main-container">
+    <form class="form-info">
+      <div class="header">
+        <h1>Request Details</h1>
+        <button type="button" class="close-button" (click)="closePopup()">
+          <i class='bx bx-x'></i>
+        </button>
+      </div>
+
+      <div class="detailsbody">
+        <div class="employee-container">
+          <div class="employee-image">
+            <img [src]="employee.image || 'assets/images/no_image.png'" alt="Employee Photo">
+          </div>
+
+          <div class="employee-details">
+            <table class="details-table">
+              <tbody>
+                <tr>
+                  <td><label>Full Name</label></td>
+                  <td><p>{{ employee.full_name }}</p></td>
+                </tr>
+                <tr>
+                  <td><label>ID Number</label></td>
+                  <td><p>{{ employee.employee_id }}</p></td>
+                </tr>
+                <tr>
+                  <td><label>Type of Request</label></td>
+                  <td><p>{{ employee.request_type }}</p></td>
+                </tr>
+                <tr>
+                  <td><label>Start Date</label></td>
+                  <td><p>{{ employee.start_date | date: 'MM/dd/yyyy hh:mm a' }}</p></td>
+                </tr>
+                <tr>
+                  <td><label>End Date</label></td>
+                  <td><p>{{ employee.end_date | date: 'MM/dd/yyyy hh:mm a' }}</p></td>
+                </tr>
+                <tr>
+                  <td><label>Reason</label></td>
+                  <td><p>{{ employee.reason }}</p></td>
+                </tr>
+                <tr>
+                  <td><label>Proof</label></td>
+                  <td>
+                    <div class="proof-container">
+                      <div class="proof-links">
+                        <div *ngFor="let proof of employee.proofs" class="proof-item">
+                          <a [href]="proof.url" download target="_blank" class="proof-link">
+                            {{ proof.name }}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</main>

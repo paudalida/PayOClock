@@ -4,6 +4,8 @@ import { PopupService } from '../../../../services/popup/popup.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DataService } from '../../../../services/data/data.service';
 import { AdminService } from '../../../../services/admin/admin.service';
+import { ViewRequestComponent } from './view-request/view-request.component';
+
 
 interface EmployeeRequest {
   id: number;
@@ -11,7 +13,8 @@ interface EmployeeRequest {
   full_name: string;
   employee_id: string;
   request_type: string;
-  reason: string;
+  start_date: string;
+  end_date: string;
   status: string;
   proofs: { name: string; url: string }[];  
 }
@@ -33,13 +36,79 @@ export class RequestComponent implements OnInit{
   pendingRequests: any = null;
   finishedRequests: any = null;
   employees: any = null;
+  
 
+  // allRequests: EmployeeRequest[] = [
+  //   {
+  //     full_name: 'John Doe',
+  //     employee_id: 'E001',
+  //     request_type: 'Leave',
+  //     start_date: '2024-10-13T15:05:00',
+  //     end_date: '2024-10-14T15:05:00',
+  //     status: 'Approved',
+  //     proofs: [
+  //       { name: 'medical_certificate.pdf', url: '/assets/images/admin.png' }
+  //     ]
+  //   },
+  //   {
+  //     full_name: 'Jane Smith',
+  //     employee_id: 'E002',
+  //     request_type: 'Overtime',
+  //     start_date: '2024-10-13T15:05:00',
+  //     end_date: '2024-10-13T16:05:00',
+  //     status: 'Pending',
+  //     proofs: []
+  //   },
+  //   {
+  //     full_name: 'Fyangiee Sweet',
+  //     employee_id: 'E004',
+  //     request_type: 'Overtime',
+  //     start_date: '2006-08-05T15:05:00',
+  //     end_date: '2006-08-12T15:05:00',
+  //     status: 'Pending',
+  //     proofs: [
+  //       { name: 'medical_certificate.pdf', url: '/assets/images/admin.png' },
+  //       { name: 'leave_form.pdf', url: '/assets/images/admin.png' }
+  //     ]
+  //   },
+  //   {
+  //     full_name: 'Mike Johnson',
+  //     employee_id: 'E003',
+  //     request_type: 'Leave',
+  //     start_date: '2006-08-05T15:05:00',
+  //     end_date: '2006-08-12T15:05:00',
+  //     status: 'Denied',
+  //     proofs: []
+  //   },
+  //   {
+  //     full_name: 'Emily Davis',
+  //     employee_id: 'E004',
+  //     request_type: 'Overtime',
+  //     start_date: '2006-08-05T15:05:00',
+  //     end_date: '2006-08-12T15:05:00',
+  //     status: 'Approved',
+  //     proofs: [
+  //       { name: 'medical_certificate.pdf', url: '/assets/images/admin.png' },
+  //       { name: 'leave_form.pdf', url: '/assets/images/admin.png' }
+  //     ]
+  //   },
+  //   {
+  //     full_name: 'Chris Lee',
+  //     employee_id: 'E005',
+  //     request_type: 'Leave',
+  //     start_date: '2006-08-05T15:05:00',
+  //     end_date: '2006-08-12T15:05:00',
+  //     status: 'Cancelled',
+  //     proofs: []
+  //   }
+  // ];
+  
   // Separate data sources
   // pendingRequests: EmployeeRequest[] = this.allRequests.filter(request => request.status === 'Pending');
   // finishedRequests: EmployeeRequest[] = this.allRequests.filter(request => request.status !== 'Pending');
 
-  pendingColumns: string[] = ['name', 'employee_id', 'request_type', 'reason', 'status', 'proof', 'action'];
-  finishedColumns: string[] = ['name', 'employee_id', 'request_type', 'reason', 'status', 'proof'];
+  pendingColumns: string[] = ['name', 'employee_id', 'request_type', 'start_date', 'end_date', 'action'];
+  finishedColumns: string[] = ['name', 'employee_id', 'request_type', 'start_date', 'end_date', 'status'];
 
   ngOnInit(): void {
     this.employees = this.as.getEmployees();
@@ -163,4 +232,15 @@ export class RequestComponent implements OnInit{
     this.finishedRequests.unshift(data);
     this.finishedRequests = [...this.finishedRequests];
   }
+
+  viewRequest(employeeData: any) {
+    if (this.dialog) {
+      this.dialog.open(ViewRequestComponent, {
+        data: employeeData     
+      });
+    } else {
+      console.error('Dialog is not initialized');
+    }
+  }
+  
 }

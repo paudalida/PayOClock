@@ -1,0 +1,28 @@
+<div class="main-container">
+    <form class="form-info">
+        <div class="header">
+            <h1>Update Date Range</h1>
+            <button type="button" class="close-button" (click)="closePopup()">
+                <i class='bx bx-x'></i>
+            </button>
+        </div>
+
+        <div class="detailsbody">
+            <div class="date-range">
+                <div class="date-field">
+                    <label for="date-start">Date Start:</label>
+                    <input type="date" id="date-start" name="date-start">
+                </div>
+                <div class="date-field">
+                    <label for="date-end">Date End:</label>
+                    <input type="date" id="date-end" name="date-end">
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button type="button" class="edit-button">Edit Current</button>
+                <button type="submit" class="update-button">Update to New</button>
+            </div>
+        </div>
+    </form>
+</div>
