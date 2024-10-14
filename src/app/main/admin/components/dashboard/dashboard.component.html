@@ -48,30 +48,30 @@
                     <tbody>
                         <tr>
                             <td [ngClass]="getStatusClass(0)">{{ getStatus(0) }}</td>
-                            <td>{{ tableData[0].monday }}</td>
-                            <td>{{ tableData[0].tuesday }}</td>
-                            <td>{{ tableData[0].wednesday }}</td>
-                            <td>{{ tableData[0].thursday }}</td>
-                            <td>{{ tableData[0].friday }}</td>
-                            <td>{{ tableData[0].saturday }}</td>
+                            <td>{{ tableData.Monday.present }}</td>
+                            <td>{{ tableData.Tuesday.present }}</td>
+                            <td>{{ tableData.Wednesday.present }}</td>
+                            <td>{{ tableData.Thursday.present }}</td>
+                            <td>{{ tableData.Friday.present }}</td>
+                            <td>{{ tableData.Saturday.present }}</td>
                         </tr>
                         <tr>
                             <td [ngClass]="getStatusClass(1)">{{ getStatus(1) }}</td>
-                            <td>{{ tableData[1].monday }}</td>
-                            <td>{{ tableData[1].tuesday }}</td>
-                            <td>{{ tableData[1].wednesday }}</td>
-                            <td>{{ tableData[1].thursday }}</td>
-                            <td>{{ tableData[1].friday }}</td>
-                            <td>{{ tableData[1].saturday }}</td>
+                            <td>{{ tableData.Monday.late }}</td>
+                            <td>{{ tableData.Tuesday.late }}</td>
+                            <td>{{ tableData.Wednesday.late }}</td>
+                            <td>{{ tableData.Thursday.late }}</td>
+                            <td>{{ tableData.Friday.late }}</td>
+                            <td>{{ tableData.Saturday.late }}</td>
                         </tr>
                         <tr>
                             <td class="status-absent">Absent</td>
-                            <td>{{ tableData[2].monday }}</td>
-                            <td>{{ tableData[2].tuesday }}</td>
-                            <td>{{ tableData[2].wednesday }}</td>
-                            <td>{{ tableData[2].thursday }}</td>
-                            <td>{{ tableData[2].friday }}</td>
-                            <td>{{ tableData[2].saturday }}</td>
+                            <td>{{ tableData.Monday.absent }}</td>
+                            <td>{{ tableData.Tuesday.absent }}</td>
+                            <td>{{ tableData.Wednesday.absent }}</td>
+                            <td>{{ tableData.Thursday.absent }}</td>
+                            <td>{{ tableData.Friday.absent }}</td>
+                            <td>{{ tableData.Saturday.absent }}</td>
                         </tr>
                     </tbody>
                 </table>
