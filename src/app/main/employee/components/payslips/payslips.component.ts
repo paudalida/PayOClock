@@ -28,7 +28,6 @@ export class PayslipsComponent implements OnInit{
 
     this.ds.request('GET', 'admin/payslips/latest/user/' + this.employee.id).subscribe({
       next: (res: any) => {
-        console.log(res)
         this.payday_start     = res.data.payday_start;
         this.payday_end       = res.data.payday_end;
         this.base_pay         = res.data.base_pay;
