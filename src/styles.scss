@@ -74,6 +74,7 @@ body {
   background-color: var(--background-color);
   font-family: 'poppins';
   transition: all 0.5s ease;
+  overflow-x: hidden;
 }
 
 .mat-mdc-tab .mdc-tab--active .mdc-tab__text-label {

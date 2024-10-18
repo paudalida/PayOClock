@@ -19,6 +19,7 @@
     font-size: 22px;
     padding-left: 25px;
     padding-top: 45px;
+    padding-bottom: 25px;
 }
 
 .body-content {
@@ -26,17 +27,18 @@
     height: 70%;
 
     .body-config {
-        width: 100%;
+        width: 90.7%;
         position: relative;
         font-size: 12px;
         color: var(--black);
         border-radius: 10px;
         height: auto;
-        margin-top: 10px;
+        margin-top: 50px;
+        margin-left: 10px;
         margin-bottom: 50px;
         padding-top: 30px;
-        padding-right: 40x;
-        padding-left: 40px;
+        padding-left: 70px;
+        padding-right: 40px;
         padding-bottom: 30px;
         text-decoration: none;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -59,6 +61,7 @@
         border-radius: 10px;
         height: auto;
         margin-top: 30px;
+        margin-right: 30px;
         padding-right: 40x;
         padding-left: 20px;
         padding-bottom: 50px;
@@ -134,7 +137,7 @@
             position: absolute;
             font-size: 14px;
             padding: 0 10px;
-            margin-top: -55px;
+            margin-top: -53px;
             margin-left: 10px;
             background-color: var(--white);
             transition: 0.2s ease;
@@ -185,7 +188,7 @@
 
         input {
             font-family: "Poppins";
-            width: 41rem;  
+            width: 38rem;  
             height: 42px;
             outline: none;
             font-size: 16px;
@@ -202,7 +205,7 @@
 
         select {
             font-family: "Poppins";
-            width: 15rem; 
+            width: 11rem; 
             height: 42px;
             outline: none;
             font-size: 16px;
@@ -225,7 +228,7 @@
             position: absolute;
             font-size: 14px;
             padding: 0 10px;
-            margin-top: -55px;
+            margin-top: -53px;
             margin-left: 10px;
             background-color: var(--white);
             transition: 0.2s ease;

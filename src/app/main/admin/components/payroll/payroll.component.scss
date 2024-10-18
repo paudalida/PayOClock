@@ -5,6 +5,7 @@
   padding-bottom: 40px;
   padding-left: 50px;
   padding-right: 70px; 
+  overflow: hidden;
 }
 
 .table-container {
@@ -13,7 +14,30 @@
   background: var(--white);
   box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.322);
   border: 0.5px solid var(--table-border);
-  width: 100%;
+  width: 138vh;
+}
+
+.table-head {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  margin-bottom: 25px; 
+}
+
+.date-range-dropdown {
+  select {
+    width: 135px;
+    padding: 10px;
+    border-radius: 3px;
+    font-family: "poppins";
+    background: var(--white);
+    border: 0.5px solid var(--table-border);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+    overflow: hidden;
+  }
 }
 
 .scroll-container {
@@ -30,24 +54,26 @@
 .scrollable-columns {
   overflow-x: auto;
   overflow-y: auto;
-  max-width: calc(90% - 500px); 
+  max-width: calc(69% - 395px); 
   max-height: 400px;
 }
 
 th {
   background-color: var(--primary-color) !important;
   color: var(--white);
-  width: 200px; 
+  width: 140px;
   padding: 10px;
   text-align: center;
   border-bottom: 1px solid #ddd;
+  height: 80px; 
+  white-space: normal; 
+  word-wrap: break-word; 
 }
 
 td {
-  width: 200px; 
-  padding: 10px;
+  width: 140px; 
+  padding: 5px;
   text-align: center;
-  border-bottom: 1px solid #ddd;
 }
 
 th {
@@ -57,8 +83,8 @@ th {
 
 table td,
 table th {
-  min-width: 170px; 
-  max-width: 170px; 
+  min-width: 167px; 
+  max-width: 167px; 
 }
 
 .employee-name {
