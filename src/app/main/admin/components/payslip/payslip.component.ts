@@ -37,7 +37,8 @@ export class PayslipComponent implements OnInit, AfterViewInit {
   constructor(
     private dialog: MatDialog,
     private as: AdminService,
-    private router: Router
+    private router: Router,
+    private ds: DataService
   ) { }
 
   employees: any;
@@ -46,7 +47,7 @@ export class PayslipComponent implements OnInit, AfterViewInit {
   position: any;
   status: any;
   action: any;
-  ds: any;
+  transactions: any;
 
   setEmployee(data: any) {
     this.as.setEmployee(data);
@@ -54,6 +55,9 @@ export class PayslipComponent implements OnInit, AfterViewInit {
   
   ngOnInit(): void {    
     this.dataSource = new MatTableDataSource<Employee>(this.as.getEmployees());
+    this.ds.request('GET', 'admin/transactions/latest/all').subscribe((res: any) => {
+      this.transactions = res.data;
+    })
   }
 
   ngAfterViewInit(): void {    
