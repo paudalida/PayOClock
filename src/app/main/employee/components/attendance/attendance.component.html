@@ -1,86 +1,96 @@
 <div class="main-content">
-  <div class="employee-container">
-      <div class="employee-left">
-          <img [src]="employeeImage" alt="Employee Image" class="employee-image">
-      </div>
-      <div class="employee-middle">
-          <h2 class="employee-name">{{ employeeName }}</h2>
-          <p class="employee-position">{{ employeePosition }}</p>
-          <p class="history"  (click)="openHistory()">Proof History</p>
-      </div>
-      <div class="employee-right">
-          <p class="time-in">{{ timeIn }}</p>
-          <button class="btn-primary upload"  type="button" (click)="openDialog()"> Proof </button>
-      </div>
-  </div>
+    <div class="button-group">
+        <div class="left-buttons">
+            <button class="btn-primary toggle-button" [ngClass]="isTimedIn ? 'btn-time-in' : 'btn-time-out'" (click)="toggleTime()">
+                {{ isTimedIn ? 'Time In' : 'Time Out' }}
+            </button>
+        </div>
+        <div class="right-buttons">
+            <button class="btn-primary upload" type="button" (click)="openDialog()">Proof</button>
+            <button class="btn-primary upload" type="button" (click)="openHistory()">History</button>
+        </div>
+    </div>
+    
+    <div class="employee-container">
+        <div class="employee-left">
+            <img [src]="employeeImage" alt="Employee Image" class="employee-image">
+        </div>
+        <div class="employee-middle">
+            <h2 class="employee-name">{{ employeeName }}</h2>
+            <p class="employee-position">{{ employeePosition }}</p>
+        </div>
+        <div class="employee-right">
+            <p class="time-in">{{ timeIn }}</p>
+        </div>      
+    </div>
 
-  <div class="attendance-table">
-    <div class="table">
-    <table>
-        <thead>
-            <tr>
-                <th>Monday</th>
-                <th>Tuesday</th>
-                <th>Wednesday</th>
-                <th>Thursday</th>
-                <th>Friday</th>
-                <th>Saturday</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <span class="label">Time In</span>
-                    {{ attendance.monday.timeIn | date: 'shortTime' }}
-                </td>
-                <td>
-                    <span class="label">Time In</span>
-                    {{ attendance.tuesday.timeIn | date: 'shortTime' }}
-                </td>
-                <td>
-                    <span class="label">Time In</span>
-                    {{ attendance.wednesday.timeIn | date: 'shortTime' }}
-                </td>
-                <td>
-                    <span class="label">Time In</span>
-                    {{ attendance.thursday.timeIn | date: 'shortTime' }}
-                </td>
-                <td>
-                    <span class="label">Time In</span>
-                    {{ attendance.friday.timeIn | date: 'shortTime' }}
-                </td>
-                <td>
-                    <span class="label">Time In</span>
-                    {{ attendance.saturday.timeIn | date: 'shortTime' }}
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span class="label">Time Out</span>
-                    {{ attendance.monday.timeOut | date: 'shortTime' }}
-                </td>
-                <td>
-                    <span class="label">Time Out</span>
-                    {{ attendance.tuesday.timeOut | date: 'shortTime' }}
-                </td>
-                <td>
-                    <span class="label">Time Out</span>
-                    {{ attendance.wednesday.timeOut | date: 'shortTime' }}
-                </td>
-                <td>
-                    <span class="label">Time Out</span>
-                    {{ attendance.thursday.timeOut | date: 'shortTime' }}
-                </td>
-                <td>
-                    <span class="label">Time Out</span>
-                    {{ attendance.friday.timeOut | date: 'shortTime' }}
-                </td>
-                <td>
-                    <span class="label">Time Out</span>
-                    {{ attendance.saturday.timeOut | date: 'shortTime' }}
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+    <div class="attendance-table">
+        <div class="table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                    <th>Saturday</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span class="label">Time In</span>
+                        {{ attendance.monday.timeIn | date: 'shortTime' }}
+                    </td>
+                    <td>
+                        <span class="label">Time In</span>
+                        {{ attendance.tuesday.timeIn | date: 'shortTime' }}
+                    </td>
+                    <td>
+                        <span class="label">Time In</span>
+                        {{ attendance.wednesday.timeIn | date: 'shortTime' }}
+                    </td>
+                    <td>
+                        <span class="label">Time In</span>
+                        {{ attendance.thursday.timeIn | date: 'shortTime' }}
+                    </td>
+                    <td>
+                        <span class="label">Time In</span>
+                        {{ attendance.friday.timeIn | date: 'shortTime' }}
+                    </td>
+                    <td>
+                        <span class="label">Time In</span>
+                        {{ attendance.saturday.timeIn | date: 'shortTime' }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="label">Time Out</span>
+                        {{ attendance.monday.timeOut | date: 'shortTime' }}
+                    </td>
+                    <td>
+                        <span class="label">Time Out</span>
+                        {{ attendance.tuesday.timeOut | date: 'shortTime' }}
+                    </td>
+                    <td>
+                        <span class="label">Time Out</span>
+                        {{ attendance.wednesday.timeOut | date: 'shortTime' }}
+                    </td>
+                    <td>
+                        <span class="label">Time Out</span>
+                        {{ attendance.thursday.timeOut | date: 'shortTime' }}
+                    </td>
+                    <td>
+                        <span class="label">Time Out</span>
+                        {{ attendance.friday.timeOut | date: 'shortTime' }}
+                    </td>
+                    <td>
+                        <span class="label">Time Out</span>
+                        {{ attendance.saturday.timeOut | date: 'shortTime' }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

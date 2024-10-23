@@ -27,6 +27,8 @@ export class AttendanceComponent implements OnInit {
   ) { }
 
   attendances: any;
+  isTimedIn: boolean = true; 
+
 
   ngOnInit(): void {
     this.ds.request('GET', 'employee/attendance').subscribe({
@@ -74,6 +76,10 @@ export class AttendanceComponent implements OnInit {
     } else {
       console.error('Dialog is not initialized');
     }
+  }
+
+  toggleTime() {
+    this.isTimedIn = !this.isTimedIn;
   }
 }
 

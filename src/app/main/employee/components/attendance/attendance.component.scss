@@ -13,6 +13,7 @@
   padding: 35px 65px;
   background: var(--white);
   width: 90%;
+  margin-top: 50px;
   border-radius: 10px;
   box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.322);
   border: 0.5px solid var(--table-border);
@@ -62,48 +63,90 @@
     flex: 0 0 auto;
     text-align: right;
     font-weight: 600;
-
+  
     .time-in {
       font-size: 4rem;
       margin-right: 90px;
       font-weight: 300;
       color: var(--landing-font); 
     }
-
-    .upload {
-      width: 205px;
-      height: 45px;
-      text-decoration: none;
-      color: var(--white);
-      box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.322);
-      transition: .3s;
-      transform: translateY(-5px);
-      border-radius: 3px;
-      border: 1px;
-      font-weight: bold;
-      font-size: 16px;
-      font-family: 'Poppins';
-      margin-top: 15px; 
-      margin-left: 20px;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center; 
-    }
-
-    .upload:hover {
-      box-shadow: 0px 8px 15px -10px rgb(125, 125, 125);
-      transform: translate(0px, -2px);
-      cursor: pointer;
-      text-decoration: none;
-    }
-  }
+  }  
 }
+
+.button-group {
+  display: flex;
+  justify-content: space-between; /* Align buttons to left and right */
+  align-items: center; /* Vertically center the buttons */
+  width: 100%; /* Make the container take full width */
+}
+
+.left-buttons, .right-buttons {
+  display: flex;
+  gap: 10px; /* Add space between buttons */
+}
+
+.upload {
+  width: 205px;
+  height: 45px;
+  text-decoration: none;
+  color: var(--white);
+  box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.322);
+  transition: .3s;
+  transform: translateY(-5px);
+  border-radius: 3px;
+  border: 1px;
+  font-weight: bold;
+  font-size: 16px;
+  font-family: 'Poppins';
+  margin-top: 15px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload:hover {
+  box-shadow: 0px 8px 15px -10px rgb(125, 125, 125);
+  transform: translate(0px, -2px);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.toggle-button {
+  width: 205px;
+  height: 45px;
+  text-decoration: none;
+  color: var(--white);
+  box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.322);
+  transition: .3s;
+  transform: translateY(-5px);
+  border-radius: 3px;
+  border: 1px;
+  font-weight: bold;
+  font-size: 16px;
+  font-family: 'Poppins';
+  margin-top: 15px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-time-in {
+  background-color: var(--present);
+  color: var(--white);
+}
+
+.btn-time-out {
+  background-color: var(--absent);
+  color: var(--white);
+}
+
 
 .attendance-table {
   margin-top: 50px;
   background: var(--white);
-  width: 1370px;
+  width: 1390px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
 
