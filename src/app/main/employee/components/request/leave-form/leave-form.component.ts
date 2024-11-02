@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-leave-form',
@@ -18,7 +19,10 @@ export class LeaveFormComponent implements OnInit {
   employee: any;
   selectedFiles: any[] = [];
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private dialogRef: MatDialogRef<LeaveFormComponent>, 
+  ) {
     this.form = this.fb.group({
       type: ['', Validators.required],
       start_date: ['', Validators.required],
@@ -79,5 +83,6 @@ export class LeaveFormComponent implements OnInit {
 
   close(): void {
     this.form.reset();
+    this.dialogRef.close();
   }
 }

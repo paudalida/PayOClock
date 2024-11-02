@@ -9,6 +9,7 @@ import { DataService } from '../../../../services/data/data.service';
 import { AdminService } from '../../../../services/admin/admin.service';
 import { UpdateComponent } from './update/update.component';
 import { MatDialog } from '@angular/material/dialog';
+import { PopupService } from '../../../../services/popup/popup.service';
 
 export interface Employee {
   id: string;
@@ -38,7 +39,8 @@ export class PayslipComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog,
     private as: AdminService,
     private router: Router,
-    private ds: DataService
+    private ds: DataService,
+    private pop: PopupService
   ) { }
 
   employees: any;
@@ -47,16 +49,28 @@ export class PayslipComponent implements OnInit, AfterViewInit {
   position: any;
   status: any;
   action: any;
-  transactions: any;
+  date = {
+    payday_start: '',
+    payday_end: ''
+  };
 
   setEmployee(data: any) {
     this.as.setEmployee(data);
   }
   
-  ngOnInit(): void {    
+  ngOnInit(): void {  
+    this.date = this.as.getPayday();
+
     this.dataSource = new MatTableDataSource<Employee>(this.as.getEmployees());
-    this.ds.request('GET', 'admin/transactions/latest/all').subscribe((res: any) => {
-      this.transactions = res.data;
+
+    this.ds.request('GET', 'admin/transactions/latest').subscribe({
+      next: (res: any) => {
+        this.date = res.data;
+        this.as.setPayday(res.data);
+      },
+      error: (err: any) => {
+        this.pop.swalBasic('error', 'Oops! Cannot fetch payroll date', err.error.message);
+      }
     })
   }
 
@@ -79,7 +93,11 @@ export class PayslipComponent implements OnInit, AfterViewInit {
 
   setupdate() {
     if (this.dialog) {
-      this.dialog.open(UpdateComponent);
+      const dialogRef = this.dialog.open(UpdateComponent);
+
+      dialogRef.afterClosed().subscribe(result => {
+        if(result) this.date = this.as.getPayday();
+      });
     } else {
       console.error('Dialog is not initialized');
     }

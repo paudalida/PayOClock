@@ -6,6 +6,7 @@ import { DataService } from '../../../../services/data/data.service';
 
 import { UploadProofComponent } from './upload-proof/upload-proof.component';
 import { ProofHistoryComponent } from './proof-history/proof-history.component';
+import { EmployeeService } from '../../../../services/employee/employee.service';
 
 export interface DaySchedule {
   timeIn: Date;
@@ -23,27 +24,28 @@ export class AttendanceComponent implements OnInit {
   constructor (
     private dialog: MatDialog,
     private ds: DataService,
-    private pop: PopupService
+    private pop: PopupService,
+    private es: EmployeeService
   ) { }
 
   attendances: any;
   isTimedIn: boolean = true; 
 
+  employee: any;
 
   ngOnInit(): void {
+    this.employee = this.es.getEmployee();
+
     this.ds.request('GET', 'employee/attendance').subscribe({
       next: (res: any) => {
         this.attendances = res.data;
       },
       error: (err: any) => {
-        this.pop.swalBasic('error', this.pop.genericErrorTitle, 'Error fetching attendance data. Please try again later');
+        this.pop.swalBasic('error', this.pop.genericErrorTitle, err.error.message);
       }
     });
   }
   
-  employeeImage: string = '/assets/images/no image.png'; 
-  employeeName: string = 'John Doe';
-  employeePosition: string = 'Employee';
   timeIn: string = '8:30 AM'
 
   attendance: {

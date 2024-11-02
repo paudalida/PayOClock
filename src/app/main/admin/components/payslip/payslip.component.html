@@ -13,7 +13,12 @@
                 </div>
         
                 <div class="update-container">
-                    <button id="update-btn" (click)="setupdate()">Update</button>
+                    <button id="update-btn" (click)="setupdate()"> 
+                        <ng-container *ngIf="!date.payday_start"> No data available</ng-container>
+                        <ng-container *ngIf="date.payday_start">
+                            {{ date.payday_start | date: 'mediumDate' }} - {{ date.payday_end | date: 'mediumDate' }}
+                        </ng-container>
+                    </button>
                 </div>
             </div>
 

@@ -7,7 +7,15 @@
         </div>
     </div>
 
-    <div class="table-content">
+    <div class="loading" *ngIf="isLoading">
+        <app-spinner></app-spinner>
+    </div>
+
+    <ng-container *ngIf="noPayslip && !isLoading">
+        No payslip available
+    </ng-container>
+
+    <div class="table-content" *ngIf="!noPayslip && !isLoading">
         <div class="table-head">
 
             <div class="input-row">
@@ -42,12 +50,7 @@
             </div>
         </div>
 
-
-        <div class="loading" *ngIf="isLoading">
-            <app-spinner></app-spinner>
-        </div>
-
-        <div class="table-content1" *ngIf="!isLoading">
+        <div class="table-content1">
 
             <table>
                 <tr class="table-header">
@@ -92,7 +95,7 @@
                     <td> {{ net_pay }}</td>
                 </tr>
                 
-            </table>
+            </table>            
         </div>
     </div>
 </div>

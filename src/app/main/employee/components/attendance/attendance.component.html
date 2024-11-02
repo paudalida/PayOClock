@@ -13,11 +13,11 @@
     
     <div class="employee-container">
         <div class="employee-left">
-            <img [src]="employeeImage" alt="Employee Image" class="employee-image">
+            <img [src]="employee.image" alt="Employee Image" class="employee-image">
         </div>
         <div class="employee-middle">
-            <h2 class="employee-name">{{ employeeName }}</h2>
-            <p class="employee-position">{{ employeePosition }}</p>
+            <h2 class="employee-name">{{ employee.full_name }}</h2>
+            <p class="employee-position">{{ employee.position }}</p>
         </div>
         <div class="employee-right">
             <p class="time-in">{{ timeIn }}</p>

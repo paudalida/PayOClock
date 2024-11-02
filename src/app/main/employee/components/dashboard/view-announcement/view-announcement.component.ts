@@ -18,7 +18,7 @@ export class ViewAnnouncementComponent implements OnInit {
     private dialogRef: MatDialogRef<ViewAnnouncementComponent>, 
     private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) { console.log(data)}
 
   ngOnInit(): void {
     if (this.data) {
@@ -31,7 +31,7 @@ export class ViewAnnouncementComponent implements OnInit {
 
   closePopup() {
     this.dialogRef.close();
-    this.router.navigate(['/employee/announcements']);
+    this.router.navigate(['/employee/dashboard/announcements']);
   }
 
 }

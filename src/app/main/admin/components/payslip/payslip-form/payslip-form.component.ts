@@ -22,12 +22,16 @@ export class PayslipFormComponent implements OnInit{
   payday_start = ''; payday_end = ''; base_pay = 0; adjusted_pay = 0; total_additions = 0; total_deductions = 0; gross_pay = 0; net_pay = 0;
   attendance: any = []; deductions: any = []; additions: any = []; hourly_rate = 0;
   values: any = [];
+  noPayslip = false;
 
   ngOnInit(): void {
     if(!this.employee.id) { this.router.navigate(['/admin/payslips']); } // return to payrolls if employee data is not set (browser refreshed)
 
     this.ds.request('GET', 'admin/payslips/latest/user/' + this.employee.id).subscribe({
       next: (res: any) => {
+
+        if(!res.data) { this.noPayslip = true; return; }
+
         this.payday_start     = res.data.payday_start;
         this.payday_end       = res.data.payday_end;
         this.base_pay         = res.data.base_pay;

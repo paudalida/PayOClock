@@ -73,10 +73,12 @@ export class PayrollFormsComponent implements OnInit{
   }
 
   getData() {
-    this.ds.request('GET', 'admin/transactions/latest/user/' + this.employee.id).subscribe({
+    const details = this.form.get('details');
+    const date = this.as.getPayday();
+
+    this.ds.request('GET', 'admin/transactions/' + this.as.getPayday().payday_end + '/user/' + this.employee.id).subscribe({
       next: (res: any) => { 
-        const details = this.form.get('details');
-        if(res.data.length) { 
+        if(res.data) { 
           this.savedValue = res.data;
 
           res.data.forEach((element: any) => {
@@ -92,17 +94,22 @@ export class PayrollFormsComponent implements OnInit{
                   );
             }
 
-            if(!(details.get('payday_start').value && details.get('payday_end').value)) {
+            // if(!(details.get('payday_start').value && details.get('payday_end').value)) {
 
-              details.patchValue({
-                payday_start: element.payday_start,
-                payday_end: element.payday_end
-              });
-            }
+            //   details.patchValue({
+            //     payday_start: element.payday_start,
+            //     payday_end: element.payday_end
+            //   });
+            // }
           });
           this.isLoading = false; 
         }
-        else { this.getConfig(); }        
+        else { this.getConfig(); }
+
+        details.patchValue({
+          payday_start: date.payday_start,
+          payday_end: date.payday_end
+        });
       },
       error: (err: any) => { this.pop.toastWithTimer('error', err.error.message); }
     });

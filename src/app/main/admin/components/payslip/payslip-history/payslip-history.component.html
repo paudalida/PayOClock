@@ -11,7 +11,11 @@
         <app-spinner></app-spinner>
     </div>
 
-    <ng-container *ngIf="!isLoading">
+    <ng-container *ngIf="!isLoading && !hasData"> 
+        No payslip history available
+    </ng-container>
+
+    <ng-container *ngIf="!isLoading && hasData">
         <ng-container *ngFor="let payslip of payslips; let i = index;">
             <div class="table-content" (click)="clickTable(i)">
                 <div class="table-head">
@@ -24,7 +28,7 @@
             
                         <div class="information-case">
                             <th> PAYROLL PERIOD: </th> 
-                            <td> {{ payslipDetails[i].payday | date: 'MMMM' }} {{ getPayDateRange(payslipDetails[i].payday) }}, {{ payslipDetails[i].payday | date: 'YYYY' }} </td>  
+                            <td> {{ payslipDetails[i].payday_start | date: 'mediumDate' }} - {{ payslipDetails[i].payday_end | date: 'mediumDate' }} </td>  
                         </div>
                     </div>
         
@@ -52,11 +56,10 @@
         
                     <table>
                         <tr class="table-header">
-                            <th> Earnings </th>
-                            <th> </th>
+                            <th> Attendance Earnings </th>
+                            <th> Hours </th>
                             <th> Amount </th>
-                            <th> Earnings </th>
-                            <th> </th>
+                            <th> Other Earnings </th>
                             <th> Amount </th>
                             <th> Deductions </th>
                             <th> Amount </th>
@@ -71,16 +74,14 @@
                                 <td> {{ value[4] }} </td>
                                 <td> {{ value[5] }} </td>
                                 <td> {{ value[6] }} </td>
-                                <td> {{ value[7] }} </td>
                             </tr>
                         </ng-container>
         
                         <tr class="totals">
-                            <td> Adjusted Pay </td>
                             <td> </td>
+                            <td> Adjusted Pay </td>
                             <td> {{ payslipDetails[i].adjusted_pay }} </td>
                             <td> Total Additions </td>
-                            <td> </td>
                             <td> {{ payslipDetails[i].total_additions  }}</td>
                             <td> Total Deductions </td>
                             <td> {{ payslipDetails[i].total_deductions }}</td>
@@ -91,7 +92,6 @@
                             <td> </td>
                             <td> </td>
                             <td> Total Earnings </td>
-                            <td> </td>
                             <td> {{ payslipDetails[i].gross_pay }}</td>
                             <td> Net Salary Transferred </td>
                             <td> {{ payslipDetails[i].net_pay }}</td>

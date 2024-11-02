@@ -7,6 +7,11 @@ export class AdminService {
 
   constructor() { }
 
+  private payday = {
+    payday_start: '',
+    payday_end: ''
+  };
+
   private employeesArray: any = [];
   private employeeData = {
     id: null,
@@ -105,5 +110,14 @@ export class AdminService {
         zip_code: null
       }
     };
+  }
+
+  public getPayday() {
+    return this.payday;
+  }
+
+  public setPayday(data: any) {
+    this.payday = data;
+    console.log(this.payday)
   }
 }

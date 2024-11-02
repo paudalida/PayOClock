@@ -11,17 +11,17 @@
             <div class="date-range">
                 <div class="date-field">
                     <label for="date-start">Date Start:</label>
-                    <input type="date" id="date-start" name="date-start">
+                    <input type="date" id="date-start" name="date-start" [(ngModel)]="currentDate.payday_start" disabled>
                 </div>
                 <div class="date-field">
                     <label for="date-end">Date End:</label>
-                    <input type="date" id="date-end" name="date-end">
+                    <input type="date" id="date-end" name="date-end" [(ngModel)]="new_payday_end" (change)="checkDate()">
                 </div>
             </div>
 
             <div class="button-group">
-                <button type="button" class="edit-button">Edit Current</button>
-                <button type="submit" class="update-button">Update to New</button>
+                <button type="button" class="edit-button" (click)="submit('current')">Edit Current</button>
+                <button type="submit" class="update-button" (click)="submit('new')">Update to New</button>
             </div>
         </div>
     </form>

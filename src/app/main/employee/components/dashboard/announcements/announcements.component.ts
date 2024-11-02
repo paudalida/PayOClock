@@ -11,47 +11,6 @@ import { ViewAnnouncementComponent } from '../view-announcement/view-announcemen
 })
 export class AnnouncementsComponent {
 
-  announcementImage: string = '/assets/images/no image.png';
-  announcementTitle: string = 'Title';
-  announcementDescription: string = `
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-  Vestibulum eget vehicula sapien. Cras sit amet augue magna. 
-  Proin suscipit diam nec justo suscipit, in viverra lacus fringilla. 
-  Quisque vitae felis vel arcu viverra fermentum sit amet et justo. 
-  Nulla facilisi. Mauris vitae magna eu odio sollicitudin commodo. 
-  Vestibulum tempus sem nec tellus congue, in tempus tortor feugiat. 
-  Cras facilisis metus ac orci gravida, in aliquam massa cursus. 
-  Duis at risus at eros vehicula sagittis vel at purus. Etiam vel lorem in purus iaculis bibendum. 
-  Integer at orci et felis sodales ultrices. Sed vitae dolor odio. 
-  Proin dictum eros non tortor placerat, in interdum nulla sagittis. 
-  Suspendisse potenti. Morbi dapibus risus id sapien consequat, non consequat velit lacinia. 
-  `;
-  publishDate: Date = new Date(); 
-  publishTime: Date = new Date();
-
-  previousAnnouncements: Array<any> = [
-    { id: 1, 
-      title: 'Lorem ipsum', 
-      shortDescription: 'Lorem ipsum dolor sit amet...', 
-      image: '/assets/images/no image.png', date: new Date() 
-    },
-    { id: 2, 
-      title: 'Lorem ipsum', 
-      shortDescription: 'Lorem ipsum dolor sit amet...', 
-      image: '/assets/images/no image.png', date: new Date() 
-    },
-    { id: 3, 
-      title: 'Lorem ipsum', 
-      shortDescription: 'Lorem ipsum dolor sit amet...', 
-      image: '/assets/images/no image.png', date: new Date() 
-    },
-    { id: 4, 
-      title: 'Lorem ipsum', 
-      shortDescription: 'Lorem ipsum dolor sit amet...', 
-      image: '/assets/images/no image.png', date: new Date() 
-    },
-  ];
-
   announcements: any;
 
   constructor(
@@ -76,9 +35,9 @@ export class AnnouncementsComponent {
     this.dialog.open(ViewAnnouncementComponent, {
       data: {
         title: announcement.title,
-        description: announcement.shortDescription, 
+        description: announcement.content, 
         image: announcement.image,
-        created_at: announcement.date
+        created_at: announcement.created_at
       }
     });
   }

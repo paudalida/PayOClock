@@ -23,7 +23,7 @@
         </div>
         <div class="announcement-cards">
           <ng-container *ngFor="let announcement of announcements; let i = index;">
-            <div class="announcement-card" *ngIf="i > 0" (click)="viewAnnouncement(announcement.id)">
+            <div class="announcement-card" *ngIf="i > 0" (click)="viewAnnouncement(announcement)">
               <!-- <ng-container *ngIf="i > 0"> -->
                 <img [src]="announcement.image || 'assets/images/background.jpg'" alt="Announcement Image" class="card-image">
                 <div class="card-content">
