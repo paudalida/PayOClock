@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OvertimeFormComponent } from './overtime-form.component';
+import { RequestFormComponent } from './request-form.component';
 
-describe('OvertimeFormComponent', () => {
-  let component: OvertimeFormComponent;
-  let fixture: ComponentFixture<OvertimeFormComponent>;
+describe('RequestFormComponent', () => {
+  let component: RequestFormComponent;
+  let fixture: ComponentFixture<RequestFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [OvertimeFormComponent]
+      declarations: [RequestFormComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(OvertimeFormComponent);
+    fixture = TestBed.createComponent(RequestFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -3,9 +3,9 @@ import Swal, { SweetAlertIcon } from 'sweetalert2';
 import { PopupService } from '../../../../services/popup/popup.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { LeaveFormComponent } from './leave-form/leave-form.component';
-import { OvertimeFormComponent } from './overtime-form/overtime-form.component';
 import { DataService } from '../../../../services/data/data.service';
+import { RequestFormComponent } from './request-form/request-form.component';
+import { DownloadService } from '../../../../services/download/download.service';
 
 interface pendingRequests {
   id: number;
@@ -59,7 +59,8 @@ export class RequestComponent implements OnInit {
   constructor(
     private popupService: PopupService,
     private dialog: MatDialog,
-    private ds: DataService
+    private ds: DataService,
+    private download: DownloadService
   ) { }
 
   ngOnInit(): void {
@@ -68,43 +69,44 @@ export class RequestComponent implements OnInit {
     })
   }
 
-  cancelRequest(request: pendingRequests): void {
-    // this.popupService.swalWithCancel('question', 'Are you sure you want to cancel this request?')
-    //   .then(async (confirmed) => {
-    //     if (confirmed) {
-    //       this.allRequests = this.allRequests.filter(r => r !== request);
+  cancelRequest(id: number): void {
+    this.popupService.swalWithCancel('question', 'Are you sure you want to cancel this request?')
+      .then(async (confirmed) => {
+        if (confirmed) {
+          this.ds.request('POST', 'employee/time-requests/cancel/' + id).subscribe({
+            next: (res: any) => {
+              this.popupService.toastWithTimer('success', res.message);
+            },
+            error: (err: any) => {
+              this.popupService.swalBasic('error', this.popupService.genericErrorTitle, err.error.message);
+            }
+          })
+          // this.allRequests = this.allRequests.filter(r => r !== request);
           
-    //       this.dataSource.data = this.allRequests;
+          // this.dataSource.data = this.allRequests;
 
-    //       this.popupService.toastWithTimer('success', 'Your request has been cancelled.');
-    //     }
-    //   });
+          this.popupService.toastWithTimer('success', 'Your request has been cancelled.');
+        }
+      });
   }
 
   viewProofs(proofs: { name: string; url: string }[]): void {
     console.log('View Proofs clicked');
   }
 
-  leaveForm() {
+  openForm(type: string) {
     if (this.dialog) {
-      this.dialog.open(LeaveFormComponent);
+      this.dialog.open(RequestFormComponent, { data:  type });
     } else {
       console.error('Dialog is not initialized');
     }
   }
 
-  overtimeForm() {
-    if (this.dialog) {
-      this.dialog.open(OvertimeFormComponent);
-    } else {
-      console.error('Dialog is not initialized');
-    }
-  }
-
-  downloadProof(url: string, fileName: string): void {
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = fileName;
-    link.click();
-  }
+  // overtimeForm() {
+  //   if (this.dialog) {
+  //     this.dialog.open(OvertimeFormComponent);
+  //   } else {
+  //     console.error('Dialog is not initialized');
+  //   }
+  // }
 }

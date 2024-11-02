@@ -1,29 +1,27 @@
 <div class="main-container">
-    <!-- <form class="form-info" [formGroup]="form" (submit)="submit()"> -->
-    <form class="form-info" [formGroup]="form">
+    <form class="form-info" [formGroup]="form" (submit)="submit()">
+    <!-- <form class="form-info" [formGroup]="form"> -->
         <div class="header">
-            <h1>{{ data.title }}</h1>
+            <h1>{{ formType || '' | titlecase }} Request Form</h1>
         </div>
         <div class="detailsbody">
 
             <div class="input-row">
                 <div class="entryarea">
                     <select formControlName="type"> 
-                        <option value="regular_overtime"> Regular Overtime </option>
-                        <option value="holiday_overtime"> Holiday Overtime </option>
-                        <option value="weekend_overtime"> Weekend Overtime </option>
+                        <option *ngFor="let type of types" [value]="type"> {{ type }} </option>
                     </select>
-                    <div class="labelline">Type of Overtime</div>
+                    <div class="labelline">Type of {{ formType || '' | titlecase }}</div>
                 </div>
             </div>
 
             <div class="input-row">
                 <div class="entryarea">
-                    <input type="date" formControlName="start_date">
+                    <input type="date" formControlName="start">
                     <div class="labelline">Start Date</div>
                 </div>
                 <div class="entryarea">
-                    <input type="date" formControlName="end_date">
+                    <input type="date" formControlName="end">
                     <div class="labelline">End Date</div>
                 </div>
             </div>
@@ -32,7 +30,7 @@
                 <div class="entryarea1">
                     <textarea formControlName="reason"></textarea>
                     <span></span>
-                    <div class="labelline1"> Reason for overtime  </div>
+                    <div class="labelline1"> Reason for {{ formType || '' | titlecase }}  </div>
                 </div>
             </div>
             

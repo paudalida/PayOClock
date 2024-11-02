@@ -11,7 +11,7 @@
       <div class="detailsbody">
         <div class="employee-container">
           <div class="employee-image">
-            <img [src]="employee.image || 'assets/images/no_image.png'" alt="Employee Photo">
+            <img [src]="data.image || 'assets/images/no_image.png'" alt="Employee Photo">
           </div>
 
           <div class="employee-details">
@@ -19,34 +19,34 @@
               <tbody>
                 <tr>
                   <td><label>Full Name</label></td>
-                  <td><p>{{ employee.full_name }}</p></td>
+                  <td><p>{{ data.full_name }}</p></td>
                 </tr>
                 <tr>
                   <td><label>ID Number</label></td>
-                  <td><p>{{ employee.employee_id }}</p></td>
+                  <td><p>{{ data.employee_id }}</p></td>
                 </tr>
                 <tr>
                   <td><label>Type of Request</label></td>
-                  <td><p>{{ employee.request_type }}</p></td>
+                  <td><p>{{ data.request_type }}</p></td>
                 </tr>
                 <tr>
                   <td><label>Start Date</label></td>
-                  <td><p>{{ employee.start_date | date: 'MM/dd/yyyy hh:mm a' }}</p></td>
+                  <td><p>{{ data.start | date: 'MM/dd/yyyy hh:mm a' }}</p></td>
                 </tr>
                 <tr>
                   <td><label>End Date</label></td>
-                  <td><p>{{ employee.end_date | date: 'MM/dd/yyyy hh:mm a' }}</p></td>
+                  <td><p>{{ data.end | date: 'MM/dd/yyyy hh:mm a' }}</p></td>
                 </tr>
                 <tr>
                   <td><label>Reason</label></td>
-                  <td><p>{{ employee.reason }}</p></td>
+                  <td><p>{{ data.reason }}</p></td>
                 </tr>
                 <tr>
                   <td><label>Proof</label></td>
                   <td>
                     <div class="proof-container">
                       <div class="proof-links">
-                        <div *ngFor="let proof of employee.proofs" class="proof-item">
+                        <div *ngFor="let proof of data.attachments" class="proof-item">
                           <a [href]="proof.url" download target="_blank" class="proof-link">
                             {{ proof.name }}
                           </a>

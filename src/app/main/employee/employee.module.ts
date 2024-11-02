@@ -20,8 +20,7 @@ import { PayslipHistoryComponent } from './components/payslips/payslip-history/p
 import { ChangePasswordComponent } from './components/profile/change-password/change-password.component';
 import { ProofHistoryComponent } from './components/attendance/proof-history/proof-history.component';
 import { RequestComponent } from './components/request/request.component';
-import { LeaveFormComponent } from './components/request/leave-form/leave-form.component';
-import { OvertimeFormComponent } from './components/request/overtime-form/overtime-form.component';
+import { RequestFormComponent } from './components/request/request-form/request-form.component';
 
 
 @NgModule({
@@ -35,7 +34,7 @@ import { OvertimeFormComponent } from './components/request/overtime-form/overti
     ViewAnnouncementComponent, 
     UploadProofComponent, 
     PayslipHistoryComponent, 
-    ChangePasswordComponent, ProofHistoryComponent, RequestComponent, LeaveFormComponent, OvertimeFormComponent
+    ChangePasswordComponent, ProofHistoryComponent, RequestComponent, RequestFormComponent
 
   ],
   imports: [

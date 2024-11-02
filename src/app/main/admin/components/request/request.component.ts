@@ -121,6 +121,7 @@ export class RequestComponent implements OnInit{
           if(matchedEmployee) {
             element.full_name = matchedEmployee.full_name;
             element.employee_id = matchedEmployee.employee_id;
+            element.image = matchedEmployee.image;
             element.user_id = matchedEmployee.id
           }
         });
@@ -149,7 +150,7 @@ export class RequestComponent implements OnInit{
       this.ds.request('POST', 'admin/requests/action/' + element.id, data).subscribe({
         next: (res: any) => {
           this.popupService.toastWithTimer('success', 'The request has been approved.');
-          this.updateDataSources(res.data);
+          this.updateDataSources(element.id, 1);
         },
         error: (err: any) => {
           this.popupService.swalBasic('error', 'Oops! An Error has occured.', this.popupService.genericErrorMessage);
@@ -202,7 +203,7 @@ export class RequestComponent implements OnInit{
       this.ds.request('POST', 'admin/requests/action/' + element.id, data).subscribe({
         next: (res: any) => {
           this.popupService.toastWithTimer('success', 'The request has been denied.');
-          this.updateDataSources(res.data);
+          this.updateDataSources(element.id, 2, result.value);
         },
         error: (err: any) => {
           this.popupService.swalBasic('error', 'Oops! An Error has occured.', this.popupService.genericErrorMessage);
@@ -214,23 +215,35 @@ export class RequestComponent implements OnInit{
   }
 
   // Update data sources after status change
-  updateDataSources(data: any) {
-    const index = this.pendingRequests.findIndex((request: any) => request.id === data.id);
+  updateDataSources(id: number, status: number, denial_reason: string = '') {
+    const index = this.pendingRequests.findIndex((request: any) => request.id === id);
 
+    console.log(id)
     if (index !== -1) {
+
+      console.log('hey')
+      /* temp */
+      let record = this.pendingRequests[index];
+      record.status = status;
+      record.denial_reason = denial_reason;
+
+      /* remove */
       this.pendingRequests.splice(index, 1);
       this.pendingRequests = [...this.pendingRequests];
+
+      /* add to finished */
+      this.finishedRequests.unshift(record);
+      this.finishedRequests = [...this.finishedRequests];
     }
     
-    const matchedEmployee = this.employees.find((employee: any) => employee.id === data.user_id);
+    // const matchedEmployee = this.employees.find((employee: any) => employee.id === data.user_id);
 
-    if(matchedEmployee) {
-      data.full_name = matchedEmployee.full_name;
-      data.employee_id = matchedEmployee.employee_id;
-      data.user_id = matchedEmployee.id
-    }
-    this.finishedRequests.unshift(data);
-    this.finishedRequests = [...this.finishedRequests];
+    // if(matchedEmployee) {
+    //   data.full_name = matchedEmployee.full_name;
+    //   data.employee_id = matchedEmployee.employee_id;
+    //   data.user_id = matchedEmployee.id
+    // }
+
   }
 
   viewRequest(employeeData: any) {
