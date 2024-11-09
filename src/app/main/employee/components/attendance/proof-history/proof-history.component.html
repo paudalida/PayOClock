@@ -11,19 +11,26 @@
                 <div class="card" *ngFor="let card of cardData; let i = index">
                     <div class="day">{{ card.day }}</div>
                     <div class="date">{{ card.date }}</div>
-                    <div class="time-uploaded">Time Uploaded: {{ card.timeUploaded }}</div>
-                    <div class="images">
-                        <div class="image-grid">
-                            <img *ngFor="let image of card.images.slice(0, 3)" [src]="image" alt="Image">
-                        </div>
-                        <div *ngIf="card.images.length > 3 && isViewMoreVisible(i)" class="more-images">
+
+                    <ng-container *ngIf="card.images.length > 0">
+                        <div class="time-uploaded" >Time Uploaded: {{ card.uploaded_at }}</div>
+                        <div class="images">
                             <div class="image-grid">
-                                <img *ngFor="let image of card.images.slice(3)" [src]="image" alt="Image">
+                                <img *ngFor="let image of card.images.slice(0, 3)" [src]="image" alt="Image">
                             </div>
+                            <div *ngIf="card.images.length > 3 && isViewMoreVisible(i)" class="more-images">
+                                <div class="image-grid">
+                                    <img *ngFor="let image of card.images.slice(3)" [src]="image" alt="Image">
+                                </div>
+                            </div>
+                            <button *ngIf="card.images.length > 3" (click)="toggleViewMore(i)" class="view-more-button">
+                                {{ viewMore[i] ? 'View Less' : 'View More' }}
+                            </button>
                         </div>
-                        <button *ngIf="card.images.length > 3" (click)="toggleViewMore(i)" class="view-more-button">
-                            {{ viewMore[i] ? 'View Less' : 'View More' }}
-                        </button>
+                    </ng-container>
+
+                    <div class="noImages" *ngIf="card.images.length == 0">
+                        No uploaded images
                     </div>
                 </div>
             </div>

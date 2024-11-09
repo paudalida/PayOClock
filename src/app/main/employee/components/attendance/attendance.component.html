@@ -20,7 +20,7 @@
             <p class="employee-position">{{ employee.position }}</p>
         </div>
         <div class="employee-right">
-            <p class="time-in">{{ timeIn }}</p>
+            <p class="time-in">{{ currentTimeIn }}</p>
         </div>      
     </div>
 
@@ -41,53 +41,53 @@
                 <tr>
                     <td>
                         <span class="label">Time In</span>
-                        {{ attendance.monday.timeIn | date: 'shortTime' }}
+                        {{ attendance[0].time_in || 'N/A' }}
                     </td>
                     <td>
                         <span class="label">Time In</span>
-                        {{ attendance.tuesday.timeIn | date: 'shortTime' }}
+                        {{ attendance[1].time_in || 'N/A' }}
                     </td>
                     <td>
                         <span class="label">Time In</span>
-                        {{ attendance.wednesday.timeIn | date: 'shortTime' }}
+                        {{ attendance[2].time_in || 'N/A' }}
                     </td>
                     <td>
                         <span class="label">Time In</span>
-                        {{ attendance.thursday.timeIn | date: 'shortTime' }}
+                        {{ attendance[3].time_in || 'N/A' }}
                     </td>
                     <td>
                         <span class="label">Time In</span>
-                        {{ attendance.friday.timeIn | date: 'shortTime' }}
+                        {{ attendance[4].time_in || 'N/A' }}
                     </td>
                     <td>
                         <span class="label">Time In</span>
-                        {{ attendance.saturday.timeIn | date: 'shortTime' }}
+                        {{ attendance[5].time_in || 'N/A' }}
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <span class="label">Time Out</span>
-                        {{ attendance.monday.timeOut | date: 'shortTime' }}
+                        {{ attendance[0].time_out || 'N/A' }}
                     </td>
                     <td>
                         <span class="label">Time Out</span>
-                        {{ attendance.tuesday.timeOut | date: 'shortTime' }}
+                        {{ attendance[1].time_out || 'N/A' }}
                     </td>
                     <td>
                         <span class="label">Time Out</span>
-                        {{ attendance.wednesday.timeOut | date: 'shortTime' }}
+                        {{ attendance[2].time_out || 'N/A' }}
                     </td>
                     <td>
                         <span class="label">Time Out</span>
-                        {{ attendance.thursday.timeOut | date: 'shortTime' }}
+                        {{ attendance[3].time_out || 'N/A' }}
                     </td>
                     <td>
                         <span class="label">Time Out</span>
-                        {{ attendance.friday.timeOut | date: 'shortTime' }}
+                        {{ attendance[4].time_out || 'N/A' }}
                     </td>
                     <td>
                         <span class="label">Time Out</span>
-                        {{ attendance.saturday.timeOut | date: 'shortTime' }}
+                        {{ attendance[5].time_out || 'N/A' }}
                     </td>
                 </tr>
             </tbody>

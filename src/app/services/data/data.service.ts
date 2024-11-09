@@ -14,7 +14,7 @@ export class DataService {
   ) { }
 
   // private apiUrl = 'http://localhost:8000/api/';
-  private apiUrl = 'http://26.68.32.39:8000/api/';
+  private apiUrl = 'http://localhost:8000/api/';
 
   /* 
     ## USAGE

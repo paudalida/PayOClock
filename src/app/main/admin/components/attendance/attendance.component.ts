@@ -68,7 +68,6 @@ export class AttendanceComponent implements OnInit {
   }
 
   setEmployeeID(data: any) {
-    console.log(data)
     this.defaultRecord.user_id = data;
   }
 
@@ -153,7 +152,6 @@ export class AttendanceComponent implements OnInit {
     }
 
     this.dates = dates;
-    console.log(this.dates)
   }
 
   dateFilter(event: Event) {
@@ -234,8 +232,47 @@ export class AttendanceComponent implements OnInit {
   }
 
   viewProof(data: any) {
+    let proof = [];
+
+    /* Improve */
+    if(data.mon.status) {
+      // if(data.mon.images.length > 0) {
+        proof.push(data.mon);
+      // }
+    }
+   
+    if(data.tue.status) {
+      // if(data.tue.images.length > 0) {
+        proof.push(data.tue);
+      // }
+    }
+
+    if(data.wed.status) {
+      // if(data.wed.images.length > 0) {
+        proof.push(data.wed);
+      // }
+    }
+    
+    if(data.thu.status) {
+      // if(data.thu.images.length > 0) {
+        proof.push(data.thu);
+      // }
+    }
+    
+    if(data.fri.status) {
+      // if(data.fri.images.length > 0) {
+        proof.push(data.fri);
+      // }
+    }
+    
+    if(data.sat.status) {
+      // if(data.sat.images.length > 0) {
+        proof.push(data.sat);
+      // }
+    }
+
     if (this.dialog) {
-      this.dialog.open(ViewProofComponent, { data: data });
+      this.dialog.open(ViewProofComponent, { data: proof });
     } else {
       console.error('Dialog is not initialized');
     }

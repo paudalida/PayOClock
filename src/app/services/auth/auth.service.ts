@@ -21,7 +21,7 @@ export class AuthService {
   ) { }
   
   // private apiUrl = 'http://localhost:8000/api/';
-  private apiUrl = 'http://26.68.32.39:8000/api/';
+  private apiUrl = 'http://localhost:8000/api/';
   private userType = '';
 
   public get getUserType() {
