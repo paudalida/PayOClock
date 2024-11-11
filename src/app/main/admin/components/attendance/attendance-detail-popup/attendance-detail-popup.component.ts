@@ -45,9 +45,9 @@ export class AttendanceDetailPopupComponent {
     return this.as.getEmployee();
   }
 
-  toggleDropdown(): void {
-    this.dropdownOpen = !this.dropdownOpen;
-  }
+  // toggleDropdown(): void {
+  //   this.dropdownOpen = !this.dropdownOpen;
+  // }
 
   selectAction(action: 'manual' | 'leave'): void {
     this.selectedAction = action;

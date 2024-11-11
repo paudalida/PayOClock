@@ -24,12 +24,12 @@
 
         <div class="button-row">
           <div class="action-dropdown">
-            <button class="action-btn" (click)="toggleDropdown()">Action</button>
-            <div class="dropdown-content" *ngIf="dropdownOpen">
+            <!-- <button class="action-btn" (click)="toggleDropdown()">Action</button> -->
+            <!-- <div class="dropdown-content" *ngIf="dropdownOpen"> -->
               <!-- <button (click)="selectAction('button')">Button</button> -->
-              <button (click)="selectAction('manual')">Manual</button>
+              <!-- <button (click)="selectAction('manual')">Manual</button>
               <button (click)="selectAction('leave')">Leave</button>
-            </div>
+            </div> -->
           </div>
           <div class="action-display">
             <ng-container [ngSwitch]="selectedAction">
@@ -78,7 +78,7 @@
                   {{ forTimeIn ? 'Time In' : 'Time Out' }}
                 </button>
               </div> -->
-              <div *ngSwitchCase="'leave'" class="leave-action">
+              <!-- <div *ngSwitchCase="'leave'" class="leave-action">
                 <select [(ngModel)]="selectedLeaveType" class="leave-select">
                   <option value="Paid Leave">Paid Leave</option>
                   <option value="Sick Leave">Sick Leave</option>
@@ -87,7 +87,7 @@
                   <option value="Bereavement Leave">Bereavement Leave</option>
                 </select>
                 <button class="leave-btn" (click)="applyLeave()">Leave</button>
-              </div>
+              </div> -->
             </ng-container>
           </div>
         </div>
