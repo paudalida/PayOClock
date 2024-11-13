@@ -110,7 +110,15 @@ export class AttendanceComponent implements OnInit {
   }
 
   toggleTime() {
-    this.isTimedIn = !this.isTimedIn;
+    this.ds.request('POST', 'employee/attendance/clock').subscribe({
+      next: (res: any) => {
+        this.pop.toastWithTimer('success', res.message);
+        this.isTimedIn = !this.isTimedIn;
+      },
+      error: (err: any) => {
+        this.pop.swalBasic('error', this.pop.genericErrorTitle, err.error.message);
+      }
+    });
   }
 }
 

@@ -20,15 +20,23 @@
 .table-head {
   display: flex;
   align-items: center;
-  justify-content: right;
+  justify-content: space-between;
   margin-bottom: 25px; 
+}
+
+.table-head h1 {
+  color: var(--landing-font);
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding-left: 5px;
 }
 
 .date-range-dropdown {
   select {
-    width: 135px;
+    width: 230px;
+    // text-align: center;
     padding: 10px;
-    border-radius: 3px;
+    // border-radius: 3px;
     font-family: "poppins";
     background: var(--white);
     border: 0.5px solid var(--table-border);
