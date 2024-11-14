@@ -76,27 +76,34 @@ export class RequestComponent implements OnInit {
           this.ds.request('POST', 'employee/time-requests/cancel/' + id).subscribe({
             next: (res: any) => {
               this.popupService.toastWithTimer('success', res.message);
+
+              let record = this.dataSource.data.find((element: any) => element.id === id);
+
+              record.status = 3;
+
+              this.dataSource.data = [...this.dataSource.data];
             },
             error: (err: any) => {
               this.popupService.swalBasic('error', this.popupService.genericErrorTitle, err.error.message);
             }
-          })
-          // this.allRequests = this.allRequests.filter(r => r !== request);
-          
-          // this.dataSource.data = this.allRequests;
-
-          this.popupService.toastWithTimer('success', 'Your request has been cancelled.');
+          });
         }
       });
   }
 
-  viewProofs(proofs: { name: string; url: string }[]): void {
-    console.log('View Proofs clicked');
-  }
+  // viewProofs(proofs: { name: string; url: string }[]): void {
+  //   console.log('View Proofs clicked');
+  // }
 
   openForm(type: string) {
     if (this.dialog) {
-      this.dialog.open(RequestFormComponent, { data:  type });
+      const dialogRef = this.dialog.open(RequestFormComponent, { data:  type });
+
+      dialogRef.afterClosed().subscribe((res: any) => {
+        if(res) {
+          this.dataSource.data = [res, ...this.dataSource.data];
+        }
+      })
     } else {
       console.error('Dialog is not initialized');
     }

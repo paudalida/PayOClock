@@ -43,11 +43,11 @@
               
                   <!-- Preview section -->
                   <div class="file-preview">
-                    <div *ngFor="let file of selectedFiles" class="preview-item">
+                    <div *ngFor="let file of selectedFiles; let i = index;" class="preview-item">
                       <div class="file-container">
                         <img [src]="file.preview" alt="File Preview" class="file-image" *ngIf="file.type.startsWith('image/')">
                         <p>{{ file.name }}</p>
-                        <button type="button" (click)="removeFile(file)"class="remove-button">
+                        <button type="button" (click)="removeFile(i)"class="remove-button">
                             <i class='bx bx-x'></i>
                         </button>
                       </div>

@@ -55,10 +55,16 @@ export class RequestFormComponent implements OnInit {
 
   onFileChange(event: any): void {
     const files = event.target.files;
+    let length = files.length;
     this.selectedFiles = [];
     this.files = [];
 
-    for (let i = 0; i < files.length; i++) {
+    if(length > 5) {
+      length = 5;
+      this.pop.toastWithTimer('error', 'Maximum of 5 images reached');
+    }
+
+    for (let i = 0; i < length; i++) {
       const file = files[i];
       const reader = new FileReader();
 
@@ -77,8 +83,9 @@ export class RequestFormComponent implements OnInit {
     }
   }
 
-  removeFile(file: any): void {
-    this.selectedFiles = this.selectedFiles.filter(f => f !== file);
+  removeFile(index: number): void {
+    this.selectedFiles.splice(index, 1);
+    this.files.splice(index, 1);
   }
 
   async submit() {
@@ -114,13 +121,11 @@ export class RequestFormComponent implements OnInit {
       this.ds.request('POST', 'employee/time-requests/store', formData).subscribe({
         next: (res: any) => {
           this.pop.toastWithTimer('success', res.message);
+          this.dialogRef.close(res.data);
         },
         error: (err: any) => {
           this.pop.swalBasic('error', 'Error uploading images', err.error.message);
         },
-        complete: () => {
-          this.dialogRef.close();
-        }
       });
     } else {
       this.pop.toastWithTimer('error', 'Upload canceled.');
