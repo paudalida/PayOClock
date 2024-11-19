@@ -32,33 +32,41 @@ export class UploadProofComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  closePopup() {
-    this.dialogRef.close(); 
-    this.router.navigate(['/employee/attendance']);
+  closePopup(data: any = null) {
+    this.dialogRef.close(data); 
   }
 
-
   onFileChange(event: any) {
-    let fileInput = event.target.files;
-
+    const fileInput = event.target.files;
+    const maxFiles = 5;
+  
     this.files = [];
     this.originalFiles = [];
-
-    for (let i = 0; i < fileInput.length; i++) {
+  
+    const dataTransfer = new DataTransfer();
+    for (let i = 0; i < Math.min(fileInput.length, maxFiles); i++) {
+      dataTransfer.items.add(fileInput[i]);
+    }
+  
+    event.target.files = dataTransfer.files;
+  
+    if (fileInput.length > maxFiles) {
+      this.pop.toastWithTimer('error', 'Maximum of 5 images reached');
+    }
+  
+    for (let i = 0; i < Math.min(fileInput.length, maxFiles); i++) {
       const file = fileInput[i];
-
+  
       if (!['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)) {
         this.pop.toastWithTimer('error', 'Invalid file type. Only JPG, JPEG, and PNG files are accepted.');
-        fileInput = null;
         return;
       }
 
-      if (file.size > 50 * 1024 * 1024) { 
-        this.pop.toastWithTimer('error', 'File size exceeds the maximum limit of 50MB.');
-        fileInput = null;
+      if (file.size > 5 * 1024 * 1024) {
+        this.pop.toastWithTimer('error', 'File size exceeds the maximum limit of 5MB.');
         return;
       }
-
+  
       this.originalFiles.push(file);
       const reader = new FileReader();
       reader.onload = (e: any) => {
@@ -98,12 +106,10 @@ export class UploadProofComponent implements OnInit {
       this.ds.request('POST', 'employee/attendance/proof', formData).subscribe({
         next: (res: any) => {
           this.pop.toastWithTimer('success', res.message);
+          this.closePopup(res.data);
         },
         error: (err: any) => {
           this.pop.swalBasic('error', 'Error uploading images', err.error.message);
-        },
-        complete: () => {
-          this.dialogRef.close();
         }
       });
     } else {
@@ -112,8 +118,9 @@ export class UploadProofComponent implements OnInit {
     }
   }
   
-  // Remove file from preview
-  removeFile(index: number) {
+  // Remove file from preview  
+  removeFile(index: number): void {
+    this.originalFiles.splice(index, 1);
     this.files.splice(index, 1);
   }
 }

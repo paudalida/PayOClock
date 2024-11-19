@@ -84,13 +84,17 @@ export class AttendanceComponent implements OnInit {
           if(index != -1) { this.attendance[index] = element; }
         });
 
-        this.attendanceProof = this.attendance.filter(x => x.time_in !== null);
-        this.currentTimeIn = this.attendanceProof[this.attendanceProof.length - 1].time_in;
+        this.setAttendanceProof();
       },
       error: (err: any) => {
         this.pop.swalBasic('error', this.pop.genericErrorTitle, err.error.message);
       }
     });
+  }
+
+  setAttendanceProof() {
+    this.attendanceProof = this.attendance.filter(x => x.time_in !== null);
+    this.currentTimeIn = this.attendanceProof[this.attendanceProof.length - 1].time_in;
   }
 
   openHistory() {
@@ -103,14 +107,39 @@ export class AttendanceComponent implements OnInit {
 
   openDialog() {
     if (this.dialog) {
-      this.dialog.open(UploadProofComponent);
+      const dialogRef = this.dialog.open(UploadProofComponent);
+      
+      dialogRef.afterClosed().subscribe((res: any) => {
+        if(res) {
+          let record = this.attendance.find(element => element.day === res.day);
+          if(record) {
+            Object.assign(record.images, res.images);
+          }
+        }
+      });
+
     } else {
       console.error('Dialog is not initialized');
     }
   }
 
   toggleTime() {
-    this.isTimedIn = !this.isTimedIn;
+    this.ds.request('POST', 'employee/attendance/clock').subscribe({
+      next: (res: any) => {
+        this.pop.toastWithTimer('success', res.message);
+        this.isTimedIn = !this.isTimedIn;
+
+        let record = this.attendance.find(element => element.day === res.data.day);
+        if(record) {
+          Object.assign(record, res.data);
+        }
+
+        this.setAttendanceProof();
+      },
+      error: (err: any) => {
+        this.pop.swalBasic('error', this.pop.genericErrorTitle, err.error.message);
+      }
+    });
   }
 }
 

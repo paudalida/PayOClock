@@ -12,7 +12,7 @@
                 <form formArrayName="deduction" class="container">
                     <div class="container-head"> 
                         <h1> Deductions </h1> 
-                        <button class="btn-primary add" (click)="addToFormsArray('deduction', 'add', 'deduction')"> Add </button>
+                        <button class="btn-primary add" type="button" (click)="addToFormsArray('deduction', 'add', 'deduction')"> Add </button>
                     </div>
                     <div class="container-body"> 
                         <div *ngFor="let control of formsArray('deduction').controls; let i = index">
@@ -51,7 +51,7 @@
                 <form formArrayName="other_deduction" class="container">
                     <div class="container-head"> 
                         <h1> Other Deductions </h1>
-                        <button class="btn-primary add" (click)="addToFormsArray('other_deduction', 'add', 'deduction')"> Add </button>
+                        <button class="btn-primary add" type="button" (click)="addToFormsArray('other_deduction', 'add', 'deduction')"> Add </button>
                     </div>
 
                     <div class="container-body">
@@ -91,7 +91,7 @@
                 <form formArrayName="allowance" class="container">
                     <div class="container-head"> 
                         <h1> Allowances </h1>
-                        <button class="btn-primary add" (click)="addToFormsArray('allowance', 'add', 'addition')"> Add </button>
+                        <button class="btn-primary add" type="button" (click)="addToFormsArray('allowance', 'add', 'addition')"> Add </button>
                     </div>
 
                     <div class="container-body">
@@ -126,8 +126,9 @@
                             </form>
                         </div>
                     </div>                
-                </form>
+                    
                     <button class="btn-primary update"> Update </button>
+                </form>
             </div>
         </div> 
     </div>
