@@ -1,0 +1,93 @@
+<main> 
+    <div class="main-content">
+        <div class="container-left">
+            <div class="card-header"> 
+                <div class="card-image-holder">
+                    <img [src]="employee.image || 'assets/images/no image.png'" alt="Employee Photo">
+                </div>
+            </div>
+            <div class="card-content"> 
+                <div class="name"> 
+                    {{ employee.full_name }} 
+                </div>
+
+                <div class="normal-font"> 
+                    {{ employee.position }}
+                </div>
+
+                <p class="password"  (click)="changePass()">Change Password</p>
+
+                <div class="employee-details">
+                
+                    <div class="detail-item">
+                        <i class='bx bxs-id-card'></i>
+                        <label>ID Number:</label>
+                        <p>{{ employee.employee_id }}</p>
+                    </div>
+        
+                    <div class="detail-item">
+                        <i class='bx bxs-user-pin'></i>
+                        <label>Gender:</label>
+                        <p>{{ employee.gender == 0 ? 'Female' : employee.gender == 1 ? 'Male' : 'Non-binary' }}</p>
+                    </div>
+
+                    <div class="detail-item">
+                        <i class='bx bxs-phone'></i>
+                        <label>Contact Number:</label>
+                        <p>{{ employee.contact.phone_number }}</p>
+                    </div>
+            
+                    <div class="detail-item">
+                        <i class='bx bxs-envelope'></i>
+                        <label>Email:</label>
+                        <p> {{ employee.contact.email }} </p>
+                    </div>
+        
+                    <div class="detail-item">
+                        <i class='bx bxs-map'></i>
+                        <label>Address:</label>
+                        <p> {{ employee.contact.address }} </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-right">
+            <div class="header"> 
+                <h1> Change Employee Password </h1>
+                <button class="profile" type="button" (click)="redirectToSettings()">
+                    <i class='bx bxs-left-arrow-circle'></i>
+                    Back 
+                </button>
+            </div>
+
+            <div class="mat-elevation-z8">
+                <table mat-table [dataSource]="dataSource" matSort>
+    
+                <!-- Employee Name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Employee Name </th>
+                    <td mat-cell *matCellDef="let element"> 
+                        {{ element.full_name }}
+                    </td>
+                </ng-container>
+
+                <!-- Id Number Column -->
+                <ng-container matColumnDef="employee_id">
+                    <th mat-header-cell *matHeaderCellDef> ID Number </th>
+                    <td mat-cell *matCellDef="let element"> 
+                        {{element.employee_id}} 
+                    </td>
+                </ng-container>
+                
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="changePassEmployee()"></tr>
+                </table>
+    
+                <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons
+                    aria-label="Select page of periodic elements">
+                </mat-paginator>
+            </div> 
+        </div>
+    </div>
+</main>

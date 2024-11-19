@@ -6,6 +6,39 @@ import Swal, { SweetAlertIcon, SweetAlertPosition } from 'sweetalert2';
   providedIn: 'root'
 })
 export class PopupService {
+  swalWithInput(
+    icon: string,
+    title: string,
+    text: string,
+    inputType: 'text' | 'password'
+  ): Promise<string | null> {
+    return Swal.fire({
+      title: title,
+      text: text,
+      icon: icon as SweetAlertIcon,
+      input: inputType,
+      inputAttributes: {
+        autocapitalize: 'off',
+      },
+      showCancelButton: true,
+      confirmButtonText: 'Submit',
+      cancelButtonText: 'Cancel',
+      reverseButtons: true,
+      customClass: {
+        confirmButton: 'btn-primary',
+        cancelButton: 'btn-secondary',
+      },
+      inputValidator: (value) => {
+        if (!value) {
+          return 'You need to enter a value!';
+        }
+        return null;
+      },
+    }).then((result) => {
+      return result.isConfirmed ? result.value : null; // Return input value if confirmed, null if canceled
+    });
+  }
+  
 
   constructor() { }
 
@@ -161,5 +194,6 @@ export class PopupService {
     return 'canceled';
   }
   }
+
 }
 

@@ -5,6 +5,8 @@ import { AdminService } from '../../../../services/admin/admin.service';
 import { DataService } from '../../../../services/data/data.service';
 import { PopupService } from '../../../../services/popup/popup.service';
 import { dateValidator } from '../../../../utils/custom-validators';
+import { ProfileComponent } from './profile/profile.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-settings',
@@ -14,6 +16,7 @@ import { dateValidator } from '../../../../utils/custom-validators';
 export class SettingsComponent {
 
   constructor(
+    private router: Router,
     private ds: DataService,
     private pop: PopupService,
     private fb: FormBuilder
@@ -168,4 +171,9 @@ export class SettingsComponent {
       this.pop.swalBasic('error', 'Invalid Form', 'Oops! It looks like you are sending an invalid form. Please fix inputs first');
     }
   }
+
+  redirectToProfile() {
+    this.router.navigate(['/admin/settings/profile']);
+  }
 }
+

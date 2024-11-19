@@ -1,0 +1,38 @@
+<main>
+  <div class="main-container">
+    <form class="form-info">
+      <div class="header">
+        <h1>Change Password</h1>
+        <button type="button" class="close-button" (click)="closePopup()">
+          <i class="bx bx-x"></i>
+        </button>
+      </div>
+
+      <div class="form-details">
+        <p>Update password for enhanced account security.</p>
+
+        <form [formGroup]="form" (ngSubmit)="submit()">
+          <div class="input-row">
+            <div class="entryarea">
+              <input [type]="isNewPasswordVisible ? 'text' : 'password'" formControlName="new">
+              <div class="labelline">New Password</div>
+              <i class="bx" [ngClass]="isNewPasswordVisible ? 'bx-hide' : 'bx-show'" (click)="togglePasswordVisibility('newPassword')"></i>
+            </div>
+          </div>
+
+          <div class="input-row">
+            <div class="entryarea">
+              <input [type]="isConfirmPasswordVisible ? 'text' : 'password'" formControlName="confirmed" required>
+              <div class="labelline">Confirm Password</div>
+              <i class="bx" [ngClass]="isConfirmPasswordVisible ? 'bx-hide' : 'bx-show'" (click)="togglePasswordVisibility('confirmPassword')"></i>
+            </div>
+          </div>
+
+          <div class="submit-btn">
+            <button type="submit" class="button">Change Password</button>
+          </div>
+        </form>
+      </div>
+    </form>
+  </div>
+</main>

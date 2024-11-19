@@ -65,9 +65,13 @@
                     <span class="tab-icon"> <i class='bx bxs-megaphone'></i> </span>
                     <span class="tab-name">Announcements</span>
                 </a>
-                <a mat-list-item routerLink="settings" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+                <a mat-list-item routerLink="settings" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
                     <span class="tab-icon"> <i class='bx bxs-cog'></i> </span>
                     <span class="tab-name">Settings</span>
+                </a>
+                <a mat-list-item routerLink="archives" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+                    <span class="tab-icon"> <i class='bx bxs-archive-in' ></i> </span>
+                    <span class="tab-name">Archives</span>
                 </a>
             </mat-nav-list>
     
