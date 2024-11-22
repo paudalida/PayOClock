@@ -1,1 +1,81 @@
-<p>archives works!</p>
+<div class="main-content">
+    <div class="header"> 
+       <!-- <button class="import-employee" type="button" (click)="importEmployee()"> Import </button> -->
+       <button class="announcement" type="button" (click)="redirectToAnnouncements()"> Announcement </button>
+    </div>
+
+    <div class="table-content">
+        <div class="table-head">
+
+            <div class="header-text">
+                <h1> Archived Employees </h1>
+            </div>
+
+            <div class="search-container">
+                <input id="search" type="text" placeholder="Search..." name="search" (keyup)="search($event)">
+                <button ><i class="fa fa-search"></i></button>
+            </div>
+
+        </div>
+          
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" matSort>
+        
+            <!-- Employee Name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Employee Name </th>
+                <td mat-cell *matCellDef="let element"> 
+                    {{ element.full_name }}
+                </td>
+            </ng-container>
+
+            <!-- Id Number Column -->
+            <ng-container matColumnDef="employee_id">
+                <th mat-header-cell *matHeaderCellDef> ID Number </th>
+                <td mat-cell *matCellDef="let element"> {{element.employee_id}} </td>
+            </ng-container>
+
+        
+            <!-- Gender Column -->
+            <ng-container matColumnDef="gender">
+                <th mat-header-cell *matHeaderCellDef> Gender </th>
+                <td mat-cell *matCellDef="let element"> 
+                    {{element.gender == 0 ? 'Female' : element.gender == 1 ? 'Male' : 'N/A'}} 
+                </td>
+            </ng-container>
+
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef> Position </th>
+                <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+            </ng-container>
+
+            <!-- Action Column -->
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let element">
+                  <div class="action-buttons">
+                    <button mat-button class="action-button view-button" (click)=" setEmployee(element); viewDetails();">
+                      <i class='bx bx-show'></i>
+                    </button>
+                    <button mat-button class="action-button restore-button" (click)="showRestoreAction(element); setEmployee(element.id)">
+                        <i class='bx bx-undo'></i>
+                    </button>
+                    <button mat-button class="action-button delete-button" (click)="showDeleteAction(element); setEmployee(element.id)">
+                        <i class='bx bx-trash'></i>
+                    </button>
+                  </div>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons
+                aria-label="Select page of periodic elements">
+            </mat-paginator>
+        </div>   
+    </div>
+</div>

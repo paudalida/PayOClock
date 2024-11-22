@@ -45,6 +45,7 @@ import { ArchivesComponent } from './components/archives/archives.component';
 import { ProfileComponent } from './components/settings/profile/profile.component';
 import { ChangePassComponent } from './components/settings/profile/change-pass/change-pass.component';
 import { ChangePassEmployeeComponent } from './components/settings/profile/change-pass-employee/change-pass-employee.component';
+import { AnnouncementComponent } from './components/archives/announcement/announcement.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { ChangePassEmployeeComponent } from './components/settings/profile/chang
     ArchivesComponent,
     ProfileComponent,
     ChangePassComponent,
-    ChangePassEmployeeComponent
+    ChangePassEmployeeComponent,
+    AnnouncementComponent
     
   ],
   imports: [

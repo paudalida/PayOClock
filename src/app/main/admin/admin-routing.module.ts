@@ -20,6 +20,8 @@ import { RequestComponent } from './components/request/request.component';
 import { ArchivesComponent } from './components/archives/archives.component';
 import { ProfileComponent } from './components/settings/profile/profile.component';
 
+import { AnnouncementComponent } from './components/archives/announcement/announcement.component';
+
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, 
   { path: 'dashboard', component: DashboardComponent}, 
@@ -43,7 +45,12 @@ const routes: Routes = [
       { path: 'profile', component: ProfileComponent }
     ]
   },
-  { path: 'archives', component: ArchivesComponent},
+  { path: 'archives', 
+    children: [ 
+      { path: '', component: ArchivesComponent, pathMatch: 'full' },
+      { path: 'announcement', component: AnnouncementComponent}
+    ]
+  },
   { path: '**', redirectTo: 'dashboard' }
 ];
 

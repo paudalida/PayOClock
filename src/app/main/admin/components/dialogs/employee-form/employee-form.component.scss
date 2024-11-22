@@ -213,6 +213,7 @@ h1 {
 
     .cancel-btn > button:hover {
         background-color: var(--cancel-hover);
+        transform: scale(1.1);
     }
 
     .add-btn > button {
@@ -235,6 +236,10 @@ h1 {
         width: 155px;
         font-size: 15px;
         cursor: pointer;
+    }
+
+    .add-btn > button:hover {
+        transform: scale(1.1);
     }
 
 }

@@ -108,8 +108,9 @@
     margin-top: 35px;
     display: flex;
     justify-content: center;  
-    gap: 10px;  
+    gap: 15px;  
     text-transform: capitalize;
+
 }
 
 button {
@@ -137,6 +138,7 @@ button {
 
 .edit-button:hover {
     background-color: var(--time-in-button);
+    transform: scale(1.1);
 }
 
 .update-button {
@@ -146,4 +148,5 @@ button {
 
 .update-button:hover {
     background-color: var(--primary-color);
+    transform: scale(1.1);
 }

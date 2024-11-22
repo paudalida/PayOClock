@@ -195,6 +195,10 @@ table td:nth-child(6) {
     cursor: pointer;
     border: none;
     text-transform: uppercase;
+
+    &:hover {
+        transform: scale(1.1);
+    }
 }
   
 .action-button i {
