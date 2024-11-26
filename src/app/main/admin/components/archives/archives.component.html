@@ -59,12 +59,12 @@
                     <button mat-button class="action-button view-button" (click)=" setEmployee(element); viewDetails();">
                       <i class='bx bx-show'></i>
                     </button>
-                    <button mat-button class="action-button restore-button" (click)="showRestoreAction(element); setEmployee(element.id)">
+                    <button mat-button class="action-button restore-button" (click)="showRestoreAction(element.id); setEmployee(element.id)">
                         <i class='bx bx-undo'></i>
                     </button>
-                    <button mat-button class="action-button delete-button" (click)="showDeleteAction(element); setEmployee(element.id)">
+                    <!-- <button mat-button class="action-button delete-button" (click)="showDeleteAction(element.id); setEmployee(element.id)">
                         <i class='bx bx-trash'></i>
-                    </button>
+                    </button> -->
                   </div>
                 </td>
             </ng-container>

@@ -6,18 +6,18 @@
 
     <div class="announcement-cards">
       <ng-container *ngFor="let announcement of announcements; let i = index;">
-        <div class="announcement-card" *ngIf="i > 0" (click)="viewAnnouncement(announcement)">
+        <div class="announcement-card" (click)="viewAnnouncement(announcement)">
           <img [src]="announcement.image || 'assets/images/background.jpg'" alt="Announcement Image" class="card-image">
           <div class="card-content">
             <h3 class="card-title">{{ announcement.title }}</h3>
-            <p class="card-description">{{ announcement.shortDescription }}</p>
+            <p class="card-description">{{ announcement.content }}</p>
             <p class="card-date">Date: {{ announcement.created_at | date:'MMMM d, y' }}</p>
           </div>
           <div class="card-actions">
-            <button class="restore-btn" (click)="restoreAnnouncement(announcement, $event)">
+            <button class="restore-btn" (click)="restoreAnnouncement($event, announcement.id)">
               <i class='bx bx-undo'></i>
             </button>
-            <button class="delete-btn" (click)="deleteAnnouncement(announcement, $event)">
+            <button class="delete-btn" (click)="deleteAnnouncement($event, announcement.id)">
               <i class='bx bx-trash'></i>
             </button>
           </div>

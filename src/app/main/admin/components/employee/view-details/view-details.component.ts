@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { EmployeeComponent } from '../employee.component';
 import { AdminService } from '../../../../../services/admin/admin.service';
 
 @Component({
@@ -13,8 +12,7 @@ export class ViewDetailsComponent implements OnInit {
 
   constructor(
     private dialogRef: MatDialogRef<ViewDetailsComponent>, 
-    private as: AdminService,
-    private router: Router
+    private as: AdminService
   ) {}
 
   employee: any;
@@ -22,8 +20,8 @@ export class ViewDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.employee = this.as.getEmployee();
   }
+  
   closePopup() {
-    this.dialogRef.close(); 
-    this.router.navigate(['/admin/employees']);
+    this.dialogRef.close();
   }
 }

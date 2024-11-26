@@ -11,7 +11,7 @@ import { ViewAnnouncementComponent } from '../../../../employee/components/dashb
   templateUrl: './announcement.component.html',
   styleUrl: './announcement.component.scss'
 })
-export class AnnouncementComponent {
+export class AnnouncementComponent implements OnInit {
 
   announcements: any;
 
@@ -23,11 +23,13 @@ export class AnnouncementComponent {
   ) { }
 
   ngOnInit(): void {
-    this.ds.request('GET', 'view/announcements').subscribe({
+    this.ds.request('GET', 'admin/archives/announcements').subscribe({
       next: (res: any) => {
         this.announcements = res.data;
+
+        console.log(this.announcements)
       }
-    })
+    });
   }
 
   viewAnnouncement(announcement: any): void {
@@ -45,7 +47,7 @@ export class AnnouncementComponent {
     this.router.navigate(['/admin/archives']);
   }
 
-  async restoreAnnouncement(announcement: any, event: Event): Promise<void> {
+  async restoreAnnouncement(event: Event, id: number): Promise<void> {
     event.stopPropagation(); 
     const result = await this.pop.swalWithCancel(
       'question', 
@@ -57,25 +59,20 @@ export class AnnouncementComponent {
     );
 
     if (result) {
-      // const archive = await this.pop.swalWithCancel('warning', 'Archive', 
-      //   'Are you sure you want to archive this employee?', 'Yes', 'No', false);
-  
-      // if (archive) {
-    //     this.ds.request('DELETE', 'admin/employees/archive/' + employee.id, null).subscribe({
-    //       next: () => { 
-    //         this.pop.toastWithTimer('success', 'Employee archived successfully!');
-    //         this.dataSource.data = this.dataSource.data.filter((item: any) => item.id !== employee.id);
-    //       },
-    //       error: (err: any) => { 
-    //         this.pop.swalBasic('error', 'Error', err.error.message); 
-    //       }
-    //     });
-    //   // }
-    // }
+      this.ds.request('POST', 'admin/announcements/restore/' + id).subscribe({
+        next: (res: any) => {
+          this.pop.toastWithTimer('success', res.message);
+
+          this.announcements = this.announcements.filter((x: any) => x.id != id);
+        },
+        error: (err: any) => {
+          this.pop.swalBasic('error', this.pop.genericErrorTitle, err.error.message);
+        }
+      });
     }
   }
 
-  async deleteAnnouncement(announcement: any, event: Event): Promise<void> {
+  async deleteAnnouncement(event: Event, id: number): Promise<void> {
     event.stopPropagation(); // Prevents the parent div click event
     const result = await this.pop.swalWithCancel(
       'warning', 
@@ -87,21 +84,16 @@ export class AnnouncementComponent {
     );
 
     if (result) {
-      // const archive = await this.pop.swalWithCancel('warning', 'Archive', 
-      //   'Are you sure you want to archive this employee?', 'Yes', 'No', false);
-  
-      // if (archive) {
-    //     this.ds.request('DELETE', 'admin/employees/archive/' + employee.id, null).subscribe({
-    //       next: () => { 
-    //         this.pop.toastWithTimer('success', 'Employee archived successfully!');
-    //         this.dataSource.data = this.dataSource.data.filter((item: any) => item.id !== employee.id);
-    //       },
-    //       error: (err: any) => { 
-    //         this.pop.swalBasic('error', 'Error', err.error.message); 
-    //       }
-    //     });
-    //   // }
-    // }
+      this.ds.request('DELETE', 'admin/announcements/delete/' + id).subscribe({
+        next: (res: any) => {
+          this.pop.toastWithTimer('success', res.message);
+
+          this.announcements = this.announcements.filter((x: any) => x.id != id);
+        },
+        error: (err: any) => {
+          this.pop.swalBasic('error', this.pop.genericErrorTitle, err.error.message);
+        }
+      });
     }
   }
 

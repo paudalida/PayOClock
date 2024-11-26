@@ -42,7 +42,7 @@ export class SettingsComponent {
     this.ds.request('GET', 'view/holidays').subscribe({
       next: (res: any) => {
         res.data.forEach((element: any) => {
-          this.addToHolidayForm(element.type, element.name, element.date, 'update', element.id);
+          this.addToHolidayForm(element.type, element.is_recurring, element.name, element.date, 'update', element.id);
         });
       },
       error: (err: any) => {
@@ -107,6 +107,7 @@ export class SettingsComponent {
 
   addToHolidayForm(
     category: string,
+    is_recurring: number,
     name: string = '',
     date: string = '',
     formKey: string = 'add',
@@ -115,6 +116,7 @@ export class SettingsComponent {
     this.formsArray('holiday', category)?.push(this.fb.group({
       formKey: [formKey],
       type: [category, [Validators.required, Validators.maxLength(20)]],
+      is_recurring: [is_recurring, [Validators.required]],
       name: [name, [Validators.required, Validators.maxLength(50)]],
       date: [date, [Validators.required, dateValidator()]],
       id: [id]

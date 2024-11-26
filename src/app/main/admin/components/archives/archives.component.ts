@@ -31,7 +31,7 @@ export interface Employee {
   templateUrl: './archives.component.html',
   styleUrl: './archives.component.scss'
 })
-export class ArchivesComponent implements OnInit, AfterViewInit {
+export class ArchivesComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -52,30 +52,17 @@ export class ArchivesComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['name', 'employee_id', 'gender', 'position', 'action'];
   dataSource: any;
 
-  /* Employee getters */
-  get employee() {
-    return this.as.getEmployee();
-  }
-
   setEmployee(data: any) {
     this.as.setEmployee(data);
   }
 
   ngOnInit(): void {
-    this.getData();
-  }
-
-  ngAfterViewInit(): void {    
-    this.setupTableFunctions();
-  }
-
-  protected getData() {
-    this.dataSource = new MatTableDataSource<Employee>(this.as.getEmployees());
-  }
-
-  protected setupTableFunctions() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.ds.request('GET', 'admin/archives/employees').subscribe((res: any) => {
+      this.dataSource = new MatTableDataSource(res.data);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
+    )
   }
 
   search(event: Event) {
@@ -124,49 +111,50 @@ export class ArchivesComponent implements OnInit, AfterViewInit {
 
 
 // Method for handling the archive action
-async showDeleteAction(employee: any) {
-  const result = await this.pop.swalWithCancel('warning', 'Permanent Delete', 
-    'Are you sure you want to permanently delete this employee?', 'Yes', 'No', false);
+// async showDeleteAction(id: string) {
+//   const result = await this.pop.swalWithCancel('warning', 'Permanent Delete', 
+//     'Are you sure you want to permanently delete this employee?', 'Yes', 'No', false);
 
-  if (result) {
-    // const archive = await this.pop.swalWithCancel('warning', 'Archive', 
-    //   'Are you sure you want to archive this employee?', 'Yes', 'No', false);
+//   if (result) {
+//     // const archive = await this.pop.swalWithCancel('warning', 'Archive', 
+//     //   'Are you sure you want to archive this employee?', 'Yes', 'No', false);
 
-    // if (archive) {
-  //     this.ds.request('DELETE', 'admin/employees/archive/' + employee.id, null).subscribe({
-  //       next: () => { 
-  //         this.pop.toastWithTimer('success', 'Employee archived successfully!');
-  //         this.dataSource.data = this.dataSource.data.filter((item: any) => item.id !== employee.id);
-  //       },
-  //       error: (err: any) => { 
-  //         this.pop.swalBasic('error', 'Error', err.error.message); 
-  //       }
-  //     });
-  //   // }
-  // }
-  }
-}
+//     this.ds.request('DELETE', 'admin/employees/delete/' + id).subscribe({
+//       next: (res: any) => {
+//         this.pop.toastWithTimer('success', res.message);
+//       },
+//       error: (err: any) => {
+//         this.pop.swalBasic('error', this.pop.genericErrorTitle, err.error.message);
+//       }
+//     });
+//   }
+// }
 
-async showRestoreAction(employee: any) {
+async showRestoreAction(id: string) {
   const result = await this.pop.swalWithCancel('question', 'Restore', 
     'Are you sure you want to restore this employee?', 'Yes', 'No', false);
 
   if (result) {
-    // const archive = await this.pop.swalWithCancel('warning', 'Archive', 
-    //   'Are you sure you want to archive this employee?', 'Yes', 'No', false);
+    this.ds.request('POST', 'admin/employees/restore/' + id).subscribe({
+      next: (res: any) => {
+        this.pop.toastWithTimer('success', res.message);
 
-    // if (archive) {
-  //     this.ds.request('DELETE', 'admin/employees/archive/' + employee.id, null).subscribe({
-  //       next: () => { 
-  //         this.pop.toastWithTimer('success', 'Employee archived successfully!');
-  //         this.dataSource.data = this.dataSource.data.filter((item: any) => item.id !== employee.id);
-  //       },
-  //       error: (err: any) => { 
-  //         this.pop.swalBasic('error', 'Error', err.error.message); 
-  //       }
-  //     });
-  //   // }
-  // }
+        /* remove data */
+        let data = this.dataSource.data;
+        this.dataSource.data = data.filter((x: any) => x.id != res.data.id);
+        
+        /* add to admin service */
+        let employees = this.as.getEmployees();
+        employees.push(res.data);
+
+        console.log(employees)
+
+        // this.as.setEmployees(employees);
+      },
+      error: (err: any) => {
+        this.pop.swalBasic('error', this.pop.genericErrorTitle, err.error.message);
+      }
+    });
   }
 }
 
