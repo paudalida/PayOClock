@@ -5,13 +5,18 @@
         <h1> Payrolls </h1>
       </div>
 
-    <div class="date-range-dropdown">
-      <div class="select-wrapper">
-        <select (change)="changeData()" [(ngModel)]="filterValue">
-          <option *ngFor="let element of dateFilter" [value]="element"> {{ element }} </option>
-        </select>
+      <div class="actions">
+        <!-- Report Button -->
+        <button class="report-button" type="button" (click)="generateReport()">Report</button>
+        
+        <div class="date-range-dropdown">
+          <div class="select-wrapper">
+            <select (change)="changeData()" [(ngModel)]="filterValue">
+              <option *ngFor="let element of dateFilter" [value]="element"> {{ element }} </option>
+            </select>
+          </div>
+        </div>
       </div>
-    </div>
     </div>
     <div class="scroll-container">
       <div class="fixed-columns">

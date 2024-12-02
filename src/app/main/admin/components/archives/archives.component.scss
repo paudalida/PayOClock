@@ -182,13 +182,15 @@ table td:nth-child(4) {
 }
 
 table td:nth-child(5) {
-    padding-left: 55px;
+    // padding-left: 55px;
     min-width: 150px;
     max-width: 150px;
 }
 
 .action-buttons {
     display: flex;
+    justify-content: center; 
+    align-items: center; 
     gap: 0.5rem; 
 }
   

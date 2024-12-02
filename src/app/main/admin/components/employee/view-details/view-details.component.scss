@@ -105,10 +105,10 @@
   
 .detail-item {
   display: flex;
-  align-items: center; 
+  align-items: flex-start; 
   font-size: 17px;
   justify-content: flex-start;
-  gap: 8px; 
+  gap: 8px;
 
   i {
     font-size: 20px; 
@@ -117,11 +117,18 @@
 
   label {
     font-weight: 500;
-    color: var(--landing-font); 
+    color: var(--landing-font);
     margin-right: 10px;
+    // min-width: 100px;
+    text-align: right;
   }
 
   p {
     margin: 0;
+    line-height: 1.5;
+  }
+
+  .address{ 
+    margin-top: 0;
   }
 }

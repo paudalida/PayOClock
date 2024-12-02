@@ -7,6 +7,8 @@ import { AdminService } from '../../../../services/admin/admin.service';
 import { PopupService } from '../../../../services/popup/popup.service';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 
+import * as XLSX from 'xlsx';
+
 @Component({
   selector: 'app-payroll',
   templateUrl: './payroll.component.html',
@@ -72,7 +74,23 @@ export class PayrollComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
+
+  generateReport(): void {
+    if (!this.payrolls || !this.filterValue) {
+      this.pop.swalBasic('error', 'No data available', 'Please select a valid date range.');
+      return;
+    }
+
+    const selectedPayroll = this.payrolls[this.filterValue];
+
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(selectedPayroll); // Convert data to a worksheet
+    const wb: XLSX.WorkBook = XLSX.utils.book_new(); // Create a new workbook
+    XLSX.utils.book_append_sheet(wb, ws, 'Payroll Report'); // Append the sheet to the workbook
+
+    XLSX.writeFile(wb, `Payroll_Report_${this.filterValue}.xlsx`); // Save the file
+  }
 }
+
 
 export interface PeriodicElement {
   employee_id: string;

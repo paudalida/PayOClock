@@ -73,13 +73,19 @@
                     <span class="tab-icon"> <i class='bx bxs-archive-in' ></i> </span>
                     <span class="tab-name">Archives</span>
                 </a>
+
+                <a mat-list-item (click)="logout()" class="logout">
+                    <span class="tab-icon"> <i class='bx bx-log-out'></i> </span>
+                    <!-- <span class="tab-name">Logout</span> -->
+                </a>
+                
             </mat-nav-list>
     
-            <div class="logoutbtn">
+            <!-- <div class="logoutbtn">
                 <div class="logout" (click)="logout()">
                     <i class='bx bx-log-out bx-rotate-180'></i> Logout
                 </div>
-            </div>
+            </div> -->
         </mat-sidenav>
     </mat-sidenav-container>
 </div>
