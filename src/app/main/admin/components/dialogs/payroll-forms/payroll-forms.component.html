@@ -27,93 +27,93 @@
 
             <div class="input-row"> 
 
-            <!-- LEFT PANEL -->
-            <div class="container"> 
-                <div class="container-head"> 
-                    Employee Details   
-                </div>
-        
-            <div class="content-details"> 
-                <div class="input-row1">
-                    <div class="entryarea">
-                        <div class="detail-value">{{ employee.employee_id || '' }}</div>
-                        <div class="labelline"> ID Number </div>
+                <!-- LEFT PANEL -->
+                <div class="container"> 
+                    <div class="container-head"> 
+                        Employee Details   
                     </div>
-                </div>
-
-                <div class="input-row1"> 
-                    <div class="entryarea">
-                        <div class="detail-value">
-                            {{ employee.full_name }}
-                        </div>
-                        <div class="labelline"> Full name </div>
-                    </div>
-                </div>
-
-                <div class="input-row1">
-                    <div class="entryarea1">
-                        <div class="detail-value1">{{employee.position || ''}}</div>
-                        <div class="labelline1"> Position </div>
-                    </div>
-
-                    <div class="entryarea1">
-                        <div class="detail-value1">
-                            {{employee.gender == 0 ? 'Female' : employee.gender == 1 ? 'Male' : 'Others'}}
-                        </div>
-                        <div class="labelline1"> Gender </div>
-                    </div>
-                </div>
-
-                <div class="input-row1">
-                    <div class="entryarea1">
-                        <input type="text" name="per_hour" [value]="hourlyRate" disabled>
-                        <div class="labelline1"> Rate (hour) </div>
-                    </div>
-
-                    <div class="entryarea1">
-                        <input type="text" name="per_day" [value]="hourlyRate * 8" disabled>
-                        <div class="labelline1"> Rate (day) </div>
-                    </div>
-
-                    <!-- <div class="entryarea1"> -->
-                        <!-- Access the 'amount' form control at index 0 in 'base_pay' FormArray -->
-                        <!-- <input type="text" [value]="basePay" (keyup)="changeBasePay($event)">
-                        <div class="labelline1"> AMT </div>
-                    </div> -->
-                    
-                </div>
-            </div>
-        </div>
-
-        <!-- RIGHT PANEL -->
-        <div class="container"> 
-            <div class="container-head"></div>
             
-            <div class="input-row1">
-                <div class="entryarea2">
-                    <div class="value-display">{{ totalDeductions }}</div>
-                    <div class="labelline2"> Total Deductions </div>
+                <div class="content-details"> 
+                    <div class="input-row1">
+                        <div class="entryarea">
+                            <div class="detail-value">{{ employee.employee_id || '' }}</div>
+                            <div class="labelline"> ID Number </div>
+                        </div>
+                    </div>
+
+                    <div class="input-row1"> 
+                        <div class="entryarea">
+                            <div class="detail-value">
+                                {{ employee.full_name }}
+                            </div>
+                            <div class="labelline"> Full name </div>
+                        </div>
+                    </div>
+
+                    <div class="input-row1">
+                        <div class="entryarea1">
+                            <div class="detail-value1">{{employee.position || ''}}</div>
+                            <div class="labelline1"> Position </div>
+                        </div>
+
+                        <div class="entryarea1">
+                            <div class="detail-value1">
+                                {{employee.gender == 0 ? 'Female' : employee.gender == 1 ? 'Male' : 'Others'}}
+                            </div>
+                            <div class="labelline1"> Gender </div>
+                        </div>
+                    </div>
+
+                    <div class="input-row1">
+                        <div class="entryarea1">
+                            <input type="text" name="per_hour" [value]="hourlyRate" disabled>
+                            <div class="labelline1"> Rate (hour) </div>
+                        </div>
+
+                        <div class="entryarea1">
+                            <input type="text" name="per_day" [value]="hourlyRate * 8" disabled>
+                            <div class="labelline1"> Rate (day) </div>
+                        </div>
+
+                        <!-- <div class="entryarea1"> -->
+                            <!-- Access the 'amount' form control at index 0 in 'base_pay' FormArray -->
+                            <!-- <input type="text" [value]="basePay" (keyup)="changeBasePay($event)">
+                            <div class="labelline1"> AMT </div>
+                        </div> -->
+                        
+                    </div>
+                </div>
+                </div>
+
+                <!-- RIGHT PANEL -->
+                <div class="container"> 
+                    <div class="container-head"></div>
+                    
+                    <div class="input-row1">
+                        <div class="entryarea2">
+                            <div class="value-display">{{ totalDeductions }}</div>
+                            <div class="labelline2"> Total Deductions </div>
+                        </div>
+                    </div>
+
+                    <div class="input-row1">
+                        <div class="entryarea2">
+                            <div class="value-display">{{ netPay }}</div>
+                            <div class="labelline2"> Total Additions </div>
+                        </div>
+                    </div>
+
+                    <div class="input-row1">
+                        <div class="entryarea2">
+                            <div class="value-display">{{ employee.full_name }}</div>
+                            <div class="labelline2"> Received by </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="input-row1">
-                <div class="entryarea2">
-                    <div class="value-display">{{ netPay }}</div>
-                    <div class="labelline2"> Total Additions </div>
-                </div>
-            </div>
 
-            <div class="input-row1">
-                <div class="entryarea2">
-                    <div class="value-display">{{ employee.full_name }}</div>
-                    <div class="labelline2"> Received by </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-        <!-- FORMS ARRAY -->
+            <!-- FORMS ARRAY -->
             <form formArrayName="deduction">
                 <div class="input-row">
                     <div class="container-deduction" [ngClass]="{'expanded': hasActive}">
@@ -159,18 +159,48 @@
                     </div>
                 </div>
             <!-- </form> -->
-        </form>
+            </form>
 
-        <!-- <form [formGroup]="form" (submit)="submit()"> -->
-                <div class="input-row2"> 
-                    <div class="container-others">
-                        <div class="container-head"> 
-                            Other Deductions 
-                            <button class="add-other" type="button" (click)="addToFormsArray('other_deduction', 'add', 'deduction')"> Add </button>
+            <!-- <form [formGroup]="form" (submit)="submit()"> -->
+            <div class="input-row2"> 
+                <div class="container-others">
+                    <div class="container-head"> 
+                        Other Deductions 
+                        <button class="add-other" type="button" (click)="addToFormsArray('other_deduction', 'add', 'deduction')"> Add </button>
+                    </div>
+
+                    <form formArrayName="other_deduction">
+                        <div *ngFor="let control of formsArray('other_deduction').controls; let i = index">
+                            <form [formGroupName]="i">
+                                <div class="input-row1"> 
+                                    <div class="entryarea">
+                                        <input type="text" formControlName="type">
+                                        <div class="labelline"> Type </div>
+                                    </div>
+            
+                                    <div class="entryarea">
+                                        <input type="text" formControlName="amount">
+                                        <div class="labelline"> Amount </div>
+                                    </div>
+                                </div>
+            
+                                <button class="btn-danger cancel-btn" type="button" (click)="removeFromFormsArray('other_deduction', i)">
+                                    <i class='bx bx-x'></i>
+                                </button>
+                            </form>
                         </div>
+                    </form>                    
+                </div>
 
-                        <form formArrayName="other_deduction">
-                            <div *ngFor="let control of formsArray('other_deduction').controls; let i = index">
+                <div class="container-allowance">
+                    <div class="container-head"> 
+                        Allowance  
+                        <button class="add-allowance" type="button" (click)="addToFormsArray('allowance', 'add', 'addition')"> Add </button>
+                    </div>
+
+                    <div class="inputs-container">
+                        <form formArrayName="allowance">
+                            <div *ngFor="let control of formsArray('allowance').controls; let i = index">
                                 <form [formGroupName]="i">
                                     <div class="input-row1"> 
                                         <div class="entryarea">
@@ -184,34 +214,81 @@
                                         </div>
                                     </div>
                 
-                                    <button class="btn-danger cancel-btn" type="button" (click)="removeFromFormsArray('other_deduction', i)">
+                                    <button class="btn-danger cancel-btn" type="button" (click)="removeFromFormsArray('allowance', i)">
                                         <i class='bx bx-x'></i>
                                     </button>
                                 </form>
                             </div>
-                        </form>                    
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!--- ADJUSTMENTS --->
+            <div class="input-row3">
+                <div class="container-adjustment">
+                    <div class="container-head"> 
+                        Adjustments  
                     </div>
 
-            
-                    <div class="container-allowance">
-                        <div class="container-head"> 
-                            Allowance  
-                            <button class="add-allowance" type="button" (click)="addToFormsArray('allowance', 'add', 'addition')"> Add </button>
-                        </div>
+                    <div class="input-row4"> 
+                        <div class="container-deducs">
+                            <div class="container-head"> 
+                                Deductions 
+                                <button class="add-other" type="button" (click)="addToFormsArray('other_deduction', 'add', 'deduction')"> Add </button>
+                            </div>
+        
+                            <form formArrayName="deducs">
+                                <div *ngFor="let control of formsArray('other_deduction').controls; let i = index">
+                                    <form [formGroupName]="i">
+                                        <div class="input-row1"> 
+                                            <div class="entryarea1">
+                                                <input type="text" formControlName="type">
+                                                <div class="labelline1"> Type </div>
+                                            </div>
 
-                        <div class="inputs-container">
-                            <form formArrayName="allowance">
+                                            <div class="entryarea1">
+                                                <input type="date" formControlName="date">
+                                                <div class="labelline2"> Date </div>
+                                            </div>
+                    
+                                            <div class="entryarea1">
+                                                <input type="text" formControlName="amount">
+                                                <div class="labelline1"> Amount </div>
+                                            </div>
+                                        </div>
+                    
+                                        <button class="btn-danger cancel-btn" type="button" (click)="removeFromFormsArray('other_deduction', i)">
+                                            <i class='bx bx-x'></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </form>                    
+                        </div>
+        
+                        <div class="container-add">
+                            <div class="container-head"> 
+                                Additionals  
+                                <button class="add-allowance" type="button" (click)="addToFormsArray('allowance', 'add', 'addition')"> Add </button>
+                            </div>
+        
+                            <form formArrayName="add">
                                 <div *ngFor="let control of formsArray('allowance').controls; let i = index">
                                     <form [formGroupName]="i">
                                         <div class="input-row1"> 
-                                            <div class="entryarea">
+                                            <div class="entryarea1">
                                                 <input type="text" formControlName="type">
-                                                <div class="labelline"> Type </div>
+                                                <div class="labelline1"> Type </div>
+                                            </div>
+
+                                            <div class="entryarea1">
+                                                <input type="date" formControlName="date">
+                                                <div class="labelline2"> Date </div>
                                             </div>
                     
-                                            <div class="entryarea">
+                                            <div class="entryarea1">
                                                 <input type="text" formControlName="amount">
-                                                <div class="labelline"> Amount </div>
+                                                <div class="labelline1"> Amount </div>
                                             </div>
                                         </div>
                     
@@ -223,7 +300,8 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> 
+            </div> 
         </form>
     </div>
-</div>
+</div>  

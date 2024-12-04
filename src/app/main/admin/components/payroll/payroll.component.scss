@@ -85,9 +85,9 @@
 
 .scrollable-columns {
   overflow-x: auto;
-  overflow-y: auto;
+  overflow-y: hidden;
   max-width: calc(69% - 395px); 
-  max-height: 400px;
+  max-height: auto;
 }
 
 th {
