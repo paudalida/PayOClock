@@ -13,9 +13,9 @@ import { PopupService } from '../../../../../../services/popup/popup.service';
 export class ChangePassComponent {
 
   form: FormGroup = this.fb.group({
-    current:   [''],
-    new:       ['', [ Validators.required, , Validators.minLength(10), Validators.maxLength(20) ]],
-    confirmed: ['', [ Validators.required, , Validators.minLength(10), Validators.maxLength(20) ]]
+    current:   ['', [ Validators.required, Validators.maxLength(20) ]],
+    new:       ['', [ Validators.required, Validators.minLength(10), Validators.maxLength(20) ]],
+    confirmed: ['', [ Validators.required, Validators.minLength(10), Validators.maxLength(20) ]]
   });
 
   isCurrentPasswordVisible: boolean = false;
@@ -35,11 +35,13 @@ export class ChangePassComponent {
   ) {}
 
   submit() {
+    console.log('clicked')
     if(this.form.valid) {
       if(this.form.get('new')?.value == this.form.get('confirmed')?.value) {
-        this.ds.request('POST', 'employee/password/change', this.form.value).subscribe({
+        this.ds.request('POST', 'admin/passwords/change/self', this.form.value).subscribe({
           next: (res: any) => {
             this.pop.toastWithTimer('success', res.message);
+            this.closePopup();
           },
           error: (err: any) => {
             this.pop.swalBasic('error', 'Oops! Password update failed', err.error.message);
@@ -53,7 +55,6 @@ export class ChangePassComponent {
 
   closePopup() {
     this.dialogRef.close(); 
-    this.router.navigate(['/admin/settings/profile']);
   }
 
   togglePasswordVisibility(field: string) {

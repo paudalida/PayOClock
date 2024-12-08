@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import Swal from 'sweetalert2';
 import { PopupService } from '../../../../services/popup/popup.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DataService } from '../../../../services/data/data.service';
 import { AdminService } from '../../../../services/admin/admin.service';
 import { ViewRequestComponent } from './view-request/view-request.component';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 
 interface EmployeeRequest {
@@ -24,7 +26,7 @@ interface EmployeeRequest {
   templateUrl: './request.component.html',
   styleUrl: './request.component.scss'
 })
-export class RequestComponent implements OnInit{
+export class RequestComponent implements OnInit, AfterViewInit {
 
   constructor(
     private ds: DataService,
@@ -33,79 +35,13 @@ export class RequestComponent implements OnInit{
     private dialog: MatDialog 
   ) { }
 
-  pendingRequests: any = null;
-  finishedRequests: any = null;
-  employees: any = null;
-  
+  pendingRequests = new MatTableDataSource<any>([]);
+  finishedRequests = new MatTableDataSource<any>([]);
 
-  // allRequests: EmployeeRequest[] = [
-  //   {
-  //     full_name: 'John Doe',
-  //     employee_id: 'E001',
-  //     request_type: 'Leave',
-  //     start_date: '2024-10-13T15:05:00',
-  //     end_date: '2024-10-14T15:05:00',
-  //     status: 'Approved',
-  //     proofs: [
-  //       { name: 'medical_certificate.pdf', url: '/assets/images/admin.png' }
-  //     ]
-  //   },
-  //   {
-  //     full_name: 'Jane Smith',
-  //     employee_id: 'E002',
-  //     request_type: 'Overtime',
-  //     start_date: '2024-10-13T15:05:00',
-  //     end_date: '2024-10-13T16:05:00',
-  //     status: 'Pending',
-  //     proofs: []
-  //   },
-  //   {
-  //     full_name: 'Fyangiee Sweet',
-  //     employee_id: 'E004',
-  //     request_type: 'Overtime',
-  //     start_date: '2006-08-05T15:05:00',
-  //     end_date: '2006-08-12T15:05:00',
-  //     status: 'Pending',
-  //     proofs: [
-  //       { name: 'medical_certificate.pdf', url: '/assets/images/admin.png' },
-  //       { name: 'leave_form.pdf', url: '/assets/images/admin.png' }
-  //     ]
-  //   },
-  //   {
-  //     full_name: 'Mike Johnson',
-  //     employee_id: 'E003',
-  //     request_type: 'Leave',
-  //     start_date: '2006-08-05T15:05:00',
-  //     end_date: '2006-08-12T15:05:00',
-  //     status: 'Denied',
-  //     proofs: []
-  //   },
-  //   {
-  //     full_name: 'Emily Davis',
-  //     employee_id: 'E004',
-  //     request_type: 'Overtime',
-  //     start_date: '2006-08-05T15:05:00',
-  //     end_date: '2006-08-12T15:05:00',
-  //     status: 'Approved',
-  //     proofs: [
-  //       { name: 'medical_certificate.pdf', url: '/assets/images/admin.png' },
-  //       { name: 'leave_form.pdf', url: '/assets/images/admin.png' }
-  //     ]
-  //   },
-  //   {
-  //     full_name: 'Chris Lee',
-  //     employee_id: 'E005',
-  //     request_type: 'Leave',
-  //     start_date: '2006-08-05T15:05:00',
-  //     end_date: '2006-08-12T15:05:00',
-  //     status: 'Cancelled',
-  //     proofs: []
-  //   }
-  // ];
+  @ViewChild('pendingPaginator') pendingPaginator!: MatPaginator;
+  @ViewChild('finishedPaginator') finishedPaginator!: MatPaginator;
   
-  // Separate data sources
-  // pendingRequests: EmployeeRequest[] = this.allRequests.filter(request => request.status === 'Pending');
-  // finishedRequests: EmployeeRequest[] = this.allRequests.filter(request => request.status !== 'Pending');
+  employees: any = null;
 
   pendingColumns: string[] = ['name', 'employee_id', 'request_type', 'start_date', 'end_date', 'action'];
   finishedColumns: string[] = ['name', 'employee_id', 'request_type', 'start_date', 'end_date', 'status'];
@@ -125,10 +61,21 @@ export class RequestComponent implements OnInit{
             element.user_id = matchedEmployee.id
           }
         });
-        this.pendingRequests = res.data.filter((request: any) => request.status === 0);
-        this.finishedRequests = res.data.filter((request: any) => request.status !== 0);
+        this.pendingRequests.data = res.data.filter((request: any) => request.status === 0);
+        this.finishedRequests.data = res.data.filter((request: any) => request.status !== 0);
+
+        this.refreshTable();
       }
     })
+  }
+
+  ngAfterViewInit(): void {
+    this.refreshTable();
+  }
+
+  refreshTable() {
+    this.pendingRequests.paginator = this.pendingPaginator;
+    this.finishedRequests.paginator = this.finishedPaginator;
   }
 
   // Approve request method
@@ -216,24 +163,22 @@ export class RequestComponent implements OnInit{
 
   // Update data sources after status change
   updateDataSources(id: number, status: number, denial_reason: string = '') {
-    const index = this.pendingRequests.findIndex((request: any) => request.id === id);
+    const index = this.pendingRequests.data.findIndex((request: any) => request.id === id);
 
-    console.log(id)
     if (index !== -1) {
 
-      console.log('hey')
       /* temp */
-      let record = this.pendingRequests[index];
+      let record = this.pendingRequests.data[index];
       record.status = status;
       record.denial_reason = denial_reason;
 
       /* remove */
-      this.pendingRequests.splice(index, 1);
-      this.pendingRequests = [...this.pendingRequests];
+      this.pendingRequests.data.splice(index, 1);
+      this.pendingRequests.data = [...this.pendingRequests.data];
 
       /* add to finished */
-      this.finishedRequests.unshift(record);
-      this.finishedRequests = [...this.finishedRequests];
+      this.finishedRequests.data.unshift(record);
+      this.finishedRequests.data = [...this.finishedRequests.data];
     }
     
     // const matchedEmployee = this.employees.find((employee: any) => employee.id === data.user_id);

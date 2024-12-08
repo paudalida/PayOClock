@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService } from '../../../../../../services/data/data.service';
 import { PopupService } from '../../../../../../services/popup/popup.service';
+import { AdminService } from '../../../../../../services/admin/admin.service';
 
 @Component({
   selector: 'app-change-pass-employee',
@@ -21,13 +22,15 @@ export class ChangePassEmployeeComponent {
 
   constructor(
     private dialogRef: MatDialogRef<ChangePassEmployeeComponent>,
+    private as: AdminService,
     private router: Router,
     private fb: FormBuilder,
     private ds: DataService,
     private pop: PopupService
-  ) {}
+  ) { }
 
   submit() {
+    console.log('pasok')
     this.pop
       .swalWithInput(
         'warning',
@@ -37,33 +40,19 @@ export class ChangePassEmployeeComponent {
       )
       .then((adminPassword) => {
         if (adminPassword) {
-          this.ds.request('POST', 'admin/password/validate', { password: adminPassword }).subscribe({
+          const data = {
+            new: this.form.get('confirmed')?.value,
+            adminPassword: adminPassword
+          };
+
+          this.ds.request('POST', 'admin/passwords/change/employee/' + this.as.getEmployee().id, data).subscribe({
             next: (res: any) => {
-              if (res.valid) {
-                if (this.form.valid) {
-                  if (this.form.get('new')?.value === this.form.get('confirmed')?.value) {
-                    const requestData = { ...this.form.value };
-                    this.ds.request('POST', 'employee/password/change', requestData).subscribe({
-                      next: (res: any) => {
-                        this.pop.toastWithTimer('success', res.message);
-                      },
-                      error: (err: any) => {
-                        this.pop.swalBasic('error', 'Password Update Failed', err.error.message);
-                      },
-                    });
-                  } else {
-                    this.pop.swalBasic('error', 'Passwords Do Not Match!', 'New and confirmation passwords do not match.');
-                  }
-                } else {
-                  this.pop.swalBasic('error', 'Invalid Form', 'Please fill out all required fields correctly.');
-                }
-              } else {
-                this.pop.swalBasic('error', 'Authentication Failed', 'Incorrect admin password.');
-              }
+              this.pop.toastWithTimer('success', res.message);
+              this.closePopup();
             },
-            error: () => {
-              this.pop.swalBasic('error', 'Authentication Error', 'Unable to validate admin password.');
-            },
+            error: (err: any) => {
+              this.pop.swalBasic('error', 'Oops! Cannot update password!', err.error.message);
+            }
           });
         } else {
           this.pop.toastWithTimer('info', 'Password update canceled.');
