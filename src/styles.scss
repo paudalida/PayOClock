@@ -77,6 +77,12 @@ body {
   overflow-x: hidden;
 }
 
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .mat-mdc-tab .mdc-tab--active .mdc-tab__text-label {
   color: var(--mat-tab-header-active-label-text-color);
   font-size: 16px;

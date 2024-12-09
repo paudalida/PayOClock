@@ -81,7 +81,7 @@
                 </ng-container>
                 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="changePassEmployee()"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="setEmployee(row); changePassEmployee()"></tr>
                 </table>
     
                 <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons

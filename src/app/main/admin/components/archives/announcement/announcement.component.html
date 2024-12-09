@@ -6,7 +6,7 @@
 
     <div class="announcement-cards">
       <ng-container *ngFor="let announcement of announcements; let i = index;">
-        <div class="announcement-card" (click)="viewAnnouncement(announcement)">
+        <div class="announcement-card" (click)="viewAnnouncement(announcement)"> 
           <img [src]="announcement.image || 'assets/images/background.jpg'" alt="Announcement Image" class="card-image">
           <div class="card-content">
             <h3 class="card-title">{{ announcement.title }}</h3>

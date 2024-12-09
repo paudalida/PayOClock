@@ -89,7 +89,9 @@ export class ProfileComponent implements OnInit, AfterViewInit{
   }
 
   protected getData() {
-    this.dataSource = new MatTableDataSource<Employee>(this.as.getEmployees());
+    let employees = this.as.getEmployees().filter((x: any) => x.employee_id != this.es.getEmployee().employee_id);
+
+    this.dataSource = new MatTableDataSource<Employee>(employees);
   }
 
   protected setupTableFunctions() {

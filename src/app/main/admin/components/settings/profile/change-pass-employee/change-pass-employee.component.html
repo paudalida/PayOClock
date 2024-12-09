@@ -29,7 +29,7 @@
           </div>
 
           <div class="submit-btn">
-            <button type="submit" class="button">Change Password</button>
+            <button type="submit" class="button" [disabled]="!form.valid || form.get('new')?.value != form.get('confirmed')?.value">Change Password</button>
           </div>
         </form>
       </div>

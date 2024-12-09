@@ -81,7 +81,7 @@
                         <tr mat-row *matRowDef="let row; columns: pendingColumns;" (click)="viewRequest(row)"></tr>
                     </table>
                 
-                    <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons
+                    <mat-paginator #pendingPaginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons
                         aria-label="Select page of periodic elements">
                     </mat-paginator>
                 </div>        
@@ -172,7 +172,7 @@
                         
                     </table>
                 
-                    <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons
+                    <mat-paginator #finishedPaginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons
                         aria-label="Select page of periodic elements">
                     </mat-paginator>
                 </div>        
