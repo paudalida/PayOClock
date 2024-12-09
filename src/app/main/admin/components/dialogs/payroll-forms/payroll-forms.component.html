@@ -235,11 +235,11 @@
                         <div class="container-deducs">
                             <div class="container-head"> 
                                 Deductions 
-                                <button class="add-other" type="button" (click)="addToFormsArray('other_deduction', 'add', 'deduction')"> Add </button>
+                                <button class="add-other" type="button" (click)="addToFormsArray('adjustment_deductions', 'add', 'deduction')"> Add </button>
                             </div>
         
-                            <form formArrayName="deducs">
-                                <div *ngFor="let control of formsArray('other_deduction').controls; let i = index">
+                            <form formArrayName="adjustment_deductions">
+                                <div *ngFor="let control of formsArray('adjustment_deductions').controls; let i = index">
                                     <form [formGroupName]="i">
                                         <div class="input-row1"> 
                                             <div class="entryarea1">
@@ -258,7 +258,7 @@
                                             </div>
                                         </div>
                     
-                                        <button class="btn-danger cancel-btn" type="button" (click)="removeFromFormsArray('other_deduction', i)">
+                                        <button class="btn-danger cancel-btn" type="button" (click)="removeFromFormsArray('adjustment_deductions', i)">
                                             <i class='bx bx-x'></i>
                                         </button>
                                     </form>
@@ -269,11 +269,11 @@
                         <div class="container-add">
                             <div class="container-head"> 
                                 Additionals  
-                                <button class="add-allowance" type="button" (click)="addToFormsArray('allowance', 'add', 'addition')"> Add </button>
+                                <button class="add-allowance" type="button" (click)="addToFormsArray('adjustment_allowances', 'add', 'addition')"> Add </button>
                             </div>
         
-                            <form formArrayName="add">
-                                <div *ngFor="let control of formsArray('allowance').controls; let i = index">
+                            <form formArrayName="adjustment_allowances">
+                                <div *ngFor="let control of formsArray('adjustment_allowances').controls; let i = index">
                                     <form [formGroupName]="i">
                                         <div class="input-row1"> 
                                             <div class="entryarea1">
@@ -292,7 +292,7 @@
                                             </div>
                                         </div>
                     
-                                        <button class="btn-danger cancel-btn" type="button" (click)="removeFromFormsArray('allowance', i)">
+                                        <button class="btn-danger cancel-btn" type="button" (click)="removeFromFormsArray('adjustment_allowances', i)">
                                             <i class='bx bx-x'></i>
                                         </button>
                                     </form>

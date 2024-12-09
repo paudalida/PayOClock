@@ -60,7 +60,9 @@ export class PayrollFormsComponent implements OnInit{
       }),
       deduction: this.fb.array([]),
       other_deduction: this.fb.array([]),
-      allowance: this.fb.array([])
+      allowance: this.fb.array([]), 
+      adjustment_deductions: this.fb.array([]), 
+      adjustment_allowances: this.fb.array([])
     });
 
     this.employee = this.as.getEmployee();
@@ -210,9 +212,11 @@ export class PayrollFormsComponent implements OnInit{
         false
       );
       
-      if(confirm){
+      if (confirm) {
         this.formsArray(type).removeAt(index);
       }
+    } else {
+      this.formsArray(type).removeAt(index);
     }
   }
 
