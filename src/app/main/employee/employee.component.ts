@@ -1,16 +1,15 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, HostListener } from "@angular/core";
 import { DataService } from "../../services/data/data.service";
 import { PopupService } from "../../services/popup/popup.service";
 import { AuthService } from "../../services/auth/auth.service";
 
-
 @Component({
   selector: 'app-employee',
   templateUrl: './employee.component.html',
-  styleUrl: './employee.component.scss'
+  styleUrls: ['./employee.component.scss']
 })
 export class EmployeeComponent implements OnInit {
-  
+
   constructor (
     private ds: DataService,
     private auth: AuthService,
@@ -19,28 +18,34 @@ export class EmployeeComponent implements OnInit {
 
   isLoading = true;
   currentDateTime: string = '';
-
+  
+  isSidebarVisible: boolean = true; // to control sidebar visibility
+  isToolbarVisible: boolean = false; // to control toolbar visibility
+  
   ngOnInit(): void {
-    // this.ds.request('GET', 'admin/employees').subscribe({
-    //   next: (res: any) => {
-    //     this.as.setEmployees(res.data);
-    //   },
-    //   error: () => {
-    //     this.pop.swalBasic(
-    //       'error',
-    //       'Oops! Cannot fetch data!',
-    //       'We are working on it. You can help us speed up the process by sending us an error report.'
-    //     );
-    //   },
-    //   complete: () => {
-    //     this.isLoading = false;
-    //   }
-    // });    
-
     this.updateDateTime();
     setInterval(() => {
       this.updateDateTime();
     }, 1000);
+
+    // Initially check window size to set visibility
+    this.checkWindowSize();
+  }
+
+  // Listen to window resize and update visibility
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkWindowSize();
+  }
+
+  checkWindowSize() {
+    if (window.innerWidth > 500) {
+      this.isSidebarVisible = true;
+      this.isToolbarVisible = false;
+    } else {
+      this.isSidebarVisible = false;
+      this.isToolbarVisible = true;
+    }
   }
 
   updateDateTime(): void {

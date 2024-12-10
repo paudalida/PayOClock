@@ -2,7 +2,7 @@
     justify-content: center;
     align-items: center;
     padding-left: 20px;
-    padding-right: 0;
+    padding-right: 30px;
     padding-top: 20px;
     padding-bottom: 20px;
 
@@ -26,7 +26,7 @@
         display: flex;
     }
     
-    .payslip-back, .payslip-history {
+    .payslip-history {
         width: 140px;
         height: 45px;
         text-decoration: none;
@@ -46,12 +46,12 @@
         text-align: center;
     }
     
-    .payslip-back:hover {
-        box-shadow: 0px 8px 15px -10px rgb(125, 125, 125);
-        transform: translate(0px, -2px);
-        background: var(--cancel-hover);
-        cursor: pointer;
-    }
+    // .payslip-back:hover {
+    //     box-shadow: 0px 8px 15px -10px rgb(125, 125, 125);
+    //     transform: translate(0px, -2px);
+    //     background: var(--cancel-hover);
+    //     cursor: pointer;
+    // }
     
     .payslip-history {
         background: var(--primary-color);
@@ -95,8 +95,14 @@
             padding-right: 15px;
         }
 
+        th {
+            display: inline-block;
+            font-weight: bold;
+        }
+    
         td {
-            padding-left: 15px;
+            display: inline-block;
+            // margin-left: 5px;
         }
     
     }
@@ -104,6 +110,7 @@
     .table-content1 {
         width: auto;
         height: auto;
+        overflow-x: auto;
         border: 0.5px solid var(--table-border);
         box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.322);
 
@@ -127,12 +134,61 @@
 
         }
     }
-
-
-
 }
 
 /* Yung line bago mag totals */
+
 .totals > td {
     border-top: 2px solid black;
 }
+
+@media (max-width: 500px) {
+    .main-content {
+        padding: 25px;
+
+        .header {   
+            padding: 0;
+        }
+    
+        .header h1 {
+            padding: 0;
+            font-size: 18px;
+        }
+    
+        .payslip-history {
+            padding: 10px 15px;
+            margin: 10px 0;
+            width: auto;
+            height: auto;
+            font-size: 14px;
+        }
+    }
+
+    .table-content {
+        margin-left: 0;
+        margin-right: 0;
+        padding: 20px;
+    }
+
+    .input-row {
+        display: flex;
+        flex-direction: column;
+        // margin-bottom: 15px;
+        width: 100%;
+    }
+
+    .information-case {
+        display: flex;
+        flex-direction: column;
+        font-size: 14px;
+        margin-bottom: 10px;
+        text-align: justify;
+    }
+
+    .information-case th,
+    .information-case td {
+        display: inline-block; 
+        // margin-right: 10px; 
+    }
+}
+

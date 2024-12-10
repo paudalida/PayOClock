@@ -48,6 +48,7 @@
   display: flex;
   justify-content: space-between;
   padding-bottom: 20px;
+
 }
 
 .header h1 {
@@ -57,6 +58,7 @@
   padding-left: 25px;
   padding-top: 35px;
 }
+
 
 .content {
   border-radius: 10px;
@@ -138,7 +140,6 @@
     border-radius: 10px;
     padding: 20px;
     flex: 1;
-    margin-right: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -172,3 +173,94 @@
     }
   }
 }
+
+@media (max-width: 500px) {
+  .main-content {
+    padding: 25px;
+  }
+
+  .more-announcements {
+    padding: 10px 15px;
+    margin: 10px 0;
+    width: auto;
+    height: auto;
+    font-size: 14px;
+  }
+
+  .header {
+    padding-bottom: 10px;
+  }
+
+  .header h1 {
+    padding: 0;
+    margin-top: 15px;
+    font-size: 18px;
+  }
+
+  .content {
+    display: flex; 
+    flex-direction: column; 
+    margin: 0;
+    box-shadow: none;
+    max-width: 100%;
+    gap: 10px; 
+
+    .content-left {
+      flex: 1; 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  
+    .content-left .image-holder {
+      max-width: 100%;
+      height: auto;
+      margin-right: 0;
+    }
+  
+    .content-right {
+      padding: 10px;
+    }
+  
+    .content-right .title {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+    }
+  
+    .content-right .description {
+      font-size: 0.9rem;
+    }
+  
+    .content-right .publish-info {
+      margin-top: 10px;
+      font-size: 0.75rem;
+    }
+  }
+
+  .cards-row {
+    flex-direction: column;
+    margin: 10px 0;
+    gap: 10px;
+  }
+
+  .card {
+    margin: 10px 0;
+    padding: 15px;
+    box-shadow: none;
+  }
+
+  .card .card-header {
+    padding: 0 10px;
+  }
+
+  .card .card-header h3 {
+    font-size: 1rem;
+  }
+
+  .card .card-header .number {
+    font-size: 3rem;
+    padding-left: 10px;
+  }
+}
+
+

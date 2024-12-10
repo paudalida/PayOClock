@@ -320,3 +320,71 @@ h1 {
     }
 
 }
+
+@media (max-width: 500px) {
+    .form-info {
+        width: 90%;
+        max-height: none;
+        height: auto;
+        left: 0;
+        // padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .header {
+        width: 75%;
+
+
+        h1 {
+            font-size: 18px;
+            text-align: center;
+        }
+    }
+
+    .detailsbody {
+        padding-top: 70px;
+        padding-bottom: 20px;
+        padding-left: 10px;
+        padding-right: 10px;
+        overflow-y: auto;
+    }
+
+    .input-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .buttons {
+        margin: 0;
+        gap: 27px;
+        flex-direction: column; 
+        align-items: center; 
+
+        .cancel-btn > button {
+            width: 48%; 
+            margin-top: 5px;
+            margin-left: 0;
+        }
+
+        .add-btn > button {
+            width: 48%; 
+            margin-top: 5px;
+            margin-left: 50%;
+        }
+    }
+
+    .file-preview {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .file-container {
+        padding: 0;
+    }
+
+    .remove-button {
+        margin-left: 0;
+        margin-right: 15px;
+    }
+}
+

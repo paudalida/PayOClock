@@ -22,6 +22,10 @@ import { ProofHistoryComponent } from './components/attendance/proof-history/pro
 import { RequestComponent } from './components/request/request.component';
 import { RequestFormComponent } from './components/request/request-form/request-form.component';
 
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+
 
 @NgModule({
   declarations: [  
@@ -43,7 +47,10 @@ import { RequestFormComponent } from './components/request/request-form/request-
     CommonImportsModule,
     FormsImportsModule,
     MatSidenavModule, 
-    MatListModule
+    MatListModule, 
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule
   ]
 })
 export class EmployeeMainModule { }

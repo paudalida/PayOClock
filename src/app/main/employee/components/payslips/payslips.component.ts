@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from '../../../../services/data/data.service';
 import { PopupService } from '../../../../services/popup/popup.service';
@@ -11,7 +11,7 @@ import { EmployeeService } from '../../../../services/employee/employee.service'
 })
 export class PayslipsComponent implements OnInit{
   
-
+  
   constructor(
     private ds: DataService,
     private pop: PopupService,
@@ -19,11 +19,17 @@ export class PayslipsComponent implements OnInit{
     private es: EmployeeService
   ) { }
 
+  isMobile: boolean = false;
   isLoading = true;
   payday_start = ''; payday_end = ''; base_pay = 0; adjusted_pay = 0; total_additions = 0; total_deductions = 0; gross_pay = 0; net_pay = 0; hourly_rate = 0;
   attendance: any = []; deductions: any = []; additions: any = [];
   values: any = [];
   employee: any;
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.isMobile = event.target.innerWidth <= 500;
+  }
 
   ngOnInit(): void {
     this.employee = this.es.getEmployee();

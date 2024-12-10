@@ -14,12 +14,17 @@
         padding-left: 25px; 
     }
     
-    .header h1 {
-        font-weight: 700;
+    .title {
         text-transform: uppercase;
         font-size: 22px;
-        padding-left: 5px;
-        padding-top: 35px;
+        font-weight: 700;
+        flex: 1;
+    }
+    
+    .header-mobile {
+        display: none; 
+        height: 40px; 
+        flex: 1;
     }
     
     .header .button-group {
@@ -67,6 +72,7 @@
     background: var(--white);
     width: auto;
     height: auto;
+    overflow-x: auto;
     margin-bottom: 30px;
     box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.322);
     border: 0.5px solid var(--table-border);
@@ -75,6 +81,7 @@
 /* table */
 
 table {
+    width: 100%;
     border-radius: 5px;
     border: 1px solid var(--table-border);
 }
@@ -181,6 +188,62 @@ table td:nth-child(6) {
 
 .cancel-button {
     background-color: var(--absent);
+}
+
+@media (max-width: 500px) {
+    .main-content {
+        padding: 25px;
+
+        .header {   
+            padding-top: 10px;
+            padding-left: 0;
+            padding-right: 0;
+        }
+    
+        .title {
+            display: none; 
+            font-size: 25px;
+        }
+        
+        .header-mobile {
+            display: block; 
+            padding-top: 15px;
+            padding-right: 0;
+            text-transform: uppercase;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+        }
+    
+        .leave-btn, .ot-btn {
+            padding: 10px 15px;
+            margin-top: 0;
+            margin-right: 0;
+            width: auto;
+            height: auto;
+            font-size: 14px;
+        }
+    }
+
+    .table-content {
+        margin: 0;
+        padding: 0;  
+        overflow-x: auto;
+    }
+
+    table,
+    th,
+    td {
+        padding: 5px;
+    }
+
+    table td:nth-child(1) {
+        padding-left: 0;
+    } 
 }
 
 

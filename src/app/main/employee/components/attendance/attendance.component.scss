@@ -76,64 +76,6 @@
   }
 }
 
-/* Tablet view */
-@media (max-width: 768px) {
-  .employee-container {
-    flex-direction: column;
-    padding: 15px;
-  }
-
-  .employee-left .employee-image {
-    width: 150px;
-    height: 150px;
-  }
-
-  .employee-middle .employee-name {
-    font-size: 1.4rem;
-    margin-top: 10px;
-  }
-
-  .employee-middle .employee-position,
-  .employee-right .time-in {
-    font-size: 1rem;
-  }
-
-  .employee-right .time-in {
-    font-size: 2.5rem;
-    margin-right: 0;
-  }
-}
-
-/* Mobile view */
-@media (max-width: 480px) {
-  .employee-container {
-    padding: 10px;
-  }
-
-  .employee-left .employee-image {
-    width: 120px;
-    height: 120px;
-  }
-
-  .employee-middle .employee-name {
-    font-size: 1.2rem;
-    margin-left: 0;
-    text-align: center;
-  }
-
-  .employee-middle .employee-position {
-    font-size: 0.9rem;
-    text-align: center;
-  }
-
-  .employee-right .time-in {
-    font-size: 2rem;
-    text-align: center;
-    margin-right: 0;
-  }
-}
-
-
 .button-group {
   display: flex;
   justify-content: space-between; 
@@ -246,32 +188,91 @@
   }
 }
 
-/* Tablet view */
-@media (max-width: 768px) {
-  .attendance-table .table th, .attendance-table .table td {
-    padding: 10px;
-    font-size: 0.9rem;
+@media (max-width: 500px) {
+  .main-content {
+    padding-left: 0;
+    padding-right: 25px;
+    padding-top: 25px;
+    padding-bottom: 25px;
   }
-}
 
-/* Mobile view */
-@media (max-width: 480px) {
+  .employee-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 15px; 
+
+    .employee-left {
+      margin-bottom: 10px; 
+    }
+  
+    .employee-image {
+      width: 150px; 
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  
+    .employee-middle {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center; 
+    }
+  
+    .employee-name {
+      font-size: 1.2rem; 
+      margin-top: 10px;
+    }
+  
+    .employee-position {
+      font-size: 1rem; 
+      color: #666;
+      margin-top: 5px;
+    }
+  
+    .employee-right {
+      display: none; 
+    }
+  }
+
+  .button-group {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: 10px; 
+  }
+
+  .button-group > div {
+    width: 40%; 
+    display: flex;
+    justify-content: center;
+  }
+
+  .upload, 
+  .toggle-button {
+    width: 100%; 
+    padding: 10px; 
+    font-size: 14px; 
+    text-align: center; 
+  }
+
+  .employee-container {
+    margin-left: 25px;
+    width: 85%;
+  }
+
   .attendance-table {
-    margin-top: 20px;
-    width: 100%;
-    padding: 5px;
+    width: 95%;
+    margin-right: 25px;
   }
 
-  .attendance-table .table th, .attendance-table .table td {
-    padding: 8px;
-    font-size: 0.8rem;
-  }
-
-  /* Optional: Hide less important columns on smaller screens */
-  .attendance-table .table th:nth-child(n+4),
-  .attendance-table .table td:nth-child(n+4) {
-    display: none; /* Hide columns 4 and beyond */
+  .table {
+    th{
+      font-size: 15px;
+    }
   }
 }
+
 
   

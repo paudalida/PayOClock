@@ -1,12 +1,14 @@
 <div class="content">
     <div class="header">
-        <h1> Payroll Management System </h1>
-
+        <h1 class="title">Payroll Management System</h1>
+        <h1 class="header-mobile"> PayOClock </h1>
+    
         <div class="current-date-time">
-            <i class='bx bx-calendar'></i>
+            <i class="bx bx-calendar"></i>
             {{ currentDateTime }}
         </div>
     </div>
+    
     
     <div class="body-content">
         <div class="admin-container"> 
@@ -49,14 +51,32 @@
                 <span class="tab-icon"> <i class='bx bxs-user'></i> </span>
                 <span class="tab-name">Profile</span>
             </a>
-        </mat-nav-list>
 
-            <div class="logoutbtn">
-                <div class="logout" (click)="logout()">
-                    <i class='bx bx-log-out bx-rotate-180'></i> Logout
-                </div>
-            </div>
+            <a mat-list-item (click)="logout()" class="logout">
+                <span class="tab-icon"> <i class='bx bx-log-out'></i> </span>
+                <!-- <span class="tab-name">Logout</span> -->
+            </a>
+
+        </mat-nav-list>
         </mat-sidenav>
     </mat-sidenav-container>
+
+    <mat-toolbar class="bottom-nav">
+        <button mat-button routerLink="dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
+            <i class='bx bxs-dashboard'></i>
+        </button>
+        <button mat-button routerLink="payslips" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
+            <i class='bx bxs-wallet-alt'></i>
+        </button>
+        <button mat-button routerLink="request" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+            <i class='bx bx-list-plus'></i>
+        </button>
+        <button mat-button routerLink="attendance" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+            <i class='bx bx-clipboard'></i>
+        </button>
+        <button mat-button routerLink="profile" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+            <i class='bx bxs-user'></i>
+        </button>
+    </mat-toolbar>    
 </div>
  

@@ -2,6 +2,7 @@
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.3);
@@ -28,7 +29,6 @@
   flex-direction: column;
 }
 
-
 .close-button {
   position: absolute; 
   top: 10px;          
@@ -41,6 +41,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 10; /* Ensure the close button stays above the image */
 
   i {
     margin: 0; 
@@ -58,6 +59,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative; /* This makes it the reference for the close button positioning */
 }
 
 .image-holder {
@@ -96,4 +98,60 @@
 
 .publish-date {
   margin-bottom: 5px;
+}
+
+@media (max-width: 500px) {
+  .form-info {
+    width: 325px; 
+    padding-right: 25px;
+  }
+
+  .form-details {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .close-button {
+    position: absolute;
+    top: 35px;
+    right: 10px;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.3);
+    border: none;
+    border-radius: 49%;
+    font-size: 40px;
+    cursor: pointer;
+    color: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10; 
+  }
+
+  .content-left {
+    margin-bottom: 20px;
+    position: relative; 
+    width: 100%; 
+  }
+
+  .image-holder {
+    width: 100%;
+    height: auto;
+    position: relative; 
+  }
+
+  .content-right {
+    text-align: justify;
+  }
+
+  .description {
+    text-align: justify;
+  }
+}
+
+@media (max-width:  400px) {
+  .form-info {
+    width: 300px; 
+    padding-right: 25px;
+  }
 }

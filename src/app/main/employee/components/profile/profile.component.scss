@@ -282,3 +282,48 @@
         }
     }
 }
+
+@media (max-width: 500px) {
+    .main-content {
+      padding: 25px;
+      flex-direction: column; 
+      gap: 20px; 
+      align-items: center; 
+    }
+  
+    .container-left {
+      width: 100%; 
+      margin: 0; 
+
+      .card-content {
+        .employee-details {
+            padding: 15px;
+            margin: 0;
+
+            label, p {
+                font-size: 13px;
+            }
+        }
+      }
+    }
+  
+    .container-right {
+      width: 90%; 
+      margin: 0; 
+      padding: 15px;
+      padding-top: 20px; 
+
+      .input-row {
+        flex-direction: column; 
+        gap: 15px; 
+
+        .entryarea {
+            width: 100%; 
+          }
+        
+          .add-btn {
+            justify-content: center; 
+        }
+      }
+    }
+}
