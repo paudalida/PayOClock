@@ -1,6 +1,6 @@
 {
-  "name": "payoclock.site.app",
-  "short_name": "PayO'Clock",
+  "name": "PayO'Clock",
+  "short_name": "payoclock",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",

@@ -77,6 +77,7 @@ export class AttendanceComponent implements OnInit {
 
   ngOnInit(): void {
     this.employee = this.es.getEmployee();
+    this.buttonLoading = true;
 
     this.ds.request('GET', 'employee/attendance').subscribe({
       next: (res: any) => {
@@ -95,7 +96,8 @@ export class AttendanceComponent implements OnInit {
       },
       error: (err: any) => {
         this.pop.swalBasic('error', this.pop.genericErrorTitle, err.error.message);
-      }
+      },
+      complete: () => { this.buttonLoading = false; }
     });
   }
 

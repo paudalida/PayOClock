@@ -13,4 +13,11 @@ export class HeaderService {
       Authorization:  `Bearer ${sessionStorage.getItem('auth-token') || ''}`
     });
   }
+
+  public get url() {
+
+    // return 'http://localhost:8000/api/';
+
+    return 'https://api.payoclock.site/api/';
+  }
 }

@@ -38,7 +38,6 @@ export class AttendanceDetailPopupComponent {
     private pop: PopupService
   ) {
     this.selectedDay = data.day;
-    console.log(data)
   }
 
   get employee() {
@@ -71,15 +70,14 @@ export class AttendanceDetailPopupComponent {
   }
 
   updateManualTime(): void {
-    if(this.manual.timeIn) {
-      const data = {
-        time_in: this.manual.timeIn,
-        time_out: this.manual.timeOut,
-        date: this.data.selectedDate
-      };
+    const data = {
+      id: this.data.details.id, 
+      time_in: this.manual.timeIn,
+      time_out: this.manual.timeOut,
+      date: this.data.selectedDate
+    };
 
-      this.submit(data);
-    }
+    this.submit(data);
   }
 
   get forTimeIn() {

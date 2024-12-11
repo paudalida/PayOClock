@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
 import { PopupService } from '../popup/popup.service';
 import { Router } from '@angular/router';
 import { HeaderService } from '../header/header.service';
@@ -19,10 +17,6 @@ export class AuthService {
     private es: EmployeeService,
     private header: HeaderService
   ) { }
-  
-  // private apiUrl = 'http://localhost:8000/api/';
-  private apiUrl = 'https://api.payoclock.site/api/';
-
   private userType = '';
 
   public get getUserType() {
@@ -35,7 +29,7 @@ export class AuthService {
 
   public requestUserDetails() {
     return new Promise((resolve, reject) => {
-      return this.http.post(this.apiUrl + 'auth/user', {}, {headers: this.header.authHeader}).subscribe({
+      return this.http.post(this.header.url + 'auth/user', {}, {headers: this.header.authHeader}).subscribe({
         next: (res: any) => {
           this.userType = res.data.type;
           this.es.setEmployee(res.data.details);
@@ -50,7 +44,7 @@ export class AuthService {
 
   public login(type: string, form: any): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      this.http.post(this.apiUrl + 'auth/login/' + type, form).subscribe({
+      this.http.post(this.header.url + 'auth/login/' + type, form).subscribe({
         next: (res: any) => {
           // Store session data
           sessionStorage.setItem('name', res.data.name);
@@ -88,7 +82,7 @@ export class AuthService {
   }
   
   public logout() {
-    this.http.post(this.apiUrl + 'auth/logout', null, { headers: this.header.authHeader }).subscribe({
+    this.http.post(this.header.url + 'auth/logout', null, { headers: this.header.authHeader }).subscribe({
       next: (res: any) => {
         this.router.navigate(['../login/' + this.userType]);
         sessionStorage.clear();

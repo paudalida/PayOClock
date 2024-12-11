@@ -13,9 +13,6 @@ export class DataService {
     private header: HeaderService
   ) { }
 
-  // private apiUrl = 'http://localhost:8000/api/';
-  private apiUrl = 'https://api.payoclock.site/api/';
-
   /* 
     ## USAGE
 
@@ -33,17 +30,17 @@ export class DataService {
 
     switch(method) {
       case 'GET':
-        return this.http.get(this.apiUrl + url, {headers: this.header.authHeader});
+        return this.http.get(this.header.url + url, {headers: this.header.authHeader});
 
       case 'POST':
-        return this.http.post(this.apiUrl + url, form, {headers: this.header.authHeader});
+        return this.http.post(this.header.url + url, form, {headers: this.header.authHeader});
 
       case 'PUT':
         form.append('_method', 'PUT');
-        return this.http.post(this.apiUrl + url, form, {headers: this.header.authHeader});
+        return this.http.post(this.header.url + url, form, {headers: this.header.authHeader});
       
       case 'DELETE':
-        return this.http.delete(this.apiUrl + url, {headers: this.header.authHeader});
+        return this.http.delete(this.header.url + url, {headers: this.header.authHeader});
 
       default:
         throw new Error(`Unsupported request method: ${method}`);
