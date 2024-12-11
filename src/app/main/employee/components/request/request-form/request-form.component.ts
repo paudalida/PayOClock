@@ -31,9 +31,9 @@ export class RequestFormComponent implements OnInit {
 
     /* Initialize types array */
     if(this.formType == 'leave') {
-      this.types = [ 'Paid Leave', 'Sick Leave', 'Vacation leave', 'Maternal leave', 'Bereavement leave' ];
+      this.types = [ 'Sick Leave', 'Vacation leave', 'Maternal leave', 'Bereavement leave' ];
     } else if(this.formType == 'overtime') {
-      this.types = [ 'Overtime 1', 'Overtime 2', 'Overtime 3' ];
+      this.types = [ 'Overtime' ];
     }
 
     this.form = this.fb.group({

@@ -20,8 +20,8 @@ export class AuthService {
     private header: HeaderService
   ) { }
   
-  private apiUrl = 'http://localhost:8000/api/';
-  // private apiUrl = 'https://api.payoclock.site/api/';
+  // private apiUrl = 'http://localhost:8000/api/';
+  private apiUrl = 'https://api.payoclock.site/api/';
 
   private userType = '';
 

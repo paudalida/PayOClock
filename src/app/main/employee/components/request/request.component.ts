@@ -5,7 +5,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { DataService } from '../../../../services/data/data.service';
 import { RequestFormComponent } from './request-form/request-form.component';
-import { DownloadService } from '../../../../services/download/download.service';
 
 interface pendingRequests {
   id: number;
@@ -59,8 +58,7 @@ export class RequestComponent implements OnInit {
   constructor(
     private popupService: PopupService,
     private dialog: MatDialog,
-    private ds: DataService,
-    private download: DownloadService
+    private ds: DataService
   ) { }
 
   ngOnInit(): void {

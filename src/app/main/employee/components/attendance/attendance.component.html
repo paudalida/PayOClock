@@ -1,8 +1,8 @@
 <div class="main-content">
     <div class="button-group">
         <div class="left-buttons">
-            <button class="btn-primary toggle-button" [ngClass]="isTimedIn ? 'btn-time-in' : 'btn-time-out'" (click)="toggleTime()">
-                {{ isTimedIn ? 'Time In' : 'Time Out' }}
+            <button class="btn-primary toggle-button" [ngClass]="isTimedIn ? 'btn-time-in' : 'btn-time-out'" (click)="toggleTime()" [disabled]="currentTimeOut || buttonLoading">
+                {{ isTimedIn ? 'Time Out' : 'Time In'  }}
             </button>
         </div>
         <div class="right-buttons">
@@ -13,15 +13,15 @@
     
     <div class="employee-container">
         <div class="employee-left">
-            <!-- <img [src]="employee.image" alt="Employee Image" class="employee-image"> -->
-            <img src="/assets/images/hacker.jpg" class="employee-image">
+            <img [src]="employee.image || 'assets/images/no image.png'" alt="Employee Image" class="employee-image">
+            <!-- <img src="/assets/images/hacker.jpg" class="employee-image"> -->
         </div>
         <div class="employee-middle">
             <h2 class="employee-name">{{ employee.full_name }}</h2>
             <p class="employee-position">{{ employee.position }}</p>
         </div>
         <div class="employee-right">
-            <p class="time-in">{{ currentTimeIn }}</p>
+            <p class="time-in">{{ currentTimeIn || 'N/A' }}</p>
         </div>      
     </div>
 
