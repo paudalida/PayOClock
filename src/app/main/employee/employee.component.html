@@ -3,9 +3,14 @@
         <h1 class="title">Payroll Management System</h1>
         <h1 class="header-mobile"> PayOClock </h1>
     
-        <div class="current-date-time">
-            <i class="bx bx-calendar"></i>
-            {{ currentDateTime }}
+        <div class="header-actions">
+            <div class="current-date-time">
+                <i class="bx bx-calendar"></i>
+                {{ currentDateTime }}
+            </div>
+            <button class="logout-button" (click)="logout()">
+                <i class='bx bx-log-out'></i> Logout
+            </button>
         </div>
     </div>
     
