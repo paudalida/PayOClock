@@ -29,7 +29,7 @@ export class PayrollFormsComponent implements OnInit{
   transactions: any;
   periodicTransactions: any;
   employee: any;
-  hourlyRate: number = 0; netPay: number = 0; totalDeductions: number = 0;
+  hourlyRate: number = 0; grossPay: number = 0; totalDeductions: number = 0;
   isLoading = false; changedValues = false;
   savedValue: any;
   basePay = 0;
@@ -62,8 +62,10 @@ export class PayrollFormsComponent implements OnInit{
       other_deduction: this.fb.array([]),
       allowance: this.fb.array([]), 
       adjustment_deductions: this.fb.array([]), 
-      adjustment_allowances: this.fb.array([])
+      adjustment_additions: this.fb.array([])
     });
+
+    this.totalsListener();
 
     this.employee = this.as.getEmployee();
 
@@ -84,7 +86,12 @@ export class PayrollFormsComponent implements OnInit{
           this.savedValue = res.data;
 
           res.data.forEach((element: any) => {
-            if(element.category == 'deduction' || element.category == 'allowance' || element.category == 'other_deduction'){
+            if(element.category == 'deduction'
+              || element.category == 'allowance'
+              || element.category == 'other_deduction' 
+              || element.category == 'adjustment_deductions' 
+              || element.category == 'adjustment_additions'){
+
               this.addToFormsArray(
                     element.category, 
                     'update',
@@ -123,7 +130,11 @@ export class PayrollFormsComponent implements OnInit{
         this.periodicTransactions = res.data;
 
         res.data.forEach((element: any) => {
-          if(element.category == 'deduction' || element.category == 'allowance' || element.category == 'other_deduction'){
+          if(element.category == 'deduction'
+             || element.category == 'allowance'
+             || element.category == 'other_deduction' 
+            ){
+
             this.addToFormsArray(
                   element.category, 
                   'add',
@@ -143,10 +154,8 @@ export class PayrollFormsComponent implements OnInit{
   }
 
   totalsListener() {
-    this.form.valueChanges.pipe(
-      debounceTime(1000)
-    ).subscribe((value: any) => {
-      this.totalDeductions = 0; this.netPay = 0;
+    this.form.valueChanges.subscribe((value: any) => {
+      this.totalDeductions = 0; this.grossPay = 0;
       if(this.savedValue != value) { this.changedValues = true; } 
       else this.changedValues = false;
 
@@ -161,17 +170,15 @@ export class PayrollFormsComponent implements OnInit{
       });
 
       this.formsArray('other_deduction').value.forEach((element: any) => {
-        if(element.amount)
-        this.totalDeductions += parseInt(element.amount as string);
+        if(element.amount) {
+          this.totalDeductions += parseInt(element.amount as string);
+        }
       });
 
       this.formsArray('allowance').value.forEach((element: any) => {
         if(element.amount)
-        this.netPay += parseInt(element.amount as string);
+        this.grossPay += parseInt(element.amount as string);
       });
-      
-      this.netPay += this.basePay;
-      this.netPay -= this.totalDeductions;
     });
   }
 
@@ -251,17 +258,25 @@ export class PayrollFormsComponent implements OnInit{
         break;
     }
   }
+
   resetToDefaults() {
     this.formsArray('deduction').clear();
     this.formsArray('other_deduction').clear();
     this.formsArray('allowance').clear();
+    this.formsArray('adjustment_deductions').clear();
+    this.formsArray('adjustment_additions').clear();
 
     if(this.periodicTransactions) {
       this.periodicTransactions.forEach((element: any) => {
-        if(element.category == 'deduction' || element.category == 'allowance' || element.category == 'other_deduction'){
+        
+        if(element.category == 'deduction'
+          || element.category == 'allowance'
+          || element.category == 'other_deduction'
+        ){
+            
           this.addToFormsArray(
                 element.category, 
-                'update',
+                'add',
                 element.operation_type, 
                 element.type, 
                 element.subtype, 
@@ -277,10 +292,19 @@ export class PayrollFormsComponent implements OnInit{
     this.formsArray('deduction').clear();
     this.formsArray('other_deduction').clear();
     this.formsArray('allowance').clear();
+    this.formsArray('adjustment_deductions').clear();
+    this.formsArray('adjustment_additions').clear();
 
     if(this.savedValue) {
       this.savedValue.forEach((element: any) => {
-        if(element.category == 'deduction' || element.category == 'allowance' || element.category == 'other_deduction'){
+        
+        if(element.category == 'deduction'
+          || element.category == 'allowance'
+          || element.category == 'other_deduction' 
+          || element.category == 'adjustment_deductions' 
+          || element.category == 'adjustment_additions'
+        ){
+
           this.addToFormsArray(
                 element.category, 
                 'update',
@@ -341,7 +365,28 @@ export class PayrollFormsComponent implements OnInit{
       this.ds.request('POST', 'admin/transactions/process/user/' + this.employee.id, { form: this.form.value }).subscribe({
         next: (res: any) => {
           this.savedValue = res.data;
-          this.pop.toastWithTimer('success', res.message, 5);
+          this.pop.toastWithTimer('success', res.message);
+
+          let employees = this.as.getEmployees();
+          let employee = employees.find((x: any) => x.id == this.as.getEmployee().id);
+
+          if (employee) {
+            switch(status) {
+              case 1:
+                employee.status = 'Incomplete';
+                break;
+                
+              case 2:
+                employee.status = 'Complete';
+                break;
+
+              default:
+                employee.status = 'Pending';
+                break;
+            }
+          }
+
+          this.as.setEmployees(employees);
         },
         error: (err: any) => {
           this.pop.swalBasic('error', 'Submission error!', err.error.message);

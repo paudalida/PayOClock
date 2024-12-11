@@ -12,7 +12,6 @@
                     <div class="entryarea">
                         <input type="text" formControlName="first_name" 
                             (keyup)="updateInvalidInput($event, 'first_name')"
-                            (keyup)="capitalize('first_name')"
                             (change)="trimSpaces('first_name')">
                         <div class="labelline"> First name </div>
                     </div>
@@ -49,7 +48,7 @@
                     </div>
 
                     <div class="entryarea">
-                        <input formControlName="employee_rate" (keyup)="updateInvalidInput($event, 'employee_rate')">
+                        <input formControlName="hourly_rate" (keyup)="updateInvalidInput($event, 'hourly_rate')">
                         <div class="labelline"> Hourly Rate </div>
                     </div>
                 </div>

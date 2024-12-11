@@ -30,7 +30,6 @@ export class ChangePassEmployeeComponent {
   ) { }
 
   submit() {
-    console.log('pasok')
     this.pop
       .swalWithInput(
         'warning',

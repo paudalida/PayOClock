@@ -1,7 +1,7 @@
 <div class="main-content">
     <div class="button-group">
         <div class="left-buttons">
-            <button class="btn-primary toggle-button" [ngClass]="isTimedIn ? 'btn-time-in' : 'btn-time-out'" (click)="toggleTime()">
+            <button class="btn-primary toggle-button" [ngClass]="isTimedIn ? 'btn-time-in' : 'btn-time-out'" (click)="toggleTime()" [disabled]="currentTimeOut || buttonLoading">
                 {{ isTimedIn ? 'Time In' : 'Time Out' }}
             </button>
         </div>
@@ -21,7 +21,7 @@
             <p class="employee-position">{{ employee.position }}</p>
         </div>
         <div class="employee-right">
-            <p class="time-in">{{ currentTimeIn }}</p>
+            <p class="time-in">{{ currentTimeIn || 'N/A' }}</p>
         </div>      
     </div>
 

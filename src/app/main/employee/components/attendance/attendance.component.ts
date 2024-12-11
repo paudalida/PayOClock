@@ -25,6 +25,7 @@ export class AttendanceComponent implements OnInit {
 
   isTimedIn: boolean = true; 
   attendanceProof: any = [];
+  buttonLoading = false;
   attendance = [
     {
       day: 'Monday',
@@ -71,6 +72,7 @@ export class AttendanceComponent implements OnInit {
   ];
 
   currentTimeIn = null;
+  currentTimeOut = null;
   employee: any;
 
   ngOnInit(): void {
@@ -78,12 +80,14 @@ export class AttendanceComponent implements OnInit {
 
     this.ds.request('GET', 'employee/attendance').subscribe({
       next: (res: any) => {
-        res.data.forEach((element: any) => {
+        res.data.attendance.forEach((element: any) => {
           const index = this.attendance.findIndex(dayData => dayData.day === element.day);
 
           if(index != -1) { this.attendance[index] = element; }
         });
 
+        this.currentTimeIn = res.data.current.time_in;
+        this.currentTimeOut = res.data.current.time_out;
         this.setAttendanceProof();
       },
       error: (err: any) => {
@@ -94,7 +98,7 @@ export class AttendanceComponent implements OnInit {
 
   setAttendanceProof() {
     this.attendanceProof = this.attendance.filter(x => x.time_in !== null);
-    this.currentTimeIn = this.attendanceProof[this.attendanceProof.length - 1].time_in;
+    // this.currentTimeIn = this.attendanceProof[this.attendanceProof.length - 1].time_in;
   }
 
   openHistory() {
@@ -124,6 +128,7 @@ export class AttendanceComponent implements OnInit {
   }
 
   toggleTime() {
+    this.buttonLoading = true;
     this.ds.request('POST', 'employee/attendance/clock').subscribe({
       next: (res: any) => {
         this.pop.toastWithTimer('success', res.message);
@@ -132,13 +137,16 @@ export class AttendanceComponent implements OnInit {
         let record = this.attendance.find(element => element.day === res.data.day);
         if(record) {
           Object.assign(record, res.data);
+          this.currentTimeIn = res.data.time_in;
+          this.currentTimeOut = res.data.time_out;
         }
 
         this.setAttendanceProof();
       },
       error: (err: any) => {
         this.pop.swalBasic('error', this.pop.genericErrorTitle, err.error.message);
-      }
+      },
+      complete: () => { this.buttonLoading = false; }
     });
   }
 }
