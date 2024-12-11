@@ -8,7 +8,7 @@
 
             <div class="input-row">
                 <div class="entryarea">
-                    <select formControlName="type"> 
+                    <select formControlName="type" [disabled]="formType == 'overtime'"> 
                         <option *ngFor="let type of types" [value]="type"> {{ type }} </option>
                     </select>
                     <div class="labelline">Type of {{ formType || '' | titlecase }}</div>

@@ -2,7 +2,7 @@
     <div class="button-group">
         <div class="left-buttons">
             <button class="btn-primary toggle-button" [ngClass]="isTimedIn ? 'btn-time-in' : 'btn-time-out'" (click)="toggleTime()" [disabled]="currentTimeOut || buttonLoading">
-                {{ isTimedIn ? 'Time In' : 'Time Out' }}
+                {{ isTimedIn ? 'Time Out' : 'Time In'  }}
             </button>
         </div>
         <div class="right-buttons">
@@ -13,8 +13,8 @@
     
     <div class="employee-container">
         <div class="employee-left">
-            <!-- <img [src]="employee.image" alt="Employee Image" class="employee-image"> -->
-            <img src="/assets/images/hacker.jpg" class="employee-image">
+            <img [src]="employee.image || 'assets/images/no image.png'" alt="Employee Image" class="employee-image">
+            <!-- <img src="/assets/images/hacker.jpg" class="employee-image"> -->
         </div>
         <div class="employee-middle">
             <h2 class="employee-name">{{ employee.full_name }}</h2>

@@ -23,7 +23,7 @@ export class AttendanceComponent implements OnInit {
     private es: EmployeeService
   ) { }
 
-  isTimedIn: boolean = true; 
+  isTimedIn: boolean = false; 
   attendanceProof: any = [];
   buttonLoading = false;
   attendance = [
@@ -88,6 +88,9 @@ export class AttendanceComponent implements OnInit {
 
         this.currentTimeIn = res.data.current.time_in;
         this.currentTimeOut = res.data.current.time_out;
+
+        if(this.currentTimeIn) this.isTimedIn = true;
+        if(this.currentTimeOut) this.isTimedIn = false;
         this.setAttendanceProof();
       },
       error: (err: any) => {
