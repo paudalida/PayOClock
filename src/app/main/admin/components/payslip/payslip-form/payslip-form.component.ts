@@ -48,9 +48,9 @@ export class PayslipFormComponent implements OnInit{
         if(longest < payslip.deduction.types.length + payslip.other_deduction.types.length) longest = payslip.deduction.types.length + payslip.other_deduction.types.length;
 
         for(let i = 0; i < longest; i ++) {
-          let col1 = payslip.attendance.types[i]   || '';
-          let col2 = payslip.attendance.hours[i]   || '';
-          let col3 = payslip.attendance.amounts[i] || '';
+          let col1 = payslip.attendance.types[i];
+          let col2 = payslip.attendance.hours[i];
+          let col3 = payslip.attendance.amounts[i];
           let col4 = payslip.allowance.types[i]    || '';
           let col5 = payslip.allowance.amounts[i]  || '';
           let col6 = payslip.deduction.types[i]    || '';

@@ -35,6 +35,7 @@ export class AttendanceComponent implements OnInit {
   displayedColumns: string[] = ['name', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'proof'];
   dataSource: any;
   dates: any = [];
+  dayNames = [ 'mon', 'tue', 'wed', 'thu', 'fri', 'sat' ];
 
   dateRanges: string[] = [];
   selectedDateRange: string = '';
@@ -49,6 +50,7 @@ export class AttendanceComponent implements OnInit {
   ) { }
 
   isLoading = false;
+  current = '';
   selectedDate = null;
   clockedIn: any = [];
   user_id: any;
@@ -75,10 +77,14 @@ export class AttendanceComponent implements OnInit {
     this.isLoading = true;
     this.ds.request('GET', 'admin/attendance').subscribe({
       next: (res: any) => {
-        this.attendance = res.data;
+        this.attendance = res.data.records;
         this.attendanceWeeks = Object.keys(this.attendance);
         this.generateDateRange(this.attendanceWeeks[this.attendanceWeeks.length-1]);
         this.formatData(this.attendance[this.attendanceWeeks[this.attendanceWeeks.length - 1]]);
+
+        this.current = res.data.currentDay;
+
+        this.selectedDateRange = this.attendanceWeeks[this.attendanceWeeks.length-1];
       },
       error: (err: any) => {
 
@@ -182,7 +188,15 @@ export class AttendanceComponent implements OnInit {
     return String(hour) + time + ' ' + ampm;    
   }
 
-  getStatusClass(status: string): string {
+  getStatusClass(status: string, day: string): string {
+    if(this.selectedDateRange == this.attendanceWeeks[this.attendanceWeeks.length - 1]) {
+      if(this.dayNames.indexOf(day) <= this.dayNames.indexOf(this.current) && day != 'sat') {
+        if(status == '') status = 'absent';
+      }
+    } else {
+      if(status == '' && day != 'sat') status = 'absent';
+    }
+    
     switch (status) {
         case 'present':
             return 'status-present';
@@ -276,5 +290,17 @@ export class AttendanceComponent implements OnInit {
     } else {
       console.error('Dialog is not initialized');
     }
+  }
+
+  isBeforeOrNow(date: string) {
+    const date2 = '2024-11-01';
+
+    // Convert the string dates to Date objects
+    const parsedDate1 = new Date(date);
+    const parsedDate2 = new Date(date2);
+
+    // Compare the dates
+    return parsedDate1 <= parsedDate2;
+
   }
 }

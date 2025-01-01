@@ -118,6 +118,5 @@ export class AdminService {
 
   public setPayday(data: any) {
     this.payday = data;
-    console.log(this.payday)
   }
 }

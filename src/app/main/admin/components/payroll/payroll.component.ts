@@ -8,6 +8,7 @@ import { PopupService } from '../../../../services/popup/popup.service';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 
 import * as XLSX from 'xlsx';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-payroll',
@@ -15,10 +16,12 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./payroll.component.scss']
 })
 export class PayrollComponent implements OnInit {
-  dataSource: any = null;
-  fixedColumns: string[] = ['employee_id', 'name', 'position', 'rate'];
-  scrollableColumns: any = [];
+  // dataSource: any = null;
+  // fixedColumns: string[] = ['employee_id', 'name', 'position', 'rate'];
+  fixedColumns = ['Employee ID', 'Name', 'Position', 'Rate'];
+  // scrollableColumns: any = [];
   payrolls: any = null;
+  payroll: any = null;
   dateFilter: any = null;
   filterValue = '';
   columns: any;
@@ -27,13 +30,13 @@ export class PayrollComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
-    private paginatorIntl: MatPaginatorIntl,
-    private changeDetectorRef: ChangeDetectorRef, 
+    // private paginatorIntl: MatPaginatorIntl,
+    // private changeDetectorRef: ChangeDetectorRef, 
     private ds: DataService,
     private as: AdminService,
     private pop: PopupService
   ) {
-    this.paginator = new MatPaginator(this.paginatorIntl, this.changeDetectorRef);
+    // this.paginator = new MatPaginator(this.paginatorIntl, this.changeDetectorRef);
   }
 
   ngOnInit(): void {    
@@ -57,22 +60,23 @@ export class PayrollComponent implements OnInit {
   }
 
   changeData() {
-    this.scrollableColumns = this.columns[this.filterValue];
+    // this.scrollableColumns = this.columns[this.filterValue];
 
-    console.log(this.scrollableColumns)
-    this.payrolls[this.filterValue].forEach((element: any) => {
-      let employee = this.employees.find((emp: any) => emp.id === element.user_id);
+    // this.payrolls[this.filterValue].forEach((element: any) => {
+    //   let employee = this.employees.find((emp: any) => emp.id === element.user_id);
 
-      if(employee) {
-        element.name = employee.full_name;
-        element.position = employee.position;
-        element.employee_id = employee.employee_id;
-      }
-    });
+    //   if(employee) {
+    //     element.name = employee.full_name;
+    //     element.position = employee.position;
+    //     element.employee_id = employee.employee_id;
+    //   }
+    // });
 
-    this.dataSource = new MatTableDataSource<PeriodicElement>(this.payrolls[this.filterValue]);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    // this.dataSource = new MatTableDataSource<PeriodicElement>(this.payrolls[this.filterValue]);
+
+    this.payroll = this.payrolls[this.filterValue]
+    // this.dataSource.paginator = this.paginator;
+    // this.dataSource.sort = this.sort;
   }
 
   generateReport(): void {

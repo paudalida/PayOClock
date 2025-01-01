@@ -9,13 +9,13 @@
 
         <div class="detailsbody">
             <div class="file-upload">
-                <input type="file">
+                <input type="file" accept=".xlsx" (change)="onFileSelected($event)">
                     <div class="label"> Choose File to Import  </div>
             </div>
 
             <div class="buttons">
-                <button class="btn-primary add" type="button"> Add </button>
-                <button class="btn-secondary cancel" type="button"> Cancel </button>
+                <button class="btn-primary add" type="button" (click)="submit()" [disabled]="isLoading || !file"> Add </button>
+                <button class="btn-secondary cancel" type="button" (click)="closePopup()"> Cancel </button>
             </div>
         </div>
     </div>
