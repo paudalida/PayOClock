@@ -22,7 +22,13 @@ export class AdminComponent {
   });
 
   isLoading = false;
-  
+
+  showPassword: boolean = false;
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
   async submitLogin() {
     this.isLoading = true;
 

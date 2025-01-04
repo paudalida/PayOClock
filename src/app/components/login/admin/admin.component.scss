@@ -273,6 +273,21 @@ body {
   color: #333;
 }
 
+.input-container .eye-icon {
+  position: absolute;
+  right: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;
+  color: #999;
+}
+
+.input-container .eye-icon i {
+  font-size: 1.2rem;
+  color: #888;
+}
+
 // Responsive Design
 
 @media (max-width: 768px) {

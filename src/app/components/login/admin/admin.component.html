@@ -36,9 +36,15 @@
                     </div>
                     <div class="input-container">
                         <div class="icon"><i class='bx bxs-lock-alt'></i></div>
-                        <input type="password" autocomplete="current-password"
-                        placeholder="Password" formControlName="password">
-                    </div>
+                        <input 
+                          [type]="showPassword ? 'text' : 'password'" 
+                          autocomplete="current-password" 
+                          placeholder="Password" 
+                          formControlName="password">
+                        <div class="eye-icon" (click)="togglePasswordVisibility()">
+                          <i class="bx" [class.bx-show]="!showPassword" [class.bx-hide]="showPassword"></i>
+                        </div>
+                    </div>                      
                     
                     <button class="btn-primary login-btn" type="submit" [disabled]="isLoading || !loginForm.valid" 
                             [ngClass]="{ 'btn-loading-primary': isLoading, 'btn-primary': !isLoading}"> 

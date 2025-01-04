@@ -4,7 +4,7 @@
   padding-top: 70px;
   padding-bottom: 40px;
   padding-left: 50px;
-  padding-right: 70px; 
+  padding-right: 20px; 
   overflow: hidden;
 }
 
@@ -14,7 +14,8 @@
   background: var(--white);
   box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.322);
   border: 0.5px solid var(--table-border);
-  width: 169vh;
+  width: 100%; 
+  max-width: 1307px; 
 }
 
 .table-head {
@@ -57,10 +58,8 @@
 
 .date-range-dropdown {
   select {
-    width: 230px;
-    // text-align: center;
+    width: 210px;
     padding: 10px;
-    // border-radius: 3px;
     font-family: "poppins";
     background: var(--white);
     border: 0.5px solid var(--table-border);
@@ -86,32 +85,39 @@
 .scrollable-columns {
   overflow-x: auto;
   overflow-y: hidden;
-  max-width: calc(69% - 395px); 
+  max-width: calc(59.9% - 395px); 
   max-height: auto;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+td {
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  white-space: normal;
+  word-wrap: break-word;
+  border-collapse: collapse;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
 }
 
 th {
   background-color: var(--primary-color) !important;
   color: var(--white);
-  width: 140px;
+  font-size: 15px;
   padding: 10px;
+  height: 55px;
   text-align: center;
-  border-bottom: 1px solid #ddd;
-  height: 80px; 
-  white-space: normal; 
-  word-wrap: break-word; 
+  border-collapse: collapse;
+  border-right: none;
+  white-space: normal;
+  word-wrap: break-word;
 }
-
-td {
-  width: 140px; 
-  padding: 5px;
-  text-align: center;
-}
-
-th {
-  background-color: #333;
-}
-
 
 table td,
 table th {
@@ -119,10 +125,25 @@ table th {
   max-width: 167px; 
 }
 
-.employee-name {
-  min-width: 200px;
-  max-width: 200px;
-  text-align: left;
+.fixed-columns table th:nth-child(1), 
+.fixed-columns table td:nth-child(1) {
+  min-width: 80px;
+  max-width: 150px;
+  text-align: center;
+}
+
+.fixed-columns table th:nth-child(2), 
+.fixed-columns table td:nth-child(2) {
+  min-width: 300px;
+  max-width: 400px;
+  text-align: center;
+}
+
+.fixed-columns table th:nth-child(3), 
+.fixed-columns table td:nth-child(3) {
+  min-width: 250px;
+  max-width: 300px;
+  text-align: center;
 }
 
 table tr:hover {

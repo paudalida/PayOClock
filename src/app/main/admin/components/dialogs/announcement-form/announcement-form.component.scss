@@ -89,14 +89,14 @@
         outline: none;
         font-size: 16px;
         padding: 15px 18px;
-        margin-top: 130px; // remove
+        margin-top: 130px; 
         border-radius: 5px;
         border: 1px solid var(--header-color);
         background: var(--white);
         transition: 0.1s ease;
         resize: vertical; 
-        min-height: 52px;
-        box-sizing: border-box; //add
+        min-height: 65px;
+        box-sizing: border-box; 
     }
 
     .entryarea2 input {
