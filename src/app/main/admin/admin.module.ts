@@ -43,9 +43,11 @@ import { ViewRequestComponent } from './components/request/view-request/view-req
 import { UpdateComponent } from './components/payslip/update/update.component';
 import { ArchivesComponent } from './components/archives/archives.component';
 import { ProfileComponent } from './components/settings/profile/profile.component';
+import { ActivityComponent } from './components/settings/activity/activity.component';
 import { ChangePassComponent } from './components/settings/profile/change-pass/change-pass.component';
 import { ChangePassEmployeeComponent } from './components/settings/profile/change-pass-employee/change-pass-employee.component';
 import { AnnouncementComponent } from './components/archives/announcement/announcement.component';
+
 
 @NgModule({
   declarations: [
@@ -80,7 +82,8 @@ import { AnnouncementComponent } from './components/archives/announcement/announ
     ProfileComponent,
     ChangePassComponent,
     ChangePassEmployeeComponent,
-    AnnouncementComponent
+    AnnouncementComponent,
+    ActivityComponent
     
   ],
   imports: [

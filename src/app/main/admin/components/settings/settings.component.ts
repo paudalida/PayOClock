@@ -177,5 +177,9 @@ export class SettingsComponent {
   redirectToProfile() {
     this.router.navigate(['/admin/settings/profile']);
   }
+
+  redirectToActivity() {
+    this.router.navigate(['/admin/settings/activity']);
+  }
 }
 

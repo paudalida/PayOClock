@@ -3,10 +3,84 @@
   align-items: center;
   padding-top: 50px;
   padding-left: 45px;
-  padding-right: 45px;
+  padding-right: 15px;
   padding-bottom: 50px;
 } 
   
+.button-group {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+
+  .left-buttons{
+    display: flex;
+    gap: 10px; 
+  }
+
+  .right-buttons {
+    display: flex;
+    gap: 10px; 
+  }
+  
+  .upload {
+    width: 190px;
+    height: 45px;
+    text-decoration: none;
+    color: var(--white);
+    box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.322);
+    transition: .3s;
+    transform: translateY(-5px);
+    border-radius: 3px;
+    border: 1px;
+    font-weight: bold;
+    font-size: 16px;
+    font-family: 'Poppins';
+    margin-top: 15px;
+    // margin-right: -37px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .upload:hover {
+    box-shadow: 0px 8px 15px -10px rgb(125, 125, 125);
+    transform: translate(0px, -2px);
+    cursor: pointer;
+    text-decoration: none;
+  }
+  
+  .toggle-button {
+    width: 205px;
+    height: 45px;
+    text-decoration: none;
+    color: var(--white);
+    box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.322);
+    transition: .3s;
+    transform: translateY(-5px);
+    border-radius: 3px;
+    border: 1px;
+    font-weight: bold;
+    font-size: 16px;
+    font-family: 'Poppins';
+    margin-top: 15px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .btn-time-in {
+    background-color: var(--present);
+    color: var(--white);
+  }
+  
+  .btn-time-out {
+    background-color: var(--absent);
+    color: var(--white);
+  }
+}
+
 .employee-container {
   display: flex;
   align-items: center;
@@ -14,7 +88,7 @@
   padding: 20px;
   background: var(--white);
   width: 100%;
-  max-width: 100%;
+  max-width: 97%;
   margin-top: 30px;
   border-radius: 10px;
   box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.322);
@@ -76,129 +150,80 @@
   }
 }
 
-.button-group {
-  display: flex;
-  justify-content: space-between; 
-  align-items: center; 
-
-  .left-buttons{
-    display: flex;
-    gap: 10px; 
-  }
-
-  .right-buttons {
-    display: flex;
-    gap: 50px; 
-  }
-  
-  .upload {
-    width: 190px;
-    height: 45px;
-    text-decoration: none;
-    color: var(--white);
-    box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.322);
-    transition: .3s;
-    transform: translateY(-5px);
-    border-radius: 3px;
-    border: 1px;
-    font-weight: bold;
-    font-size: 16px;
-    font-family: 'Poppins';
-    margin-top: 15px;
-    margin-right: -37px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .upload:hover {
-    box-shadow: 0px 8px 15px -10px rgb(125, 125, 125);
-    transform: translate(0px, -2px);
-    cursor: pointer;
-    text-decoration: none;
-  }
-  
-  .toggle-button {
-    width: 205px;
-    height: 45px;
-    text-decoration: none;
-    color: var(--white);
-    box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.322);
-    transition: .3s;
-    transform: translateY(-5px);
-    border-radius: 3px;
-    border: 1px;
-    font-weight: bold;
-    font-size: 16px;
-    font-family: 'Poppins';
-    margin-top: 15px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .btn-time-in {
-    background-color: var(--present);
-    color: var(--white);
-  }
-  
-  .btn-time-out {
-    background-color: var(--absent);
-    color: var(--white);
-  }
-}
-
-.attendance-table {
+.attendance-container {
   margin-top: 40px;
-  margin-left: 20px;
-  background: var(--white);
-  width: 100%;
-  max-width: 100%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
-  overflow-x: auto; 
+  margin-right: 0;
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 
-  .table {
-    table {
-      width: 100%;
-      background: var(--white);
-      border-collapse: collapse;
-    }
+  .row {
+    display: flex;
+    justify-content: space-around;
+    gap: 40px;
+  }
 
-    th, td {
-      padding: 15px;
-      text-align: center;
-      border: none;
-    }
+  .day {
+    background: var(--white);
+    padding-bottom: 25px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    flex: 1;
+    text-align: center;
+    width: 100%;
+  }
 
-    th {
-      background-color: var(--primary-color);
-      color: var(--white);
-      padding: 20px;
-    }
+  .day-label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+    padding: 15px;
+    background-color: var(--primary-color);
+    color: var(--white);
+  }
 
-    .label {
-      font-size: 15px;
-      font-weight: bold;
-      display: block;
-      margin-bottom: 5px;
-    }
+  .label {
+    font-size: 15px;
+    font-weight: bold;
+    margin: 15px 0;
+    display: block;
   }
 }
 
 @media (max-width: 500px) {
   .main-content {
-    padding-left: 0;
+    padding-left: 25px;
     padding-right: 25px;
     padding-top: 25px;
     padding-bottom: 25px;
   }
 
+  .button-group {
+    display: flex;
+    flex-wrap: wrap; 
+    padding-right: 15px;
+  }
+
+  .button-group > div {
+    width: 40%; 
+    display: flex;
+    justify-content: center;
+  }
+
+  .upload, 
+  .toggle-button {
+    width: 100%; 
+    padding: 10px; 
+    font-size: 14px; 
+    text-align: center; 
+  }
+
   .employee-container {
     flex-direction: column;
     align-items: center;
+    width: 90%;
     padding: 15px; 
 
     .employee-left {
@@ -235,43 +260,27 @@
     }
   }
 
-  .button-group {
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap; 
-    justify-content: center; 
-    gap: 10px; 
+  .row {
+    flex-direction: column; /* Stack the cards vertically */
+    align-items: center; /* Center the stacked cards */
+    gap: 20px; /* Reduce spacing between cards */
   }
 
-  .button-group > div {
-    width: 40%; 
-    display: flex;
-    justify-content: center;
+  .day {
+    width: 90%; /* Make cards take up most of the screen width */
+    max-width: none; /* Remove max-width restriction */
   }
 
-  .upload, 
-  .toggle-button {
-    width: 100%; 
-    padding: 10px; 
-    font-size: 14px; 
-    text-align: center; 
+  .day-label {
+    font-size: 16px; /* Slightly smaller text for day labels */
+    padding: 10px; /* Adjust padding for smaller screens */
   }
 
-  .employee-container {
-    margin-left: 25px;
-    width: 85%;
+  .label {
+    font-size: 14px; /* Adjust font size for labels */
+    margin: 10px 0; /* Reduce margin for better spacing */
   }
 
-  .attendance-table {
-    width: 95%;
-    margin-right: 25px;
-  }
-
-  .table {
-    th{
-      font-size: 15px;
-    }
-  }
 }
 
 

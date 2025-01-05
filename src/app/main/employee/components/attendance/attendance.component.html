@@ -14,7 +14,7 @@
     <div class="employee-container">
         <div class="employee-left">
             <img [src]="employee.image || 'assets/images/no image.png'" alt="Employee Image" class="employee-image">
-            <!-- <img src="/assets/images/hacker.jpg" class="employee-image"> -->
+            <!-- <img src="/assets/images/hacker.jpg" class="employee-image">  -->
         </div>
         <div class="employee-middle">
             <h2 class="employee-name">{{ employee.full_name }}</h2>
@@ -25,73 +25,53 @@
         </div>      
     </div>
 
-    <div class="attendance-table">
-        <div class="table">
-        <table>
-            <thead>
-                <tr>
-                    <th>Monday</th>
-                    <th>Tuesday</th>
-                    <th>Wednesday</th>
-                    <th>Thursday</th>
-                    <th>Friday</th>
-                    <th>Saturday</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <span class="label">Time In</span>
-                        {{ attendance[0].time_in || 'N/A' }}
-                    </td>
-                    <td>
-                        <span class="label">Time In</span>
-                        {{ attendance[1].time_in || 'N/A' }}
-                    </td>
-                    <td>
-                        <span class="label">Time In</span>
-                        {{ attendance[2].time_in || 'N/A' }}
-                    </td>
-                    <td>
-                        <span class="label">Time In</span>
-                        {{ attendance[3].time_in || 'N/A' }}
-                    </td>
-                    <td>
-                        <span class="label">Time In</span>
-                        {{ attendance[4].time_in || 'N/A' }}
-                    </td>
-                    <td>
-                        <span class="label">Time In</span>
-                        {{ attendance[5].time_in || 'N/A' }}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="label">Time Out</span>
-                        {{ attendance[0].time_out || 'N/A' }}
-                    </td>
-                    <td>
-                        <span class="label">Time Out</span>
-                        {{ attendance[1].time_out || 'N/A' }}
-                    </td>
-                    <td>
-                        <span class="label">Time Out</span>
-                        {{ attendance[2].time_out || 'N/A' }}
-                    </td>
-                    <td>
-                        <span class="label">Time Out</span>
-                        {{ attendance[3].time_out || 'N/A' }}
-                    </td>
-                    <td>
-                        <span class="label">Time Out</span>
-                        {{ attendance[4].time_out || 'N/A' }}
-                    </td>
-                    <td>
-                        <span class="label">Time Out</span>
-                        {{ attendance[5].time_out || 'N/A' }}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="attendance-container">
+        <div class="row">
+          <div class="day">
+            <span class="day-label">Monday</span>
+            <span class="label">Time In</span>
+            {{ attendance[0].time_in || 'N/A' }}
+            <span class="label">Time Out</span>
+            {{ attendance[0].time_out || 'N/A' }}
+          </div>
+          <div class="day">
+            <span class="day-label">Tuesday</span>
+            <span class="label">Time In</span>
+            {{ attendance[1].time_in || 'N/A' }}
+            <span class="label">Time Out</span>
+            {{ attendance[1].time_out || 'N/A' }}
+          </div>
+          <div class="day">
+            <span class="day-label">Wednesday</span>
+            <span class="label">Time In</span>
+            {{ attendance[2].time_in || 'N/A' }}
+            <span class="label">Time Out</span>
+            {{ attendance[2].time_out || 'N/A' }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="day">
+            <span class="day-label">Thursday</span>
+            <span class="label">Time In</span>
+            {{ attendance[3].time_in || 'N/A' }}
+            <span class="label">Time Out</span>
+            {{ attendance[3].time_out || 'N/A' }}
+          </div>
+          <div class="day">
+            <span class="day-label">Friday</span>
+            <span class="label">Time In</span>
+            {{ attendance[4].time_in || 'N/A' }}
+            <span class="label">Time Out</span>
+            {{ attendance[4].time_out || 'N/A' }}
+          </div>
+          <div class="day">
+            <span class="day-label">Saturday</span>
+            <span class="label">Time In</span>
+            {{ attendance[5].time_in || 'N/A' }}
+            <span class="label">Time Out</span>
+            {{ attendance[5].time_out || 'N/A' }}
+          </div>
+        </div>
     </div>
 </div>
+      
