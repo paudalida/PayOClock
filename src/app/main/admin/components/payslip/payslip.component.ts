@@ -79,6 +79,23 @@ export class PayslipComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
+  search(event: Event) {
+    const searchValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+  
+    const match = (employee: Employee, filter: string) => {
+      return (
+        employee.first_name.toLowerCase().includes(filter) ||
+        (employee.middle_name && employee.middle_name[0].toLowerCase().includes(filter)) ||
+        employee.last_name.toLowerCase().includes(filter) ||
+        (employee.ext_name && employee.ext_name.toLowerCase().includes(filter)) ||
+        employee.employee_id == filter
+      );
+    };
+  
+    this.dataSource.filterPredicate = (employee: Employee) => match(employee, searchValue);
+    this.dataSource.filter = searchValue;
+  }
+
   laterThanNow(date: string) {
     if(!date) return false;
     const inputDate = new Date(date);

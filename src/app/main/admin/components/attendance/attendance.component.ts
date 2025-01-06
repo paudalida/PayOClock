@@ -79,12 +79,12 @@ export class AttendanceComponent implements OnInit {
       next: (res: any) => {
         this.attendance = res.data.records;
         this.attendanceWeeks = Object.keys(this.attendance);
-        this.generateDateRange(this.attendanceWeeks[this.attendanceWeeks.length-1]);
-        this.formatData(this.attendance[this.attendanceWeeks[this.attendanceWeeks.length - 1]]);
+        this.generateDateRange(this.attendanceWeeks[0]);
+        this.formatData(this.attendance[this.attendanceWeeks[0]]);
 
         this.current = res.data.currentDay;
 
-        this.selectedDateRange = this.attendanceWeeks[this.attendanceWeeks.length-1];
+        this.selectedDateRange = this.attendanceWeeks[0];
       },
       error: (err: any) => {
 
@@ -189,7 +189,7 @@ export class AttendanceComponent implements OnInit {
   }
 
   getStatusClass(status: string, day: string): string {
-    if(this.selectedDateRange == this.attendanceWeeks[this.attendanceWeeks.length - 1]) {
+    if(this.selectedDateRange == this.attendanceWeeks[0]) {
       if(this.dayNames.indexOf(day) <= this.dayNames.indexOf(this.current) && day != 'sat') {
         if(status == '') status = 'absent';
       }
@@ -214,6 +214,14 @@ export class AttendanceComponent implements OnInit {
   }
 
   openAttendanceDetail(date: any, day: string, data: any): void {
+    const dayShort = day.substring(0, 3).toLowerCase();
+
+    if(this.dayNames.indexOf(dayShort) > this.dayNames.indexOf(this.current) && 
+        this.selectedDateRange == this.attendanceWeeks[0]
+      ) {    
+      this.pop.swalBasic('error', 'Oops! Can\'t access date', 'Can\'t access future dates')
+      return;
+    }
     this.selectedDate = date;
     if(!data.user_id) {
       data = this.defaultRecord;

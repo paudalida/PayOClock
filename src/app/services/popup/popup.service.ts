@@ -6,7 +6,7 @@ import Swal, { SweetAlertIcon, SweetAlertPosition } from 'sweetalert2';
   providedIn: 'root'
 })
 export class PopupService {
-  swalWithInput(
+  async swalWithInput(
     icon: string,
     title: string,
     text: string,

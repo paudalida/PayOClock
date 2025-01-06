@@ -1,15 +1,10 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-// import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
 import { DataService } from '../../../../services/data/data.service';
 import { AdminService } from '../../../../services/admin/admin.service';
 import { PopupService } from '../../../../services/popup/popup.service';
-// import { MatPaginatorIntl } from '@angular/material/paginator';
 
 import * as ExcelJS from 'exceljs'; 
 import { saveAs } from 'file-saver'; 
-import { filter } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -18,9 +13,6 @@ import Swal from 'sweetalert2';
   styleUrls: ['./payroll.component.scss']
 })
 export class PayrollComponent implements OnInit {
-  // dataSource: any = null;
-  // fixedColumns: string[] = ['employee_id', 'name', 'position', 'rate'];
-  // scrollableColumns: any = [];
   fixedColumns = ['Employee ID', 'Name', 'Position', 'Rate'];
   payrolls: any = null;
   payroll: any = null;
@@ -28,20 +20,21 @@ export class PayrollComponent implements OnInit {
   filterValue = '';
   columns: any;
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-
   constructor(
-    // private paginatorIntl: MatPaginatorIntl,
-    // private changeDetectorRef: ChangeDetectorRef, 
     private ds: DataService,
     private as: AdminService,
     private pop: PopupService
-  ) {
-    // this.paginator = new MatPaginator(this.paginatorIntl, this.changeDetectorRef);
-  }
+  ) {  }
 
   ngOnInit(): void {
+    this.getData();
+  }
+
+  get employees() {
+    return this.as.getEmployees();
+  }
+
+  getData() {
     this.ds.request('GET', 'admin/payrolls').subscribe({
       next: (res: any) => {
         this.columns = res.data.columns;
@@ -57,29 +50,33 @@ export class PayrollComponent implements OnInit {
     });
   }
 
-  get employees() {
-    return this.as.getEmployees();
-  }
-
   changeData() {
-    // this.scrollableColumns = this.columns[this.filterValue];
-
-    // this.payrolls[this.filterValue].forEach((element: any) => {
-    //   let employee = this.employees.find((emp: any) => emp.id === element.user_id);
-
-    //   if(employee) {
-    //     element.name = employee.full_name;
-    //     element.position = employee.position;
-    //     element.employee_id = employee.employee_id;
-    //   }
-    // });
-
-    // this.dataSource = new MatTableDataSource<PeriodicElement>(this.payrolls[this.filterValue]);
-
     this.payroll = this.payrolls[this.filterValue]
-    // this.dataSource.paginator = this.paginator;
-    // this.dataSource.sort = this.sort;
+  }  
+
+  confirmSyncPay(): void {
+    this.pop.swalWithCancel(
+      'question', 
+      'Update attendance pay?', 
+      'This will refresh the attendance data and update the payroll.'
+    ).then((result) => {
+        if (result) {
+          this.syncPay();
+        }
+    });;
   }
+  
+  syncPay(): void {
+    this.ds.request('POST', 'admin/payrolls/process/all/transaction').subscribe({
+      next: (res: any) => {
+        this.pop.toastWithTimer('success', res.message);
+        this.getData();
+      },
+      error: (err: any) => {
+        this.pop.swalBasic('error', 'Oops!', err.error.message);
+      }
+    })
+  } 
 
   // EXCEL FILE 
   async generateReport(): Promise<void> {
@@ -234,34 +231,7 @@ export class PayrollComponent implements OnInit {
       reader.onerror = reject; // Handle errors
       reader.readAsDataURL(blob); // Read the blob as a data URL
     });
-  }
-
-  confirmSyncPay(): void {
-    Swal.fire({
-      title: 'Update attendance pay?',
-      text: 'This will refresh the attendance data and update the payroll.',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#254CA3',
-      cancelButtonColor: '#cb001e',
-      confirmButtonText: 'Yes, sync it!',
-      cancelButtonText: 'Cancel',
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.syncPay();
-        Swal.fire(
-          'Synced!',
-          'The attendance pay has been updated successfully.',
-          'success'
-        );
-      }
-    });
-  }
-  
-  syncPay(): void {
-    // Here mo lagay yung ilalatag mo kako sa front, Thanks C
-  }  
+  } 
 }
 
 export interface PeriodicElement {

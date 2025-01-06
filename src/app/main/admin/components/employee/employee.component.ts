@@ -87,7 +87,7 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
         (employee.middle_name && employee.middle_name[0].toLowerCase().includes(filter)) ||
         employee.last_name.toLowerCase().includes(filter) ||
         (employee.ext_name && employee.ext_name.toLowerCase().includes(filter)) ||
-        employee.employee_id.toLowerCase().includes(filter)
+        employee.employee_id == filter
       );
     };
   

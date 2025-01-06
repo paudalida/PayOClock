@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';  // Sa ano Visitor Count 
+import { DataService } from '../../services/data/data.service';
 
 @Component({
   selector: 'app-landing',
@@ -12,7 +13,7 @@ export class LandingComponent implements AfterViewInit {
   animatedCount = 0;
 
   constructor (private el: ElementRef, 
-              private http: HttpClient // Sa ano Visitor Count 
+      private ds: DataService
   ) {}
 
   ngOnInit(): void {         // Sa ano Visitor Count 
@@ -60,19 +61,14 @@ export class LandingComponent implements AfterViewInit {
     });
   }
 
-  // Sa ano Visitor count this C 
-
   updateVisitorCount(): void {   
-    const apiUrl = 'https://payoclock.site/landing';  // this daw yung need endpoint, thanks. 
-
-    this.http.post<{ visitorCount: number }>(apiUrl, {}).subscribe({
-      next: (response: { visitorCount: number }) => {
-        this.visitorCount = response.visitorCount;
-      },
-      error: (error: any) => {
-        console.error('Error updating visitor count:', error);
+    this.ds.request('GET', 'landing').subscribe({
+      next: (res: any) => {
+        this.animateVisitorCount(res.data.count);
+      }, error: (err: any) => {
+        
       }
-    }); 
+    });
   }
 
   animateVisitorCount(target: number): void {

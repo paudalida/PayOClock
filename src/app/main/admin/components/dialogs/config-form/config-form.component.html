@@ -12,18 +12,18 @@
                 <form formArrayName="deduction" class="container">
                     <div class="container-head"> 
                         <h1> Deductions </h1> 
-                        <button class="btn-primary add" type="button" (click)="addToFormsArray('deduction', 'add', 'deduction')"> Add </button>
+                        <button class="btn-primary add" type="button" (click)="addToFormsArray('deduction', 'add', 'deduction')" *ngIf="!isDisabled"> Add </button>
                     </div>
                     <div class="container-body"> 
                         <div *ngFor="let control of formsArray('deduction').controls; let i = index">
                             <form [formGroupName]="i" class="input-row">
                                 <div class="entryarea">
-                                    <input type="text" formControlName="type">
+                                    <input type="text" formControlName="type" [disabled]="true">
                                     <div class="labelline"> Type </div>
                                 </div>
         
                                 <div class="entryarea">
-                                    <input type="text" formControlName="subtype">
+                                    <input type="text" formControlName="subtype" [disabled]="true">
                                     <div class="labelline"> Sub Type </div>
                                 </div>
         

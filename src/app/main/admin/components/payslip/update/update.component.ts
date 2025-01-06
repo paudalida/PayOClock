@@ -51,15 +51,41 @@ export class UpdateComponent implements OnInit {
   submit(type: string) {
     if(type != 'new' && type != 'current') return;
 
-    this.ds.request('POST', 'admin/transactions/payday/update-' + type + '/' + this.currentDate.payday_end, { payday_end: this.new_payday_end}).subscribe({
-      next: (res: any) => {
-        this.pop.toastWithTimer('success', res.message);
-        this.as.setPayday(res.data);
-        this.closePopup(true);
-      },
-      error: (err: any) => {
-        this.pop.swalBasic('error', 'Oops! Error updating payday', err.error.message);
-      }
+    let title = '';
+    let text = '';
+
+    if(type == 'new') {
+      title = 'Update to new date range?';
+      text = 'This will update the payslips to a new payroll record, you will no longer have access to the current payslips record.';
+    } else if(type == 'current') {
+      title = 'Edit current payroll date range?';
+      text = 'This will update the payroll to a new date range value.'
+    }
+
+    this.pop.swalWithCancel('question', title, text)
+      .then((res) => {
+        if(res) {
+          this.ds.request('POST', 'admin/transactions/payday/update-' + type + '/' + this.currentDate.payday_end, { payday_end: this.new_payday_end}).subscribe({
+            next: (res: any) => {
+              this.pop.toastWithTimer('success', res.message);
+              this.as.setPayday(res.data);
+              this.closePopup(true);
+
+              this.updateEmployeesStatus();
+            },
+            error: (err: any) => {
+              this.pop.swalBasic('error', 'Oops! Error updating payday', err.error.message);
+            }
+          });
+        }
+      });    
+  }
+
+  updateEmployeesStatus() {
+    let employees = this.as.getEmployees();
+
+    employees.forEach((element: any) => {
+      element.status = 'Pending';
     });
   }
 

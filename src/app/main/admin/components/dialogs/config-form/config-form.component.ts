@@ -21,13 +21,13 @@ export class ConfigFormComponent implements OnInit, OnDestroy{
     public dialogRef: MatDialogRef<ConfigFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
-
-
   form = this.fb.group({
     deduction: this.fb.array([]),
     other_deduction: this.fb.array([]),
     allowance: this.fb.array([])
   });
+
+  isDisabled = false;
 
   ngOnInit(): void {
     this.ds.request('GET', 'admin/periodic-transactions/user/' + this.as.getEmployee().id).subscribe({
@@ -75,11 +75,15 @@ export class ConfigFormComponent implements OnInit, OnDestroy{
 
     const formArray = this.form.get(category) as FormArray;
 
+    if(this.as.getEmployee().id) {
+      this.isDisabled = true;
+    }
+    
     formArray.push(this.fb.group({
       formKey: [formKey],
       operation_type: [operation_type, [Validators.required, Validators.maxLength(20)]],
-      type: [type, [Validators.required, Validators.maxLength(30)]],
-      subtype: [subtype, [Validators.maxLength(30)]],
+      type: [{value: type, disabled: this.isDisabled && category == 'deduction'}, [Validators.required, Validators.maxLength(30)]],
+      subtype: [{value: subtype, disabled: this.isDisabled && category == 'deduction'}, [Validators.maxLength(30)]],
       amount: [amount, [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]],
       id: [id]
     }));    
