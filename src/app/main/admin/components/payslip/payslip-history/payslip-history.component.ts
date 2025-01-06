@@ -25,6 +25,10 @@ export class PayslipHistoryComponent implements OnInit{
   hasData = false;
   payslipDetails: any = [];
 
+  paginatorIndex = 1;
+  paginatorCount = 5;
+  posts: any[] = [];
+
   ngOnInit(): void {
     if(!this.employee.id) { this.router.navigate(['/admin/payrolls']); } // return to payrolls if employee data is not set (browser refreshed)
 
@@ -124,6 +128,33 @@ export class PayslipHistoryComponent implements OnInit{
 
   redirectToPayrolls() {
     this.router.navigate(['/admin/payslips']);
+  }
+
+  changePaginator(event: Event) {
+    const count = (event.target as HTMLSelectElement).value;
+    this.paginatorCount = Number(count);
+    this.paginatorIndex = 0;
+  }
+
+  first() {
+    this.paginatorIndex = 0;
+  }
+
+  next() {
+    if (this.paginatorIndex + this.paginatorCount < this.posts.length) {
+      this.paginatorIndex += this.paginatorCount;
+    }
+  }
+
+  previous() {
+    if (this.paginatorIndex - this.paginatorCount >= 0) {
+      this.paginatorIndex -= this.paginatorCount;
+    }
+  }
+
+  last() {
+    const totalPages = Math.ceil(this.posts.length / this.paginatorCount);
+    this.paginatorIndex = (totalPages - 1) * this.paginatorCount;
   }
 }
 

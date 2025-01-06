@@ -1,4 +1,5 @@
 import { Component, AfterViewInit, ElementRef } from '@angular/core';
+import { HttpClient } from '@angular/common/http';  // Sa ano Visitor Count 
 
 @Component({
   selector: 'app-landing',
@@ -7,8 +8,16 @@ import { Component, AfterViewInit, ElementRef } from '@angular/core';
 })
 export class LandingComponent implements AfterViewInit {
   isNavBarVisible = false;
+  visitorCount = 0;
+  animatedCount = 0;
 
-  constructor(private el: ElementRef) {}
+  constructor (private el: ElementRef, 
+              private http: HttpClient // Sa ano Visitor Count 
+  ) {}
+
+  ngOnInit(): void {         // Sa ano Visitor Count 
+    this.updateVisitorCount();
+  }
 
   toggleDropdown(event: MouseEvent): void {
     event.preventDefault();
@@ -49,5 +58,39 @@ export class LandingComponent implements AfterViewInit {
     elementsToAnimate.forEach((element: Element) => {
       observer.observe(element);
     });
+  }
+
+  // Sa ano Visitor count this C 
+
+  updateVisitorCount(): void {   
+    const apiUrl = 'https://payoclock.site/landing';  // this daw yung need endpoint, thanks. 
+
+    this.http.post<{ visitorCount: number }>(apiUrl, {}).subscribe({
+      next: (response: { visitorCount: number }) => {
+        this.visitorCount = response.visitorCount;
+      },
+      error: (error: any) => {
+        console.error('Error updating visitor count:', error);
+      }
+    }); 
+  }
+
+  animateVisitorCount(target: number): void {
+    const duration = 1000; 
+    const frameRate = 60; 
+    const totalFrames = Math.round((duration / 1000) * frameRate);
+    const increment = (target - this.animatedCount) / totalFrames;
+
+    let currentFrame = 0;
+
+    const interval = setInterval(() => {
+      currentFrame++;
+      this.animatedCount = Math.round(this.animatedCount + increment);
+
+      if (currentFrame >= totalFrames) {
+        clearInterval(interval);
+        this.animatedCount = target; 
+      }
+    }, duration / totalFrames);
   }
 }  

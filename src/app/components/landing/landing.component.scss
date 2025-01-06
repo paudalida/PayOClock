@@ -191,7 +191,7 @@ body {
     padding-left: 15px;
     padding-right: 15px;
     max-width: 100%; 
-    animation: slideInLeft 1s ease-out;
+    // animation: slideInLeft 1s ease-out;
 
     h1 {
       color: var(--landing-font);
@@ -205,40 +205,59 @@ body {
       margin-bottom: 20px;
     }
 
-    h2 {
+    .visitor-counter {
+      padding-top: 30px;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+    
+    span {
       color: var(--landing-font);
-      font-size: 1.1rem; 
-      margin-top: 20px;
     }
 
-    .info-image {
-      width: 120px; 
-      max-width: 100%;
-      margin-top: 20px;
+    .count {
+      font-size: 70px; 
     }
 
-    .circle-container {
-      display: flex;
-      width: 100%;
-      max-width: 100px; 
-    }
+    // .count:active {
+    //   transform: scale(1.1);
+    // }
 
-    .circle {
-      width: 20px; 
-      height: 20px;
-      margin-left: 15px;
-      border-radius: 50%;
-      background-color: var(--primary-color);
-    }
+    // h2 {
+    //   color: var(--landing-font);
+    //   font-size: 1.1rem; 
+    //   margin-top: 20px;
+    // }
+
+    // .info-image {
+    //   width: 120px; 
+    //   max-width: 100%;
+    //   margin-top: 20px;
+    // }
+
+    // .circle-container {
+    //   display: flex;
+    //   width: 100%;
+    //   max-width: 100px; 
+    // }
+
+    // .circle {
+    //   width: 20px; 
+    //   height: 20px;
+    //   margin-left: 15px;
+    //   border-radius: 50%;
+    //   background-color: var(--primary-color);
+    // }
   }
 
   .right-content {
+    padding-top: 25px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     position: relative; 
-    animation: slideInLeft 1s ease-out 0.5s; 
+    // animation: slideInLeft 1s ease-out 0.5s; 
     animation-fill-mode: both;
   
     .vector-image {
@@ -285,6 +304,24 @@ body {
         padding-top: 50px;
         font-size: 4.3rem;
       }
+
+      .visitor-counter {
+        padding-top: 95px;
+        font-size: 20px;
+        font-weight: bold;
+        color: var(--primary-color);
+      }
+      
+      span {
+        color: var(--landing-font);
+      }
+  
+      .count {
+        display: block;
+        font-size: 90px; 
+        margin-top: 0; 
+        transition: transform 0.2s ease-in-out;
+      }
     }
   }
 
@@ -301,6 +338,18 @@ body {
 
     p {
       font-size: 1rem;
+    }
+
+    .visitor-counter {
+      padding-top: 45px;
+    }
+    
+    span {
+      color: var(--landing-font);
+    }
+
+    .count {
+      font-size: 50px; 
     }
   }
 }

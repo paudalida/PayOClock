@@ -195,6 +195,16 @@ table td:nth-child(5) {
     color: var(--danger);
 }
 
+.incomplete {
+    text-transform: capitalize;
+    font-weight: 700;
+    color: var(--late);
+}
+
+// .Pending {
+
+// }
+
 .action-buttons {
     display: flex;
     gap: 0.5rem;

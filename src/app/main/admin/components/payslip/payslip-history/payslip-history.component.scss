@@ -137,3 +137,50 @@
 .totals > td {
     border-top: 2px solid black;
 }
+
+.paginator {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 10px;
+    margin-bottom: 20px;
+}
+  
+.paginator .label {
+    font-size: 16px;
+    color: #333;
+    margin-right: 20px;
+}
+  
+.paginator-select {
+    font-size: 16px;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+  
+.paginator-btn {
+    background-color: var(--primary-color);
+    color: var(--white);
+    font-size: 24px;
+    border: none;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+  
+.paginator-btn:hover {
+    background-color: #0056b3;
+}
+  
+.paginator-btn:focus {
+    outline: none;
+}
+  
+.paginator-btn i {
+    display: block;
+    font-size: 24px;
+}

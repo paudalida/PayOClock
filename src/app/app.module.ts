@@ -26,6 +26,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
+import { HttpClientModule } from '@angular/common/http'; // Sa ano Visitor Count 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,6 +47,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     MatProgressSpinner,
 
     /* Landing imports */ 
+    HttpClientModule, // Sa ano Visitor Count 
     MatToolbarModule,
     MatIconModule, 
     MatDialogModule, ServiceWorkerModule.register('ngsw-worker.js', {

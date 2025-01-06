@@ -102,4 +102,31 @@
             </div>
         </ng-container>
     </ng-container>
+
+    <div class="paginator">
+        <div class="label"> 
+            Showing {{ paginatorIndex }} - 
+            {{ (this.paginatorIndex + this.paginatorCount) > this.posts.length ? this.posts.length : this.paginatorIndex + this.paginatorCount }} 
+            of {{ posts.length }} 
+        </div>
+    
+        <select (change)="changePaginator($event)" class="paginator-select">
+            <option value="5"> 5 </option>
+            <option value="10"> 10 </option>
+            <option value="15"> 15 </option>
+        </select>
+    
+        <button class="paginator-btn" (click)="first()">
+            <i class='bx bx-chevrons-left'></i>
+        </button>
+        <button class="paginator-btn" (click)="previous()">
+            <i class='bx bx-chevron-left'></i>
+        </button>
+        <button class="paginator-btn" (click)="next()">
+            <i class='bx bx-chevron-right'></i>
+        </button>
+        <button class="paginator-btn" (click)="last()">
+            <i class='bx bx-chevrons-right'></i>
+        </button>
+    </div>
 </div>
