@@ -4,7 +4,7 @@ import { Validators, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { AdminService } from '../../../../services/admin/admin.service';
 import { DataService } from '../../../../services/data/data.service';
 import { PopupService } from '../../../../services/popup/popup.service';
-import { dateValidator } from '../../../../utils/custom-validators';
+import { dateValidator, duplicateTypeSubtypeValidator } from '../../../../utils/custom-validators';
 import { ProfileComponent } from './profile/profile.component';
 import { Router } from '@angular/router';
 
@@ -28,15 +28,33 @@ export class SettingsComponent {
   });
 
   configForm = this.fb.group({
-    deduction: this.fb.array([]),
-    other_deduction: this.fb.array([]),
-    allowance: this.fb.array([])
+    deduction: this.fb.array([], duplicateTypeSubtypeValidator),
+    other_deduction: this.fb.array([], duplicateTypeSubtypeValidator),
+    allowance: this.fb.array([], duplicateTypeSubtypeValidator)
   });
 
   ngOnInit(): void {
     this.getHolidays();
     this.getConfig();
   }
+
+  duplicateInput(category: string, index: number) {
+    const formArray = this.formsArray('config', category);
+    
+    if (formArray) {
+      const errors = formArray.errors;
+      if (errors && errors['duplicateTypeSubtype']) {
+        const duplicateIndices = errors['duplicateTypeSubtype'];
+        if (duplicateIndices.includes(index)) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+  
+  
 
   getHolidays() {
     this.ds.request('GET', 'view/holidays').subscribe({

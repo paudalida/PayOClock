@@ -30,12 +30,14 @@
                                         <div *ngFor="let control of formsArray('config', 'deduction')?.controls; let i = index">
                                             <form [formGroupName]="i" class="input-row">
                                                 <div class="entryarea">
-                                                    <input type="text" formControlName="type">
+                                                    <input type="text" formControlName="type"
+                                                            [ngClass]="{ 'invalid-fld': duplicateInput('deduction', i)}">
                                                     <div class="labelline"> Type </div>
                                                 </div>
                         
                                                 <div class="entryarea">
-                                                    <input type="text" formControlName="subtype">
+                                                    <input type="text" formControlName="subtype"
+                                                            [ngClass]="{ 'invalid-fld': duplicateInput('deduction', i)}">
                                                     <div class="labelline"> Subtype </div>
                                                 </div>
                         
@@ -68,7 +70,8 @@
                                         <div *ngFor="let control of formsArray('config', 'allowance')?.controls; let i = index">
                                             <form [formGroupName]="i" class="input-row">
                                                 <div class="entryarea">
-                                                    <input type="text" formControlName="type">
+                                                    <input type="text" formControlName="type"
+                                                            [ngClass]="{ 'invalid-fld': duplicateInput('allowance', i)}">
                                                     <div class="labelline"> Type </div>
                                                 </div>
                         
@@ -93,7 +96,7 @@
                                     </div>
                                 </form>
         
-                                <button class="btn-primary update" type="submit"> Update </button>
+                                <button class="btn-primary update" type="submit" [disabled]="!configForm.valid"> Update </button>
                             </form>
                     </div>
                 </mat-tab>
@@ -171,7 +174,7 @@
                                 </div>
                             </form>
                             
-                            <button class="btn-primary update" type="submit"> Update </button>
+                            <button class="btn-primary update" type="submit" [disabled]="!holidayForm.valid"> Update </button>
                         </form>
                     </div>
                 </mat-tab>

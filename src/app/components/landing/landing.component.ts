@@ -62,12 +62,16 @@ export class LandingComponent implements AfterViewInit {
   }
 
   updateVisitorCount(): void {   
-    this.ds.request('GET', 'landing').subscribe({
+    this.ds.requestNoAuth('GET', 'landing').subscribe({
       next: (res: any) => {
         this.animateVisitorCount(res.data.count);
       }, error: (err: any) => {
         
       }
+    });
+
+    this.ds.requestNoAuth('POST', 'landing/add').subscribe((res: any) => {
+      // do nothing
     });
   }
 

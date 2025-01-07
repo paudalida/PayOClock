@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
-import { inArrayValidator, dateValidator } from '../../../../../utils/custom-validators';
+import { inArrayValidator, dateValidator, duplicateTypeSubtypeValidator } from '../../../../../utils/custom-validators';
 import { DataService } from '../../../../../services/data/data.service';
 import { PopupService } from '../../../../../services/popup/popup.service';
 import { AdminService } from '../../../../../services/admin/admin.service';
@@ -58,11 +58,11 @@ export class PayrollFormsComponent implements OnInit{
         payday_start: [''],
         payday_end: ['']
       }),
-      deduction: this.fb.array([]),
-      other_deduction: this.fb.array([]),
-      allowance: this.fb.array([]), 
-      adjustment_deductions: this.fb.array([]), 
-      adjustment_additions: this.fb.array([])
+      deduction: this.fb.array([], duplicateTypeSubtypeValidator),
+      other_deduction: this.fb.array([], duplicateTypeSubtypeValidator),
+      allowance: this.fb.array([], duplicateTypeSubtypeValidator), 
+      adjustment_deductions: this.fb.array([], duplicateTypeSubtypeValidator), 
+      adjustment_additions: this.fb.array([], duplicateTypeSubtypeValidator)
     });
 
     this.totalsListener();
@@ -124,6 +124,24 @@ export class PayrollFormsComponent implements OnInit{
     });
   }
 
+  duplicateInput(category: string, index: number) {
+    const formArray = this.formsArray(category);
+    
+    if (formArray) {
+      const errors = formArray.errors;
+
+      if (errors && errors['duplicateTypeSubtype']) {
+        const duplicateIndices = errors['duplicateTypeSubtype'];
+
+        if (duplicateIndices.includes(index)) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+  
   getConfig() {
     this.ds.request('GET', 'admin/periodic-transactions/user/' + this.employee.id).subscribe({
       next: (res: any) => { 

@@ -46,4 +46,24 @@ export class DataService {
         throw new Error(`Unsupported request method: ${method}`);
     }
   }
+
+  public requestNoAuth(method: string, url: string, form?: any) {
+    switch(method) {
+      case 'GET':
+        return this.http.get(this.header.url + url);
+
+      case 'POST':
+        return this.http.post(this.header.url + url, form);
+
+      case 'PUT':
+        form.append('_method', 'PUT');
+        return this.http.post(this.header.url + url, form);
+      
+      case 'DELETE':
+        return this.http.delete(this.header.url + url);
+
+      default:
+        throw new Error(`Unsupported request method: ${method}`);
+    }
+  }
 }

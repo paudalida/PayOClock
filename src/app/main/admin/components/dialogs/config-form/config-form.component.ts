@@ -5,6 +5,7 @@ import { PopupService } from '../../../../../services/popup/popup.service';
 import { AdminService } from '../../../../../services/admin/admin.service';
 import { Validators, FormArray } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { duplicateTypeSubtypeValidator } from '../../../../../utils/custom-validators';
 
 @Component({
   selector: 'app-config-form',
@@ -21,13 +22,11 @@ export class ConfigFormComponent implements OnInit, OnDestroy{
     public dialogRef: MatDialogRef<ConfigFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
-  form = this.fb.group({
-    deduction: this.fb.array([]),
-    other_deduction: this.fb.array([]),
-    allowance: this.fb.array([])
+  form: any = this.fb.group({
+    deduction: this.fb.array([], duplicateTypeSubtypeValidator),
+    other_deduction: this.fb.array([], duplicateTypeSubtypeValidator),
+    allowance: this.fb.array([], duplicateTypeSubtypeValidator)
   });
-
-  isDisabled = false;
 
   ngOnInit(): void {
     this.ds.request('GET', 'admin/periodic-transactions/user/' + this.as.getEmployee().id).subscribe({
@@ -55,6 +54,22 @@ export class ConfigFormComponent implements OnInit, OnDestroy{
     this.close();
   }
 
+  duplicateInput(category: string, index: number) {
+    const formArray = this.formsArray(category);
+    
+    if (formArray) {
+      const errors = formArray.errors;
+      if (errors && errors['duplicateTypeSubtype']) {
+        const duplicateIndices = errors['duplicateTypeSubtype'];
+        if (duplicateIndices.includes(index)) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
   close() {
     this.dialogRef.close(this.data);
   }
@@ -74,16 +89,12 @@ export class ConfigFormComponent implements OnInit, OnDestroy{
   ) {
 
     const formArray = this.form.get(category) as FormArray;
-
-    if(this.as.getEmployee().id) {
-      this.isDisabled = true;
-    }
     
     formArray.push(this.fb.group({
       formKey: [formKey],
       operation_type: [operation_type, [Validators.required, Validators.maxLength(20)]],
-      type: [{value: type, disabled: this.isDisabled && category == 'deduction'}, [Validators.required, Validators.maxLength(30)]],
-      subtype: [{value: subtype, disabled: this.isDisabled && category == 'deduction'}, [Validators.maxLength(30)]],
+      type: [{value: type, disabled: category == 'deduction'}, [Validators.required, Validators.maxLength(30)]],
+      subtype: [{value: subtype, disabled:  category == 'deduction'}, [Validators.maxLength(30)]],
       amount: [amount, [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]],
       id: [id]
     }));    

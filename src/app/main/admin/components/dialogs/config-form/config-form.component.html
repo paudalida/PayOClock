@@ -12,18 +12,20 @@
                 <form formArrayName="deduction" class="container">
                     <div class="container-head"> 
                         <h1> Deductions </h1> 
-                        <button class="btn-primary add" type="button" (click)="addToFormsArray('deduction', 'add', 'deduction')" *ngIf="!isDisabled"> Add </button>
+                        <!-- <button class="btn-primary add" type="button" (click)="addToFormsArray('deduction', 'add', 'deduction')"> Add </button> -->
                     </div>
                     <div class="container-body"> 
                         <div *ngFor="let control of formsArray('deduction').controls; let i = index">
                             <form [formGroupName]="i" class="input-row">
                                 <div class="entryarea">
-                                    <input type="text" formControlName="type" [disabled]="true">
+                                    <input type="text" formControlName="type" [disabled]="true"                                    
+                                            [ngClass]="{ 'invalid-fld': duplicateInput('deduction', i)}">
                                     <div class="labelline"> Type </div>
                                 </div>
         
                                 <div class="entryarea">
-                                    <input type="text" formControlName="subtype" [disabled]="true">
+                                    <input type="text" formControlName="subtype" [disabled]="true"                                    
+                                            [ngClass]="{ 'invalid-fld': duplicateInput('deduction', i)}">
                                     <div class="labelline"> Sub Type </div>
                                 </div>
         
@@ -40,9 +42,9 @@
                                     <div class="labelline"> Amount </div>
                                 </div>
         
-                                <button class="btn-danger remove" type="button" (click)="removeFromFormsArray('deduction', i)"> 
+                                <!-- <button class="btn-danger remove" type="button" (click)="removeFromFormsArray('deduction', i)"> 
                                     <i class='bx bx-x'></i>
-                                </button>
+                                </button> -->
                             </form>
                         </div>
                     </div>
@@ -98,14 +100,16 @@
                         <div *ngFor="let control of formsArray('allowance').controls; let i = index">
                             <form [formGroupName]="i" class="input-row">
                                 <div class="entryarea">
-                                    <input type="text" formControlName="type">
+                                    <input type="text" formControlName="type"                                    
+                                            [ngClass]="{ 'invalid-fld': duplicateInput('allowance', i)}">
                                     <div class="labelline"> Type </div>
                                 </div>
         
-                                <div class="entryarea">
-                                    <input type="text" formControlName="subtype">
+                                <!-- <div class="entryarea">
+                                    <input type="text" formControlName="subtype"                                    
+                                            [ngClass]="{ 'invalid-fld': duplicateInput('allowance', i)}">
                                     <div class="labelline"> Sub Type </div>
-                                </div>
+                                </div> -->
         
                                 <!-- <div class="entryarea">
                                     <select formControlName="operation_type">
@@ -127,7 +131,7 @@
                         </div>
                     </div>                
                     
-                    <button class="btn-primary update"> Update </button>
+                    <button class="btn-primary update" [disabled]="!form.valid"> Update </button>
                 </form>
             </div>
         </div> 
