@@ -103,7 +103,6 @@ export class AnnouncementsComponent implements OnInit{
     const length = this.posts.length;
     const excess = (length % this.paginatorCount) == 0 ? (this.paginatorCount) : (length % this.paginatorCount);
     this.paginatorIndex = length - excess+1;
-    console.log(length -excess)
   }
 }
 

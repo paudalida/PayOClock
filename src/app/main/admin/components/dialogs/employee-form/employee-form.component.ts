@@ -17,7 +17,7 @@ export class EmployeeFormComponent {
   form: FormGroup = this.fb.group({
     id: [''],
     type: ['employee', [Validators.required, inArrayValidator(['admin', 'employee'])]],
-    employee_id: ['', [Validators.required, Validators.min(1), Validators.pattern(/^\d+$/)]],
+    employee_id: [{value: '', disabled: true}],
     first_name: ['', [Validators.required, Validators.maxLength(30)]],
     middle_name: ['', [Validators.maxLength(20)]],
     last_name: ['', [Validators.required, Validators.maxLength(20)]],
@@ -86,7 +86,6 @@ export class EmployeeFormComponent {
 
     if(control) {
       const errors = control.errors;
-      console.log(errors)
       let text = '';
       if (errors) {
         if (errors['maxlength']) {
@@ -190,7 +189,7 @@ export class EmployeeFormComponent {
       this.ds.request(method, 'admin/employees/' + this.data.formType, formData).subscribe({
         next: (res: any) => {
           this.pop.toastWithTimer('success', res.message, 5);
-          this.dialogRef.close({method: method, data: res.data});
+          this.dialogRef.close({method: method, type: 'add', data: res.data});
           this.isLoading = false;
         },
         error: (err: any) => {

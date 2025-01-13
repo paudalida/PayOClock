@@ -147,8 +147,6 @@ async showRestoreAction(id: string) {
         let employees = this.as.getEmployees();
         employees.push(res.data);
 
-        console.log(employees)
-
         // this.as.setEmployees(employees);
       },
       error: (err: any) => {

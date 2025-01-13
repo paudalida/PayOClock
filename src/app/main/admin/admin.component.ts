@@ -26,12 +26,6 @@ export class AdminComponent implements OnInit {
   ngOnInit(): void {
     this.ds.request('GET', 'admin/employees').subscribe({
       next: (res: any) => {
-        res.data.forEach((element: any) => {
-          element.full_name = element.first_name + ' ';
-          if(element.middle_name) element.full_name += element.middle_name[0].toUpperCase() + '. ';
-          element.full_name += element.last_name;
-          if(element.ext_name) element.full_name += ' ' + element.ext_name;
-        });
         this.as.setEmployees(res.data);
       },
       error: () => {

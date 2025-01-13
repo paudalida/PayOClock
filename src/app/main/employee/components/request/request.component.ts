@@ -89,10 +89,6 @@ export class RequestComponent implements OnInit {
       });
   }
 
-  // viewProofs(proofs: { name: string; url: string }[]): void {
-  //   console.log('View Proofs clicked');
-  // }
-
   openForm(type: string) {
     if (this.dialog) {
       const dialogRef = this.dialog.open(RequestFormComponent, { data:  type });
@@ -106,12 +102,4 @@ export class RequestComponent implements OnInit {
       console.error('Dialog is not initialized');
     }
   }
-
-  // overtimeForm() {
-  //   if (this.dialog) {
-  //     this.dialog.open(OvertimeFormComponent);
-  //   } else {
-  //     console.error('Dialog is not initialized');
-  //   }
-  // }
 }

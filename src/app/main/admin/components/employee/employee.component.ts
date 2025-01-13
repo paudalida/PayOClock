@@ -154,13 +154,23 @@ async showArchiveAction(employee: any) {
   }
 }
 
-  importEmployee() {
-    if (this.dialog) {
-      this.dialog.open(ImportComponent);
-    } else {
-      console.error('Dialog is not initialized');
-    }
+importEmployee() {
+  if (this.dialog) {
+    const dialogRef = this.dialog.open(ImportComponent);
+
+    dialogRef.afterClosed().subscribe((res: any) => {
+      if(res) {
+        this.ds.request('GET', 'admin/employees').subscribe((res: any) => {
+            this.as.setEmployees(res.data);
+            this.getData();
+            this.setupTableFunctions();
+        });
+      }
+    });
+  } else {
+    console.error('Dialog is not initialized');
   }
+}
 
 
   openDialog(formType: string = 'add'): void {
@@ -177,7 +187,6 @@ async showArchiveAction(employee: any) {
     });
     
     dialogRef.afterClosed().subscribe((res: any) => {
-
       if(res) {
         if (res.method == 'POST') {
           this.as.setEmployees([...this.dataSource.data, res.data.employee]);

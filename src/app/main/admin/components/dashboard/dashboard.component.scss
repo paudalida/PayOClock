@@ -50,6 +50,12 @@
     }
 }
 
+.card:hover {
+    background-color: var(--buttons-hover);
+    box-shadow: 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
 .box {
 
     h1 {

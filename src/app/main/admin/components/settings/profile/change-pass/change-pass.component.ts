@@ -35,7 +35,6 @@ export class ChangePassComponent {
   ) {}
 
   submit() {
-    console.log('clicked')
     if(this.form.valid) {
       if(this.form.get('new')?.value == this.form.get('confirmed')?.value) {
         this.ds.request('POST', 'admin/passwords/change/self', this.form.value).subscribe({

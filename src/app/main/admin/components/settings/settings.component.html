@@ -31,13 +31,15 @@
                                             <form [formGroupName]="i" class="input-row">
                                                 <div class="entryarea">
                                                     <input type="text" formControlName="type"
-                                                            [ngClass]="{ 'invalid-fld': duplicateInput('deduction', i)}">
+                                                            [ngClass]="{ 'invalid-fld': duplicateInput('deduction', i)}"
+                                                            (input)="showErrors('deduction', i, 'type')">
                                                     <div class="labelline"> Type </div>
                                                 </div>
                         
                                                 <div class="entryarea">
                                                     <input type="text" formControlName="subtype"
-                                                            [ngClass]="{ 'invalid-fld': duplicateInput('deduction', i)}">
+                                                            [ngClass]="{ 'invalid-fld': duplicateInput('deduction', i)}"
+                                                            (input)="showErrors('deduction', i, 'subtype')">
                                                     <div class="labelline"> Subtype </div>
                                                 </div>
                         
@@ -50,7 +52,8 @@
                                                 </div> -->
                         
                                                 <div class="entryarea">
-                                                    <input type="text" formControlName="amount">
+                                                    <input type="text" formControlName="amount"
+                                                            (input)="showErrors('deduction', i, 'amount')">
                                                     <div class="labelline"> Amount </div>
                                                 </div>
                         
@@ -71,7 +74,8 @@
                                             <form [formGroupName]="i" class="input-row">
                                                 <div class="entryarea">
                                                     <input type="text" formControlName="type"
-                                                            [ngClass]="{ 'invalid-fld': duplicateInput('allowance', i)}">
+                                                            [ngClass]="{ 'invalid-fld': duplicateInput('allowance', i)}"
+                                                            (input)="showErrors('allowance', i, 'type')">
                                                     <div class="labelline"> Type </div>
                                                 </div>
                         
@@ -84,7 +88,8 @@
                                                 </div> -->
                         
                                                 <div class="entryarea">
-                                                    <input type="text" formControlName="amount">
+                                                    <input type="text" formControlName="amount"
+                                                    (input)="showErrors('allowance', i, 'amount')">
                                                     <div class="labelline"> Amount </div>
                                                 </div>
                         

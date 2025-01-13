@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { PopupService } from '../../../../../services/popup/popup.service';
 import { DataService } from '../../../../../services/data/data.service';
+import { AdminService } from '../../../../../services/admin/admin.service';
 
 @Component({
   selector: 'app-import',
@@ -13,6 +14,7 @@ export class ImportComponent {
   constructor(
     private dialogRef: MatDialogRef<ImportComponent>, 
     private ds: DataService,
+    private as: AdminService,
     private pop: PopupService
   ) { }
 
@@ -52,7 +54,7 @@ export class ImportComponent {
     this.ds.request('POST', 'admin/employees/import', formData).subscribe({
       next: (res: any) => {
         this.pop.toastWithTimer('success', res.message);
-        this.closePopup();
+        this.dialogRef.close({type: 'import'});
       },
       error: (err: any) => {
         this.pop.swalBasic('error', 'Oops! Import failed', err.error.message);

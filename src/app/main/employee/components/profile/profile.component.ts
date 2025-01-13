@@ -131,7 +131,6 @@ export class ProfileComponent implements OnInit {
           if(res.data.image) this.es.setImage(res.data.image);
 
           this.employee = this.es.getEmployee();
-          console.log(this.employee)
         },
         error: (err: any) => {
           this.pop.swalBasic('error', 'Oops! An error has occured', err.error.message);

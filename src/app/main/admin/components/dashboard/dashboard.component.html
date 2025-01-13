@@ -2,7 +2,7 @@
     <div class="content"> 
         <div class="cards">
             <div class="input-row">
-                <div class="card">
+                <div class="card" (click)="navigate('employees')">
                         <img src="assets/images/employee.png">
                     <div class="box">
                         <h1> {{ details.employeeCount }} </h1>
@@ -10,7 +10,7 @@
                     </div>
                 </div>
         
-                <div class="card">
+                <div class="card" (click)="navigate('payslips')">
                         <img src="assets/images/pending.png">
                     <div class="box">
                         <h1> {{ details.pending }} </h1>
@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 
-                <div class="card">
+                <div class="card" (click)="navigate('payslips')">
                         <img src="assets/images/processed.png">
                     <div class="box">
                         <h1> {{ details.processed }} </h1>
@@ -80,7 +80,7 @@
 
         <div class="graph-container">
             <div class="right" style="height: 450px;">
-                <span class="header">Payroll Summary of Year 2024</span>
+                <span class="header">Payroll Summary</span>
                 <div class="bar-container" style="height: 100%;">
                     <p-chart type="bar" [data]="barChartData" [options]="options.bar" style="height: 100%;"></p-chart>
                 </div>

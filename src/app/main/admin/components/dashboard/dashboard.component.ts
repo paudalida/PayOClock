@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../../../services/admin/admin.service';
 import { ChartModule } from 'primeng/chart';
 import { DataService } from '../../../../services/data/data.service';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,6 +26,10 @@ export class DashboardComponent implements OnInit {
     Saturday: this.defaults
   };
 
+  payrollsTotal: any = {
+    labels: [],
+    data: []
+  };
   barChartData: any;
   doughnutRawData = this.defaults;
   doughnutChartData: any;
@@ -32,7 +37,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private as: AdminService,
-    private ds: DataService
+    private ds: DataService,
+    private router: Router
   ) { }
 
   details = {
@@ -54,27 +60,31 @@ export class DashboardComponent implements OnInit {
       this.tableData = res.data.attendanceWeekly;
       this.doughnutRawData = res.data.attendanceMonthly;
       this.setDoughnut();
+
+      this.payrollsTotal.labels = Object.keys(res.data.payrollSummary);
+      this.payrollsTotal.data = res.data.payrollSummary;
+      this.setBarChart();
     });
 
   }
 
   setBarChart() {
-    const firstPayroll = [15000, 17000, 14000, 16000, 18000, 19000];  
-    const secondPayroll = [8000, 9000, 7000, 5000, 10000, 11000];     
+    // const firstPayroll = [15000, 17000, 14000, 16000, 18000, 19000];  
+    // const secondPayroll = [8000, 9000, 7000, 5000, 10000, 11000];     
 
     this.barChartData = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+      labels: this.payrollsTotal.labels,
       datasets: [
         {
-          label: 'First Payroll of the Month',
+          label: 'Total Net Pay of all Employees',
           backgroundColor: '#254ca3db',
-          data: firstPayroll
+          data: this.payrollsTotal.data
         },
-        {
-          label: 'Second Payroll of the Month',
-          backgroundColor: '#789dc9',
-          data: secondPayroll
-        }
+        // {
+        //   label: 'Second Payroll of the Month',
+        //   backgroundColor: '#789dc9',
+        //   data: secondPayroll
+        // }
       ]
     };
   }
@@ -223,5 +233,10 @@ export class DashboardComponent implements OnInit {
     if (index === 0) return 'status-present';
     if (index === 1) return 'status-late';
     return '';
+  }
+
+  navigate(link: string) {
+    const url = 'admin/' + link;
+    this.router.navigate([url]);
   }
 }

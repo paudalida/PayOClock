@@ -99,7 +99,7 @@
                     <div class="input-row1">
                         <div class="entryarea2">
                             <div class="value-display">{{ grossPay }}</div>
-                            <div class="labelline2"> Total Additions </div>
+                            <div class="labelline2"> Total Additionals </div>
                         </div>
                     </div>
 
@@ -149,7 +149,8 @@
                                     </div> -->
             
                                     <div class="entryarea4">
-                                        <input type="text" formControlName="amount">
+                                        <input type="text" formControlName="amount"
+                                        (input)="showErrors('deduction', i, 'amount')">
                                         <div class="labelline4"> Amount </div>
                                     </div>
                                 </div>
@@ -175,12 +176,14 @@
                                 <div class="input-row1"> 
                                     <div class="entryarea">
                                         <input type="text" formControlName="type"                                                                                    
-                                                [ngClass]="{ 'invalid-fld': duplicateInput('other_deduction', i)}">
+                                                [ngClass]="{ 'invalid-fld': duplicateInput('other_deduction', i)}" 
+                                                (input)="showErrors('other_deduction', i, 'type')">
                                         <div class="labelline"> Type </div>
                                     </div>
             
                                     <div class="entryarea">
-                                        <input type="text" formControlName="amount">
+                                        <input type="text" formControlName="amount"
+                                        (input)="showErrors('other_deduction', i, 'amount')">
                                         <div class="labelline"> Amount </div>
                                     </div>
                                 </div>
@@ -206,12 +209,14 @@
                                     <div class="input-row1"> 
                                         <div class="entryarea">
                                             <input type="text" formControlName="type"                                                                                        
-                                                    [ngClass]="{ 'invalid-fld': duplicateInput('allowance', i)}">
+                                                    [ngClass]="{ 'invalid-fld': duplicateInput('allowance', i)}" 
+                                                    (input)="showErrors('allowance', i, 'type')">
                                             <div class="labelline"> Type </div>
                                         </div>
                 
                                         <div class="entryarea">
-                                            <input type="text" formControlName="amount">
+                                            <input type="text" formControlName="amount"
+                                            (input)="showErrors('allowance', i, 'amount')">
                                             <div class="labelline"> Amount </div>
                                         </div>
                                     </div>
@@ -246,7 +251,8 @@
                                         <div class="input-row1"> 
                                             <div class="entryarea1">
                                                 <input type="text" formControlName="type"                                    
-                                                        [ngClass]="{ 'invalid-fld': duplicateInput('adjustment_deductions', i)}">
+                                                        [ngClass]="{ 'invalid-fld': duplicateInput('adjustment_deductions', i)}"
+                                                        (input)="showErrors('adjustment_deductions', i, 'type')">
                                                 <div class="labelline1"> Type </div>
                                             </div>
 
@@ -256,7 +262,8 @@
                                             </div> -->
                     
                                             <div class="entryarea1">
-                                                <input type="text" formControlName="amount">
+                                                <input type="text" formControlName="amount"
+                                                (input)="showErrors('adjustment_deductions', i, 'amount')">
                                                 <div class="labelline1"> Amount </div>
                                             </div>
                                         </div>
@@ -281,7 +288,8 @@
                                         <div class="input-row1"> 
                                             <div class="entryarea1">
                                                 <input type="text" formControlName="type"                                    
-                                                        [ngClass]="{ 'invalid-fld': duplicateInput('adjustment_additions', i)}">
+                                                        [ngClass]="{ 'invalid-fld': duplicateInput('adjustment_additions', i)}"
+                                                        (input)="showErrors('adjustment_additions', i, 'type')">
                                                 <div class="labelline1"> Type </div>
                                             </div>
 
@@ -291,7 +299,8 @@
                                             </div> -->
                     
                                             <div class="entryarea1">
-                                                <input type="text" formControlName="amount">
+                                                <input type="text" formControlName="amount"
+                                                (input)="showErrors('adjustment_additions', i, 'amount')">
                                                 <div class="labelline1"> Amount </div>
                                             </div>
                                         </div>
