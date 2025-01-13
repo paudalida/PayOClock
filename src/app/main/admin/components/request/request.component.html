@@ -14,20 +14,20 @@
         
                 <div class="mat-elevation-z8">
                     <table mat-table [dataSource]="pendingRequests" matSort>
+
+                        <!-- ID Number Column -->
+                        <ng-container matColumnDef="employee_id">
+                            <th mat-header-cell *matHeaderCellDef> ID Number </th>
+                            <td mat-cell *matCellDef="let element"> 
+                                {{ element.employee_id }} 
+                            </td>
+                        </ng-container>
                         
                         <!-- Employee Name Column -->
                         <ng-container matColumnDef="name">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Employee Name </th>
                             <td mat-cell *matCellDef="let element"> 
                                 {{ element.full_name }}
-                            </td>
-                        </ng-container>
-                
-                        <!-- ID Number Column -->
-                        <ng-container matColumnDef="employee_id">
-                            <th mat-header-cell *matHeaderCellDef> ID Number </th>
-                            <td mat-cell *matCellDef="let element"> 
-                                {{ element.employee_id }} 
                             </td>
                         </ng-container>
                 

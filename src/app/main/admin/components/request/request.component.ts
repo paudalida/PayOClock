@@ -43,8 +43,8 @@ export class RequestComponent implements OnInit, AfterViewInit {
   
   employees: any = null;
 
-  pendingColumns: string[] = ['name', 'employee_id', 'request_type', 'start_date', 'end_date', 'action'];
-  finishedColumns: string[] = ['name', 'employee_id', 'request_type', 'start_date', 'end_date', 'status'];
+  pendingColumns: string[] = ['employee_id', 'name', 'request_type', 'start_date', 'end_date', 'action'];
+  finishedColumns: string[] = ['employee_id', 'name', 'request_type', 'start_date', 'end_date', 'status'];
 
   ngOnInit(): void {
     this.employees = this.as.getEmployees();

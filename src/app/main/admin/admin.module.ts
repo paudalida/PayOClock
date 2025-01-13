@@ -47,6 +47,8 @@ import { ActivityComponent } from './components/settings/activity/activity.compo
 import { ChangePassComponent } from './components/settings/profile/change-pass/change-pass.component';
 import { ChangePassEmployeeComponent } from './components/settings/profile/change-pass-employee/change-pass-employee.component';
 import { AnnouncementComponent } from './components/archives/announcement/announcement.component';
+import { IndivPayslipComponent } from './components/payroll/indiv-payslip/indiv-payslip.component';
+import { PayrollSumComponent } from './components/payroll/payroll-sum/payroll-sum.component';
 
 
 @NgModule({
@@ -83,7 +85,9 @@ import { AnnouncementComponent } from './components/archives/announcement/announ
     ChangePassComponent,
     ChangePassEmployeeComponent,
     AnnouncementComponent,
-    ActivityComponent
+    ActivityComponent,
+    IndivPayslipComponent,
+    PayrollSumComponent
     
   ],
   imports: [

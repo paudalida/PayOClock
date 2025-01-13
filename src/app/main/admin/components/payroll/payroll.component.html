@@ -28,7 +28,7 @@
             <th *ngFor="let column of fixedColumns"> {{ column }} </th>
           </tr>
 
-          <tr *ngFor="let row of payroll; let i = index;">
+          <tr *ngFor="let row of payroll; let i = index;" (click)="openDialog()">
             <ng-container *ngIf="i > 0">
               
               <ng-container  *ngFor="let data of row; let j = index;" >

@@ -6,6 +6,10 @@ import { PopupService } from '../../../../services/popup/popup.service';
 import * as ExcelJS from 'exceljs'; 
 import { saveAs } from 'file-saver'; 
 import Swal from 'sweetalert2';
+import { MatDialog } from '@angular/material/dialog';
+import { PayslipComponent } from '../payslip/payslip.component';
+import { PayslipFormComponent } from '../payslip/payslip-form/payslip-form.component';
+import { IndivPayslipComponent } from './indiv-payslip/indiv-payslip.component';
 
 @Component({
   selector: 'app-payroll',
@@ -19,8 +23,10 @@ export class PayrollComponent implements OnInit {
   dateFilter: any = null;
   filterValue = '';
   columns: any;
+  selectedRow: any = null;
 
   constructor(
+    private dialog: MatDialog,
     private ds: DataService,
     private as: AdminService,
     private pop: PopupService
@@ -232,6 +238,14 @@ export class PayrollComponent implements OnInit {
       reader.readAsDataURL(blob); // Read the blob as a data URL
     });
   } 
+
+    openDialog() {
+      if (this.dialog) {
+        this.dialog.open(IndivPayslipComponent);
+      } else {
+        console.error('Dialog is not initialized');
+      }
+    }
 }
 
 export interface PeriodicElement {

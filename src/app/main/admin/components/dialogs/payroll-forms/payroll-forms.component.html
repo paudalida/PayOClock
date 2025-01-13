@@ -173,11 +173,21 @@
                         <div *ngFor="let control of formsArray('other_deduction').controls; let i = index">
                             <form [formGroupName]="i">
                                 <div class="input-row1"> 
-                                    <div class="entryarea">
+                                    <!-- <div class="entryarea">
                                         <input type="text" formControlName="type"                                                                                    
                                                 [ngClass]="{ 'invalid-fld': duplicateInput('other_deduction', i)}">
                                         <div class="labelline"> Type </div>
+                                    </div>   -->
+
+                                    <div class="entryarea">
+                                        <select formControlName="type">
+                                            <option value="option1">Option 1</option>
+                                            <option value="option2">Option 2</option>
+                                            <option value="option3">Option 3</option>
+                                        </select>
+                                        <div class="labelline">Type</div>
                                     </div>
+                                    
             
                                     <div class="entryarea">
                                         <input type="text" formControlName="amount">
@@ -204,10 +214,19 @@
                             <div *ngFor="let control of formsArray('allowance').controls; let i = index">
                                 <form [formGroupName]="i">
                                     <div class="input-row1"> 
-                                        <div class="entryarea">
+                                        <!-- <div class="entryarea">
                                             <input type="text" formControlName="type"                                                                                        
                                                     [ngClass]="{ 'invalid-fld': duplicateInput('allowance', i)}">
                                             <div class="labelline"> Type </div>
+                                        </div> -->
+
+                                        <div class="entryarea">
+                                            <select formControlName="type">
+                                                <option value="option1">Option 1</option>
+                                                <option value="option2">Option 2</option>
+                                                <option value="option3">Option 3</option>
+                                            </select>
+                                            <div class="labelline">Type</div>
                                         </div>
                 
                                         <div class="entryarea">
@@ -244,10 +263,19 @@
                                 <div *ngFor="let control of formsArray('adjustment_deductions').controls; let i = index">
                                     <form [formGroupName]="i">
                                         <div class="input-row1"> 
-                                            <div class="entryarea1">
+                                            <!-- <div class="entryarea1">
                                                 <input type="text" formControlName="type"                                    
                                                         [ngClass]="{ 'invalid-fld': duplicateInput('adjustment_deductions', i)}">
                                                 <div class="labelline1"> Type </div>
+                                            </div> -->
+
+                                            <div class="entryarea1">
+                                                <select formControlName="type">
+                                                    <option value="option1">Option 1</option>
+                                                    <option value="option2">Option 2</option>
+                                                    <option value="option3">Option 3</option>
+                                                </select>
+                                                <div class="labelline1">Type</div>
                                             </div>
 
                                             <!-- <div class="entryarea1">
@@ -279,10 +307,19 @@
                                 <div *ngFor="let control of formsArray('adjustment_additions').controls; let i = index">
                                     <form [formGroupName]="i">
                                         <div class="input-row1"> 
-                                            <div class="entryarea1">
+                                            <!-- <div class="entryarea1">
                                                 <input type="text" formControlName="type"                                    
                                                         [ngClass]="{ 'invalid-fld': duplicateInput('adjustment_additions', i)}">
                                                 <div class="labelline1"> Type </div>
+                                            </div> -->
+
+                                            <div class="entryarea1">
+                                                <select formControlName="type">
+                                                    <option value="option1">Option 1</option>
+                                                    <option value="option2">Option 2</option>
+                                                    <option value="option3">Option 3</option>
+                                                </select>
+                                                <div class="labelline1">Type</div>
                                             </div>
 
                                             <!-- <div class="entryarea1">

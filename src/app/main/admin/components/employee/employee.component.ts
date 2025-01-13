@@ -49,7 +49,7 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
     this.paginator = new MatPaginator(this.paginatorIntl, this.changeDetectorRef);
   }
 
-  displayedColumns: string[] = ['name', 'employee_id', 'gender', 'position', 'action'];
+  displayedColumns: string[] = ['employee_id', 'name', 'gender', 'position', 'action'];
   dataSource: any;
 
   /* Employee getters */

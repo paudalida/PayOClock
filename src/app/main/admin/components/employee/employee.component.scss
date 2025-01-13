@@ -174,15 +174,13 @@ table tr:hover{
 }
 
 table td:nth-child(1) {
-    text-align: left;
-    padding-left: 35px;
-    min-width: 200px;
-    max-width: 200px;
+    min-width: 100px;
+    max-width: 100px;
 }
 
 table td:nth-child(2) {
-    min-width: 100px;
-    max-width: 100px;
+    min-width: 200px;
+    max-width: 200px;
 }
 
 table td:nth-child(3) {

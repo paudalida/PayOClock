@@ -256,6 +256,7 @@
                 align-items: center;
                 transition: 0.1s ease;
             }
+
     
             .labelline {
                 position: absolute;
@@ -516,7 +517,7 @@
         
             
                 &:first-child {
-                    flex-basis: 80%;
+                    flex-basis: 120%;
                 }
         
             
@@ -842,7 +843,7 @@
                     width: 85%; 
                 }
         
-                input {
+                input, select {
                     font-family: "Poppins";
                     height: 42px;
                     outline: none;
@@ -988,7 +989,7 @@
                     width: 85%; 
                 }
         
-                input {
+                input, select {
                     font-family: "Poppins";
                     height: 42px;
                     outline: none;

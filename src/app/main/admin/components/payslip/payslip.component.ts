@@ -29,7 +29,7 @@ export interface Employee {
   styleUrl: './payslip.component.scss'
 })
 export class PayslipComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['name', 'id', 'position', 'status', 'action'];
+  displayedColumns: string[] = ['id', 'name', 'position', 'status', 'action'];
   dataSource: any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
