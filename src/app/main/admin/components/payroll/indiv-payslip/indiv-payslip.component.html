@@ -2,90 +2,101 @@
     <div class="main-container">
         <div class="detailsbody">
             <div class="table-content">
-                <div class="table-head">
-                    <div class="header"> 
-                        <button type="button" class="close-button" (click)="closePopup()">
-                            <i class='bx bx-x'></i>
-                        </button>
-                    </div>
-                    <div class="input-row">
-                        <div class="information-case">
-                            <th> EMPLOYEE NAME: </th>  
-                            <td> {{ employee.full_name }} </td>
+
+                <div class="loading" *ngIf="isLoading">
+                    <app-spinner></app-spinner>
+                </div>
+
+                <ng-container>
+                    <div class="table-head" *ngIf="!isLoading">
+                        <div class="header"> 
+                            <button type="button" class="close-button" (click)="closePopup()">
+                                <i class='bx bx-x'></i>
+                            </button>
+                        </div>
+                        <div class="input-row">
+                            <div class="information-case">
+                                <th> EMPLOYEE NAME: </th>  
+                                <td> {{ employee.full_name }} </td>
+                            </div>
+                
+                            <div class="information-case">
+                                <th> PAYROLL PERIOD: </th> 
+                                <td> {{ data.start | date: 'mediumDate' }} - {{ data.end | date: 'mediumDate' }} </td>  
+                            </div>
                         </div>
             
-                        <div class="information-case">
-                            <th> PAYROLL PERIOD: </th> 
-                            <td> {{ payday_start | date: 'mediumDate' }} - {{ payday_end | date: 'mediumDate' }} </td>  
+                        <div class="input-row">
+                            <div class="information-case">
+                                <th> ID NUMBER: </th>  
+                                <td> {{ employee.employee_id }} </td>
+                            </div>
+            
+                            <div class="information-case">
+                                <th> RATE/HOUR: </th>  
+                                <td> {{ hourly_rate || 'N/A' }} </td> 
+                            </div>
+                        </div>
+            
+                        <div class="input-row">
+                            <div class="information-case">
+                                <th> POSITION: </th> 
+                                <td> {{ employee.position }} </td> 
+                            </div>
                         </div>
                     </div>
-        
-                    <div class="input-row">
-                        <div class="information-case">
-                            <th> ID NUMBER: </th>  
-                            <td> {{ employee.employee_id }} </td>
-                        </div>
-        
-                        <div class="information-case">
-                            <th> RATE/HOUR: </th>  
-                            <td> {{ hourly_rate }} </td> 
-                        </div>
+            
+                    <div *ngIf="noPayslip && !isLoading"> <!-- Lagay mo dito P kung wala ano didisplay hehe-->
+                        Payslip is unavailable
                     </div>
-        
-                    <div class="input-row">
-                        <div class="information-case">
-                            <th> POSITION: </th> 
-                            <td> {{ employee.position }} </td> 
-                        </div>
-                    </div>
-                </div>
-        
-                <div class="table-content1">
-        
-                    <table>
-                        <tr class="table-header">
-                            <th> Attendance Earnings </th>
-                            <th> Hours </th>
-                            <th> Amount </th>
-                            <th> Other Earnings </th>
-                            <th> Amount </th>
-                            <th> Deductions </th>
-                            <th> Amount </th>
-                        </tr>
-        
-                        <ng-container *ngFor="let value of values">
-                            <tr>
-                                <td> {{ value[0] }} </td>
-                                <td> {{ value[1] }} </td>
-                                <td> {{ value[2] }} </td>
-                                <td> {{ value[3] }} </td>
-                                <td> {{ value[4] }} </td>
-                                <td> {{ value[5] }} </td>
-                                <td> {{ value[6] }} </td>
+
+                    <div class="table-content1" *ngIf="!noPayslip && !isLoading">
+            
+                        <table>
+                            <tr class="table-header">
+                                <th> Attendance Earnings </th>
+                                <th> Hours </th>
+                                <th> Amount </th>
+                                <th> Other Earnings </th>
+                                <th> Amount </th>
+                                <th> Deductions </th>
+                                <th> Amount </th>
                             </tr>
-                        </ng-container>
-        
-                        <tr class="totals">
-                            <td> Adjusted Pay </td>
-                            <td> </td>
-                            <td> {{ adjusted_pay }} </td>
-                            <td> Total Additions </td>
-                            <td> {{ total_additions  }}</td>
-                            <td> Total Deductions </td>
-                            <td> {{ total_deductions }}</td>
-                        </tr>
-        
-                        <tr>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> Gross Pay </td>
-                            <td> {{ gross_pay }}</td>
-                            <td> Net Pay </td>
-                            <td> {{ net_pay }}</td>
-                        </tr>  
-                    </table>            
-                </div>
+            
+                            <ng-container *ngFor="let value of values">
+                                <tr>
+                                    <td> {{ value[0] }} </td>
+                                    <td> {{ value[1] }} </td>
+                                    <td> {{ value[2] }} </td>
+                                    <td> {{ value[3] }} </td>
+                                    <td> {{ value[4] }} </td>
+                                    <td> {{ value[5] }} </td>
+                                    <td> {{ value[6] }} </td>
+                                </tr>
+                            </ng-container>
+            
+                            <tr class="totals">
+                                <td> Adjusted Pay </td>
+                                <td> </td>
+                                <td> {{ adjusted_pay }} </td>
+                                <td> Total Additions </td>
+                                <td> {{ total_additions  }}</td>
+                                <td> Total Deductions </td>
+                                <td> {{ total_deductions }}</td>
+                            </tr>
+            
+                            <tr>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> Gross Pay </td>
+                                <td> {{ gross_pay }}</td>
+                                <td> Net Pay </td>
+                                <td> {{ net_pay }}</td>
+                            </tr>  
+                        </table>            
+                    </div>
+                </ng-container>                
             </div>
         </div>
     </div>

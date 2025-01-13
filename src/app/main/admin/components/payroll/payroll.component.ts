@@ -244,9 +244,16 @@ export class PayrollComponent implements OnInit {
 
     if(employee) {
       this.as.setEmployee(employee);
-      
+
       if (this.dialog) {
-        this.dialog.open(IndivPayslipComponent);
+          let [start, end] = this.filterValue.split(' - ');
+
+          this.dialog.open(IndivPayslipComponent, {
+            data: {
+              start: start.replaceAll('/', '-'),
+              end: end.replaceAll('/', '-') 
+            }
+          })
       } else {
         console.error('Dialog is not initialized');
       }

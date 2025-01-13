@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AdminService } from '../../../../../services/admin/admin.service';
 
 import { Router } from '@angular/router';
 import { DataService } from '../../../../../services/data/data.service';
 import { PopupService } from '../../../../../services/popup/popup.service';
+
 
 @Component({
   selector: 'app-indiv-payslip',
@@ -19,7 +20,8 @@ export class IndivPayslipComponent implements OnInit{
     private as: AdminService, 
     private ds: DataService,
     private pop: PopupService,
-    private router: Router
+    private router: Router,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   isLoading = true;
@@ -30,10 +32,15 @@ export class IndivPayslipComponent implements OnInit{
   allowanceStart = 0;
 
   ngOnInit(): void {
+    console.log(this.data)
     this.employee = this.as.getEmployee();
     if(!this.employee.id) { this.router.navigate(['/admin/payrolls']); } // return to payrolls if employee data is not set (browser refreshed)
 
-    this.ds.request('GET', 'admin/payslips/latest/user/' + this.employee.id).subscribe({
+    let endUrl = this.employee.id;
+    if(this.data) {
+      endUrl += `/${this.data.start}/${this.data.end}`
+    }
+    this.ds.request('GET', 'admin/payslips/latest/user/' + endUrl).subscribe({
       next: (res: any) => {
 
         if(!res.data) { this.noPayslip = true; return; }
@@ -68,7 +75,7 @@ export class IndivPayslipComponent implements OnInit{
             col4 = '-';
             col5 = '-';
           }
-          
+
           let col6 = payslip.deduction.types[i]    || '';
           let col7 = payslip.deduction.amounts[i]  || '';
 
