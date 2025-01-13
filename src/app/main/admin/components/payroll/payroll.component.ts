@@ -239,13 +239,19 @@ export class PayrollComponent implements OnInit {
     });
   } 
 
-    openDialog() {
+  openDialog(employee_id: number) {
+    const employee = this.as.getEmployees().find((emp: any) => emp.employee_id === employee_id);
+
+    if(employee) {
+      this.as.setEmployee(employee);
+      
       if (this.dialog) {
         this.dialog.open(IndivPayslipComponent);
       } else {
         console.error('Dialog is not initialized');
       }
     }
+  }
 }
 
 export interface PeriodicElement {
