@@ -27,16 +27,16 @@
         <div class="mat-elevation-z8">
             <table mat-table [dataSource]="dataSource">
 
-                <!-- Employee Name Column -->
-                <ng-container matColumnDef="name">
-                    <th mat-header-cell *matHeaderCellDef> Employee Name </th>
-                    <td mat-cell *matCellDef="let element"> {{element.full_name}} </td>
-                </ng-container>
-
                 <!-- Id Number Column -->
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef> ID Number </th>
                     <td mat-cell *matCellDef="let element"> {{element.employee_id}} </td>
+                </ng-container>
+
+                <!-- Employee Name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Employee Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.full_name}} </td>
                 </ng-container>
 
                 <!-- Position Column -->

@@ -24,6 +24,8 @@ export class PayslipFormComponent implements OnInit{
   values: any = [];
   noPayslip = false;
 
+  allowanceStart: number = 0;
+
   ngOnInit(): void {
     if(!this.employee.id) { this.router.navigate(['/admin/payslips']); } // return to payrolls if employee data is not set (browser refreshed)
 
@@ -42,17 +44,27 @@ export class PayslipFormComponent implements OnInit{
         this.net_pay          = res.data.net_pay;
         this.hourly_rate      = res.data.hourly_rate;
         
-        let longest = res.data.payslip.attendance.types.length;
         const payslip = res.data.payslip;
-        if(longest < payslip.allowance.types.length) longest = payslip.allowance.types.length;
+        this.allowanceStart = payslip.attendance.types.length;
+        let longest = payslip.attendance.types.length + payslip.allowance.types.length;
         if(longest < payslip.deduction.types.length + payslip.other_deduction.types.length) longest = payslip.deduction.types.length + payslip.other_deduction.types.length;
 
         for(let i = 0; i < longest; i ++) {
           let col1 = payslip.attendance.types[i];
           let col2 = payslip.attendance.hours[i];
           let col3 = payslip.attendance.amounts[i];
-          let col4 = payslip.allowance.types[i]    || '';
-          let col5 = payslip.allowance.amounts[i]  || '';
+
+          let col4 = '';
+          let col5 = '';
+
+          if(i >= this.allowanceStart) {
+            col4 = payslip.allowance.types[i - this.allowanceStart]    || '';
+            col5 = payslip.allowance.amounts[i - this.allowanceStart]  || '';
+          } else if(i < this.allowanceStart){
+            col4 = '-';
+            col5 = '-';
+          }
+
           let col6 = payslip.deduction.types[i]    || '';
           let col7 = payslip.deduction.amounts[i]  || '';
 
