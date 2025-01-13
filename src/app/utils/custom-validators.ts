@@ -54,7 +54,7 @@ export const duplicateTypeSubtypeValidator: ValidatorFn = (formArray: AbstractCo
 
   values.forEach((item, currentIndex) => {
     // If the same combination (type + subtype) exists at another index, mark it as duplicate.
-    if (values.findIndex(v => v.value === item.value && v.index !== currentIndex) !== -1) {
+    if (values.findIndex(v => v.value === item.value && v.index !== currentIndex && v.value.trim() !== '') !== -1) {
       duplicates.push(currentIndex); // Store the duplicate index
     }
   });

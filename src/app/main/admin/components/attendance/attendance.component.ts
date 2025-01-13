@@ -35,7 +35,7 @@ export class AttendanceComponent implements OnInit {
   displayedColumns: string[] = ['name', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'proof'];
   dataSource: any;
   dates: any = [];
-  dayNames = [ 'mon', 'tue', 'wed', 'thu', 'fri', 'sat' ];
+  dayNames = [ 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun' ];
 
   dateRanges: string[] = [];
   selectedDateRange: string = '';
@@ -190,7 +190,7 @@ export class AttendanceComponent implements OnInit {
 
   getStatusClass(status: string, day: string): string {
     if(this.selectedDateRange == this.attendanceWeeks[0]) {
-      if(this.dayNames.indexOf(day) <= this.dayNames.indexOf(this.current) && day != 'sat') {
+      if(this.dayNames.indexOf(day) <= this.dayNames.indexOf(this.current) && day != 'sat' && day != 'sun') {
         if(status == '') status = 'absent';
       }
     } else {

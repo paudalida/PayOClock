@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfigFormComponent as Dialog } from '../config-form/config-form.component';
+import { error } from 'console';
 
 @Component({
   selector: 'app-payroll-forms',
@@ -129,10 +130,8 @@ export class PayrollFormsComponent implements OnInit{
     
     if (formArray) {
       const errors = formArray.errors;
-
       if (errors && errors['duplicateTypeSubtype']) {
         const duplicateIndices = errors['duplicateTypeSubtype'];
-
         if (duplicateIndices.includes(index)) {
           return true;
         }
@@ -140,6 +139,28 @@ export class PayrollFormsComponent implements OnInit{
     }
 
     return false;
+  }
+  
+  showErrors(category: string, index: number, type: string) {
+    const formArrayErrors = this.formsArray(category)?.errors;
+    const formField = this.formsArray(category)?.get(String(index))?.get(type);
+    const formErrors = formField?.errors;
+
+    if(formArrayErrors) {
+      this.pop.toastWithTimer('error', 'Duplicate records detected');
+    }
+
+    if(formErrors) {
+      if(formErrors['pattern'] && formErrors['pattern']['requiredPattern'] === '^\\d+(\\.\\d{1,2})?$') {
+        this.pop.toastWithTimer('error', 'Should be a number up to 2 decimal places');
+        formField.setValue(formField.value.slice(0, -1))
+      } else if(formErrors['maxlength']) {
+        const maxlength = formErrors['maxlength']['requiredLength'];
+
+        this.pop.toastWithTimer('error', 'Should not exceed ' + String(maxlength) + ' number of characters');
+        formField.setValue(formField.value.slice(0, maxlength));
+      }
+    }
   }
   
   getConfig() {

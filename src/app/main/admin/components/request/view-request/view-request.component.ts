@@ -17,9 +17,7 @@ export class ViewRequestComponent {
     private as: AdminService,
     private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
-    console.log(data.attachments)
-  }
+  ) {  }
 
   // employee = {
   //   full_name: 'John Doe',

@@ -26,8 +26,6 @@ export class AnnouncementComponent implements OnInit {
     this.ds.request('GET', 'admin/archives/announcements').subscribe({
       next: (res: any) => {
         this.announcements = res.data;
-
-        console.log(this.announcements)
       }
     });
   }
