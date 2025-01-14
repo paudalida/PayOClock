@@ -125,6 +125,6 @@ export class PayslipComponent implements OnInit, AfterViewInit {
   }
 
   redirectToPayslip() {
-    this.router.navigate(['/admin/payslips/payslip']);
+    this.router.navigate(['/admin/payslips/payslips-history']);
   }
 }
