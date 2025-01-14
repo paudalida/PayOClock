@@ -1,1 +1,29 @@
-<p>payroll-sum works!</p>
+<main>
+    <div class="main-container" (click)="closePopup()">
+      <div class="detailsbody">
+        <div class="table-content" (click)="$event.stopPropagation()">
+          <div class="scroll-container">
+            <table>
+              <tr>
+                <th *ngFor="let column of fixedColumns">{{ column }}</th>
+                <ng-container *ngFor="let column of payroll[0] || []; let j = index">
+                  <th *ngIf="j >= 4">{{ column }}</th>
+                </ng-container>
+              </tr>
+              <tr *ngFor="let row of payroll; let i = index">
+                <ng-container *ngIf="i > 0">
+                  <td
+                    *ngFor="let data of row; let j = index"
+                    [ngClass]="{ 'invalid-fld': data === 'N/A' }"
+                  >
+                    {{ data || 'N/A' }}
+                  </td>
+                </ng-container>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  

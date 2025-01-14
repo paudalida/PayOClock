@@ -44,7 +44,17 @@
                         <div class="eye-icon" (click)="togglePasswordVisibility()">
                           <i class="bx" [class.bx-show]="!showPassword" [class.bx-hide]="showPassword"></i>
                         </div>
-                    </div>   
+                    </div>  
+                    
+                    <div class="checkbox-container">
+                        <input 
+                          type="checkbox" 
+                          id="termsCheckbox" 
+                          formControlName="termsAndConditions">
+                        <label for="termsCheckbox">
+                          I agree to the <a class="terms-link" (click)="openTermsAndConditions()">Terms and Conditions</a>
+                        </label>
+                    </div>
 
                     <button class="btn-primary login-btn" type="submit" [disabled]="isLoading || !loginForm.valid" 
                             [ngClass]="{ 'btn-loading-primary': isLoading, 'btn-primary': !isLoading}"> 

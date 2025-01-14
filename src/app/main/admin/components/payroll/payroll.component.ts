@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PayslipComponent } from '../payslip/payslip.component';
 import { PayslipFormComponent } from '../payslip/payslip-form/payslip-form.component';
 import { IndivPayslipComponent } from './indiv-payslip/indiv-payslip.component';
+import { PayrollSumComponent } from './payroll-sum/payroll-sum.component';
 
 @Component({
   selector: 'app-payroll',
@@ -239,13 +240,21 @@ export class PayrollComponent implements OnInit {
     });
   } 
 
-    openDialog() {
-      if (this.dialog) {
-        this.dialog.open(IndivPayslipComponent);
-      } else {
-        console.error('Dialog is not initialized');
-      }
+  openDialog() {
+    if (this.dialog) {
+      this.dialog.open(IndivPayslipComponent);
+    } else {
+      console.error('Dialog is not initialized');
     }
+  }
+
+  openPayroll() {
+    if (this.dialog) {
+      this.dialog.open(PayrollSumComponent);
+    } else {
+      console.error('Dialog is not initialized');
+    }
+  }
 }
 
 export interface PeriodicElement {

@@ -226,7 +226,7 @@ body {
   align-items: center;
   display: flex;
   justify-content: center;
-  margin-top: 65px;
+  margin-top: 45px;
   -webkit-box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
   -moz-box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
   box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
@@ -286,6 +286,36 @@ body {
 .input-container .eye-icon i {
   font-size: 1.2rem;
   color: #888;
+}
+
+.checkbox-container {
+  display: flex; 
+  align-items: left; 
+  margin-top: 17px; 
+  padding-left: 0; 
+  font-size: 14px;
+  color: var(--landing-font);
+}
+
+.checkbox-container input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.checkbox-container label {
+  margin-left: 10px;
+  cursor: pointer;
+  display: flex; 
+  align-items: center;
+}
+
+.checkbox-container a {
+  color: var(--primary-color); 
+  text-decoration: underline; 
+  margin-left: 8px;
+  cursor: pointer; 
 }
 
 // Responsive Design
@@ -376,6 +406,10 @@ body {
   .login-btn {
     font-size: 16px;
     padding: 10px;
+  }
+
+  .checkbox-container {
+    margin-bottom: 25px;
   }
 }
 

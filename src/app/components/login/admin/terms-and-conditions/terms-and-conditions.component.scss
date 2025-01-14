@@ -1,0 +1,14 @@
+p { 
+    text-align: justify;
+}
+
+.close {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-radius: 4px;
+    padding: 8px 16px;
+
+    &:hover {
+        background-color: var(--buttons-hover);
+    }
+}

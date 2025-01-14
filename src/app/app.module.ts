@@ -26,7 +26,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
-import { HttpClientModule } from '@angular/common/http'; // Sa ano Visitor Count 
+import { HttpClientModule } from '@angular/common/http';
+import { TermsAndConditionsComponent } from './components/login/admin/terms-and-conditions/terms-and-conditions.component';
+import { TermsConditionsComponent } from './components/login/employee/terms-conditions/terms-conditions.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { HttpClientModule } from '@angular/common/http'; // Sa ano Visitor Count
     LandingComponent,
     EmployeeLoginComponent,
     AdminLoginComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    TermsAndConditionsComponent, 
+    TermsConditionsComponent
   ],
   imports: [
     AppRoutingModule,
