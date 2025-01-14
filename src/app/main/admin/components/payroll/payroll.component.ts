@@ -240,19 +240,24 @@ export class PayrollComponent implements OnInit {
     });
   } 
 
-  openDialog() {
-    if (this.dialog) {
-      this.dialog.open(IndivPayslipComponent);
-    } else {
-      console.error('Dialog is not initialized');
-    }
-  }
+  openDialog(employee_id: number) {
+    const employee = this.as.getEmployees().find((emp: any) => emp.employee_id === employee_id);
 
-  openPayroll() {
-    if (this.dialog) {
-      this.dialog.open(PayrollSumComponent);
-    } else {
-      console.error('Dialog is not initialized');
+    if(employee) {
+      this.as.setEmployee(employee);
+
+      if (this.dialog) {
+          let [start, end] = this.filterValue.split(' - ');
+
+          this.dialog.open(IndivPayslipComponent, {
+            data: {
+              start: start.replaceAll('/', '-'),
+              end: end.replaceAll('/', '-') 
+            }
+          })
+      } else {
+        console.error('Dialog is not initialized');
+      }
     }
   }
 }
