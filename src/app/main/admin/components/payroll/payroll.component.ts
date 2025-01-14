@@ -260,6 +260,14 @@ export class PayrollComponent implements OnInit {
       }
     }
   }
+
+  openPayroll() {
+    if (this.dialog) {
+      this.dialog.open(PayrollSumComponent);
+    } else {
+      console.error('Dialog is not initialized');
+    }
+  }
 }
 
 export interface PeriodicElement {
