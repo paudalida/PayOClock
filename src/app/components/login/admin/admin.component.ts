@@ -16,7 +16,7 @@ export class AdminComponent {
     private as: AuthService,
     private fb: FormBuilder,
     private router: Router,
-    private dialog: MatDialog 
+    private dialog: MatDialog
   ) {}
 
   loginForm: FormGroup = this.fb.group({
@@ -39,25 +39,10 @@ export class AdminComponent {
     });
   }
 
-  async submitLogin(): Promise<void> {
-    if (this.loginForm.valid) {
-      this.isLoading = true;
+  async submitLogin() {
+    this.isLoading = true;
 
-      try {
-        const success = await this.as.login('admin', this.loginForm.value);
-        if (success) {
-          this.router.navigate(['/admin']);
-        } else {
-          alert('Invalid credentials');
-        }
-      } catch (error) {
-        console.error('Login error:', error);
-        alert('An error occurred during login.');
-      } finally {
-        this.isLoading = false;
-      }
-    } else {
-      alert('Please fill in all fields and accept the Terms and Conditions.');
-    }
+    const success = await this.as.login('admin', this.loginForm.value);
+    this.isLoading = false;
   }
 }
