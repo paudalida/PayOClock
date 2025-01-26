@@ -2,20 +2,16 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { LandingComponent } from './components/landing/landing.component';
-import { EmployeeComponent as EmployeeLoginComponent } from './components/login/employee/employee.component';
-import { AdminComponent as AdminLoginComponent } from './components/login/admin/admin.component';
+import { LoginComponent } from './components/login/login.component';
 
 import { AdminComponent } from './main/admin/admin.component';
 import { EmployeeComponent } from './main/employee/employee.component';
-import { NotFoundComponent } from './components/error/not-found/not-found.component';
 
 import { canActivateChildGuard } from './guards/can-activate-child.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'landing', pathMatch: 'full' }, 
-  { path: 'landing', component: LandingComponent }, 
-  { path: 'login/admin', component: AdminLoginComponent }, 
-  { path: 'login/employee', component: EmployeeLoginComponent }, 
+  { path: '', pathMatch: 'full', component: LandingComponent }, 
+  { path: 'login', component: LoginComponent },
   { 
     path: 'admin', 
     component: AdminComponent, 

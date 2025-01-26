@@ -44,19 +44,19 @@
             <div class="detail-item">
               <i class='bx bxs-phone'></i>
               <label>Contact Number:</label>
-              <p>{{ employee.contact.phone_number }}</p>
+              <p>{{ employee.contact.phone_number || 'N/A' }}</p>
             </div>
 
             <div class="detail-item">
               <i class='bx bxs-envelope'></i>
               <label>Email:</label>
-              <p>{{ employee.contact.email }}</p>
+              <p>{{ employee.contact.email || 'N/A' }}</p>
             </div>
 
             <div class="detail-item">
               <i class='bx bxs-map'></i>
               <label>Address:</label>
-              <p class="address">{{ employee.contact.address }}</p>
+              <p class="address">{{ employee.contact.address || 'N/A' }}</p>
             </div>
           </div>
           

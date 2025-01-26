@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, ElementRef } from '@angular/core';
-// import { HttpClient } from '@angular/common/http';  // Sa ano Visitor Count 
 import { DataService } from '../../services/data/data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-landing',
@@ -13,7 +13,8 @@ export class LandingComponent implements AfterViewInit {
   animatedCount = 0;
 
   constructor (private el: ElementRef, 
-      private ds: DataService
+      private ds: DataService,
+      private router: Router
   ) {}
 
   // ngOnInit(): void {         // Sa ano Visitor Count 
@@ -28,6 +29,10 @@ export class LandingComponent implements AfterViewInit {
     if (dropdownMenu) {
       dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
     }
+  }
+
+  navigateToLogin() {
+    this.router.navigate(['/login']);
   }
 
   toggleNavBar(): void {

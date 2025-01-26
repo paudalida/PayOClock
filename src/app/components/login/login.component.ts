@@ -1,21 +1,20 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../../services/auth/auth.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth/auth.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.scss']
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss'
 })
-export class AdminComponent {
+export class LoginComponent {
 
   constructor(
     private as: AuthService,
     private fb: FormBuilder,
-    private router: Router,
     private dialog: MatDialog
   ) {}
 
@@ -42,7 +41,7 @@ export class AdminComponent {
   async submitLogin() {
     this.isLoading = true;
 
-    const success = await this.as.login('admin', this.loginForm.value);
+    const success = await this.as.login(this.loginForm.value);
     this.isLoading = false;
   }
 }

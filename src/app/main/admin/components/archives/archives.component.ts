@@ -145,9 +145,9 @@ async showRestoreAction(id: string) {
         
         /* add to admin service */
         let employees = this.as.getEmployees();
-        employees.push(res.data);
+        employees.push(this.as.getEmployee());
 
-        // this.as.setEmployees(employees);
+        this.as.setEmployees(employees);
       },
       error: (err: any) => {
         this.pop.swalBasic('error', this.pop.genericErrorTitle, err.error.message);
