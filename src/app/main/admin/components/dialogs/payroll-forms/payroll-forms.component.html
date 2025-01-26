@@ -181,21 +181,43 @@
                                         <div class="labelline"> Type </div>
                                     </div>   -->
 
-                                    <div class="entryarea">
+                                    <!-- <div class="entryarea">
                                         <select formControlName="type">
                                             <option value="option1">Option 1</option>
                                             <option value="option2">Option 2</option>
                                             <option value="option3">Option 3</option>
                                         </select>
                                         <div class="labelline">Type</div>
-                                    </div>
-                                    
-            
+                                    </div> -->
+
                                     <div class="entryarea">
-                                        <input type="text" formControlName="amount"
-                                        (input)="showErrors('other_deduction', i, 'amount')">
+                                        <input 
+                                          type="text" 
+                                          formControlName="type" 
+                                          (input)="onInput($event, i, 'other_deduction')" 
+                                          class="input-field" 
+                                          [ngClass]="{ 'invalid-fld': form.get('type')?.invalid && form.get('type')?.touched }"
+                                        />
+                                        <div class="suggestions-container" *ngIf="activeRow === i && filteredSuggestionsOtherDeduction.length > 0">
+                                          <div 
+                                            *ngFor="let suggestion of filteredSuggestionsOtherDeduction" 
+                                            class="suggestion-item" 
+                                            (click)="selectSuggestion(suggestion, i, 'other_deduction')"
+                                          >
+                                            {{ suggestion }}
+                                          </div>
+                                        </div>
+                                        <div class="labelline">Type</div>
+                                      </div>
+                              
+                                      <div class="entryarea">
+                                        <input 
+                                          type="text" 
+                                          formControlName="amount"
+                                          (input)="showErrors('other_deduction', i, 'amount')"
+                                        />
                                         <div class="labelline"> Amount </div>
-                                    </div>
+                                      </div>                            
                                 </div>
             
                                 <button class="btn-danger cancel-btn" type="button" (click)="removeFromFormsArray('other_deduction', i)">
@@ -224,20 +246,43 @@
                                             <div class="labelline"> Type </div>
                                         </div> -->
 
-                                        <div class="entryarea">
+                                        <!-- <div class="entryarea">
                                             <select formControlName="type">
                                                 <option value="option1">Option 1</option>
                                                 <option value="option2">Option 2</option>
                                                 <option value="option3">Option 3</option>
                                             </select>
                                             <div class="labelline">Type</div>
-                                        </div>
-                
+                                        </div> -->
+
                                         <div class="entryarea">
-                                            <input type="text" formControlName="amount"
-                                            (input)="showErrors('allowance', i, 'amount')">
+                                            <input 
+                                              type="text" 
+                                              formControlName="type" 
+                                              (input)="onInput($event, i, 'allowance')" 
+                                              class="input-field" 
+                                              [ngClass]="{ 'invalid-fld': form.get('type')?.invalid && form.get('type')?.touched }"
+                                            />
+                                            <div class="suggestions-container" *ngIf="activeRow === i && filteredSuggestionsAllowance.length > 0">
+                                              <div 
+                                                *ngFor="let suggestion of filteredSuggestionsAllowance" 
+                                                class="suggestion-item" 
+                                                (click)="selectSuggestion(suggestion, i, 'allowance')"
+                                              >
+                                                {{ suggestion }}
+                                              </div>
+                                            </div>
+                                            <div class="labelline">Type</div>
+                                          </div>
+                              
+                                          <div class="entryarea">
+                                            <input 
+                                              type="text" 
+                                              formControlName="amount"
+                                              (input)="showErrors('allowance', i, 'amount')"
+                                            />
                                             <div class="labelline"> Amount </div>
-                                        </div>
+                                          </div>
                                     </div>
                 
                                     <button class="btn-danger cancel-btn" type="button" (click)="removeFromFormsArray('allowance', i)">
@@ -275,25 +320,48 @@
                                                 <div class="labelline1"> Type </div>
                                             </div> -->
 
-                                            <div class="entryarea">
+                                            <!-- <div class="entryarea">
                                                 <select formControlName="type">
                                                     <option value="option1">Option 1</option>
                                                     <option value="option2">Option 2</option>
                                                     <option value="option3">Option 3</option>
                                                 </select>
                                                 <div class="labelline">Type</div>
-                                            </div>
+                                            </div> -->
 
                                             <!-- <div class="entryarea1">
                                                 <input type="date" formControlName="date">
                                                 <div class="labelline2"> Date </div>
                                             </div> -->
-                    
+
                                             <div class="entryarea">
-                                                <input type="text" formControlName="amount"
-                                                (input)="showErrors('adjustment_deductions', i, 'amount')">
+                                                <input 
+                                                  type="text" 
+                                                  formControlName="type" 
+                                                  (input)="onInput($event, i, 'adjustment_deductions')" 
+                                                  class="input-field" 
+                                                  [ngClass]="{ 'invalid-fld': form.get('type')?.invalid && form.get('type')?.touched }"
+                                                />
+                                                <div class="suggestions-container" *ngIf="activeRow === i && filteredSuggestionsAdjustmentDeductions.length > 0">
+                                                  <div 
+                                                    *ngFor="let suggestion of filteredSuggestionsAdjustmentDeductions" 
+                                                    class="suggestion-item" 
+                                                    (click)="selectSuggestion(suggestion, i, 'adjustment_deductions')"
+                                                  >
+                                                    {{ suggestion }}
+                                                  </div>
+                                                </div>
+                                                <div class="labelline">Type</div>
+                                              </div>
+                              
+                                              <div class="entryarea">
+                                                <input 
+                                                  type="text" 
+                                                  formControlName="amount"
+                                                  (input)="showErrors('adjustment_deductions', i, 'amount')"
+                                                />
                                                 <div class="labelline"> Amount </div>
-                                            </div>
+                                              </div>
                                         </div>
                     
                                         <button class="btn-danger cancel-btn" type="button" (click)="removeFromFormsArray('adjustment_deductions', i)">
@@ -321,25 +389,43 @@
                                                 <div class="labelline1"> Type </div>
                                             </div> -->
 
-                                            <div class="entryarea">
+                                            <!-- <div class="entryarea">
                                                 <select formControlName="type">
                                                     <option value="option1">Option 1</option>
                                                     <option value="option2">Option 2</option>
                                                     <option value="option3">Option 3</option>
                                                 </select>
                                                 <div class="labelline">Type</div>
-                                            </div>
-
-                                            <!-- <div class="entryarea1">
-                                                <input type="date" formControlName="date">
-                                                <div class="labelline2"> Date </div>
                                             </div> -->
-                    
+
                                             <div class="entryarea">
-                                                <input type="text" formControlName="amount"
-                                                (input)="showErrors('adjustment_additions', i, 'amount')">
+                                                <input 
+                                                  type="text" 
+                                                  formControlName="type" 
+                                                  (input)="onInput($event, i, 'adjustment_additions')" 
+                                                  class="input-field" 
+                                                  [ngClass]="{ 'invalid-fld': form.get('type')?.invalid && form.get('type')?.touched }"
+                                                />
+                                                <div class="suggestions-container" *ngIf="activeRow === i && filteredSuggestionsAdjustmentAdditions.length > 0">
+                                                  <div 
+                                                    *ngFor="let suggestion of filteredSuggestionsAdjustmentAdditions" 
+                                                    class="suggestion-item" 
+                                                    (click)="selectSuggestion(suggestion, i, 'adjustment_additions')"
+                                                  >
+                                                    {{ suggestion }}
+                                                  </div>
+                                                </div>
+                                                <div class="labelline">Type</div>
+                                              </div>
+                              
+                                              <div class="entryarea">
+                                                <input 
+                                                  type="text" 
+                                                  formControlName="amount"
+                                                  (input)="showErrors('adjustment_additions', i, 'amount')"
+                                                />
                                                 <div class="labelline"> Amount </div>
-                                            </div>
+                                              </div>
                                         </div>
                     
                                         <button class="btn-danger cancel-btn" type="button" (click)="removeFromFormsArray('adjustment_additions', i)">

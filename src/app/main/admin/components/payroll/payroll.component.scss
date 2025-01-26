@@ -56,7 +56,6 @@
   }
 }
 
-
 .date-range-dropdown {
   select {
     width: 210px;
@@ -70,6 +69,12 @@
     white-space: nowrap; 
     overflow: hidden;
   }
+}
+
+p {
+  float: right;
+  padding-bottom: 15px;
+  font-weight: 15px;
 }
 
 .scroll-container {

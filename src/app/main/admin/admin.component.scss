@@ -17,33 +17,121 @@
     background-color: var(--header-color);
     height: 60px;
     width: 100%;
-    padding: 5px 20px; 
+    padding: 5px 20px;
     display: flex;
-    justify-content: space-between; 
-    align-items: center; 
+    justify-content: space-between;
+    align-items: center;
     z-index: 5;
 }
 
+.left-side {
+    flex: 1;
+}
+
 h1 {
-    margin-left: 15.5rem; 
+    margin-left: 15.5rem;
     text-transform: uppercase;
     font-size: 22px;
     font-weight: 700;
-    flex: 1; 
+    flex: 1;
 }
+
+.right-side {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Adds space between notification and date/time */
+}
+
+.notifications {
+    position: relative;
+    padding-right: 15px;
+    cursor: pointer;
+
+    i {
+        font-size: 1.5rem;
+        color: var(--landing-font);
+    }
+
+    .notification-count {
+        position: absolute;
+        top: -2px;
+        left: 15px;
+        background-color: var(--danger);
+        color: white;
+        border-radius: 55%;
+        padding: 2px 6px;
+        font-size: 0.8rem;
+    }
+}
+
+.notification-list {
+    position: absolute;
+    top: 69px;
+    right: 15%;
+    background-color: var(--white);
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 10;
+    padding: 10px;
+}
+
+.notification-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    &:hover {
+        background-color: #f4f4f4;
+    }
+}
+
+.notification-message {
+    font-size: 14px;
+    display: flex;
+    flex-wrap: wrap; 
+    align-items: center;
+    padding-right: 15px;
+    max-width: calc(100% - 60px);
+}
+
+// .notification-message i {
+//     margin-right: 5px; 
+//     white-space: nowrap; 
+//     text-align: left;
+    
+// }
+
+.notification-time {
+    font-size: 12px;
+    color: gray;
+    text-align: right;
+    white-space: nowrap; 
+}
+
+
 
 .current-date-time {
     display: flex;
     align-items: center;
     font-size: 17px;
     font-weight: 500;
-    margin-right: 4vw; 
+    margin-right: 4vw;
     color: var(--cancel);
 }
 
 .current-date-time i {
-    margin-right: 8px; 
-    font-size: 20px; 
+    margin-right: 8px;
+    font-size: 20px;
     color: var(--cancel);
 }
 

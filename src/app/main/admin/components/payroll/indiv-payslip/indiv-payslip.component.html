@@ -46,9 +46,10 @@
                         </div>
                     </div>
             
-                    <div *ngIf="noPayslip && !isLoading"> <!-- Lagay mo dito P kung wala ano didisplay hehe-->
-                        Payslip is unavailable
+                    <div *ngIf="noPayslip && !isLoading" class="no-payslip"> <!-- Lagay mo dito P kung wala ano didisplay hehe-->
+                        No payslip available 
                     </div>
+                    
 
                     <div class="table-content1" *ngIf="!noPayslip && !isLoading">
             

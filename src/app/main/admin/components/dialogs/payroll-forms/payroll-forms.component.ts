@@ -39,6 +39,14 @@ export class PayrollFormsComponent implements OnInit{
   hasActive = false; 
   items: any = [1]; 
 
+  suggestions: string[] = ['Food', 'Transport', 'Health', 'Bonus', 'Insurance']; // Tulog na muna ako te
+  activeRow: number | null = null;
+  filteredSuggestionsOtherDeduction: string[] = [];
+  filteredSuggestionsAllowance: string[] = [];
+  filteredSuggestionsAdjustmentDeductions: string[] = [];
+  filteredSuggestionsAdjustmentAdditions: string[] = [];
+  
+
   clickTable(index: number) {
     
     if (this.activeTable === index) {
@@ -54,6 +62,7 @@ export class PayrollFormsComponent implements OnInit{
     this.isLoading = true;
 
     this.form = this.fb.group({
+      type: ['', Validators.required],
       details: this.fb.group({
         status: [''],
         payday_start: [''],
@@ -75,6 +84,7 @@ export class PayrollFormsComponent implements OnInit{
     this.hourlyRate = this.employee.hourly_rate;
 
     this.getData();
+    
   }
 
   getData() {
@@ -124,6 +134,52 @@ export class PayrollFormsComponent implements OnInit{
       error: (err: any) => { this.pop.toastWithTimer('error', err.error.message); }
     });
   }
+
+  onInput(event: Event, rowIndex: number, formType: string): void {
+    const input = (event.target as HTMLInputElement).value;
+    
+    // Filter suggestions based on form type
+    if (formType === 'other_deduction') {
+      this.filteredSuggestionsOtherDeduction = this.suggestions.filter((suggestion) =>
+        suggestion.toLowerCase().includes(input.toLowerCase())
+      );
+    } else if (formType === 'allowance') {
+      this.filteredSuggestionsAllowance = this.suggestions.filter((suggestion) =>
+        suggestion.toLowerCase().includes(input.toLowerCase())
+      );
+    } else if (formType === 'adjustment_deductions') {
+      this.filteredSuggestionsAdjustmentDeductions = this.suggestions.filter((suggestion) =>
+        suggestion.toLowerCase().includes(input.toLowerCase())
+      );
+    } else if (formType === 'adjustment_additions') {
+      this.filteredSuggestionsAdjustmentAdditions = this.suggestions.filter((suggestion) =>
+        suggestion.toLowerCase().includes(input.toLowerCase())
+      );
+    }
+    
+    this.activeRow = rowIndex; // Set the active row to the current input row
+  }
+  
+
+  selectSuggestion(suggestion: string, rowIndex: number, formType: string): void {
+    const formArray = this.form.get(formType) as FormArray;
+    const formGroup = formArray.at(rowIndex) as FormGroup;
+    formGroup.get('type')?.setValue(suggestion); // Set the selected suggestion
+  
+    // Clear suggestions based on form type
+    if (formType === 'other_deduction') {
+      this.filteredSuggestionsOtherDeduction = [];
+    } else if (formType === 'allowance') {
+      this.filteredSuggestionsAllowance = [];
+    } else if (formType === 'adjustment_deductions') {
+      this.filteredSuggestionsAdjustmentDeductions = [];
+    } else if (formType === 'adjustment_additions') {
+      this.filteredSuggestionsAdjustmentAdditions = [];
+    }
+    
+    this.activeRow = null; // Reset the active row
+  }
+  
 
   duplicateInput(category: string, index: number) {
     const formArray = this.formsArray(category);

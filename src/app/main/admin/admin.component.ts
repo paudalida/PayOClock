@@ -8,10 +8,10 @@ import { EmployeeService } from "../../services/employee/employee.service";
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrl: './admin.component.scss'
+  styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent implements OnInit {
-  
+
   constructor (
     private ds: DataService,
     private as: AdminService,
@@ -22,6 +22,9 @@ export class AdminComponent implements OnInit {
 
   isLoading = true;
   currentDateTime: string = '';
+  notificationCount: number = 101;
+  showNotifications: boolean = false;  
+  notifications: Array<{ message: string, time: string }> = []; 
 
   ngOnInit(): void {
     this.ds.request('GET', 'admin/employees').subscribe({
@@ -38,41 +41,60 @@ export class AdminComponent implements OnInit {
       complete: () => {
         this.isLoading = false;
       }
-    });    
+    });
 
     this.updateDateTime();
     setInterval(() => {
       this.updateDateTime();
     }, 1000);
+
+    // Sample notifications
+    this.notifications = [
+      { message: "New payroll updates are available.", time: "10:30 AM" },
+      { message: "Reminder: Submit your timesheet by today.", time: "9:00 AM" },
+      { message: "Your leave request was approved.", time: "Yesterday" },
+      { message: "New payroll updates are available.", time: "10:30 AM" },
+      { message: "Reminder: Submit your timesheet by timesheet by todayssssss.", time: "11:00 AM"},
+      { message: "Your leave request was approved.", time: "Yesterday" },
+      { message: "New payroll updates are available.", time: "10:30 AM" },
+      { message: "Reminder: Submit your timesheet by today.", time: "9:00 AM" },
+      { message: "Your leave request was approved.", time: "Yesterday" },
+      { message: "New payroll updates are available.", time: "10:30 AM" },
+      { message: "Reminder: Submit your timesheet by today.", time: "9:00 AM" },
+      { message: "Your leave request was approved.", time: "Yesterday" }
+    ];
   }
 
   updateDateTime(): void {
     const now = new Date();
-    
+
     const dateOptions: Intl.DateTimeFormatOptions = {
       weekday: 'long',
       month: 'long',
       day: 'numeric'
     };
-    
+
     const timeOptions: Intl.DateTimeFormatOptions = {
       hour: 'numeric',
       minute: 'numeric',
-      second: 'numeric',
       hour12: true
     };
-  
+
     const datePart = now.toLocaleDateString('en-US', dateOptions);
     const timePart = now.toLocaleTimeString('en-US', timeOptions);
-  
+
     this.currentDateTime = `${datePart}, ${timePart}`;
+  }
+
+  toggleNotifications(): void {
+    this.showNotifications = !this.showNotifications;
   }
 
   async logout() {
     let res = await this.pop.swalWithCancel(
-      'question', 
+      'question',
       'Are you sure you want to log out?'
     );
-    if(res) { this.auth.logout(); }    
+    if (res) { this.auth.logout(); }
   }
 }

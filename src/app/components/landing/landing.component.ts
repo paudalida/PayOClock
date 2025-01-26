@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, ElementRef } from '@angular/core';
-import { HttpClient } from '@angular/common/http';  // Sa ano Visitor Count 
+// import { HttpClient } from '@angular/common/http';  // Sa ano Visitor Count 
 import { DataService } from '../../services/data/data.service';
 
 @Component({
@@ -9,16 +9,16 @@ import { DataService } from '../../services/data/data.service';
 })
 export class LandingComponent implements AfterViewInit {
   isNavBarVisible = false;
-  visitorCount = 0;
+  // visitorCount = 0;
   animatedCount = 0;
 
   constructor (private el: ElementRef, 
       private ds: DataService
   ) {}
 
-  ngOnInit(): void {         // Sa ano Visitor Count 
-    this.updateVisitorCount();
-  }
+  // ngOnInit(): void {         // Sa ano Visitor Count 
+  //   this.updateVisitorCount();
+  // }
 
   toggleDropdown(event: MouseEvent): void {
     event.preventDefault();
@@ -61,36 +61,36 @@ export class LandingComponent implements AfterViewInit {
     });
   }
 
-  updateVisitorCount(): void {   
-    this.ds.requestNoAuth('GET', 'landing').subscribe({
-      next: (res: any) => {
-        this.animateVisitorCount(res.data.count);
-      }, error: (err: any) => {
+  // updateVisitorCount(): void {   
+  //   this.ds.requestNoAuth('GET', 'landing').subscribe({
+  //     next: (res: any) => {
+  //       this.animateVisitorCount(res.data.count);
+  //     }, error: (err: any) => {
         
-      }
-    });
+  //     }
+  //   });
 
-    this.ds.requestNoAuth('POST', 'landing/add').subscribe((res: any) => {
-      // do nothing
-    });
-  }
+  //   this.ds.requestNoAuth('POST', 'landing/add').subscribe((res: any) => {
+  //     // do nothing
+  //   });
+  // }
 
-  animateVisitorCount(target: number): void {
-    const duration = 1000; 
-    const frameRate = 60; 
-    const totalFrames = Math.round((duration / 1000) * frameRate);
-    const increment = (target - this.animatedCount) / totalFrames;
+  // animateVisitorCount(target: number): void {
+  //   const duration = 1000; 
+  //   const frameRate = 60; 
+  //   const totalFrames = Math.round((duration / 1000) * frameRate);
+  //   const increment = (target - this.animatedCount) / totalFrames;
 
-    let currentFrame = 0;
+  //   let currentFrame = 0;
 
-    const interval = setInterval(() => {
-      currentFrame++;
-      this.animatedCount = Math.round(this.animatedCount + increment);
+  //   const interval = setInterval(() => {
+  //     currentFrame++;
+  //     this.animatedCount = Math.round(this.animatedCount + increment);
 
-      if (currentFrame >= totalFrames) {
-        clearInterval(interval);
-        this.animatedCount = target; 
-      }
-    }, duration / totalFrames);
-  }
+  //     if (currentFrame >= totalFrames) {
+  //       clearInterval(interval);
+  //       this.animatedCount = target; 
+  //     }
+  //   }, duration / totalFrames);
+  // }
 }  

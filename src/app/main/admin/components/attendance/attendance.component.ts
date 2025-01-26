@@ -245,13 +245,13 @@ export class AttendanceComponent implements OnInit {
     });
   }
 
-  openAttendanceHistory() {
-    if (this.dialog) {
-      this.dialog.open(AttendanceHistoryComponent);
-    } else {
-      console.error('Dialog is not initialized');
-    }
-  }
+  // openAttendanceHistory() {
+  //   if (this.dialog) {
+  //     this.dialog.open(AttendanceHistoryComponent);
+  //   } else {
+  //     console.error('Dialog is not initialized');
+  //   }
+  // }
 
   viewProof(data: any) {
     let proof = [];

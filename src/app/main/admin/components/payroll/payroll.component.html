@@ -2,12 +2,13 @@
   <div class="table-container">
     <div class="table-head">
       <div class="header-text">
-        <h1 (click)="openPayroll()"> Payrolls </h1>
+        <h1> Payrolls </h1>
       </div>
 
       <div class="actions">
         <!-- Report Button -->
-        <button class="report-button" type="button" (click)="generateReport()">Report</button>
+        <button class="report-button" type="button" (click)="openPayroll()">Maximize</button>
+        <button class="report-button" type="button" (click)="generateReport()">Export</button>
         <button class="report-button" type="button" (click)="confirmSyncPay()">Sync Pay</button>
         
         <div class="date-range-dropdown">
@@ -17,8 +18,16 @@
             </select>
           </div>
         </div>
+
+        <button class="report-button" type="button">Release</button>
+
       </div>
     </div>
+
+    <div class="release-date"> 
+      <p> Release at: </p>
+    </div>
+    
     <div class="scroll-container">
       <div class="fixed-columns">
         <table>
