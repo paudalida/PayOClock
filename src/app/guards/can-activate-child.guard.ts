@@ -1,7 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateChildFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth/auth.service';
-import { lastValueFrom } from 'rxjs';
 
 export const canActivateChildGuard: CanActivateChildFn = async (childRoute, state) => {
   const authService = inject(AuthService);
@@ -16,12 +15,12 @@ export const canActivateChildGuard: CanActivateChildFn = async (childRoute, stat
       if(res){
         userType = authService.getUserType;
       } else {
-        await router.navigate(['./landing']);
+        await router.navigate(['']);
         return false;
       }
     } catch (err: any) {
       if(err.error) {
-        if(err.error.message.toLowerCase().includes('unauthenticated')) { await router.navigate(['./landing']); }
+        if(err.error.message.toLowerCase().includes('unauthenticated')) { await router.navigate(['']); }
       }
       
       return false;
@@ -32,7 +31,7 @@ export const canActivateChildGuard: CanActivateChildFn = async (childRoute, stat
   if (state.url.includes(userType)) {
     return true;
   } else {
-    await router.navigate(['./landing']);
+    await router.navigate(['']);
     return false;
   }
 };

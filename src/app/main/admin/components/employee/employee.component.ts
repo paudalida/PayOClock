@@ -145,6 +145,8 @@ async showArchiveAction(employee: any) {
         next: () => { 
           this.pop.toastWithTimer('success', 'Employee archived successfully!');
           this.dataSource.data = this.dataSource.data.filter((item: any) => item.id !== employee.id);
+
+          this.as.setEmployees(this.as.getEmployees().filter((element: any) => element.id != employee.id ));
         },
         error: (err: any) => { 
           this.pop.swalBasic('error', 'Error', err.error.message); 

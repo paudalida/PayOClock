@@ -42,20 +42,20 @@ export class AuthService {
     });
   }
 
-  public login(type: string, form: any): Promise<boolean> {
+  public login(form: any): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      this.http.post(this.header.url + 'auth/login/' + type, form).subscribe({
+      this.http.post(this.header.url + 'auth/login', form).subscribe({
         next: (res: any) => {
           // Store session data
           sessionStorage.setItem('name', res.data.name);
           sessionStorage.setItem('position', res.data.position);
           sessionStorage.setItem('auth-token', res.data.token);
           this.es.setEmployee(res.data.user);
-          this.userType = type;
+          this.userType = res.data.type;
   
           // Show success toast
           this.pop.toastWithTimer('success', res.message);
-          this.router.navigate([type]);
+          this.router.navigate([res.data.type]);
   
           // Resolve true on success
           resolve(true);

@@ -12,13 +12,13 @@
             <a class="nav-link nav-text" href="#home">Home</a>
             <a class="nav-link nav-text" href="#about">About</a>
             <a class="nav-link nav-text" href="#team">Our Team</a>
-            <div class="dropdown">
-                <a class="nav-link dropdown-link" href="#" (click)="toggleDropdown($event)">Login</a>
-                <div class="dropdown-menu">
+            <!-- <div class="dropdown"> -->
+                <a class="nav-link dropdown-link" (click)="navigateToLogin()">Login</a>
+                <!-- <div class="dropdown-menu">
                     <a class="dropdown-item" [routerLink]="'/login/employee'"><i class='bx bxs-group'></i>Employee</a>
                     <a class="dropdown-item"  [routerLink]="'/login/admin'"><i class='bx bxs-user'></i>Admin</a>
-                </div>
-            </div>
+                </div> -->
+            <!-- </div> -->
         </nav>
     </div>
 </header>

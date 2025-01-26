@@ -19,7 +19,7 @@
         <div class="left">
             <img class="vector" src="assets/images/gm18.png" alt="Payroll Image">
             <!-- <div class="logo">
-                <img class="logo" src="assets/images/PayO'Clock logo.png" alt="GM18 Logo">
+                <img class="logo" src="assets/images/PayO'Clock logo.png" alt="PayOClock Logo">
             </div> -->
         </div>
 
@@ -28,7 +28,7 @@
                 <form [formGroup]="loginForm" (ngSubmit)="submitLogin()">
                     <h1> PayO'Clock </h1>
                     <h3> Payroll System </h3>
-                    <h3> Employee Portal </h3>
+                    <h3> Login Portal </h3>
                     <div class="input-container">
                         <div class="icon"><i class='bx bxs-user'></i></div>
                         <input type="text" autocomplete="username" 
@@ -44,7 +44,7 @@
                         <div class="eye-icon" (click)="togglePasswordVisibility()">
                           <i class="bx" [class.bx-show]="!showPassword" [class.bx-hide]="showPassword"></i>
                         </div>
-                    </div>  
+                    </div>
                     
                     <div class="checkbox-container">
                         <input 
@@ -55,13 +55,13 @@
                           I agree to the <a class="terms-link" (click)="openTermsAndConditions()">Terms and Conditions</a>
                         </label>
                     </div>
-
+                    
                     <button class="btn-primary login-btn" type="submit" [disabled]="isLoading || !loginForm.valid" 
                             [ngClass]="{ 'btn-loading-primary': isLoading, 'btn-primary': !isLoading}"> 
 
                         {{ isLoading ? 'Logging In' : 'Login' }} <mat-spinner *ngIf="isLoading" class="spinner" diameter="23" color="accent"></mat-spinner>
                     </button>
-                    
+
                     <div class="link" [routerLink]="'/landing'"> Back to landing page </div>
                 </form>
             </div>

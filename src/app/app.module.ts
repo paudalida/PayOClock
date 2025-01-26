@@ -7,8 +7,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LandingComponent } from './components/landing/landing.component';
-import { EmployeeComponent as EmployeeLoginComponent } from './components/login/employee/employee.component';
-import { AdminComponent as AdminLoginComponent } from './components/login/admin/admin.component';
+// import { EmployeeComponent as EmployeeLoginComponent } from './components/login/employee/employee.component';
+// import { AdminComponent as AdminLoginComponent } from './components/login/admin/admin.component';
 import { NotFoundComponent } from './components/error/not-found/not-found.component';
 
 /* Modules imports */
@@ -27,18 +27,20 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { HttpClientModule } from '@angular/common/http';
-import { TermsAndConditionsComponent } from './components/login/admin/terms-and-conditions/terms-and-conditions.component';
-import { TermsConditionsComponent } from './components/login/employee/terms-conditions/terms-conditions.component';
+import { TermsAndConditionsComponent } from './components/login/terms-and-conditions/terms-and-conditions.component';
+// import { TermsConditionsComponent } from './components/login/employee/terms-conditions/terms-conditions.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LandingComponent,
-    EmployeeLoginComponent,
-    AdminLoginComponent,
+    // EmployeeLoginComponent,
+    // AdminLoginComponent,
     NotFoundComponent,
     TermsAndConditionsComponent, 
-    TermsConditionsComponent
+    // TermsConditionsComponent, 
+    LoginComponent
   ],
   imports: [
     AppRoutingModule,

@@ -26,10 +26,12 @@ export class DashboardComponent implements OnInit {
     Saturday: this.defaults
   };
 
+  payrollsQuarters: any = [];
   payrollsTotal: any = {
     labels: [],
     data: []
   };
+  payrollsRaw: any = [];
   barChartData: any;
   doughnutRawData = this.defaults;
   doughnutChartData: any;
@@ -61,24 +63,36 @@ export class DashboardComponent implements OnInit {
       this.doughnutRawData = res.data.attendanceMonthly;
       this.setDoughnut();
 
-      this.payrollsTotal.labels = Object.keys(res.data.payrollSummary);
-      this.payrollsTotal.data = res.data.payrollSummary;
+      const summary = res.data.payrollSummary;
+      this.payrollsRaw = summary;
+      this.payrollsQuarters = Object.keys(summary);
+      this.payrollsTotal.labels = Object.keys(summary[this.payrollsQuarters[0]]);
+      this.payrollsTotal.data = summary[this.payrollsQuarters[0]];
       this.setBarChart();
     });
 
   }
 
+  updateBarChart(event: Event) {
+    const quarter = (event.target as HTMLSelectElement).value;
+    this.payrollsTotal.labels = Object.keys(this.payrollsRaw[quarter]);
+    this.payrollsTotal.data = this.payrollsRaw[quarter];
+    this.setBarChart();
+  }
+
   setBarChart() {
-    // const firstPayroll = [15000, 17000, 14000, 16000, 18000, 19000];  
-    // const secondPayroll = [8000, 9000, 7000, 5000, 10000, 11000];     
+    // const labelss = [ 'hi', 'there', 'people', 'all', 'over', 'the', 'world', 'hi', 'there', 'people', 'all', 'over', 'the', 'world', 'hi', 'there', 'people', 'all', 'over', 'the', 'world', 'hi', 'there', 'people', 'all', 'over', 'the', 'world' ];  
+    // const amountss = [8000, 9000, 7000, 5000, 10000, 11000, 7500, 8000, 9000, 7000, 5000, 10000, 11000, 7500, 8000, 9000, 7000, 5000, 10000, 11000, 7500, 8000, 9000, 7000, 5000, 10000, 11000, 7500];     
 
     this.barChartData = {
       labels: this.payrollsTotal.labels,
+      // labels: labelss,
       datasets: [
         {
           label: 'Total Net Pay of all Employees',
           backgroundColor: '#254ca3db',
-          data: this.payrollsTotal.data
+          data: this.payrollsTotal.data,
+          // data: amountss
         },
         // {
         //   label: 'Second Payroll of the Month',
@@ -108,8 +122,8 @@ export class DashboardComponent implements OnInit {
       ]
     };
 
-      const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-      const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
       // Bar chart options
       this.options = {
