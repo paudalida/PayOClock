@@ -39,6 +39,21 @@
   gap: 15px; 
 }
 
+.release-date {
+  font-family: 'Poppins';
+  font-style: italic;
+  display: flex;
+  float: right;
+}
+
+.bold {
+  font-weight: 500;
+}
+
+.release-date div {
+  margin: 3px;
+}
+
 .report-button {
   background-color: var(--primary-color);
   color: var(--white);

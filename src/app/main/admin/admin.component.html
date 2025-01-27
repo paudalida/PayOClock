@@ -26,13 +26,19 @@
             </div>
 
             <div class="notification-list" *ngIf="showNotifications">
-                <div *ngFor="let notification of notifications" class="notification-item">
-                    <span class="notification-message">
-                        <!-- <i class='bx bx-bell'></i> -->
-                         {{ notification.message }}
-                    </span>
-                    <span class="notification-time">{{ notification.time }}</span>
-                </div>
+                <ng-container *ngIf="notifications.length > 0">
+                    <div *ngFor="let notification of notifications" class="notification-item">
+                        <span class="notification-message">
+                            <!-- <i class='bx bx-bell'></i> -->
+                             {{ notification.message }}
+                        </span>
+                        <span class="notification-time">{{ notification.time }}</span>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="notifications.length == 0">
+                    <p class="center">No new notifications</p>
+                </ng-container>
             </div>
             
     

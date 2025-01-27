@@ -7,6 +7,7 @@ import { AdminService } from '../../../../services/admin/admin.service';
 import { ViewRequestComponent } from './view-request/view-request.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { NotificationService } from '../../../../services/notification/notification.service';
 
 
 interface EmployeeRequest {
@@ -32,7 +33,8 @@ export class RequestComponent implements OnInit, AfterViewInit {
     private ds: DataService,
     private as: AdminService,
     private popupService: PopupService,
-    private dialog: MatDialog 
+    private dialog: MatDialog,
+    private notif: NotificationService
   ) { }
 
   pendingRequests = new MatTableDataSource<any>([]);
@@ -65,6 +67,10 @@ export class RequestComponent implements OnInit, AfterViewInit {
         this.finishedRequests.data = res.data.filter((request: any) => request.status !== 0);
 
         this.refreshTable();
+
+        this.ds.request('POST', 'admin/read-notifications').subscribe((res: any) => {
+          this.notif.setNotifications();
+        });
       }
     })
   }

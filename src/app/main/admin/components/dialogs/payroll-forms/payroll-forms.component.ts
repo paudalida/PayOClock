@@ -39,7 +39,10 @@ export class PayrollFormsComponent implements OnInit{
   hasActive = false; 
   items: any = [1]; 
 
-  suggestions: string[] = ['Food', 'Transport', 'Health', 'Bonus', 'Insurance']; // Tulog na muna ako te
+  otherDeductionsSuggestions: string[] = ['Cash Bond', 'VALE']; // Tulog na muna ako te
+  allowanceSuggestions: string[] = ['Transportation Allowance']; // Tulog na muna ako te
+  adjDeductionsSuggestions: string[] = []; // Tulog na muna ako te
+  adjAdditionsSuggestions: string[] = ['Advanced Attendance Pay']; // Tulog na muna ako te
   activeRow: number | null = null;
   filteredSuggestionsOtherDeduction: string[] = [];
   filteredSuggestionsAllowance: string[] = [];
@@ -62,7 +65,6 @@ export class PayrollFormsComponent implements OnInit{
     this.isLoading = true;
 
     this.form = this.fb.group({
-      type: ['', Validators.required],
       details: this.fb.group({
         status: [''],
         payday_start: [''],
@@ -140,19 +142,19 @@ export class PayrollFormsComponent implements OnInit{
     
     // Filter suggestions based on form type
     if (formType === 'other_deduction') {
-      this.filteredSuggestionsOtherDeduction = this.suggestions.filter((suggestion) =>
+      this.filteredSuggestionsOtherDeduction = this.otherDeductionsSuggestions.filter((suggestion) =>
         suggestion.toLowerCase().includes(input.toLowerCase())
       );
     } else if (formType === 'allowance') {
-      this.filteredSuggestionsAllowance = this.suggestions.filter((suggestion) =>
+      this.filteredSuggestionsAllowance = this.allowanceSuggestions.filter((suggestion) =>
         suggestion.toLowerCase().includes(input.toLowerCase())
       );
     } else if (formType === 'adjustment_deductions') {
-      this.filteredSuggestionsAdjustmentDeductions = this.suggestions.filter((suggestion) =>
+      this.filteredSuggestionsAdjustmentDeductions = this.adjDeductionsSuggestions.filter((suggestion) =>
         suggestion.toLowerCase().includes(input.toLowerCase())
       );
     } else if (formType === 'adjustment_additions') {
-      this.filteredSuggestionsAdjustmentAdditions = this.suggestions.filter((suggestion) =>
+      this.filteredSuggestionsAdjustmentAdditions = this.adjAdditionsSuggestions.filter((suggestion) =>
         suggestion.toLowerCase().includes(input.toLowerCase())
       );
     }
@@ -205,6 +207,8 @@ export class PayrollFormsComponent implements OnInit{
     if(formArrayErrors) {
       this.pop.toastWithTimer('error', 'Duplicate records detected');
     }
+
+    console.log(this.form)
 
     if(formErrors) {
       if(formErrors['pattern'] && formErrors['pattern']['requiredPattern'] === '^\\d+(\\.\\d{1,2})?$') {

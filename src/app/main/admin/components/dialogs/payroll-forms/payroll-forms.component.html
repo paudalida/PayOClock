@@ -261,7 +261,7 @@
                                               formControlName="type" 
                                               (input)="onInput($event, i, 'allowance')" 
                                               class="input-field" 
-                                              [ngClass]="{ 'invalid-fld': form.get('type')?.invalid && form.get('type')?.touched }"
+                                              [ngClass]="{ 'invalid-fld': duplicateInput('allowance', i)}"
                                             />
                                             <div class="suggestions-container" *ngIf="activeRow === i && filteredSuggestionsAllowance.length > 0">
                                               <div 

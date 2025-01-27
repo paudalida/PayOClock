@@ -4,6 +4,7 @@ import { AdminService } from "../../services/admin/admin.service";
 import { PopupService } from "../../services/popup/popup.service";
 import { AuthService } from "../../services/auth/auth.service";
 import { EmployeeService } from "../../services/employee/employee.service";
+import { NotificationService } from "../../services/notification/notification.service";
 
 @Component({
   selector: 'app-admin',
@@ -16,13 +17,13 @@ export class AdminComponent implements OnInit {
     private ds: DataService,
     private as: AdminService,
     private auth: AuthService,
-    private es: EmployeeService,
+    private notif: NotificationService,
     private pop: PopupService
   ) { }
 
   isLoading = true;
   currentDateTime: string = '';
-  notificationCount: number = 1;
+  notificationCount: number = 0;
   showNotifications: boolean = false;  
   notifications: Array<{ message: string, time: string }> = []; 
 
@@ -48,21 +49,14 @@ export class AdminComponent implements OnInit {
       this.updateDateTime();
     }, 1000);
 
-    // Sample notifications
-    // this.notifications = [
-    //   { message: "New payroll updates are available.", time: "10:30 AM" } ];
-    //   { message: "Reminder: Submit your timesheet by today.", time: "9:00 AM" },
-    //   { message: "Your leave request was approved.", time: "Yesterday" },
-    //   { message: "New payroll updates are available.", time: "10:30 AM" },
-    //   { message: "Reminder: Submit your timesheet by timesheet by todayssssss.", time: "11:00 AM"},
-    //   { message: "Your leave request was approved.", time: "Yesterday" },
-    //   { message: "New payroll updates are available.", time: "10:30 AM" },
-    //   { message: "Reminder: Submit your timesheet by today.", time: "9:00 AM" },
-    //   { message: "Your leave request was approved.", time: "Yesterday" },
-    //   { message: "New payroll updates are available.", time: "10:30 AM" },
-    //   { message: "Reminder: Submit your timesheet by today.", time: "9:00 AM" },
-    //   { message: "Your leave request was approved.", time: "Yesterday" }
-    // ];
+    this.getNotifications();
+    setInterval(() => {
+      this.getNotifications();
+    }, 60 * 1000);
+
+    setInterval(() => {
+      this.countNotifications();
+    }, 1000);
   }
 
   updateDateTime(): void {
@@ -88,15 +82,21 @@ export class AdminComponent implements OnInit {
 
   toggleNotifications(): void {
     this.showNotifications = !this.showNotifications;
-
-    if (this.showNotifications) {
-      this.markAllAsRead();
-    }
   }
 
-  markAllAsRead(): void {
-    this.notificationCount = 0;
-}
+  getNotifications() {
+    this.ds.request('GET', 'admin/notifications').subscribe({
+      next: (res: any) => {
+        this.notifications = res.data;
+        this.notif.setNotifications(this.notifications);
+        this.notificationCount = this.notif.getNotificationsCount;
+      }
+    })
+  }
+
+  countNotifications() {
+    this.notificationCount = this.notif.getNotificationsCount;
+  }
 
   async logout() {
     let res = await this.pop.swalWithCancel(

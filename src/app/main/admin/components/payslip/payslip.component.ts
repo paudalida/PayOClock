@@ -31,6 +31,7 @@ export interface Employee {
 export class PayslipComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['id', 'name', 'position', 'status', 'action'];
   dataSource: any;
+  disabledInput = true;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;  
@@ -65,7 +66,10 @@ export class PayslipComponent implements OnInit, AfterViewInit {
 
     this.ds.request('GET', 'admin/transactions/latest').subscribe({
       next: (res: any) => {
-        this.date = res.data;
+        this.date.payday_start = res.data.payday_start;
+        this.date.payday_end = res.data.payday_end;
+
+        this.disabledInput = res.data.released_at ? true : false;
         this.as.setPayday(res.data);
       },
       error: (err: any) => {

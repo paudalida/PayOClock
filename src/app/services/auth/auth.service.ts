@@ -84,7 +84,7 @@ export class AuthService {
   public logout() {
     this.http.post(this.header.url + 'auth/logout', null, { headers: this.header.authHeader }).subscribe({
       next: (res: any) => {
-        this.router.navigate(['../login/' + this.userType]);
+        this.router.navigate(['/login']);
         sessionStorage.clear();
         this.pop.toastWithTimer('success', res.message);
       },

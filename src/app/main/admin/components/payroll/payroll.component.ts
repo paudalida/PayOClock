@@ -5,10 +5,7 @@ import { PopupService } from '../../../../services/popup/popup.service';
 
 import * as ExcelJS from 'exceljs'; 
 import { saveAs } from 'file-saver'; 
-import Swal from 'sweetalert2';
 import { MatDialog } from '@angular/material/dialog';
-import { PayslipComponent } from '../payslip/payslip.component';
-import { PayslipFormComponent } from '../payslip/payslip-form/payslip-form.component';
 import { IndivPayslipComponent } from './indiv-payslip/indiv-payslip.component';
 import { PayrollSumComponent } from './payroll-sum/payroll-sum.component';
 
@@ -25,6 +22,8 @@ export class PayrollComponent implements OnInit {
   filterValue = '';
   columns: any;
   selectedRow: any = null;
+  release_date: string = '';
+  release_dates: any = [];
 
   constructor(
     private dialog: MatDialog,
@@ -48,6 +47,8 @@ export class PayrollComponent implements OnInit {
         this.dateFilter = Object.keys(res.data.columns);
         this.payrolls = res.data.payrolls;
         this.filterValue = this.dateFilter[0];
+        this.release_dates = res.data.release_dates;
+        this.release_date = this.release_dates[this.filterValue];
 
         this.changeData();
       },
@@ -59,8 +60,33 @@ export class PayrollComponent implements OnInit {
 
   changeData() {
     this.payroll = this.payrolls[this.filterValue]
+    this.release_date = this.release_dates[this.filterValue]
   }  
 
+  release() {
+    this.pop.swalWithCancel(
+    'question', 
+    'Release current payroll?', 
+    `This will release the current payroll making the payslips available to the employees, mark employee payslip status as completed, and 
+    admin would no longer have access to the processes of the current payroll like adding and removing of deductions.
+    This action is IRREVERSIBLE, do you want to continue?`
+  ).then((result) => {
+      if (result) {
+        this.ds.request('POST', 'admin/payrolls/release').subscribe({
+        next: (res: any) => {
+          this.pop.toastWithTimer('success', res.message);
+          let emps = this.as.getEmployees();
+          emps.forEach((element: any) => {
+            element.status = 'Complete';
+          });
+  
+          this.as.setEmployees(emps);
+        }
+      })
+      }
+  });;
+    
+  }
   confirmSyncPay(): void {
     this.pop.swalWithCancel(
       'question', 

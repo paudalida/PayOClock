@@ -19,13 +19,13 @@
           </div>
         </div>
 
-        <button class="report-button" type="button">Release</button>
+        <button class="report-button" type="button" (click)="release()">Release</button>
 
       </div>
     </div>
 
     <div class="release-date"> 
-      <p> Release at: </p>
+      <div class="bold">Released at: </div><div>{{ release_date || 'N/A' }}</div>
     </div>
     
     <div class="scroll-container">
