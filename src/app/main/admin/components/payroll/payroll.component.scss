@@ -95,6 +95,17 @@ p {
   max-height: auto;
 }
 
+
+@media (max-width: 992px) {
+  .table-container {
+    max-width: 1500px;
+  }
+
+  .scrollable-columns {
+    max-width: calc(68% - 395px);
+  }
+}
+
 table {
   border-collapse: collapse;
 }

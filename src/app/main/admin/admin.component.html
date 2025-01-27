@@ -22,7 +22,7 @@
             <!-- Notification Icon -->
             <div class="notifications" (click)="toggleNotifications()">
                 <i class='bx bx-bell'></i>
-                <span class="notification-count">{{ notificationCount }}</span>
+                <span *ngIf="notificationCount > 0" class="notification-count">{{ notificationCount }}</span>
             </div>
 
             <div class="notification-list" *ngIf="showNotifications">

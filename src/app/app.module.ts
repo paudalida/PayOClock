@@ -30,6 +30,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TermsAndConditionsComponent } from './components/login/terms-and-conditions/terms-and-conditions.component';
 // import { TermsConditionsComponent } from './components/login/employee/terms-conditions/terms-conditions.component';
 import { LoginComponent } from './components/login/login.component';
+import { PrivacyPolicyComponent } from './components/login/privacy-policy/privacy-policy.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,9 @@ import { LoginComponent } from './components/login/login.component';
     NotFoundComponent,
     TermsAndConditionsComponent, 
     // TermsConditionsComponent, 
-    LoginComponent
+    LoginComponent,
+    PrivacyPolicyComponent
+
   ],
   imports: [
     AppRoutingModule,

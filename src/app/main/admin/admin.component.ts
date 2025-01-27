@@ -22,7 +22,7 @@ export class AdminComponent implements OnInit {
 
   isLoading = true;
   currentDateTime: string = '';
-  notificationCount: number = 101;
+  notificationCount: number = 1;
   showNotifications: boolean = false;  
   notifications: Array<{ message: string, time: string }> = []; 
 
@@ -49,20 +49,20 @@ export class AdminComponent implements OnInit {
     }, 1000);
 
     // Sample notifications
-    this.notifications = [
-      { message: "New payroll updates are available.", time: "10:30 AM" },
-      { message: "Reminder: Submit your timesheet by today.", time: "9:00 AM" },
-      { message: "Your leave request was approved.", time: "Yesterday" },
-      { message: "New payroll updates are available.", time: "10:30 AM" },
-      { message: "Reminder: Submit your timesheet by timesheet by todayssssss.", time: "11:00 AM"},
-      { message: "Your leave request was approved.", time: "Yesterday" },
-      { message: "New payroll updates are available.", time: "10:30 AM" },
-      { message: "Reminder: Submit your timesheet by today.", time: "9:00 AM" },
-      { message: "Your leave request was approved.", time: "Yesterday" },
-      { message: "New payroll updates are available.", time: "10:30 AM" },
-      { message: "Reminder: Submit your timesheet by today.", time: "9:00 AM" },
-      { message: "Your leave request was approved.", time: "Yesterday" }
-    ];
+    // this.notifications = [
+    //   { message: "New payroll updates are available.", time: "10:30 AM" } ];
+    //   { message: "Reminder: Submit your timesheet by today.", time: "9:00 AM" },
+    //   { message: "Your leave request was approved.", time: "Yesterday" },
+    //   { message: "New payroll updates are available.", time: "10:30 AM" },
+    //   { message: "Reminder: Submit your timesheet by timesheet by todayssssss.", time: "11:00 AM"},
+    //   { message: "Your leave request was approved.", time: "Yesterday" },
+    //   { message: "New payroll updates are available.", time: "10:30 AM" },
+    //   { message: "Reminder: Submit your timesheet by today.", time: "9:00 AM" },
+    //   { message: "Your leave request was approved.", time: "Yesterday" },
+    //   { message: "New payroll updates are available.", time: "10:30 AM" },
+    //   { message: "Reminder: Submit your timesheet by today.", time: "9:00 AM" },
+    //   { message: "Your leave request was approved.", time: "Yesterday" }
+    // ];
   }
 
   updateDateTime(): void {
@@ -88,7 +88,15 @@ export class AdminComponent implements OnInit {
 
   toggleNotifications(): void {
     this.showNotifications = !this.showNotifications;
+
+    if (this.showNotifications) {
+      this.markAllAsRead();
+    }
   }
+
+  markAllAsRead(): void {
+    this.notificationCount = 0;
+}
 
   async logout() {
     let res = await this.pop.swalWithCancel(

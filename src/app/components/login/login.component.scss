@@ -293,7 +293,7 @@
     align-items: left; 
     margin-top: 17px; 
     padding-left: 0; 
-    font-size: 14px;
+    font-size: 13.5px;
     color: var(--landing-font);
   }
   
@@ -309,6 +309,10 @@
     cursor: pointer;
     display: flex; 
     align-items: center;
+  }
+
+  span {
+    padding-left: 5px;
   }
   
   .checkbox-container a {
@@ -381,6 +385,38 @@
   
     .link {
       padding-right: 15px;
+    }
+
+    .checkbox-container {
+      display: flex; 
+      align-items: left; 
+      margin-top: 17px; 
+      padding-left: 0;
+      font-size: 11px;
+      color: var(--landing-font);
+      
+    }
+    
+    .checkbox-container input[type="checkbox"] {
+      width: 15px;
+      height: 15x;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    
+    .checkbox-container label {
+      margin-left: 10px;
+      cursor: pointer;
+      display: flex; 
+      flex-wrap: wrap;
+    }
+  
+    span {
+      padding-left: 2px;
+    }
+    
+    .checkbox-container a {
+      margin-left: 0;
     }
   }
   

@@ -46,10 +46,11 @@ h1 {
     position: relative;
     padding-right: 15px;
     cursor: pointer;
+    top: 2px;
 
     i {
         font-size: 1.5rem;
-        color: var(--landing-font);
+        color: var(--cancel);
     }
 
     .notification-count {

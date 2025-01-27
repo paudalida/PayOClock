@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 
 @Component({
   selector: 'app-login',
@@ -33,6 +34,13 @@ export class LoginComponent {
 
   openTermsAndConditions(): void {
     this.dialog.open(TermsAndConditionsComponent, {
+      width: '500px',
+      disableClose: true
+    });
+  }
+
+  openPrivacyPolicy(): void { 
+    this.dialog.open(PrivacyPolicyComponent, {
       width: '500px',
       disableClose: true
     });

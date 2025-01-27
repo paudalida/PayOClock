@@ -52,9 +52,13 @@
                           id="termsCheckbox" 
                           formControlName="termsAndConditions">
                         <label for="termsCheckbox">
-                          I agree to the <a class="terms-link" (click)="openTermsAndConditions()">Terms and Conditions</a>
+                          <span>I agree to the</span> 
+                          <a class="terms-link" (click)="openTermsAndConditions()">Terms and Conditions</a>
+                          <br>
+                          <span> and </span>
+                          <a class="terms-link" (click)="openPrivacyPolicy()">Privacy Policy</a>
                         </label>
-                    </div>
+                     </div>
                     
                     <button class="btn-primary login-btn" type="submit" [disabled]="isLoading || !loginForm.valid" 
                             [ngClass]="{ 'btn-loading-primary': isLoading, 'btn-primary': !isLoading}"> 
