@@ -44,6 +44,11 @@
                             <th> POSITION: </th> 
                             <td> {{ employee.position }} </td> 
                         </div>
+
+                        <div class="button-container">
+                            <button class="btn-primary export"
+                             (click)="exportPayslipAsPDF(i)">Download</button>
+                        </div>
                     </div>
                 </div>
         

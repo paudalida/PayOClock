@@ -6,6 +6,25 @@
     padding-top: 20px;
     padding-bottom: 20px;
 
+    .button {
+        padding-top: 30px;
+        padding-right: 10px;
+        display: flex;
+        justify-content: flex-end ;
+    }
+
+    .back {
+        background-color: var(--primary-color);
+        color: var(--white);
+        padding: 14px;
+        border: none;
+        border-radius: 3px;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
     .header {
         display: flex;
         justify-content: space-between; 

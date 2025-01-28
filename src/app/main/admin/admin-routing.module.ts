@@ -26,8 +26,13 @@ import { ActivitylogsComponent } from './components/activitylogs/activitylogs.co
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, 
-  { path: 'dashboard', component: DashboardComponent},  
-  { path: 'activity', component: ActivitylogsComponent}, 
+  { path: 'dashboard', 
+    children: [
+      { path: '', component: DashboardComponent, pathMatch: 'full'},  
+      { path: 'activity', component: ActivitylogsComponent },
+    ]
+  },
+  // { path: 'activity', component: ActivitylogsComponent}, 
   { path: 'attendance', component: AttendanceComponent }, 
   {
     path: 'payslips',

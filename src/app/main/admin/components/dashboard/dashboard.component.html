@@ -1,5 +1,12 @@
 <main>
     <div class="content"> 
+
+        <div class="button">
+            <button (click)="navigate('dashboard/activity')" class="activity-log"> 
+                Activity Logs 
+            </button>
+        </div>
+        
         <div class="cards">
             <div class="input-row">
                 <div class="card" (click)="navigate('employees')">
@@ -27,8 +34,6 @@
                 </div>    
             </div>
         </div>
-
-        <button (click)="navigate('activity')"> Activity Logs </button>
 
         <div class="attendance">
             <div class="header-content">

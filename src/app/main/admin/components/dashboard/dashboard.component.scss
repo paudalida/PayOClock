@@ -17,7 +17,7 @@
     padding-left: 25px;
     // padding-right: 25px;
     justify-content: space-between;
-    margin-top: 30px;
+    margin-top: 7px;
 
     .input-row .card {
         flex-basis: 35%;
@@ -72,11 +72,35 @@
 
 }
 
+.button {
+    padding-top: 30px;
+    padding-right: 10px;
+    display: flex;
+    justify-content: flex-end ;
+}
+
+.activity-log {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 14px;
+    border: none;
+    border-radius: 3px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+}
+
 // ATTENDANCE 
 
 .attendance {
     padding: 50px;
-    margin-top: 50px;
+    margin-top: 30px;
     margin-left: 40px;
     margin-right: 10px;
     background: var(--white);

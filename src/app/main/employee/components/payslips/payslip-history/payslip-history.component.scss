@@ -21,6 +21,19 @@
         padding-left: 5px;
         padding-top: 35px;
     }
+
+    .export {
+        padding-top: 15px;
+        background-color: var(--primary-color);
+        color: var(--white);
+        padding: 11px;
+        border: none;
+        border-radius: 3px;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
     
     .header .button-group {
         display: flex;
