@@ -27,7 +27,7 @@
 
             <div class="notification-list" *ngIf="showNotifications">
                 <ng-container *ngIf="notifications.length > 0">
-                    <div *ngFor="let notification of notifications" class="notification-item">
+                    <div *ngFor="let notification of notifications" class="notification-item" (click)="redirectToRequests()">
                         <span class="notification-message">
                             <!-- <i class='bx bx-bell'></i> -->
                              {{ notification.message }}

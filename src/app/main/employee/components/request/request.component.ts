@@ -5,6 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { DataService } from '../../../../services/data/data.service';
 import { RequestFormComponent } from './request-form/request-form.component';
+import { ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 
 interface pendingRequests {
   id: number;
@@ -25,6 +27,7 @@ export class RequestComponent implements OnInit {
 
   requests: any;
   dataSource: any;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   // allRequests: pendingRequests[] = [
   //   {
   //     request_type: 'Leave',
@@ -64,6 +67,7 @@ export class RequestComponent implements OnInit {
   ngOnInit(): void {
     this.ds.request('GET', 'employee/requests').subscribe((res: any) => {
       this.dataSource = new MatTableDataSource(res.data);
+      this.dataSource.paginator = this.paginator;
     })
   }
 

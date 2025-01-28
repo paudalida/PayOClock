@@ -9,7 +9,7 @@
         <!-- Report Button -->
         <button class="report-button" type="button" (click)="openPayroll()">Maximize</button>
         <button class="report-button" type="button" (click)="generateReport()">Export</button>
-        <button class="report-button" type="button" (click)="confirmSyncPay()">Sync Pay</button>
+        <button class="report-button" type="button" (click)="confirmSyncPay()" [disabled]="release_date">Sync Pay</button>
         
         <div class="date-range-dropdown">
           <div class="select-wrapper">
@@ -19,7 +19,7 @@
           </div>
         </div>
 
-        <button class="report-button" type="button" (click)="release()">Release</button>
+        <button class="report-button" type="button" (click)="release()" [disabled]="release_date">Release</button>
 
       </div>
     </div>

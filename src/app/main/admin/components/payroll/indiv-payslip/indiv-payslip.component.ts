@@ -32,7 +32,6 @@ export class IndivPayslipComponent implements OnInit{
   allowanceStart = 0;
 
   ngOnInit(): void {
-    console.log(this.data)
     this.employee = this.as.getEmployee();
     if(!this.employee.id) { this.router.navigate(['/admin/payrolls']); } // return to payrolls if employee data is not set (browser refreshed)
 

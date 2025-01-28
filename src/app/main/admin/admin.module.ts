@@ -49,6 +49,7 @@ import { ChangePassEmployeeComponent } from './components/settings/profile/chang
 import { AnnouncementComponent } from './components/archives/announcement/announcement.component';
 import { IndivPayslipComponent } from './components/payroll/indiv-payslip/indiv-payslip.component';
 import { PayrollSumComponent } from './components/payroll/payroll-sum/payroll-sum.component';
+import { ActivitylogsComponent } from './components/activitylogs/activitylogs.component';
 
 
 @NgModule({
@@ -87,7 +88,8 @@ import { PayrollSumComponent } from './components/payroll/payroll-sum/payroll-su
     AnnouncementComponent,
     ActivityComponent,
     IndivPayslipComponent,
-    PayrollSumComponent
+    PayrollSumComponent,
+    ActivitylogsComponent
     
   ],
   imports: [

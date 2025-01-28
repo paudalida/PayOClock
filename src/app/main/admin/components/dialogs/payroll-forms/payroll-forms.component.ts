@@ -208,8 +208,6 @@ export class PayrollFormsComponent implements OnInit{
       this.pop.toastWithTimer('error', 'Duplicate records detected');
     }
 
-    console.log(this.form)
-
     if(formErrors) {
       if(formErrors['pattern'] && formErrors['pattern']['requiredPattern'] === '^\\d+(\\.\\d{1,2})?$') {
         this.pop.toastWithTimer('error', 'Should be a number up to 2 decimal places');

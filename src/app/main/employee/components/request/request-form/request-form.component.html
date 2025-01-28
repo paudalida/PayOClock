@@ -8,7 +8,7 @@
 
             <div class="input-row" *ngIf="formType !== 'overtime'">
                 <div class="entryarea">
-                  <select formControlName="leaveType">
+                  <select formControlName="request_type">
                     <option *ngFor="let leaveType of leaveTypes" [value]="leaveType">{{ leaveType }}</option>
                   </select>
                   <div class="labelline">Leave Type</div>
@@ -38,7 +38,7 @@
                 </div>
             </div>
 
-            <div class="input-row" *ngIf="formType === 'overtime' || form.get('leaveType')?.value === 'Unpaid Leave'">
+            <div class="input-row" *ngIf="formType === 'overtime' || form.get('request_type')?.value === 'Unpaid Leave'">
                 <div class="entryarea1">
                     <textarea formControlName="reason"></textarea>
                     <span></span>
@@ -46,7 +46,7 @@
                 </div>
             </div>
             
-            <div class="input-row" *ngIf="form.get('leaveType')?.value === 'Paid Leave'">
+            <div class="input-row" *ngIf="form.get('request_type')?.value === 'Paid Leave'">
                 <div class="entryarea2">
                   <!-- Multiple file input -->
                   <input #fileInput class="inputtxt" type="file" (change)="onFileChange($event)" multiple>
@@ -69,7 +69,7 @@
             </div>
             <div class="buttons">
                 <div class="add-btn">
-                    <button class = "button" type="submit" value="Add" id="cancel"> REQUEST </button>
+                    <button class = "button" type="submit" value="Add" id="cancel" [disabled]="!form.valid"> REQUEST </button>
                 </div>
 
                 <div class="cancel-btn">

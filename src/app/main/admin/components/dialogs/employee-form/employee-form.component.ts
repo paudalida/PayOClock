@@ -26,14 +26,14 @@ export class EmployeeFormComponent {
     position: ['', [Validators.required, Validators.maxLength(20)]],
     hourly_rate: ['', [Validators.required]],
     contact: this.fb.group({
-      phone_number: ['09', [Validators.maxLength(11), Validators.minLength(11), isPhoneNumber()]],
-      email: ['', [Validators.required, Validators.maxLength(30)]],
-      province: ['', [Validators.required, Validators.maxLength(20)]],
-      city: ['', [Validators.required, Validators.maxLength(20)]],
-      barangay: ['', [Validators.required, Validators.maxLength(20)]],
-      street: ['', [Validators.required, Validators.maxLength(20)]],
-      house_number: ['', [Validators.required, Validators.maxLength(20)]],
-      zip_code: ['', [Validators.required, Validators.maxLength(10)]],
+      phone_number: ['', [Validators.maxLength(11), Validators.minLength(11), isPhoneNumber()]],
+      email: ['', [Validators.maxLength(30)]],
+      province: ['', [Validators.maxLength(20)]],
+      city: ['', [Validators.maxLength(20)]],
+      barangay: ['', [Validators.maxLength(20)]],
+      street: ['', [Validators.maxLength(20)]],
+      house_number: ['', [Validators.maxLength(20)]],
+      zip_code: ['', [Validators.maxLength(10)]],
     })
   });
 

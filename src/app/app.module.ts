@@ -31,6 +31,8 @@ import { TermsAndConditionsComponent } from './components/login/terms-and-condit
 // import { TermsConditionsComponent } from './components/login/employee/terms-conditions/terms-conditions.component';
 import { LoginComponent } from './components/login/login.component';
 import { PrivacyPolicyComponent } from './components/login/privacy-policy/privacy-policy.component';
+import { httpInterceptor } from './http.interceptor';
+// import { ActivitylogsComponent } from './main/admin/components/activitylogs/activitylogs.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,8 @@ import { PrivacyPolicyComponent } from './components/login/privacy-policy/privac
     TermsAndConditionsComponent, 
     // TermsConditionsComponent, 
     LoginComponent,
-    PrivacyPolicyComponent
+    PrivacyPolicyComponent,
+    // ActivitylogsComponent
 
   ],
   imports: [
@@ -72,6 +75,7 @@ import { PrivacyPolicyComponent } from './components/login/privacy-policy/privac
     provideAnimationsAsync(),
     provideHttpClient(
       withFetch(), 
+      withInterceptors([httpInterceptor])
     )
   ],
   bootstrap: [AppComponent], 
