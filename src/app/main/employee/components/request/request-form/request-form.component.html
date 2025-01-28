@@ -6,27 +6,39 @@
         </div>
         <div class="detailsbody">
 
-            <div class="input-row">
+            <div class="input-row" *ngIf="formType !== 'overtime'">
                 <div class="entryarea">
-                    <select formControlName="type" [disabled]="formType == 'overtime'"> 
-                        <option *ngFor="let type of types" [value]="type"> {{ type }} </option>
-                    </select>
-                    <div class="labelline">Type of {{ formType || '' | titlecase }}</div>
+                  <select formControlName="leaveType">
+                    <option *ngFor="let leaveType of leaveTypes" [value]="leaveType">{{ leaveType }}</option>
+                  </select>
+                  <div class="labelline">Leave Type</div>
                 </div>
+
+              <div class="entryarea">
+                <select formControlName="type" [disabled]="formType == 'overtime'"> 
+                    <option *ngFor="let type of types" [value]="type"> {{ type }} </option>
+                </select>
+              <div class="labelline">Type of {{ formType || '' | titlecase }}</div>
+              </div>
             </div>
+            
 
             <div class="input-row">
                 <div class="entryarea">
-                    <input type="datetime-local" formControlName="start">
+                    <!-- Time picker for start time -->
+                    <input type="datetime-local" formControlName="start"
+                           (change)="validateStartTime($event)">
                     <div class="labelline">Start Date</div>
                 </div>
                 <div class="entryarea">
-                    <input type="datetime-local" formControlName="end">
+                    <!-- Time picker for end time -->
+                    <input type="datetime-local" formControlName="end"
+                           (change)="validateEndTime($event)">
                     <div class="labelline">End Date</div>
                 </div>
             </div>
 
-            <div class="input-row">
+            <div class="input-row" *ngIf="formType === 'overtime' || form.get('leaveType')?.value === 'Unpaid Leave'">
                 <div class="entryarea1">
                     <textarea formControlName="reason"></textarea>
                     <span></span>
@@ -34,7 +46,7 @@
                 </div>
             </div>
             
-            <div class="input-row">
+            <div class="input-row" *ngIf="form.get('leaveType')?.value === 'Paid Leave'">
                 <div class="entryarea2">
                   <!-- Multiple file input -->
                   <input #fileInput class="inputtxt" type="file" (change)="onFileChange($event)" multiple>
@@ -53,19 +65,17 @@
                       </div>
                     </div>
                   </div>
-
-                  <div class="buttons">
-                    <div class="add-btn">
-                        <button class = "button" type="submit" value="Add" id="cancel"> REQUEST </button>
-                    </div>
-
-                    <div class="cancel-btn">
-                        <button class = "button" type="button" value="Cancel" id="cancel" (click)="close()"> CANCEL </button>
-                    </div>
-                    
+                </div>
+            </div>
+            <div class="buttons">
+                <div class="add-btn">
+                    <button class = "button" type="submit" value="Add" id="cancel"> REQUEST </button>
                 </div>
 
+                <div class="cancel-btn">
+                    <button class = "button" type="button" value="Cancel" id="cancel" (click)="close()"> CANCEL </button>
                 </div>
+                
             </div>
         </div>
     </form>
