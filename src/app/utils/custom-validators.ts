@@ -62,17 +62,21 @@ export const duplicateTypeSubtypeValidator: ValidatorFn = (formArray: AbstractCo
   return duplicates.length > 0 ? { duplicateTypeSubtype: duplicates } : null;
 };
 
-// Check if the value starts with the provided text
 export function isPhoneNumber(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
     const value = control.value;
 
-    // Check if the value is a string and starts with '09' and is composed of digits only
+    // If the value is empty, treat it as valid (no error)
+    if (!value) {
+      return null; // Valid if the value is empty
+    }
+
+    // Check if the value is a string, starts with '09', and is composed of digits only
     if (typeof value === 'string' && value.startsWith('09') && /^\d+$/.test(value)) {
       return null; // Valid phone number
     }
 
-    // Return validation error
+    // Return validation error if format is invalid
     return { 'requiredFormat': 'phone number', 'value': value };
   };
 }

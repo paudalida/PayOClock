@@ -22,10 +22,12 @@ import { ProfileComponent } from './components/settings/profile/profile.componen
 import { ActivityComponent } from './components/settings/activity/activity.component';
 
 import { AnnouncementComponent } from './components/archives/announcement/announcement.component';
+import { ActivitylogsComponent } from './components/activitylogs/activitylogs.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, 
-  { path: 'dashboard', component: DashboardComponent}, 
+  { path: 'dashboard', component: DashboardComponent},  
+  { path: 'activity', component: ActivitylogsComponent}, 
   { path: 'attendance', component: AttendanceComponent }, 
   {
     path: 'payslips',
@@ -44,7 +46,7 @@ const routes: Routes = [
     children: [ 
       { path: '', component: SettingsComponent, pathMatch: 'full' },
       { path: 'profile', component: ProfileComponent }, 
-      { path: 'activity', component: ActivityComponent}
+      // { path: 'activity', component: ActivityComponent}
     ]
   },
   { path: 'archives', 

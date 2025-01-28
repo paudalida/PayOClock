@@ -5,6 +5,7 @@ import { PopupService } from "../../services/popup/popup.service";
 import { AuthService } from "../../services/auth/auth.service";
 import { EmployeeService } from "../../services/employee/employee.service";
 import { NotificationService } from "../../services/notification/notification.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-admin',
@@ -18,7 +19,8 @@ export class AdminComponent implements OnInit {
     private as: AdminService,
     private auth: AuthService,
     private notif: NotificationService,
-    private pop: PopupService
+    private pop: PopupService,
+    private router: Router
   ) { }
 
   isLoading = true;
@@ -96,6 +98,10 @@ export class AdminComponent implements OnInit {
 
   countNotifications() {
     this.notificationCount = this.notif.getNotificationsCount;
+  }
+
+  redirectToRequests() {
+    this.router.navigate(['/admin/request']);
   }
 
   async logout() {

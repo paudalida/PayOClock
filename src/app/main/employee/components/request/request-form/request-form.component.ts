@@ -11,7 +11,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrl: './request-form.component.scss'
 })
 export class RequestFormComponent implements OnInit {
-  form: FormGroup;
+  form: any;
   isLoading: boolean = false;
   formType: string = '';
 
@@ -41,26 +41,34 @@ export class RequestFormComponent implements OnInit {
     } else if(this.formType == 'overtime') {
       this.types = [ 'Overtime' ];
     }
-
-    this.form = this.fb.group({
-      leaveType: ['', Validators.required],
-      type:   ['', Validators.required],
-      start:  ['', Validators.required],
-      end:    ['', Validators.required],
-      reason: [''], 
-      files: [''] 
-    });
-
   }
 
   ngOnInit(): void {
     this.loadUserData();
   
     if (this.formType === 'overtime') {
-      this.form.get('reason')?.setValidators(Validators.required);
-      this.form.get('files')?.setValidators(Validators.required);
+      // this.form.get('reason')?.setValidators(Validators.required);
+      // this.form.get('files')?.setValidators(Validators.required);
+      this.form = this.fb.group({
+        request_type: ['overtime', Validators.required],
+        type:   ['overtime', Validators.required],
+        start:  ['', Validators.required],
+        end:    ['', Validators.required],
+        reason: ['', Validators.required], 
+        files: [''] 
+      });
     } else {
+      
+      this.form = this.fb.group({
+        request_type: ['', Validators.required],
+        type:   ['', Validators.required],
+        start:  ['', Validators.required],
+        end:    ['', Validators.required],
+        reason: [''], 
+        files: [''] 
+      });
       this.setupLeaveTypeWatcher();
+
     }
   
     this.updateFormValidators();
@@ -111,7 +119,7 @@ export class RequestFormComponent implements OnInit {
   
     if (this.formType === 'leave') {
       // For Leave, time must be between 08:00 AM and 05:00 PM
-      valid = selectedTime.getHours() >= 8 && selectedTime.getHours() < 17;
+      valid = selectedTime.getHours() >= 8 && selectedTime.getHours() <= 17;
     } else if (this.formType === 'overtime') {
       // For Overtime, time must be 05:00 PM onwards
       valid = selectedTime.getHours() >= 17;
@@ -136,7 +144,7 @@ export class RequestFormComponent implements OnInit {
   
     if (this.formType === 'leave') {
       // For Leave, time must be between 08:00 AM and 05:00 PM
-      valid = selectedTime.getHours() >= 8 && selectedTime.getHours() < 17 && selectedTime >= startTime;
+      valid = selectedTime.getHours() >= 8 && selectedTime.getHours() <= 17 && selectedTime >= startTime;
     } else if (this.formType === 'overtime') {
       // For Overtime, time must be 05:00 PM onwards
       valid = selectedTime.getHours() >= 17 && selectedTime >= startTime;
