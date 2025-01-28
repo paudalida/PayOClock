@@ -60,7 +60,6 @@ export class EmployeeComponent implements OnInit {
     const timeOptions: Intl.DateTimeFormatOptions = {
       hour: 'numeric',
       minute: 'numeric',
-      second: 'numeric',
       hour12: true
     };
   

@@ -19,7 +19,7 @@
         <ng-container *ngFor="let payslip of payslips; let i = index;">
             <div class="table-content" (click)="clickTable(i)">
                 <div class="table-head">
-        
+
                     <div class="input-row">
                         <div class="information-case">
                             <th> EMPLOYEE NAME: </th>  
@@ -48,6 +48,11 @@
                         <div class="information-case">
                             <th> POSITION: </th> 
                             <td> {{ employee.position }} </td> 
+                        </div>
+
+                        <div class="button-container">
+                            <button class="btn-primary export"
+                             (click)="exportPayslipAsPDF(i)">Download</button>
                         </div>
                     </div>
                 </div>

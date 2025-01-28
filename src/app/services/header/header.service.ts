@@ -18,6 +18,6 @@ export class HeaderService {
 
     return 'http://localhost:8000/api/';
 
-    // return 'https://api.payoclock.site/api/';
+    return 'https://api.payoclock.site/api/';
   }
 }

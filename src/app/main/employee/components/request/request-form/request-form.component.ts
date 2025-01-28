@@ -87,7 +87,7 @@ export class RequestFormComponent implements OnInit {
         this.types = this.allTypes.paid;
       } else if (selectedLeaveType === 'Unpaid Leave') {
         this.form.get('reason')?.setValidators(Validators.required); 
-        this.form.get('files')?.clearValidators();
+        this.form.get('files')?.clearValidators();       
         this.types = this.allTypes.unpaid;
       } else {
         // Clear all validations if leaveType is not selected
