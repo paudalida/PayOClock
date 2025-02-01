@@ -19,7 +19,7 @@ export class EmployeeService {
     gender: null,
     position: null,
     image: null,
-    hourly_rate: null,
+    rate: null,
     status: null,
     contact: {
       phone_number: null,

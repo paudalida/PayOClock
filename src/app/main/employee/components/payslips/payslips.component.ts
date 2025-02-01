@@ -23,7 +23,7 @@ export class PayslipsComponent implements OnInit{
 
   isMobile: boolean = false;
   isLoading = true;
-  payday_start = ''; payday_end = ''; base_pay = 0; adjusted_pay = 0; total_additions = 0; total_deductions = 0; gross_pay = 0; net_pay = 0; hourly_rate = 0;
+  payday_start = ''; payday_end = ''; base_pay = 0; adjusted_pay = 0; total_additions = 0; total_deductions = 0; gross_pay = 0; net_pay = 0; rate = 0;
   attendance: any = []; deductions: any = []; additions: any = [];
   values: any = [];
   employee: any;
@@ -49,7 +49,7 @@ export class PayslipsComponent implements OnInit{
         this.total_deductions = res.data.total_deductions;
         this.gross_pay        = res.data.gross_pay;
         this.net_pay          = res.data.net_pay;
-        this.hourly_rate      = res.data.hourly_rate;
+        this.rate      = res.data.rate;
         
         let longest = res.data.payslip.attendance.types.length;
         const payslip = res.data.payslip;

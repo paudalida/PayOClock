@@ -25,7 +25,7 @@ export class AdminService {
     gender: null,
     position: null,
     image: null,
-    hourly_rate: null,
+    rate: null,
     status: null,
     contact: {
       phone_number: null,
@@ -67,7 +67,7 @@ export class AdminService {
       gender: data.gender,
       position: data.position,
       image: data.image || null,
-      hourly_rate: data.hourly_rate,
+      rate: data.rate,
       status: data.status || null,
       contact: {
         phone_number: data.contact.phone_number || null,
@@ -96,7 +96,7 @@ export class AdminService {
       gender: null,
       position: null,
       image: null,
-      hourly_rate: null,
+      rate: null,
       status: null,
       contact: {
         phone_number: null,

@@ -19,7 +19,6 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { RequestComponent } from './components/request/request.component';
 import { ArchivesComponent } from './components/archives/archives.component';
 import { ProfileComponent } from './components/settings/profile/profile.component';
-import { ActivityComponent } from './components/settings/activity/activity.component';
 
 import { AnnouncementComponent } from './components/archives/announcement/announcement.component';
 import { ActivitylogsComponent } from './components/activitylogs/activitylogs.component';
@@ -50,8 +49,7 @@ const routes: Routes = [
   { path: 'settings', 
     children: [ 
       { path: '', component: SettingsComponent, pathMatch: 'full' },
-      { path: 'profile', component: ProfileComponent }, 
-      // { path: 'activity', component: ActivityComponent}
+      { path: 'profile', component: ProfileComponent }
     ]
   },
   { path: 'archives', 

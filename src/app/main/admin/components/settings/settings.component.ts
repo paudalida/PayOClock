@@ -1,15 +1,9 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Validators, FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { AdminService } from '../../../../services/admin/admin.service';
 import { DataService } from '../../../../services/data/data.service';
 import { PopupService } from '../../../../services/popup/popup.service';
 import { dateValidator, duplicateTypeSubtypeValidator } from '../../../../utils/custom-validators';
-import { ProfileComponent } from './profile/profile.component';
 import { Router } from '@angular/router';
-import { getMatFormFieldMissingControlError } from '@angular/material/form-field';
-import { format } from 'path';
-import { config } from 'process';
 
 @Component({
   selector: 'app-settings',
@@ -31,14 +25,60 @@ export class SettingsComponent {
   });
 
   configForm = this.fb.group({
-    deduction: this.fb.array([], duplicateTypeSubtypeValidator),
-    other_deduction: this.fb.array([], duplicateTypeSubtypeValidator),
-    allowance: this.fb.array([], duplicateTypeSubtypeValidator)
+    SSS: this.fb.group({
+      ER: this.fb.array([]),
+      EE: this.fb.array([])
+    }),
+    PHIC: this.fb.group({
+      ER: this.fb.group({
+        id: [''],
+        formKey: ['update'],
+        operation_type: ['percentage deduction'],
+        type: 'PHIC ER Share',
+        amount: ['', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]]
+      }),
+      EE: this.fb.group({
+        id: [''],
+        formKey: ['update'],
+        operation_type: ['percentage deduction'],
+        type: 'PHIC EE Share',
+        amount: ['', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]]
+      })
+    }),
+    HDMF:  this.fb.group({
+      ER: this.fb.group({
+        id: [''],
+        formKey: ['update'],
+        operation_type: ['deduction'],
+        type: 'HDMF ER Share',
+        amount: ['', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]]
+      }),
+      EE: this.fb.group({
+        id: [''],
+        formKey: ['update'],
+        operation_type: ['deduction'],
+        type: 'HDMF EE Share',
+        amount: ['', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]]
+      })
+    }),
   });
 
+  expandedTable = true;
   ngOnInit(): void {
     this.getHolidays();
     this.getConfig();
+
+    this.configFormsArray('SSS', 'ER').valueChanges.subscribe((changes) => {
+      this.syncEEValues();
+    });
+  }
+
+  syncEEValues(): void {
+    this.configFormsArray('SSS', 'ER').controls.forEach((erForm, i) => {
+      const eeForm = this.configFormsArray('SSS', 'EE').at(i);
+      eeForm?.get('min_pay_range')?.setValue(erForm.get('min_pay_range')?.value);
+      eeForm?.get('max_pay_range')?.setValue(erForm.get('max_pay_range')?.value);
+    });
   }
 
   duplicateInput(category: string, index: number) {
@@ -95,30 +135,45 @@ export class SettingsComponent {
   getConfig() {
     this.ds.request('GET', 'admin/periodic-transactions/config').subscribe({
       next: (res: any) => {
-        res.data.forEach((element: any) => {
-          this.addToConfigForm(
-            element.category,
-            'update',
-            element.operation_type,
-            element.type,
-            element.subtype,
-            element.amount,
-            element.id
-          );
+        Object.entries(res.data).forEach(([key, values]: [string, any]) => {
+          let category = '';
+          if(key.includes('ER')) category = 'ER';
+          else if(key.includes('EE')) category = 'EE';
+          
+          if(key.includes('SSS')) {
+            values.forEach((element: any) => {
+              this.addToConfigForm(
+                category,
+                'update',
+                element.operation_type,
+                element.type,
+                element.amount,
+                element.min_pay_range,
+                element.max_pay_range,
+                element.id
+              );
+            });
+          } else if(key.includes('PHIC')) {
+            this.configForm.get('PHIC')?.get(category)?.patchValue({
+              id: values[0].id,
+              amount: values[0].amount
+            });
+          } else if(key.includes('HDMF')) {
+            this.configForm.get('HDMF')?.get(category)?.patchValue({
+              id: values[0].id,
+              amount: values[0].amount
+            });
+          }
         });
       }
     })
   }
 
-  formsArray(formType: string, category: string) {
+  formsArray(formType: string, category: string, cat2?: string) {
     let form = null;
     switch(formType) {
       case 'holiday':
         form = this.holidayForm as FormGroup;
-        break;
-
-      case 'config':
-        form = this.configForm as FormGroup;
         break;
 
       default:
@@ -127,23 +182,33 @@ export class SettingsComponent {
     return form.get(category) as FormArray;
   }
 
+  clickTable() {
+    this.expandedTable = !this.expandedTable;
+  }
+  
+  configFormsArray(type: string, category: string) {
+    return this.configForm.get(type)?.get(category) as FormArray;
+  }
+
   addToConfigForm(
     category: string,
     formKey: string, 
-    operation_type: string,
-    type?: string, 
-    subtype?: string, 
+    operation_type: string = 'deduction',
+    type?: string,
     amount?: number,
+    min_pay_range?: number,
+    max_pay_range?: number,
     id?: number
   ) {
-    this.formsArray('config', category)?.push(this.fb.group({
+    this.configFormsArray('SSS', category).push(this.fb.group({
       formKey: [formKey],
       operation_type: [operation_type, [Validators.required, Validators.maxLength(20)]],
       type: [type, [Validators.required, Validators.maxLength(30)]],
-      subtype: [subtype, [Validators.maxLength(30)]],
+      min_pay_range: [min_pay_range, [Validators.required]],
+      max_pay_range: [max_pay_range, [Validators.required]],
       amount: [amount, [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]],
       id: [id]
-    }));    
+    }));
   }
 
   addToHolidayForm(

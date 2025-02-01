@@ -126,7 +126,7 @@ export class PayslipHistoryComponent implements OnInit{
     doc.text(`Name: ${employee.full_name}`, 10, 50);
     doc.text(`Position: ${employee.position}`, 200, 50, { align: 'right' });
     doc.text(`ID: ${employee.employee_id}`, 10, 58);
-    doc.text(`Rate: ${employee.hourly_rate}`, 200, 58, { align: 'right' });
+    doc.text(`Rate: ${employee.rate}`, 200, 58, { align: 'right' });
   
     doc.setFontSize(12);
     doc.text(`Payroll Period: ${details.payday_start} - ${details.payday_end}`, 105, 62, { align: 'center' });

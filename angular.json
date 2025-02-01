@@ -24,7 +24,15 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "allowedCommonJsDependencies": ["file-saver", "exceljs"],
+            "allowedCommonJsDependencies": [
+              "@babel/runtime/helpers/asyncToGenerator", 
+              "@babel/runtime/helpers/typeof",
+              "core-js/modules/es.string.match.js",
+              "core-js/modules/es.array.reverse.js",
+              "core-js/modules/es.regexp.to-string.js",
+              "jspdf-autotable",
+              "file-saver", 
+              "exceljs"],
             "outputPath": "dist/payoclock",
             "index": "src/index.html",
             "browser": "src/main.ts",

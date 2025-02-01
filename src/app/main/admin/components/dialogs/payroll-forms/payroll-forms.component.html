@@ -14,9 +14,9 @@
 
     <div class="content" *ngIf="!isLoading"> 
 
-        <button class="btn-primary config" (click)="openDialog()"> Configuration </button>
+        <!-- <button class="btn-primary config" (click)="openDialog()"> Configuration </button>
         <button class="btn-primary btns" (click)="resetClick('saved')"> Saved </button>
-        <button class="btn-primary btns" (click)="resetClick('default')"> Default </button>
+        <button class="btn-primary btns" (click)="resetClick('default')"> Default </button> -->
 
         <form [formGroup]="form">
 
@@ -114,7 +114,7 @@
 
 
             <!-- FORMS ARRAY -->
-            <form formArrayName="deduction">
+            <!-- <form formArrayName="deduction"> -->
                 <div class="input-row">
                     <div class="container-deduction" [ngClass]="{'expanded': hasActive}">
                         <div class="container-head1"> 
@@ -160,7 +160,7 @@
                     </div>
                 </div>
             <!-- </form> -->
-            </form>
+            <!-- </form> -->
 
             <!-- <form [formGroup]="form" (submit)="submit()"> -->
             <div class="input-row2"> 

@@ -39,10 +39,10 @@ export class PayrollFormsComponent implements OnInit{
   hasActive = false; 
   items: any = [1]; 
 
-  otherDeductionsSuggestions: string[] = ['Cash Bond', 'VALE']; // Tulog na muna ako te
-  allowanceSuggestions: string[] = ['Transportation Allowance']; // Tulog na muna ako te
-  adjDeductionsSuggestions: string[] = []; // Tulog na muna ako te
-  adjAdditionsSuggestions: string[] = ['Advanced Attendance Pay']; // Tulog na muna ako te
+  otherDeductionsSuggestions: string[] = ['Cash Bond', 'VALE'];
+  allowanceSuggestions: string[] = ['Transportation Allowance'];
+  adjDeductionsSuggestions: string[] = [];
+  adjAdditionsSuggestions: string[] = ['Advanced Attendance Pay'];
   activeRow: number | null = null;
   filteredSuggestionsOtherDeduction: string[] = [];
   filteredSuggestionsAllowance: string[] = [];
@@ -70,7 +70,6 @@ export class PayrollFormsComponent implements OnInit{
         payday_start: [''],
         payday_end: ['']
       }),
-      deduction: this.fb.array([], duplicateTypeSubtypeValidator),
       other_deduction: this.fb.array([], duplicateTypeSubtypeValidator),
       allowance: this.fb.array([], duplicateTypeSubtypeValidator), 
       adjustment_deductions: this.fb.array([], duplicateTypeSubtypeValidator), 
@@ -83,7 +82,7 @@ export class PayrollFormsComponent implements OnInit{
 
     if(!this.employee.id) { this.router.navigate(['/admin/payslips']); } // return to payrolls if employee data is not set (browser refreshed)
     
-    this.hourlyRate = this.employee.hourly_rate;
+    this.hourlyRate = this.employee.rate;
 
     this.getData();
     
@@ -99,8 +98,7 @@ export class PayrollFormsComponent implements OnInit{
           this.savedValue = res.data;
 
           res.data.forEach((element: any) => {
-            if(element.category == 'deduction'
-              || element.category == 'allowance'
+            if(element.category == 'allowance'
               || element.category == 'other_deduction' 
               || element.category == 'adjustment_deductions' 
               || element.category == 'adjustment_additions'){
@@ -115,18 +113,9 @@ export class PayrollFormsComponent implements OnInit{
                     element.id, 
                   );
             }
-
-            // if(!(details.get('payday_start').value && details.get('payday_end').value)) {
-
-            //   details.patchValue({
-            //     payday_start: element.payday_start,
-            //     payday_end: element.payday_end
-            //   });
-            // }
           });
           this.isLoading = false; 
         }
-        else { this.getConfig(); }
 
         details.patchValue({
           payday_start: date.payday_start,

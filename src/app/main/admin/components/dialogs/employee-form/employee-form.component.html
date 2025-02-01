@@ -48,8 +48,8 @@
                     </div> -->
 
                     <div class="entryarea">
-                        <input formControlName="hourly_rate" (keyup)="updateInvalidInput($event, 'hourly_rate')">
-                        <div class="labelline">  Rate </div>
+                        <input formControlName="rate" (keyup)="updateInvalidInput($event, 'rate')">
+                        <div class="labelline"> {{ form.get('position')?.value == 'Instructor' ? 'Hourly Rate' : 'Monthly Rate' }} </div>
                     </div>
                 </div>
 
@@ -111,7 +111,13 @@
                     </div>
                 
                     <div class="entryarea">
-                        <input type="text" formControlName="position" (keyup)="updateInvalidInput($event, 'position')">
+                        <select formControlName="position"> 
+                            <option value="Owner"> Owner </option>
+                            <option value="Operations Manager"> Operations Manager </option>
+                            <option value="Admin Staff"> Admin Staff </option>
+                            <option value="Instructor"> Instructor </option>
+                            <option value="Helper"> Helper </option>
+                        </select>
                         <div class="labelline"> Position </div>
                     </div>
                 

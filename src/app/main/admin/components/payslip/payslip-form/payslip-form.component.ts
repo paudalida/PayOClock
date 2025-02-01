@@ -20,7 +20,7 @@ export class PayslipFormComponent implements OnInit{
 
   isLoading = true;
   payday_start = ''; payday_end = ''; base_pay = 0; adjusted_pay = 0; total_additions = 0; total_deductions = 0; gross_pay = 0; net_pay = 0;
-  attendance: any = []; deductions: any = []; additions: any = []; hourly_rate = 0;
+  attendance: any = []; deductions: any = []; additions: any = []; rate = 0;
   values: any = [];
   noPayslip = false;
 
@@ -42,7 +42,7 @@ export class PayslipFormComponent implements OnInit{
         this.total_deductions = res.data.total_deductions;
         this.gross_pay        = res.data.gross_pay;
         this.net_pay          = res.data.net_pay;
-        this.hourly_rate      = res.data.hourly_rate;
+        this.rate      = res.data.rate;
         
         const payslip = res.data.payslip;
         this.allowanceStart = payslip.attendance.types.length;

@@ -62,16 +62,31 @@ export class AuthService {
         },
         error: (err: any) => {
           // Handle error responses
-          switch (err.error.message) {
-            case 'Failed to fetch':
-              this.pop.swalBasic('error', 'Login Error', 'Could not contact server, please try again later');
-              break;
-            case 'Invalid credentials':
-              this.pop.swalBasic('error', 'Login Error', 'Invalid username or password');
-              break;
-            default:
-              this.pop.swalBasic('error', this.pop.genericErrorTitle, this.pop.genericErrorMessage);
-              break;
+          if(err.error) {
+            switch (err.error.message) {
+              case 'Failed to fetch':
+                this.pop.swalBasic('error', 'Login Error', 'Could not contact server, please try again later');
+                break;
+              case 'Invalid credentials':
+                this.pop.swalBasic('error', 'Login Error', 'Invalid username or password');
+                break;
+              default:
+                this.pop.swalBasic('error', this.pop.genericErrorTitle, this.pop.genericErrorMessage);
+                break;
+            }
+          } else {
+            this.pop.swalBasic('error', 'Error', err.message)
+            // switch (err.message) {
+            //   case 'Failed to fetch':
+            //     this.pop.swalBasic('error', 'Login Error', 'Could not contact server, please try again later');
+            //     break;
+            //   case 'Invalid credentials':
+            //     this.pop.swalBasic('error', 'Login Error', 'Invalid username or password');
+            //     break;
+            //   default:
+            //     this.pop.swalBasic('error', this.pop.genericErrorTitle, this.pop.genericErrorMessage);
+            //     break;
+            // }
           }
   
           // Resolve false on failure
@@ -86,6 +101,7 @@ export class AuthService {
       next: (res: any) => {
         this.router.navigate(['/login']);
         sessionStorage.clear();
+        this.userType = '';
         this.pop.toastWithTimer('success', res.message);
       },
       error: (err: any) => {
