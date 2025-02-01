@@ -14,8 +14,11 @@
     </div> -->
 
     <div class="header">
-        <div class="left-side">
+        <!-- <div class="left-side">
             <h1>Payroll Management System</h1>
+        </div> -->
+        <div class="left-side">
+            <h1>Welcome,{{ employee?.full_name }}!</h1>
         </div>
     
         <div class="right-side">
@@ -40,13 +43,27 @@
                     <p class="center">No new notifications</p>
                 </ng-container>
             </div>
+
+            <div class="profile-container" (click)="toggleProfileDropdown()">
+                <!-- <img [src]="employee.image || 'assets/images/no image.png'" alt="Employee Photo" class="profile-icon"> -->
+                <img src ="assets/images/hustler.png" alt="Employee Photo" class="profile-icon">
+                <i class='bx bx-chevron-down dropdown-icon'></i>
+        
+                <!-- Dropdown Menu -->
+                <div class="profile-dropdown" *ngIf="showProfileDropdown">
+                    <ul>
+                        <li (click)="navigateToProfile()">Profile</li>
+                        <li (click)="logout()">Logout</li>
+                    </ul>
+                </div>
+            </div>
             
     
             <!-- Date and Time -->
-            <div class="current-date-time">
+            <!-- <div class="current-date-time">
                 <i class='bx bx-calendar'></i>
                 {{ currentDateTime }}
-            </div>
+            </div> -->
         </div>
     </div>
        

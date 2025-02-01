@@ -1,5 +1,5 @@
 <div class="content">
-    <div class="header">
+    <!-- <div class="header">
         <h1 class="title">Payroll Management System</h1>
         <h1 class="header-mobile"> PayOClock </h1>
     
@@ -11,6 +11,38 @@
             <button class="logout-button" (click)="logout()">
                 <i class='bx bx-log-out'></i> Logout
             </button>
+        </div>
+    </div> -->
+
+    <div class="header">
+        <!-- <div class="left-side">
+            <h1>Payroll Management System</h1>
+        </div> -->
+        <div class="left-side">
+            <h1>Welcome, {{ employee?.full_name }}!</h1>
+        </div>
+    
+        <div class="right-side">
+            <div class="profile-container" (click)="toggleProfileDropdown()">
+                <!-- <img [src]="employee.image || 'assets/images/no image.png'" alt="Employee Photo" class="profile-icon"> -->
+                <img src ="assets/images/hustler.png" alt="Employee Photo" class="profile-icon">
+                <i class='bx bx-chevron-down dropdown-icon'></i>
+        
+                <!-- Dropdown Menu -->
+                <div class="profile-dropdown" *ngIf="showProfileDropdown">
+                    <ul>
+                        <li (click)="navigateToProfile()">Profile</li>
+                        <li (click)="logout()">Logout</li>
+                    </ul>
+                </div>
+            </div>
+            
+    
+            <!-- Date and Time -->
+            <!-- <div class="current-date-time">
+                <i class='bx bx-calendar'></i>
+                {{ currentDateTime }}
+            </div> -->
         </div>
     </div>
     
@@ -40,6 +72,10 @@
                 <span class="tab-icon"> <i class='bx bxs-dashboard'></i> </span>
                 <span class="tab-name">Dashboard</span>
             </a>
+            <a mat-list-item routerLink="attendance" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+                <span class="tab-icon"> <i class='bx bx-clipboard'></i> </span>
+                <span class="tab-name">Attendance</span>
+            </a>
             <a mat-list-item routerLink="payslips" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
                 <span class="tab-icon"> <i class='bx bxs-wallet-alt'></i> </span>
                 <span class="tab-name">Payslips</span>
@@ -47,10 +83,6 @@
             <a mat-list-item routerLink="request" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
                 <span class="tab-icon"> <i class='bx bx-list-plus'></i> </span>
                 <span class="tab-name">Request</span>
-            </a>
-            <a mat-list-item routerLink="attendance" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
-                <span class="tab-icon"> <i class='bx bx-clipboard'></i> </span>
-                <span class="tab-name">Attendance</span>
             </a>
             <a mat-list-item routerLink="profile" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
                 <span class="tab-icon"> <i class='bx bxs-user'></i> </span>

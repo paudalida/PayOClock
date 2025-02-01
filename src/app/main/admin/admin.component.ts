@@ -20,7 +20,8 @@ export class AdminComponent implements OnInit {
     private auth: AuthService,
     private notif: NotificationService,
     private pop: PopupService,
-    private router: Router
+    private router: Router, 
+    private es: EmployeeService
   ) { }
 
   isLoading = true;
@@ -29,7 +30,11 @@ export class AdminComponent implements OnInit {
   showNotifications: boolean = false;  
   notifications: Array<{ message: string, time: string }> = []; 
 
+  employee: any;
+  showProfileDropdown: boolean = false;
+
   ngOnInit(): void {
+    this.employee = this.es.getEmployee();
     this.ds.request('GET', 'admin/employees').subscribe({
       next: (res: any) => {
         this.as.setEmployees(res.data);
@@ -46,10 +51,10 @@ export class AdminComponent implements OnInit {
       }
     });
 
-    this.updateDateTime();
-    setInterval(() => {
-      this.updateDateTime();
-    }, 1000);
+    // this.updateDateTime();
+    // setInterval(() => {
+    //   this.updateDateTime();
+    // }, 1000);
 
     this.getNotifications();
     setInterval(() => {
@@ -61,29 +66,37 @@ export class AdminComponent implements OnInit {
     }, 1000);
   }
 
-  updateDateTime(): void {
-    const now = new Date();
+  // updateDateTime(): void {
+  //   const now = new Date();
 
-    const dateOptions: Intl.DateTimeFormatOptions = {
-      weekday: 'long',
-      month: 'long',
-      day: 'numeric'
-    };
+  //   const dateOptions: Intl.DateTimeFormatOptions = {
+  //     weekday: 'long',
+  //     month: 'long',
+  //     day: 'numeric'
+  //   };
 
-    const timeOptions: Intl.DateTimeFormatOptions = {
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: true
-    };
+  //   const timeOptions: Intl.DateTimeFormatOptions = {
+  //     hour: 'numeric',
+  //     minute: 'numeric',
+  //     hour12: true
+  //   };
 
-    const datePart = now.toLocaleDateString('en-US', dateOptions);
-    const timePart = now.toLocaleTimeString('en-US', timeOptions);
+  //   const datePart = now.toLocaleDateString('en-US', dateOptions);
+  //   const timePart = now.toLocaleTimeString('en-US', timeOptions);
 
-    this.currentDateTime = `${datePart}, ${timePart}`;
-  }
-
+  //   this.currentDateTime = `${datePart}, ${timePart}`;
+  // }
+  
   toggleNotifications(): void {
     this.showNotifications = !this.showNotifications;
+  }
+
+  toggleProfileDropdown(): void {
+    this.showProfileDropdown = !this.showProfileDropdown;
+  }
+
+  navigateToProfile(): void {
+    this.router.navigate(['/admin/profile']);
   }
 
   getNotifications() {
@@ -101,7 +114,7 @@ export class AdminComponent implements OnInit {
   }
 
   redirectToRequests() {
-    this.router.navigate(['/admin/request']);
+    this.router.navigate(['/admin/settings/request']);
   }
 
   async logout() {

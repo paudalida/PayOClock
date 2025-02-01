@@ -18,7 +18,15 @@
                 <select formControlName="type" [disabled]="formType == 'overtime'"> 
                     <option *ngFor="let type of types" [value]="type"> {{ type }} </option>
                 </select>
-              <div class="labelline">Type of {{ formType || '' | titlecase }}</div>
+                <div class="labelline">Type of {{ formType || '' | titlecase }}</div>
+              </div>
+            </div>
+
+            <div class="input-row" *ngIf="isPaidLeaveSelected">
+              <div class="leave-credits">
+                  <p><strong>Remaining Leave Credits:</strong> 
+                  <br> Sick Leave: {{ leaveCredits.sickLeave }}
+                  <br> Paid Leave: {{ leaveCredits.paidLeave }}</p>
               </div>
             </div>
             

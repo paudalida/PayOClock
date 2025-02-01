@@ -25,6 +25,11 @@ export class RequestFormComponent implements OnInit {
   types: any = [];
   leaveTypes: any = ['Paid Leave', 'Unpaid Leave'];
 
+  leaveCredits = {
+    sickLeave: 4,
+    paidLeave: 4
+  };
+
 
   constructor(
     private fb: FormBuilder,
@@ -74,8 +79,11 @@ export class RequestFormComponent implements OnInit {
     this.updateFormValidators();
   }
 
+  get isPaidLeaveSelected(): boolean {
+    return this.form.get('request_type')?.value === 'Paid Leave';
+  }
+
   updateFormValidators(): void {
-    // Update validations based on the formType
     this.form.get('reason')?.updateValueAndValidity();
     this.form.get('files')?.updateValueAndValidity();
   }
@@ -86,9 +94,7 @@ export class RequestFormComponent implements OnInit {
   }
 
   setupLeaveTypeWatcher(): void {
-    // Watch for changes in leaveType and adjust validations and types dynamically
     this.form.get('leaveType')?.valueChanges.subscribe((selectedLeaveType: string) => {
-      // Update validation based on selected leave type
       if (selectedLeaveType === 'Paid Leave') {
         this.form.get('files')?.setValidators(Validators.required);
         this.form.get('reason')?.clearValidators();
@@ -98,17 +104,14 @@ export class RequestFormComponent implements OnInit {
         this.form.get('files')?.clearValidators();       
         this.types = this.allTypes.unpaid;
       } else {
-        // Clear all validations if leaveType is not selected
         this.form.get('files')?.clearValidators();
         this.form.get('reason')?.clearValidators();
         this.types = [];
       }
   
-      // Update validation states
       this.form.get('files')?.updateValueAndValidity();
       this.form.get('reason')?.updateValueAndValidity();
   
-      // Reset dependent fields (type dropdown)
       this.form.get('type')?.setValue('');
     });
   }
@@ -118,15 +121,12 @@ export class RequestFormComponent implements OnInit {
     let valid = false;
   
     if (this.formType === 'leave') {
-      // For Leave, time must be between 08:00 AM and 05:00 PM
       valid = selectedTime.getHours() >= 8 && selectedTime.getHours() <= 17;
     } else if (this.formType === 'overtime') {
-      // For Overtime, time must be 05:00 PM onwards
       valid = selectedTime.getHours() >= 17;
     }
 
     if (!valid) {
-      // Reset the value and show toast notification with specific message
       this.form.get('start')?.setValue('');
       if (this.formType === 'leave') {
         this.pop.toastWithTimer('error', 'Start time must be between 08:00 AM and 05:00 PM.');
@@ -136,22 +136,18 @@ export class RequestFormComponent implements OnInit {
     }
   }
 
-  // Validate the end time
   validateEndTime(event: any): void {
     const selectedTime = new Date(event.target.value);
     const startTime = new Date(this.form.get('start')?.value);
     let valid = false;
   
     if (this.formType === 'leave') {
-      // For Leave, time must be between 08:00 AM and 05:00 PM
       valid = selectedTime.getHours() >= 8 && selectedTime.getHours() <= 17 && selectedTime >= startTime;
     } else if (this.formType === 'overtime') {
-      // For Overtime, time must be 05:00 PM onwards
       valid = selectedTime.getHours() >= 17 && selectedTime >= startTime;
     }
   
     if (!valid) {
-      // Reset the value and show toast notification with specific message
       this.form.get('end')?.setValue('');
       if (this.formType === 'leave') {
         this.pop.toastWithTimer('error', 'End time must be between 08:00 AM and 05:00 PM.');
@@ -198,18 +194,15 @@ export class RequestFormComponent implements OnInit {
   }
 
   async submit() {
-    // Initialize files if not already defined
     if (!this.files) {
       this.files = [];
     }
   
-    // If it's an overtime form and there's no reason provided, we show an error message
     if (this.formType === 'overtime' && !this.form.get('reason')?.value) {
       this.pop.toastWithTimer('error', 'Reason is required for overtime request.');
       return;
     }
   
-    // If it's a leave form and no files are selected and leave type is "Paid Leave"
     if (this.formType === 'leave' && this.form.get('leaveType')?.value === 'Paid Leave' && this.files.length === 0) {
       this.pop.toastWithTimer('error', 'No files selected for upload.');
       return;
@@ -217,9 +210,7 @@ export class RequestFormComponent implements OnInit {
   
     let isConfirmed: boolean;
   
-    // Confirmation logic based on form type
     if (this.formType === 'overtime') {
-      // Overtime confirmation - no file upload
       isConfirmed = await this.pop.swalWithCancel(
         'warning',
         'Submit Overtime Request?',
@@ -228,7 +219,6 @@ export class RequestFormComponent implements OnInit {
         'No'
       );
     } else {
-      // Leave confirmation - only ask for file upload for Paid Leave
       if (this.form.get('leaveType')?.value === 'Paid Leave') {
         isConfirmed = await this.pop.swalWithCancel(
           'warning',
@@ -238,7 +228,6 @@ export class RequestFormComponent implements OnInit {
           'No'
         );
       } else {
-        // For Unpaid Leave, no file upload confirmation
         isConfirmed = await this.pop.swalWithCancel(
           'warning',
           'Submit Leave Request?',
@@ -255,35 +244,44 @@ export class RequestFormComponent implements OnInit {
   
       formData.append('request_type', this.formType);
   
-      // Append form values to FormData
       for (const key in formValues) {
         if (formValues.hasOwnProperty(key)) {
           formData.append(key, formValues[key]);
         }
       }
   
-      // Only append the files if it's a "Paid Leave" form
+      // Deduct leave balance logic
+      const leaveType = this.form.get('leaveType')?.value; // Get the selected leave type
+      if (leaveType === 'Paid Leave' || leaveType === 'Sick Leave') {
+        if (leaveType === 'Paid Leave') {
+          this.leaveCredits.paidLeave -= 1;
+        } else if (leaveType === 'Sick Leave') {
+          this.leaveCredits.sickLeave -= 1;
+        }
+      }
+  
       if (this.formType === 'leave' && this.form.get('leaveType')?.value === 'Paid Leave') {
         for (let i = 0; i < this.files.length; i++) {
           formData.append('attachments[]', this.files[i]);
         }
       }
   
-      // Send the request
       this.ds.request('POST', 'employee/time-requests/store', formData).subscribe({
         next: (res: any) => {
           this.pop.toastWithTimer('success', res.message);
           this.dialogRef.close(res.data);
         },
         error: (err: any) => {
-          this.pop.swalBasic('error', 'Error uploading images', err.error.message);
+          const errorMessage = err?.error?.message || 'An unexpected error occurred.';
+          this.pop.swalBasic('error', 'Error uploading images', errorMessage);
         },
       });
     } else {
       this.pop.toastWithTimer('error', 'Request canceled.');
       this.dialogRef.close();
     }
-  } 
+  }
+  
 
   close(): void {
     this.form.reset();

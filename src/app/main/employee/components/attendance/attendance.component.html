@@ -1,77 +1,90 @@
 <div class="main-content">
-    <div class="button-group">
-        <div class="left-buttons">
-            <button class="btn-primary toggle-button" [ngClass]="!isTimedIn ? 'btn-time-in' : 'btn-time-out'" (click)="toggleTime()" [disabled]="currentTimeOut || buttonLoading">
-                {{ isTimedIn ? 'Time Out' : 'Time In'  }}
-            </button>
-        </div>
-        <div class="right-buttons">
-            <button class="btn-primary upload" type="button" (click)="openDialog()">Proof</button>
-            <button class="btn-primary upload" type="button" (click)="openHistory()">History</button>
-        </div>
-    </div>
-    
-    <div class="employee-container">
-        <div class="employee-left">
-            <img [src]="employee.image || 'assets/images/no image.png'" alt="Employee Image" class="employee-image">
-            <!-- <img src="/assets/images/hacker.jpg" class="employee-image">  -->
-        </div>
-        <div class="employee-middle">
-            <h2 class="employee-name">{{ employee.full_name }}</h2>
-            <p class="employee-position">{{ employee.position }}</p>
-        </div>
-        <div class="employee-right">
-            <p class="time-in">{{ currentTimeIn || 'N/A' }}</p>
-        </div>      
-    </div>
+  <div class="button-group">
+      <!-- <div class="left-buttons">
+          <button class="btn-primary toggle-button" [ngClass]="!isTimedIn ? 'btn-time-in' : 'btn-time-out'" (click)="toggleTime()" [disabled]="currentTimeOut || buttonLoading">
+              {{ isTimedIn ? 'Time Out' : 'Time In'  }}
+          </button>
+      </div> -->
+      <!-- <div class="right-buttons">
+          <button class="btn-primary upload" type="button" (click)="openDialog()">Proof</button>
+          <button class="btn-primary upload" type="button" (click)="openHistory()">History</button>
+      </div> -->
+  </div>
+  <div class="employee-body"> 
 
-    <div class="attendance-container">
-        <div class="row">
-          <div class="day">
-            <span class="day-label">Monday</span>
-            <span class="label">Time In</span>
-            {{ attendance[0].time_in || 'N/A' }}
-            <span class="label">Time Out</span>
-            {{ attendance[0].time_out || 'N/A' }}
-          </div>
-          <div class="day">
-            <span class="day-label">Tuesday</span>
-            <span class="label">Time In</span>
-            {{ attendance[1].time_in || 'N/A' }}
-            <span class="label">Time Out</span>
-            {{ attendance[1].time_out || 'N/A' }}
-          </div>
-          <div class="day">
-            <span class="day-label">Wednesday</span>
-            <span class="label">Time In</span>
-            {{ attendance[2].time_in || 'N/A' }}
-            <span class="label">Time Out</span>
-            {{ attendance[2].time_out || 'N/A' }}
-          </div>
-        </div>
-        <div class="row">
-          <div class="day">
-            <span class="day-label">Thursday</span>
-            <span class="label">Time In</span>
-            {{ attendance[3].time_in || 'N/A' }}
-            <span class="label">Time Out</span>
-            {{ attendance[3].time_out || 'N/A' }}
-          </div>
-          <div class="day">
-            <span class="day-label">Friday</span>
-            <span class="label">Time In</span>
-            {{ attendance[4].time_in || 'N/A' }}
-            <span class="label">Time Out</span>
-            {{ attendance[4].time_out || 'N/A' }}
-          </div>
-          <div class="day">
-            <span class="day-label">Saturday</span>
-            <span class="label">Time In</span>
-            {{ attendance[5].time_in || 'N/A' }}
-            <span class="label">Time Out</span>
-            {{ attendance[5].time_out || 'N/A' }}
-          </div>
-        </div>
+    <div class="employee-container">
+      <!-- <div class="employee-left">
+        <img [src]="employee.image || 'assets/images/no image.png'" alt="Employee Image" class="employee-image">
+      </div> -->
+      <!-- <div class="employee-left">
+        <img src='assets/images/hipster.png' alt="Employee Image" class="employee-image">
+      </div> -->
+      <div class="employee-middle">
+        <!-- <img src='assets/images/hustler.png' alt="Employee Image" class="employee-image"> -->
+        <h2 class="employee-name">{{ employee.full_name }}</h2>
+        <p class="employee-position">{{ employee.position }}</p>
+        <p class="current-time">{{ currentTime }}</p>
+        <p class="current-date">{{ currentDate }}</p>
+        <button class="btn-primary toggle-button" [ngClass]="!isTimedIn ? 'btn-time-in' : 'btn-time-out'" (click)="toggleTime()" [disabled]="currentTimeOut || buttonLoading">
+          {{ isTimedIn ? 'Time Out' : 'Time In'  }}
+        </button>
+      </div>
+      <!-- <div class="employee-right">
+        <button class="btn-primary toggle-button" [ngClass]="!isTimedIn ? 'btn-time-in' : 'btn-time-out'" (click)="toggleTime()" [disabled]="currentTimeOut || buttonLoading">
+          {{ isTimedIn ? 'Time Out' : 'Time In'  }}
+        </button>
+      </div> -->
+      <!-- <div class="employee-right">
+        <p class="current-time">{{ currentDateTime }}</p>
+      </div> -->
     </div>
-</div>
+  
+    <div class="employee-container">
+      <div class="employee-right">
+        <h2 class="accumulated-title">Accumulated Hours</h2>
+        <p class="accumulated-hours">{{ accumulatedHours || '0h 0m' }}</p>
+      </div>
+    </div>
+  </div>
+  
+  
+<!-- Attendance Table -->
+<div class="table-content">
+  <div class="table-header">
+    <h2 class="table-title">Attendance Records</h2>
+    <!-- <button class="report-button" type="button" (click)="generateReport()">Export</button> -->
+    <div class="right-side">
+      <button class="report-button" type="button">Export</button>
+      <div class="date-range-dropdown">
+        <div class="select-wrapper">
+          <select (change)="changeData()" [(ngModel)]="filterValue">
+            <option *ngFor="let element of dateFilter" [value]="element"> {{ element }} </option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+<table class="attendance-table">
+  <thead>
+    <tr>
+      <th>{{ currentMonthYear }}</th>
+      <th>Time In</th>
+      <th>Time Out</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let record of attendance">
+      <td>
+        <span>{{ record.date }} - {{ record.day }}</span>
+      </td>
       
+      <td>{{ record.time_in || 'N/A' }}</td>
+      
+      <td>{{ record.time_out || 'N/A' }}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+    

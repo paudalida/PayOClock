@@ -2,6 +2,8 @@ import { Component, OnInit, HostListener } from "@angular/core";
 import { DataService } from "../../services/data/data.service";
 import { PopupService } from "../../services/popup/popup.service";
 import { AuthService } from "../../services/auth/auth.service";
+import { EmployeeService } from "../../services/employee/employee.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-employee',
@@ -13,20 +15,26 @@ export class EmployeeComponent implements OnInit {
   constructor (
     private ds: DataService,
     private auth: AuthService,
-    private pop: PopupService
+    private pop: PopupService, 
+    private router: Router,
+    private es: EmployeeService
   ) { }
 
   isLoading = true;
   currentDateTime: string = '';
+
+  employee: any;
+  showProfileDropdown: boolean = false;
   
   isSidebarVisible: boolean = true; // to control sidebar visibility
   isToolbarVisible: boolean = false; // to control toolbar visibility
   
   ngOnInit(): void {
-    this.updateDateTime();
-    setInterval(() => {
-      this.updateDateTime();
-    }, 1000);
+    this.employee = this.es.getEmployee();
+    // this.updateDateTime();
+    // setInterval(() => {
+    //   this.updateDateTime();
+    // }, 1000);
 
     // Initially check window size to set visibility
     this.checkWindowSize();
@@ -46,6 +54,14 @@ export class EmployeeComponent implements OnInit {
       this.isSidebarVisible = false;
       this.isToolbarVisible = true;
     }
+  }
+
+  toggleProfileDropdown(): void {
+    this.showProfileDropdown = !this.showProfileDropdown;
+  }
+
+  navigateToProfile(): void {
+    this.router.navigate(['/employee/profile']);
   }
 
   updateDateTime(): void {
