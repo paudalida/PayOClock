@@ -1,24 +1,7 @@
 <div class="main-content">
-  <div class="button-group">
-      <!-- <div class="left-buttons">
-          <button class="btn-primary toggle-button" [ngClass]="!isTimedIn ? 'btn-time-in' : 'btn-time-out'" (click)="toggleTime()" [disabled]="currentTimeOut || buttonLoading">
-              {{ isTimedIn ? 'Time Out' : 'Time In'  }}
-          </button>
-      </div> -->
-      <!-- <div class="right-buttons">
-          <button class="btn-primary upload" type="button" (click)="openDialog()">Proof</button>
-          <button class="btn-primary upload" type="button" (click)="openHistory()">History</button>
-      </div> -->
-  </div>
   <div class="employee-body"> 
 
     <div class="employee-container">
-      <!-- <div class="employee-left">
-        <img [src]="employee.image || 'assets/images/no image.png'" alt="Employee Image" class="employee-image">
-      </div> -->
-      <!-- <div class="employee-left">
-        <img src='assets/images/hipster.png' alt="Employee Image" class="employee-image">
-      </div> -->
       <div class="employee-middle">
         <!-- <img src='assets/images/hustler.png' alt="Employee Image" class="employee-image"> -->
         <h2 class="employee-name">{{ employee.full_name }}</h2>
@@ -29,14 +12,6 @@
           {{ isTimedIn ? 'Time Out' : 'Time In'  }}
         </button>
       </div>
-      <!-- <div class="employee-right">
-        <button class="btn-primary toggle-button" [ngClass]="!isTimedIn ? 'btn-time-in' : 'btn-time-out'" (click)="toggleTime()" [disabled]="currentTimeOut || buttonLoading">
-          {{ isTimedIn ? 'Time Out' : 'Time In'  }}
-        </button>
-      </div> -->
-      <!-- <div class="employee-right">
-        <p class="current-time">{{ currentDateTime }}</p>
-      </div> -->
     </div>
   
     <div class="employee-container">

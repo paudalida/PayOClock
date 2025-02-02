@@ -19,13 +19,13 @@
             <h1>Payroll Management System</h1>
         </div> -->
         <div class="left-side">
-            <h1>Welcome, {{ employee?.full_name }}!</h1>
+            <h1>Welcome, <span>{{ employee?.full_name }}</span> !</h1>
         </div>
     
         <div class="right-side">
             <div class="profile-container" (click)="toggleProfileDropdown()">
-                <!-- <img [src]="employee.image || 'assets/images/no image.png'" alt="Employee Photo" class="profile-icon"> -->
-                <img src ="assets/images/hustler.png" alt="Employee Photo" class="profile-icon">
+                <img [src]="employee.image || 'assets/images/no image.png'" alt="Employee Photo" class="profile-icon">
+                <!-- <img src ="assets/images/hustler.png" alt="Employee Photo" class="profile-icon"> -->
                 <i class='bx bx-chevron-down dropdown-icon'></i>
         
                 <!-- Dropdown Menu -->

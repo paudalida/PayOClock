@@ -25,12 +25,11 @@
     flex-direction: column;
     padding-left: 30px;
     padding-right: 30px;
-    padding-bottom: 20px;
     box-sizing: border-box; 
     z-index: 1; 
 }
-  
-  .header {
+
+.header {
     display: flex;
     padding: 20px 30px 30px;
     position: fixed;
@@ -69,100 +68,32 @@
       font-size: 25px;
       text-align: center;
     }
-  }
+}
 
-  .attendance-table {
-    margin-top: 100px;  
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
+.container-body {
+    padding-top: 80px;
+}
+  
+.dialog-actions {
+    display: flex;
+    justify-content: space-between; 
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
 
-    th, td {
-        padding: 12px 15px;
-        border: 1px solid var(--table-border);
-        text-align: center;
-    }
+.button {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-radius: 4px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center; 
+    cursor: pointer;
 
-    th {
-        background-color: var(--primary-color);
-        color: var(--white);
-        border: none;
-        font-weight: 500;
-    }
-
-    th:first-child {
-        border-left: none; 
-    }
-
-    th:last-child {
-        border-right: none; 
-    }
-
-    .name-column {
-        width: 200px; 
-        text-align: center; 
-    }
-
-    td.status-present {
-        background-color: var(--time-in-button);
-    }
-
-    td.status-late {
-        background-color: var(--late);
-    }
-
-    td.status-absent {
-        background-color: var(--absent);
-    }
-
-    td.status-leave {
-        background-color: var(--primary-color); 
-    }
-    
-    td.status-paid-leave {
-        background-color: var(--primary-color);  
-    }
-
-    .proof-image {
-        width: 70px;
-        height: 60px;
-        cursor: pointer;
-        object-fit: cover;
-        transition: transform 0.3s ease;
-      
-        &:hover {
-          transform: scale(1.1);
-        }
+    &:hover {
+        background-color: var(--buttons-hover);
     }
 }
 
-.paginator {
-    padding-top: 15px;
-}
 
-@media screen and (max-width: 600px) {
-    .table-head {
-        float: none;
-    }
-    .table-head {
-        float: none;
-        display: block;
-        text-align: left;
-        width: 100%;
-        margin: 0;
-        padding: 14px;
-    }
-
-    .attendance-table {
-        font-size: 12px;
-
-        th, td {
-            padding: 8px 10px;
-        }
-
-        .name-column {
-            width: 150px; 
-        }
-      }
-}
 

@@ -29,10 +29,8 @@ import { AnnouncementFormComponent } from './components/dialogs/announcement-for
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { ViewDetailsComponent } from './components/employee/view-details/view-details.component';
 import { SpinnerComponent } from '../materials/spinner/spinner.component';
-import { ViewProofComponent } from './components/attendance/view-proof/view-proof.component';
 import { AttendanceDetailPopupComponent } from './components/attendance/attendance-detail-popup/attendance-detail-popup.component';
 import { AttendanceHistoryComponent } from './components/attendance/attendance-history/attendance-history.component';
-import { ImagePopupComponent } from './components/attendance/image-popup/image-popup.component';
 
 import { ChartModule } from 'primeng/chart';
 import { ConfigFormComponent } from './components/dialogs/config-form/config-form.component';
@@ -50,6 +48,10 @@ import { IndivPayslipComponent } from './components/payroll/indiv-payslip/indiv-
 import { PayrollSumComponent } from './components/payroll/payroll-sum/payroll-sum.component';
 import { ActivitylogsComponent } from './components/activitylogs/activitylogs.component';
 
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -70,10 +72,8 @@ import { ActivitylogsComponent } from './components/activitylogs/activitylogs.co
     EmployeeFormComponent,
     PayrollFormsComponent,
     ViewDetailsComponent,
-    ViewProofComponent,
     AttendanceDetailPopupComponent,
     AttendanceHistoryComponent,
-    ImagePopupComponent,
     ConfigFormComponent,
     SettingsComponent,
     RequestComponent,
@@ -103,6 +103,11 @@ import { ActivitylogsComponent } from './components/activitylogs/activitylogs.co
     MatPaginatorModule,
     MatSortModule,
     MatDialogModule,
+
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule
   ]
 })
 export class AdminMainModule { }

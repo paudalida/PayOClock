@@ -25,10 +25,10 @@ export class RequestFormComponent implements OnInit {
   types: any = [];
   leaveTypes: any = ['Paid Leave', 'Unpaid Leave'];
 
-  leaveCredits = {
-    sickLeave: 4,
-    paidLeave: 4
-  };
+  // leaveCredits = {
+  //   sickLeave: 4,
+  //   paidLeave: 4
+  // };
 
 
   constructor(
@@ -79,9 +79,9 @@ export class RequestFormComponent implements OnInit {
     this.updateFormValidators();
   }
 
-  get isPaidLeaveSelected(): boolean {
-    return this.form.get('request_type')?.value === 'Paid Leave';
-  }
+  // get isPaidLeaveSelected(): boolean {
+  //   return this.form.get('request_type')?.value === 'Paid Leave';
+  // }
 
   updateFormValidators(): void {
     this.form.get('reason')?.updateValueAndValidity();
@@ -251,14 +251,14 @@ export class RequestFormComponent implements OnInit {
       }
   
       // Deduct leave balance logic
-      const leaveType = this.form.get('leaveType')?.value; // Get the selected leave type
-      if (leaveType === 'Paid Leave' || leaveType === 'Sick Leave') {
-        if (leaveType === 'Paid Leave') {
-          this.leaveCredits.paidLeave -= 1;
-        } else if (leaveType === 'Sick Leave') {
-          this.leaveCredits.sickLeave -= 1;
-        }
-      }
+      // const leaveType = this.form.get('leaveType')?.value; // Get the selected leave type
+      // if (leaveType === 'Paid Leave' || leaveType === 'Sick Leave') {
+      //   if (leaveType === 'Paid Leave') {
+      //     this.leaveCredits.paidLeave -= 1;
+      //   } else if (leaveType === 'Sick Leave') {
+      //     this.leaveCredits.sickLeave -= 1;
+      //   }
+      // }
   
       if (this.formType === 'leave' && this.form.get('leaveType')?.value === 'Paid Leave') {
         for (let i = 0; i < this.files.length; i++) {
@@ -272,8 +272,9 @@ export class RequestFormComponent implements OnInit {
           this.dialogRef.close(res.data);
         },
         error: (err: any) => {
-          const errorMessage = err?.error?.message || 'An unexpected error occurred.';
-          this.pop.swalBasic('error', 'Error uploading images', errorMessage);
+          this.pop.swalBasic('error', 'Error uploading images', err.error.message);
+          // const errorMessage = err?.error?.message || 'An unexpected error occurred.';
+          // this.pop.swalBasic('error', 'Error uploading images', errorMessage);
         },
       });
     } else {

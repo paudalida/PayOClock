@@ -8,7 +8,6 @@ import { DataService } from '../../../../services/data/data.service';
 import { AdminService } from '../../../../services/admin/admin.service';
 import { PopupService } from '../../../../services/popup/popup.service';
 import { AttendanceDetailPopupComponent } from './attendance-detail-popup/attendance-detail-popup.component';
-import { ViewProofComponent } from './view-proof/view-proof.component';
 import { AttendanceHistoryComponent } from './attendance-history/attendance-history.component';
 
 export interface AttendanceRecord {
@@ -19,7 +18,8 @@ export interface AttendanceRecord {
   thursday: string;
   friday: string;
   saturday: string;
-  [key: string]: string;
+  sunday: string;
+  // [key: string]: string;
 }
 
 @Component({
@@ -32,7 +32,7 @@ export class AttendanceComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;  
 
-  displayedColumns: string[] = ['name', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'proof'];
+  displayedColumns: string[] = ['name', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
   dataSource: any;
   dates: any = [];
   dayNames = [ 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun' ];
@@ -51,7 +51,7 @@ export class AttendanceComponent implements OnInit {
 
   isLoading = false;
   current = '';
-  selectedDate = null;
+  selectedDate: Date | null = null;
   clockedIn: any = [];
   user_id: any;
   attendanceWeeks: any;
@@ -63,10 +63,6 @@ export class AttendanceComponent implements OnInit {
 
   get employees() {
     return this.as.getEmployees();
-  }
-
-  get employee() {
-    return this.as.getEmployee();
   }
 
   setEmployeeID(data: any) {
@@ -93,6 +89,46 @@ export class AttendanceComponent implements OnInit {
     });
   }  
 
+  filterByDate(): void {
+    if (!this.selectedDate) {
+      console.log('No date selected, resetting filter');
+      this.formatData(this.attendance[this.selectedDateRange]); // Reset to the full week
+      return;
+    }
+  
+    const formattedSelectedDate = this.selectedDate.toISOString().split('T')[0];
+    console.log('Selected Date:', formattedSelectedDate);
+  
+    // Find the week that contains the selected date
+    const weekKey = this.attendanceWeeks.find((week: { split: (arg0: string) => { (): any; new(): any; map: { (arg0: (date: any) => Date): [any, any]; new(): any; }; }; }) => {
+      const [start, end] = week.split(' - ').map(date => new Date(date));
+      return new Date(formattedSelectedDate) >= start && new Date(formattedSelectedDate) <= end;
+    });
+  
+    if (!weekKey) {
+      console.warn('Selected date is outside available attendance data.');
+      return;
+    }
+  
+    const weeklyData = this.attendance[weekKey];
+  
+    // Filter records for the selected date
+    const filteredRecords = weeklyData.filter((record: any) => {
+      return (
+        record.mon.date === formattedSelectedDate ||
+        record.tue.date === formattedSelectedDate ||
+        record.wed.date === formattedSelectedDate ||
+        record.thu.date === formattedSelectedDate ||
+        record.fri.date === formattedSelectedDate ||
+        record.sat.date === formattedSelectedDate ||
+        record.sun.date === formattedSelectedDate
+      );
+    });
+  
+    console.log('Filtered Records:', filteredRecords);
+    this.formatData(filteredRecords); // Update the table with filtered data
+  }
+
   formatData(data: any) {
     let records: any = [];
     this.employees.forEach((element: any) => {
@@ -105,7 +141,8 @@ export class AttendanceComponent implements OnInit {
           wed: this.defaultRecord,
           thu: this.defaultRecord,
           fri: this.defaultRecord,
-          sat: this.defaultRecord
+          sat: this.defaultRecord, 
+          sun: this.defaultRecord
         }
       );
     });
@@ -137,6 +174,10 @@ export class AttendanceComponent implements OnInit {
 
         case 'Saturday':
           foundRecord.sat = element;
+          break;
+
+        case 'Sunday' :
+          foundRecord.sun = element;
       }
     });
 
@@ -144,7 +185,7 @@ export class AttendanceComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-
+  
   generateDateRange(key: string) {
     const [start, end] = key.split(' - ').map(date => new Date(date));
     const dates: string[] = [];
@@ -156,6 +197,16 @@ export class AttendanceComponent implements OnInit {
 
       dates.push(`${year}-${month}-${day}`);
     }
+
+    if (dates.length < 7) {
+      const lastDate = new Date(dates[dates.length - 1]);
+      lastDate.setDate(lastDate.getDate() + 1);
+      const month = String(lastDate.getMonth() + 1).padStart(2, '0');
+      const day = String(lastDate.getDate()).padStart(2, '0');
+      const year = lastDate.getFullYear();
+      dates.push(`${year}-${month}-${day}`);
+  }
+
 
     this.dates = dates;
   }
@@ -213,6 +264,20 @@ export class AttendanceComponent implements OnInit {
     }
   }
 
+  openDTRPopup(employee: any): void {
+    const dialogRef = this.dialog.open(AttendanceHistoryComponent, {
+      width: '600px',
+      data: { employee }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('DTR popup closed with:', result);
+      }
+    });
+  }
+  
+
   openAttendanceDetail(date: any, day: string, data: any): void {
     const dayShort = day.substring(0, 3).toLowerCase();
 
@@ -245,6 +310,12 @@ export class AttendanceComponent implements OnInit {
     });
   }
 
+  formatFullDate(dateString: string, dayName: string): string {
+    const date = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = { month: 'long', day: '2-digit', year: 'numeric' };
+    return `${date.toLocaleDateString('en-US', options)} (${dayName})`;
+  }
+
   // openAttendanceHistory() {
   //   if (this.dialog) {
   //     this.dialog.open(AttendanceHistoryComponent);
@@ -253,52 +324,52 @@ export class AttendanceComponent implements OnInit {
   //   }
   // }
 
-  viewProof(data: any) {
-    let proof = [];
+  // viewProof(data: any) {
+  //   let proof = [];
 
-    /* Improve */
-    if(data.mon.status) {
-      // if(data.mon.images.length > 0) {
-        proof.push(data.mon);
-      // }
-    }
+  //   /* Improve */
+  //   if(data.mon.status) {
+  //     // if(data.mon.images.length > 0) {
+  //       proof.push(data.mon);
+  //     // }
+  //   }
    
-    if(data.tue.status) {
-      // if(data.tue.images.length > 0) {
-        proof.push(data.tue);
-      // }
-    }
+  //   if(data.tue.status) {
+  //     // if(data.tue.images.length > 0) {
+  //       proof.push(data.tue);
+  //     // }
+  //   }
 
-    if(data.wed.status) {
-      // if(data.wed.images.length > 0) {
-        proof.push(data.wed);
-      // }
-    }
+  //   if(data.wed.status) {
+  //     // if(data.wed.images.length > 0) {
+  //       proof.push(data.wed);
+  //     // }
+  //   }
     
-    if(data.thu.status) {
-      // if(data.thu.images.length > 0) {
-        proof.push(data.thu);
-      // }
-    }
+  //   if(data.thu.status) {
+  //     // if(data.thu.images.length > 0) {
+  //       proof.push(data.thu);
+  //     // }
+  //   }
     
-    if(data.fri.status) {
-      // if(data.fri.images.length > 0) {
-        proof.push(data.fri);
-      // }
-    }
+  //   if(data.fri.status) {
+  //     // if(data.fri.images.length > 0) {
+  //       proof.push(data.fri);
+  //     // }
+  //   }
     
-    if(data.sat.status) {
-      // if(data.sat.images.length > 0) {
-        proof.push(data.sat);
-      // }
-    }
+  //   if(data.sat.status) {
+  //     // if(data.sat.images.length > 0) {
+  //       proof.push(data.sat);
+  //     // }
+  //   }
 
-    if (this.dialog) {
-      this.dialog.open(ViewProofComponent, { data: proof });
-    } else {
-      console.error('Dialog is not initialized');
-    }
-  }
+  //   if (this.dialog) {
+  //     this.dialog.open(ViewProofComponent, { data: proof });
+  //   } else {
+  //     console.error('Dialog is not initialized');
+  //   }
+  // }
 
   isBeforeOrNow(date: string) {
     const date2 = '2024-11-01';

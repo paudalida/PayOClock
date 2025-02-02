@@ -21,7 +21,6 @@ export class AttendanceComponent implements OnInit {
   ) {}
 
   isTimedIn: boolean = false;
-  // attendanceProof: any = [];
   buttonLoading = false;
   attendance: any[] = [];
   formattedAttendance: any[] = [];
@@ -29,7 +28,6 @@ export class AttendanceComponent implements OnInit {
   currentTimeOut: string | null = null;
   employee: any;
   currentMonthYear: string = '';
-  // currentDateTime: string = '';
   currentTime: string = '';
   currentDate: string = '';
   accumulatedHours: string = '0h 0m';
@@ -73,9 +71,10 @@ export class AttendanceComponent implements OnInit {
   }
 
   updateCurrentMonthYear() {
-    const now = new Date(); // Get the current date
+    const now = new Date();
     this.currentMonthYear = now.toLocaleString('en-US', { month: 'long', year: 'numeric' });
   }
+  
 
   formatAttendanceData() {
     if (!this.attendance.length) return;
@@ -124,10 +123,6 @@ export class AttendanceComponent implements OnInit {
     this.currentDate = datePart;
   }
 
-  // setAttendanceProof() {
-  //   this.attendanceProof = this.attendance.filter(x => x.time_in !== null);
-  // }
-
   getData() {
     this.ds.request('GET', 'admin/payrolls').subscribe({
       next: (res: any) => {
@@ -150,56 +145,53 @@ export class AttendanceComponent implements OnInit {
     this.payroll = this.payrolls[this.filterValue]
     this.release_date = this.release_dates[this.filterValue]
   }  
-
-  // openHistory() {
-  //   if (this.dialog) {
-  //     this.dialog.open(ProofHistoryComponent, { data: this.attendanceProof });
-  //   } else {
-  //     console.error('Dialog is not initialized');
-  //   }
-  // }
-
-  // openDialog() {
-  //   if (this.dialog) {
-  //     const dialogRef = this.dialog.open(UploadProofComponent);
-      
-  //     dialogRef.afterClosed().subscribe((res: any) => {
-  //       if (res) {
-  //         let record = this.attendance.find(element => element.day === res.day);
-  //         if (record) {
-  //           Object.assign(record.images, res.images);
-  //         }
-  //       }
-  //     });
-  //   } else {
-  //     console.error('Dialog is not initialized');
-  //   }
-  // }
-
+ 
   toggleTime() {
     this.buttonLoading = true;
+    const now = new Date();
+    
+    // Format time and date correctly
+    const formattedTime = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+    const formattedDate = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  
     this.ds.request('POST', 'employee/attendance/clock').subscribe({
       next: (res: any) => {
         this.pop.toastWithTimer('success', res.message);
         this.isTimedIn = !this.isTimedIn;
-
-        let record = this.attendance.find(element => element.day === res.data.day);
+  
+        // Ensure the date is always correctly formatted
+        this.currentDate = formattedDate;
+  
+        let record = this.attendance.find(element => element.date === formattedDate);
+  
         if (record) {
-          Object.assign(record, res.data);
-          this.currentTimeIn = res.data.time_in;
-          this.currentTimeOut = res.data.time_out;
+          if (this.isTimedIn) {
+            record.time_in = formattedTime; // Update Time In
+            this.currentTimeIn = formattedTime;
+          } else {
+            record.time_out = formattedTime; // Update Time Out
+            this.currentTimeOut = formattedTime;
+          }
+        } else {
+          this.attendance.push({
+            date: formattedDate, // Store formatted date
+            day: now.toLocaleDateString('en-US', { weekday: 'long' }),
+            time_in: this.isTimedIn ? formattedTime : null,
+            time_out: !this.isTimedIn ? formattedTime : null,
+          });
         }
-
+  
         this.formatAttendanceData();
-        // this.setAttendanceProof();
       },
       error: (err: any) => {
         this.pop.swalBasic('error', this.pop.genericErrorTitle, err.error.message);
       },
-      complete: () => { this.buttonLoading = false; }
+      complete: () => {
+        this.buttonLoading = false;
+      }
     });
   }
-
+  
   calculateAccumulatedHours() {
     let totalMinutes = 0;
   
@@ -208,7 +200,6 @@ export class AttendanceComponent implements OnInit {
         const timeIn = new Date(record.time_in);
         const timeOut = new Date(record.time_out);
   
-        // Ensure valid Date objects
         if (!isNaN(timeIn.getTime()) && !isNaN(timeOut.getTime())) {
           const diffMinutes = (timeOut.getTime() - timeIn.getTime()) / (1000 * 60);
           totalMinutes += diffMinutes;

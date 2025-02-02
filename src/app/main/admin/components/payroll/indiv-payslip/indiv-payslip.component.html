@@ -51,51 +51,130 @@
                     </div>
                     
 
-                    <div class="table-content1" *ngIf="!noPayslip && !isLoading">
+                    <div class="table-content1" *ngIf="!isLoading">
+                        <div class="earnings-and-deductions">
+                            <div class="earnings-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Earnings</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Regular Work Pay</td>
+                                            <td>{{ base_pay }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Food Allowance</td>
+                                            <td>{{ total_additions }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Transportation</td>
+                                            <td>{{ total_additions }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        
+                            <div class="deductions-loans-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Deductions</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>SSS Provident Fund EE</td>
+                                            <td>{{ total_deductions }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>SSS Prem Payable-EE</td>
+                                            <td>{{ total_deductions }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>PHIC Prem Payable-EE</td>
+                                            <td>{{ total_deductions }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>HDMF Prem Payable-EE</td>
+                                            <td>{{ total_deductions }}</td>
+                                        </tr>
+                                        <tr class="total-row">
+                                            <td><strong>Sub Total</strong></td>
+                                            <td><strong>{{ total_deductions }}</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Loan Type</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Advance Loan</td>
+                                            <td>{{ total_deductions }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Calamity Loan</td>
+                                            <td>{{ total_deductions }}</td>
+                                        </tr>
+                                        <tr class="total-row">
+                                            <td><strong>Sub Total</strong></td>
+                                            <td><strong>{{ total_deductions }}</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Other Deductions</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Sample Deductions 1</td>
+                                            <td>{{ total_deductions }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sample Deductions 2</td>
+                                            <td>{{ total_deductions }}</td>
+                                        </tr>
+                                        <tr class="total-row">
+                                            <td><strong>Sub Total</strong></td>
+                                            <td><strong>{{ total_deductions }}</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>    
+                            </div>
+                        </div>
             
-                        <table>
-                            <tr class="table-header">
-                                <th> Attendance Earnings </th>
-                                <th> Hours </th>
-                                <th> Amount </th>
-                                <th> Other Earnings </th>
-                                <th> Amount </th>
-                                <th> Deductions </th>
-                                <th> Amount </th>
-                            </tr>
-            
-                            <ng-container *ngFor="let value of values">
-                                <tr>
-                                    <td> {{ value[0] }} </td>
-                                    <td> {{ value[1] }} </td>
-                                    <td> {{ value[2] }} </td>
-                                    <td> {{ value[3] }} </td>
-                                    <td> {{ value[4] }} </td>
-                                    <td> {{ value[5] }} </td>
-                                    <td> {{ value[6] }} </td>
+                        <hr class="divider-line">
+                        
+                        <div class="totals-wrapper">
+                            <table class="pay-row-table">
+                                <tr class="pay-row">
+                                    <td><strong>Gross Pay</strong></td>
+                                    <td><strong>{{ gross_pay }}</strong></td>
                                 </tr>
-                            </ng-container>
-            
-                            <tr class="totals">
-                                <td> Adjusted Pay </td>
-                                <td> </td>
-                                <td> {{ adjusted_pay }} </td>
-                                <td> Total Additions </td>
-                                <td> {{ total_additions  }}</td>
-                                <td> Total Deductions </td>
-                                <td> {{ total_deductions }}</td>
-                            </tr>
-            
-                            <tr>
-                                <td> </td>
-                                <td> </td>
-                                <td> </td>
-                                <td> Gross Pay </td>
-                                <td> {{ gross_pay }}</td>
-                                <td> Net Pay </td>
-                                <td> {{ net_pay }}</td>
-                            </tr>  
-                        </table>            
+                            </table>
+                        
+                            <table class="total-deduc-table">
+                                <tr class="total-deduc">
+                                    <td><strong>Total Deductions</strong></td>
+                                    <td><strong>{{ total_deductions }}</strong></td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </ng-container>                
             </div>

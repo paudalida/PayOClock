@@ -36,6 +36,12 @@ h1 {
     color: var(--cancel);
 }
 
+span {
+    font-size: 19px;
+    font-weight: bold;
+    color: var(--landing-font);
+}
+
 .right-side {
     display: flex;
     align-items: center;

@@ -18,7 +18,7 @@
             <h1>Payroll Management System</h1>
         </div> -->
         <div class="left-side">
-            <h1>Welcome,{{ employee?.full_name }}!</h1>
+            <h1>Welcome, <span>{{ employee?.full_name }}</span> !</h1>
         </div>
     
         <div class="right-side">
@@ -45,8 +45,8 @@
             </div>
 
             <div class="profile-container" (click)="toggleProfileDropdown()">
-                <!-- <img [src]="employee.image || 'assets/images/no image.png'" alt="Employee Photo" class="profile-icon"> -->
-                <img src ="assets/images/hustler.png" alt="Employee Photo" class="profile-icon">
+                <img [src]="employee.image || 'assets/images/no image.png'" alt="Employee Photo" class="profile-icon">
+                <!-- <img src ="assets/images/hustler.png" alt="Employee Photo" class="profile-icon"> -->
                 <i class='bx bx-chevron-down dropdown-icon'></i>
         
                 <!-- Dropdown Menu -->
@@ -97,25 +97,29 @@
                     <span class="tab-icon"> <i class='bx bxs-dashboard'></i> </span>
                     <span class="tab-name">Dashboard</span>
                 </a>
+                <a mat-list-item routerLink="employees" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
+                    <span class="tab-icon"> <i class='bx bxs-user-detail'></i> </span>
+                    <span class="tab-name">Employees</span>
+                </a>
                 <a mat-list-item routerLink="attendance" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
                     <span class="tab-icon"> <i class='bx bx-clipboard'></i> </span>
                     <span class="tab-name">Attendance</span>
+                </a>
+                <a mat-list-item routerLink="settings" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
+                    <span class="tab-icon"> <i class='bx bxs-cog'></i> </span>
+                    <span class="tab-name">Settings</span>
                 </a>
                 <!-- <a mat-list-item routerLink="payrolls" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
                     <span class="tab-icon"> <i class='bx bxs-coin-stack'></i> </span>
                     <span class="tab-name">Payrolls</span>
                 </a> -->
-                <a mat-list-item routerLink="payslips" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
+                <!-- <a mat-list-item routerLink="payslips" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
                     <span class="tab-icon"> <i class='bx bxs-wallet-alt'></i> </span>
                     <span class="tab-name">Payslips</span>
-                </a>
+                </a> -->
                 <a mat-list-item routerLink="payroll" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
                     <span class="tab-icon"> <i class='bx bxs-coin-stack'></i> </span>
                     <span class="tab-name">Payrolls</span>
-                </a>
-                <a mat-list-item routerLink="employees" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
-                    <span class="tab-icon"> <i class='bx bxs-user-detail'></i> </span>
-                    <span class="tab-name">Employees</span>
                 </a>
                 <a mat-list-item routerLink="request" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
                     <span class="tab-icon"> <i class='bx bx-list-plus'></i> </span>
@@ -124,10 +128,6 @@
                 <a mat-list-item routerLink="announcements" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
                     <span class="tab-icon"> <i class='bx bxs-megaphone'></i> </span>
                     <span class="tab-name">Announcements</span>
-                </a>
-                <a mat-list-item routerLink="settings" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
-                    <span class="tab-icon"> <i class='bx bxs-cog'></i> </span>
-                    <span class="tab-name">Settings</span>
                 </a>
                 <a mat-list-item routerLink="archives" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
                     <span class="tab-icon"> <i class='bx bxs-archive-in' ></i> </span>

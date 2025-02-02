@@ -96,95 +96,72 @@ export class PayslipsComponent implements OnInit{
 
   exportPayslipAsPDF(index: number) {
     const doc = new jsPDF();
-    const payslip = this.payslips[index];
-    const details = this.payslipDetails[index];
-    const employee = this.employee;
+    const payslip = this.payslips[index] || [];
+    const details = this.payslipDetails[index] || {};
+    const employee = this.employee || {};
   
     // Set font
-    doc.setFont('helvetica', 'normal'); // Change font to Helvetica (you can customize this)
+    doc.setFont('helvetica', 'normal');
   
-    // Add logo to the top-right
-    const logoUrl = '/assets/images/gm18.png'; // Update this with the actual path or Base64 string
-    const logoWidth = 30;
-    const logoHeight = 30;
-    doc.addImage(logoUrl, 'PNG', 170, 10, logoWidth, logoHeight);
+    // Add logo (ensure the path is correct)
+    const logoUrl = '/assets/images/gm18.png';
+    const logoWidth = 30, logoHeight = 30;
+    try {
+      doc.addImage(logoUrl, 'PNG', 170, 10, logoWidth, logoHeight);
+    } catch (error) {
+      console.warn('Logo could not be loaded:', error);
+    }
   
-    // Add company details to the top-left
+    // Company details
     doc.setFontSize(12);
     doc.text('GM18 Driving School', 10, 15);
     doc.text('106 Gordon Avenue, New Kalalake, Olongapo City, Philippines 2200', 10, 22);
     doc.text('Tel No.: (047) 222-2446 / Cell No.: 0999 220 0158', 10, 29);
   
-    // Employee details (same as before)
-    doc.setFontSize(12);
-    doc.text(`Name: ${employee.full_name}`, 10, 50);
-    doc.text(`Position: ${employee.position}`, 200, 50, { align: 'right' });
-    doc.text(`ID: ${employee.employee_id}`, 10, 58);
-    doc.text(`Rate: ${employee.hourly_rate}`, 200, 58, { align: 'right' });
+    // Employee details
+    doc.text(`Name: ${employee.full_name || 'N/A'}`, 10, 50);
+    doc.text(`Position: ${employee.position || 'N/A'}`, 200, 50, { align: 'right' });
+    doc.text(`ID: ${employee.employee_id || 'N/A'}`, 10, 58);
+    doc.text(`Rate: ${employee.hourly_rate || 'N/A'}`, 200, 58, { align: 'right' });
   
-    doc.setFontSize(12);
-    doc.text(`Payroll Period: ${details.payday_start} - ${details.payday_end}`, 105, 62, { align: 'center' });
+    doc.text(`Payroll Period: ${details.payday_start || 'N/A'} - ${details.payday_end || 'N/A'}`, 105, 62, { align: 'center' });
   
-    // Table Data with signs and peso signs removed
+    // Table Data
     const tableData = payslip.map((row: any) => [
-      row[0], // Attendance Earnings
-      row[1], // Hours
-      row[2]?.replace(/[₱]/g, '').replace(/[+-]/g, ''), // Remove peso sign and any signs
-      row[3], // Other Earnings
-      row[4]?.replace(/[₱]/g, '').replace(/[+-]/g, ''), // Remove peso sign and any signs
-      row[5], // Deductions
-      row[6]?.replace(/[₱]/g, '').replace(/[+-]/g, ''), // Remove peso sign and any signs
-    ]);
-  
-    // Add the totals as the last rows in the table
-    tableData.push([
-      'Adjusted Pay', 
-      '', 
-      ` ${details.adjusted_pay.replace(/[₱]/g, '').replace(/[+-]/g, '')}`, 
-      'Total Additions', 
-      ` ${details.total_additions.replace(/[₱]/g, '').replace(/[+-]/g, '')}`, 
-      'Total Deductions', 
-      ` ${details.total_deductions.replace(/[₱]/g, '').replace(/[+-]/g, '')}`
+      row[0] || '', 
+      row[1] || '', 
+      (row[2] || '').replace(/[₱]/g, '').replace(/[+-]/g, ''),
+      row[3] || '', 
+      (row[4] || '').replace(/[₱]/g, '').replace(/[+-]/g, ''),
+      row[5] || '', 
+      (row[6] || '').replace(/[₱]/g, '').replace(/[+-]/g, '')
     ]);
   
     tableData.push([
-      '', 
-      '', 
-      '', 
-      'Gross Pay', 
-      ` ${details.gross_pay.replace(/[₱]/g, '').replace(/[+-]/g, '')}`, 
-      'Net Salary Transferred', 
-      ` ${details.net_pay.replace(/[₱]/g, '').replace(/[+-]/g, '')}`
+      'Adjusted Pay', '', `${details.adjusted_pay || '0'}`, 
+      'Total Additions', `${details.total_additions || '0'}`, 
+      'Total Deductions', `${details.total_deductions || '0'}`
+    ]);
+  
+    tableData.push([
+      '', '', '', 
+      'Gross Pay', `${details.gross_pay || '0'}`, 
+      'Net Salary Transferred', `${details.net_pay || '0'}`
     ]);
   
     // Table Options
-    const tableOptions = {
+    (doc as any).autoTable({
       head: [['Attendance Earnings', 'Hours', 'Amount', 'Other Earnings', 'Amount', 'Deductions', 'Amount']],
       body: tableData,
       startY: 75,
       margin: { left: 10, right: 10 },
-      styles: {
-        fontSize: 10,
-        overflow: 'linebreak',
-        cellPadding: 2,
-        font: 'helvetica', // Apply Helvetica font
-      },
-      columnStyles: {
-        0: { cellWidth: 40 }, // Column 1 width
-        1: { cellWidth: 20 }, // Column 2 width
-        2: { cellWidth: 20, halign: 'center', charSpace: -0.1 }, // Amount column 1 (removed signs)
-        3: { cellWidth: 30 }, // Column 4 width
-        4: { cellWidth: 20, halign: 'center', charSpace: -0.1 }, // Amount column 2 (removed signs)
-        5: { cellWidth: 40 }, // Column 6 width
-        6: { cellWidth: 20, halign: 'center', charSpace: -0.1 }, // Amount column 3 (removed signs)
-      },
-    };
+      styles: { fontSize: 10, cellPadding: 2, font: 'helvetica' },
+      columnStyles: { 2: { halign: 'center' }, 4: { halign: 'center' }, 6: { halign: 'center' } }
+    });
+    
   
-    // Generate Table
-    const table = doc.autoTable(tableOptions);
-  
-    // Save the PDF
-    const fileName = `Payslip_${employee.full_name}_${details.payday_start}_${details.payday_end}.pdf`;
+    // Save PDF
+    const fileName = `Payslip_${employee.full_name || 'Unknown'}_${details.payday_start || 'Unknown'}_${details.payday_end || 'Unknown'}.pdf`;
     doc.save(fileName);
   }
 
