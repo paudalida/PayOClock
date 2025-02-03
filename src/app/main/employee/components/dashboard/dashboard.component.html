@@ -1,14 +1,71 @@
 <div class="main-content">
-    <div class="header"> 
-      <h1>New Announcement</h1>
-      <button class="more-announcements" type="button" (click)="redirectToAnnouncements()">
-        More <i class='bx bx-chevrons-right'></i>
-      </button>
+    <div class="toggle-icon" (click)="toggleAction()">
+        <i class="bx bx-menu"></i>
+    </div>
+    <div class="cards-row">
+      <div class="card" *ngIf="present !== undefined" (click)="openPopup('present')">
+        <div class="card-header">
+          <h3>Total Present</h3>
+          <p class="number">{{ present }}</p>
+          <!-- Dropdown for filter -->
+          <div class="filter-dropdown">
+            <select (click)="stopPopupPropagation($event)" (change)="selectFilterOption($event)">
+              <option value="week" [selected]="selectedFilterOption === 'week'">Week</option>
+              <option value="month" [selected]="selectedFilterOption === 'month'">Month</option>
+            </select>
+          </div>          
+        </div>
+      </div>
+  
+      <div class="card" *ngIf="lates !== undefined" (click)="openPopup('lates')">
+        <div class="card-header">
+          <h3>Total Lates</h3>
+          <p class="number">{{ lates }}</p>
+          <!-- Dropdown for filter -->
+          <div class="filter-dropdown">
+            <select (click)="stopPopupPropagation($event)" (change)="selectFilterOption($event)">
+              <option value="week" [selected]="selectedFilterOption === 'week'">Week</option>
+              <option value="month" [selected]="selectedFilterOption === 'month'">Month</option>
+            </select>
+          </div>
+        </div>
+      </div>
+  
+      <div class="card" *ngIf="absences !== undefined" (click)="openPopup('absences')">
+        <div class="card-header">
+          <h3>Total Absences</h3>
+          <p class="number">{{ absences }}</p>
+          <!-- Dropdown for filter -->
+          <div class="filter-dropdown">
+            <select (click)="stopPopupPropagation($event)" (change)="selectFilterOption($event)">
+              <option value="week" [selected]="selectedFilterOption === 'week'">Week</option>
+              <option value="month" [selected]="selectedFilterOption === 'month'">Month</option>
+            </select>
+          </div>          
+        </div>
+      </div>
     </div>
   
-    <div class="content"> 
+    <!-- Content and other components here -->
+    <div class="content-wrapper">
+      <div class="content">
         <div class="content-left">
-          <!-- <img src= "assets/images/no image.png" class="image-holder"> -->
+          <img src='assets/images/no image.png' alt="Image" class="image-holder">
+        </div>
+        <div class="content-right">
+          <h2 class="title">{{ announcement.title }}</h2>
+          <pre class="description">{{ announcement.content }}</pre>
+          <div class="publish-info">
+            <p class="publish-date">Date Published: {{ announcement.published_at | date:'MMMM d, y' }} - {{ announcement.published_at | date:'shortTime' }}</p>
+          </div>
+        </div>
+      </div>
+  
+      <div class="content">
+        <button class="more-announcements" type="button" (click)="redirectToAnnouncements()">
+          More <i class='bx bx-chevrons-right'></i>
+        </button>
+        <div class="content-left">
           <img [src]="announcement.image || 'assets/images/no image.png'" alt="Image" class="image-holder">
         </div>
         <div class="content-right">
@@ -18,21 +75,7 @@
             <p class="publish-date">Date Published: {{ announcement.published_at | date:'MMMM d, y' }} - {{ announcement.published_at | date:'shortTime' }}</p>
           </div>
         </div>
+      </div>
     </div>
-
-    <div class="cards-row">
-        <div class="card">
-          <div class="card-header">
-            <h3>Total Number of Lates</h3>
-            <p class="number"> {{ lates }} </p>
-          </div>
-        </div>
-    
-        <div class="card">
-          <div class="card-header">
-            <h3>Total Number of Absences</h3>
-            <p class="number"> {{ absences }} </p>
-          </div>
-        </div>
-    </div>
-</div>
+  </div>
+  

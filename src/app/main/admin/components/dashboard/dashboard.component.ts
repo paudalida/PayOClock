@@ -3,6 +3,10 @@ import { AdminService } from '../../../../services/admin/admin.service';
 import { ChartModule } from 'primeng/chart';
 import { DataService } from '../../../../services/data/data.service';
 import { Router, RouterLink } from '@angular/router';
+import { DatePipe } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { ToggleActionAdminComponent } from './toggle-action-admin/toggle-action-admin.component';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -36,17 +40,32 @@ export class DashboardComponent implements OnInit {
   doughnutRawData = this.defaults;
   doughnutChartData: any;
   options: any;
+  currentMonth: any;
 
   constructor(
     private as: AdminService,
     private ds: DataService,
-    private router: Router
-  ) { }
+    private router: Router, 
+    private datePipe: DatePipe, 
+    private dialog: MatDialog
+  ) { 
+    this.setCurrentMonth();
+  }
 
   details = {
     employeeCount: 0,
     processed: 0,
     pending: 0
+  }
+
+    toggleAction(): void {
+      const dialogRef = this.dialog.open(ToggleActionAdminComponent, {
+      });
+    }
+
+  setCurrentMonth(): void {
+    const currentDate = new Date();
+    this.currentMonth = this.datePipe.transform(currentDate, 'MMMM y') || ''; 
   }
 
   ngOnInit(): void {

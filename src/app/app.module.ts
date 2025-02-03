@@ -34,6 +34,8 @@ import { PrivacyPolicyComponent } from './components/login/privacy-policy/privac
 import { httpInterceptor } from './http.interceptor';
 // import { ActivitylogsComponent } from './main/admin/components/activitylogs/activitylogs.component';
 
+import { DatePipe } from '@angular/common';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -76,7 +78,8 @@ import { httpInterceptor } from './http.interceptor';
     provideHttpClient(
       withFetch(), 
       withInterceptors([httpInterceptor])
-    )
+    ), 
+    DatePipe
   ],
   bootstrap: [AppComponent], 
 })

@@ -25,6 +25,8 @@ import { RequestFormComponent } from './components/request/request-form/request-
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { ViewDetailsComponent } from './components/dashboard/view-details/view-details.component';
+import { ToggleActionComponent } from './components/dashboard/toggle-action/toggle-action.component';
 
 
 @NgModule({
@@ -38,7 +40,7 @@ import { MatIconModule } from '@angular/material/icon';
     ViewAnnouncementComponent, 
     UploadProofComponent, 
     PayslipHistoryComponent, 
-    ChangePasswordComponent, ProofHistoryComponent, RequestComponent, RequestFormComponent
+    ChangePasswordComponent, ProofHistoryComponent, RequestComponent, RequestFormComponent, ViewDetailsComponent, ToggleActionComponent
 
   ],
   imports: [

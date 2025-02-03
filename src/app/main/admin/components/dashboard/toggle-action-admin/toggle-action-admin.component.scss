@@ -1,0 +1,130 @@
+.main-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  .attendance-history {
+    position: relative;
+    background: var(--white);
+    width: 800px;
+    height: 400px; 
+    overflow-y: auto; 
+    overflow-x: hidden;
+    border-radius: 5px;
+    box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.322);
+    max-height: 675px;
+    display: flex;
+    flex-direction: column;
+    padding-left: 30px;
+    padding-right: 30px;
+    box-sizing: border-box; 
+    z-index: 1; 
+}
+
+.header {
+    display: flex;
+    padding: 20px 30px 30px;
+    position: fixed;
+    margin-left: -30px;
+    width: calc(790px - 50px); 
+    background-color: var(--primary-color);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px; 
+    box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.192);
+    padding-bottom: 15px;
+
+    .close-button {
+      position: relative;
+      top: 0;
+      right: 0;
+      background-color: transparent;
+      border: none;
+      font-size: 40px; 
+      cursor: pointer;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  
+      i {
+          margin: 0; 
+          font-size: inherit; 
+      }
+    }
+  
+    h1 {
+      color: var(--white);
+      padding-top: 5px;
+      width: 100%;
+      font-weight: 700;
+      font-size: 25px;
+      text-align: center;
+    }
+}
+
+.container-body {
+    padding-top: 120px;
+    padding-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 48%;
+    background: var(--white);
+    box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.322);
+    border: 0.5px solid var(--table-border);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--dark-gray);
+}
+
+.toggle-btn {
+    padding: 5px 15px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.toggle-btn:focus {
+    outline: none;
+}
+
+.toggle-btn.off {
+    background-color: var(--gray); /* Color for the Off state */
+}
+
+.toggle-btn.on {
+    background-color: var(--green); /* Color for the On state */
+}
+
+.toggle-btn i {
+    font-size: 1.5rem;
+}
+  

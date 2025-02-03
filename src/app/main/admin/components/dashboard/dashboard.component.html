@@ -2,9 +2,12 @@
     <div class="content"> 
 
         <div class="button">
-            <button (click)="navigate('dashboard/activity')" class="activity-log"> 
+            <!-- <button (click)="navigate('dashboard/activity')" class="activity-log"> 
                 Activity Logs 
-            </button>
+            </button> -->
+            <div class="toggle-icon" (click)="toggleAction()">
+                <i class="bx bx-menu"></i>
+            </div>
         </div>
         
         <div class="cards">
@@ -60,8 +63,7 @@
                             <td>{{ tableData.Wednesday.present }}</td>
                             <td>{{ tableData.Thursday.present }}</td>
                             <td>{{ tableData.Friday.present }}</td>
-                            <td>{{ tableData.Saturday.present }}</td>
-                        </tr>
+                            <td>{{ tableData.Saturday.present }}</td>                        </tr>
                         <tr>
                             <td [ngClass]="getStatusClass(1)">{{ getStatus(1) }}</td>
                             <td>{{ tableData.Monday.late }}</td>
@@ -103,7 +105,7 @@
             </div>
 
             <div class="left" style="height: 450px;">
-                <span class="header">Attendance Summary per Month</span>
+                <span class="header">Attendance Summary - {{ currentMonth }}</span>
                 <div class="doughnut-container" style="height: 300px;">
                     <p-chart type="doughnut" [data]="doughnutChartData" [options]="options.doughnut"></p-chart>
                 </div>
