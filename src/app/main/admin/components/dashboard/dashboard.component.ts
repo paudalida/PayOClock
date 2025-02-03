@@ -7,6 +7,14 @@ import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { ToggleActionAdminComponent } from './toggle-action-admin/toggle-action-admin.component';
 
+interface ContainerVisibility {
+  employee: boolean;
+  pending: boolean;
+  processed: boolean;
+  attendance: boolean;
+  payroll: boolean;
+  summary: boolean;
+}
 
 @Component({
   selector: 'app-dashboard',
@@ -42,6 +50,34 @@ export class DashboardComponent implements OnInit {
   options: any;
   currentMonth: any;
 
+  selectedFilterOption: string = 'week'; 
+  containerData: { [key: string]: any } = {
+    present: 20,
+    lates: 5,
+    absences: 3,
+    announcement: {
+      image: '',
+      title: '',
+      content: '',
+      published_at: ''
+    },
+    announcementHistory: {
+      image: '',
+      title: '',
+      content: '',
+      published_at: ''
+    }
+  };
+
+  containerVisibility: Record<'employee' | 'pending' | 'processed' | 'attendance' | 'payroll' | 'summary', boolean> = {
+    employee: true,
+    pending: true,
+    processed: true,
+    attendance: true,
+    payroll: true, 
+    summary: true,
+  };
+
   constructor(
     private as: AdminService,
     private ds: DataService,
@@ -58,10 +94,20 @@ export class DashboardComponent implements OnInit {
     pending: 0
   }
 
-    toggleAction(): void {
-      const dialogRef = this.dialog.open(ToggleActionAdminComponent, {
-      });
-    }
+  toggleContainerVisibility(container: string) {
+    this.containerVisibility[container as 'employee' | 'pending' | 'processed' | 'attendance' | 'payroll' | 'summary'] = 
+      !this.containerVisibility[container as 'employee' | 'pending' | 'processed' | 'attendance' | 'payroll' | 'summary'];
+  }
+
+  toggleAction(): void {
+    const dialogRef = this.dialog.open(ToggleActionAdminComponent, {
+      data: { containerVisibility: this.containerVisibility }  // Pass the containerVisibility to the dialog
+    });
+  
+    dialogRef.componentInstance.visibilityChanged.subscribe((updatedVisibility) => {
+      this.containerVisibility = updatedVisibility;  // Update the containerVisibility when the toggle changes
+    });
+  }
 
   setCurrentMonth(): void {
     const currentDate = new Date();

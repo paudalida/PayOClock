@@ -103,7 +103,6 @@ export class PayslipsComponent implements OnInit{
     // Set font
     doc.setFont('helvetica', 'normal');
   
-    // Add logo (ensure the path is correct)
     const logoUrl = '/assets/images/gm18.png';
     const logoWidth = 30, logoHeight = 30;
     try {

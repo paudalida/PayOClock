@@ -148,9 +148,26 @@ export class AttendanceHistoryComponent {
   downloadPDF(): void {
     const doc = new jsPDF();
 
+    // Set font
+    doc.setFont('helvetica', 'normal');
+  
+    const logoUrl = '/assets/images/gm18.png';
+    const logoWidth = 30, logoHeight = 30;
+    try {
+      doc.addImage(logoUrl, 'PNG', 170, 10, logoWidth, logoHeight);
+    } catch (error) {
+      console.warn('Logo could not be loaded:', error);
+    }
+  
+    // Company details
+    doc.setFontSize(12);
+    doc.text('GM18 Driving School', 10, 15);
+    doc.text('106 Gordon Avenue, New Kalalake, Olongapo City, Philippines 2200', 10, 22);
+    doc.text('Tel No.: (047) 222-2446 / Cell No.: 0999 220 0158', 10, 29);
+  
     // Title
-    doc.setFontSize(18);
-    doc.text(`Daily Time Record - ${this.employee.name}`, 14, 15);
+    doc.setFontSize(14);
+    doc.text(`Daily Time Record - ${this.employee.name}`, 105, 40, { align: 'center' });
 
     // Table Headers
     const headers = [['Date', 'Status', 'Time In', 'Time Out']];
@@ -167,7 +184,7 @@ export class AttendanceHistoryComponent {
     (doc as any).autoTable({
       head: headers,
       body: rows,
-      startY: 25,
+      startY: 50,
       theme: 'striped',
       styles: { fontSize: 10, cellPadding: 3 },
       headStyles: { fillColor: [0, 122, 204] }, // Header background color

@@ -3,10 +3,10 @@
         <i class="bx bx-menu"></i>
     </div>
     <div class="cards-row">
-      <div class="card" *ngIf="present !== undefined" (click)="openPopup('present')">
+      <div class="card" *ngIf="containerVisibility.present" (click)="openPopup('present')">
         <div class="card-header">
           <h3>Total Present</h3>
-          <p class="number">{{ present }}</p>
+            <p class="number">{{ containerData['present'] }}</p>
           <!-- Dropdown for filter -->
           <div class="filter-dropdown">
             <select (click)="stopPopupPropagation($event)" (change)="selectFilterOption($event)">
@@ -17,10 +17,10 @@
         </div>
       </div>
   
-      <div class="card" *ngIf="lates !== undefined" (click)="openPopup('lates')">
+      <div class="card" *ngIf="containerVisibility.lates" (click)="openPopup('lates')">
         <div class="card-header">
           <h3>Total Lates</h3>
-          <p class="number">{{ lates }}</p>
+          <p class="number">{{ containerData['lates'] }}</p>
           <!-- Dropdown for filter -->
           <div class="filter-dropdown">
             <select (click)="stopPopupPropagation($event)" (change)="selectFilterOption($event)">
@@ -31,10 +31,10 @@
         </div>
       </div>
   
-      <div class="card" *ngIf="absences !== undefined" (click)="openPopup('absences')">
+      <div class="card" *ngIf="containerVisibility.absences" (click)="openPopup('absences')">
         <div class="card-header">
           <h3>Total Absences</h3>
-          <p class="number">{{ absences }}</p>
+          <p class="number">{{ containerData['absences'] }}</p>
           <!-- Dropdown for filter -->
           <div class="filter-dropdown">
             <select (click)="stopPopupPropagation($event)" (change)="selectFilterOption($event)">
@@ -46,36 +46,35 @@
       </div>
     </div>
   
-    <!-- Content and other components here -->
-    <div class="content-wrapper">
+    <div class="content-wrapper" *ngIf="containerVisibility.announcement">
       <div class="content">
         <div class="content-left">
           <img src='assets/images/no image.png' alt="Image" class="image-holder">
         </div>
         <div class="content-right">
-          <h2 class="title">{{ announcement.title }}</h2>
-          <pre class="description">{{ announcement.content }}</pre>
+          <h2 class="title">{{ containerData['announcement'].title }}</h2>
+          <pre class="description">{{ containerData['announcement'].content }}</pre>
           <div class="publish-info">
             <p class="publish-date">Date Published: {{ announcement.published_at | date:'MMMM d, y' }} - {{ announcement.published_at | date:'shortTime' }}</p>
           </div>
         </div>
       </div>
   
-      <div class="content">
-        <button class="more-announcements" type="button" (click)="redirectToAnnouncements()">
-          More <i class='bx bx-chevrons-right'></i>
-        </button>
-        <div class="content-left">
-          <img [src]="announcement.image || 'assets/images/no image.png'" alt="Image" class="image-holder">
+        <div class="content" *ngIf="containerVisibility.announcementHistory">
+            <button class="more-announcements" type="button" (click)="redirectToAnnouncements()">
+                More <i class='bx bx-chevrons-right'></i>
+            </button>
+            <div class="content-left">
+                <img [src]="announcement.image || 'assets/images/no image.png'" alt="Image" class="image-holder">
+            </div>
+            <div class="content-right">
+              <h2 class="title">{{ containerData['announcementHistory'].title }}</h2>
+              <pre class="description">{{ containerData['announcementHistory'].content }}</pre>
+                <div class="publish-info">
+                    <p class="publish-date">Date Published: {{ announcement.published_at | date:'MMMM d, y' }} - {{ announcement.published_at | date:'shortTime' }}</p>
+                </div>
+            </div>
         </div>
-        <div class="content-right">
-          <h2 class="title">{{ announcement.title }}</h2>
-          <pre class="description">{{ announcement.content }}</pre>
-          <div class="publish-info">
-            <p class="publish-date">Date Published: {{ announcement.published_at | date:'MMMM d, y' }} - {{ announcement.published_at | date:'shortTime' }}</p>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
   

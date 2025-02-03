@@ -12,7 +12,7 @@
         
         <div class="cards">
             <div class="input-row">
-                <div class="card" (click)="navigate('employees')">
+                <div class="card" *ngIf="containerVisibility.employee" (click)="navigate('employees')">
                         <img src="assets/images/employee.png">
                     <div class="box">
                         <h1> {{ details.employeeCount }} </h1>
@@ -20,7 +20,7 @@
                     </div>
                 </div>
         
-                <div class="card" (click)="navigate('payslips')">
+                <div class="card" *ngIf="containerVisibility.pending" (click)="navigate('payslips')">
                         <img src="assets/images/pending.png">
                     <div class="box">
                         <h1> {{ details.pending }} </h1>
@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 
-                <div class="card" (click)="navigate('payslips')">
+                <div class="card" *ngIf="containerVisibility.processed" (click)="navigate('payslips')">
                         <img src="assets/images/processed.png">
                     <div class="box">
                         <h1> {{ details.processed }} </h1>
@@ -38,7 +38,7 @@
             </div>
         </div>
 
-        <div class="attendance">
+        <div class="attendance" *ngIf="containerVisibility.attendance">
             <div class="header-content">
                 <h1>Attendance Summary</h1>
             </div>
@@ -87,7 +87,7 @@
             </div>                               
         </div>
 
-        <div class="graph-container">
+        <div class="graph-container" *ngIf="containerVisibility.payroll">
             <div class="right" style="height: 450px;">
                 <span class="header">Payroll Summary</span>
                 
@@ -104,7 +104,7 @@
                 </div>
             </div>
 
-            <div class="left" style="height: 450px;">
+            <div class="left" style="height: 450px;" *ngIf="containerVisibility.summary">
                 <span class="header">Attendance Summary - {{ currentMonth }}</span>
                 <div class="doughnut-container" style="height: 300px;">
                     <p-chart type="doughnut" [data]="doughnutChartData" [options]="options.doughnut"></p-chart>

@@ -5,6 +5,14 @@ import { DataService } from '../../../../services/data/data.service';
 import { ViewDetailsComponent } from './view-details/view-details.component';
 import { ToggleActionComponent } from './toggle-action/toggle-action.component';
 
+interface ContainerVisibility {
+  present: boolean;
+  lates: boolean;
+  absences: boolean;
+  announcement: boolean;
+  announcementHistory: boolean;
+}
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -40,6 +48,31 @@ export class DashboardComponent implements OnInit {
   ];
 
   selectedFilterOption: string = 'week'; 
+  containerData: { [key: string]: any } = {
+    present: 20,
+    lates: 5,
+    absences: 3,
+    announcement: {
+      image: '',
+      title: '',
+      content: '',
+      published_at: ''
+    },
+    announcementHistory: {
+      image: '',
+      title: '',
+      content: '',
+      published_at: ''
+    }
+  };
+
+  containerVisibility: Record<'present' | 'lates' | 'absences' | 'announcement' | 'announcementHistory', boolean> = {
+    present: true,
+    lates: true,
+    absences: true,
+    announcement: true,
+    announcementHistory: true
+  };
 
   constructor(
     private dialog: MatDialog,
@@ -60,6 +93,11 @@ export class DashboardComponent implements OnInit {
         this.announcement.published_at = res.data.announcement.published_at;
       }
     })
+  }
+
+  toggleContainerVisibility(container: string) {
+    this.containerVisibility[container as 'present' | 'lates' | 'absences' | 'announcement' | 'announcementHistory'] = 
+      !this.containerVisibility[container as 'present' | 'lates' | 'absences' | 'announcement' | 'announcementHistory'];
   }
 
   openPopup(type: string): void {
@@ -85,6 +123,11 @@ export class DashboardComponent implements OnInit {
 
   toggleAction(): void {
     const dialogRef = this.dialog.open(ToggleActionComponent, {
+      data: { containerVisibility: this.containerVisibility }  
+    });
+  
+    dialogRef.componentInstance.visibilityChanged.subscribe((updatedVisibility) => {
+      this.containerVisibility = updatedVisibility;  
     });
   }
 
@@ -93,7 +136,7 @@ export class DashboardComponent implements OnInit {
   }
 
   selectFilterOption(event: Event): void {
-    event.stopPropagation();  // Prevents the click event from propagating further
+    event.stopPropagation();  
     const selectElement = event.target as HTMLSelectElement;
     this.selectedFilterOption = selectElement.value;
     console.log('Selected filter option:', this.selectedFilterOption);
@@ -102,4 +145,5 @@ export class DashboardComponent implements OnInit {
   stopPopupPropagation(event: MouseEvent): void {
     event.stopPropagation();  
   }
+  
 }

@@ -12,29 +12,37 @@
           <div class="row">
             <div class="container">
               <label for="total-present">Total Employee</label>
-              <button class="toggle-btn">
-                <!-- <i class="bx bxs-toggle-right"></i> On --> ON 
+              <button (click)="toggleState('employee')" 
+                [ngClass]="{'off': !containerVisibility.employee, 'on': containerVisibility.employee}" 
+                class="toggle-btn">
+                {{ containerVisibility.employee ? 'ON' : 'OFF' }}
               </button>
             </div>
             <div class="container">
               <label for="total-lates">Total Pending Payslips</label>
-              <button class="toggle-btn">
-                <!-- <i class="bx bxs-toggle-left"></i> Off --> OFF
+              <button (click)="toggleState('pending')" 
+                [ngClass]="{'off': !containerVisibility.pending, 'on': containerVisibility.pending}" 
+                class="toggle-btn">
+                {{ containerVisibility.pending ? 'ON' : 'OFF' }}
               </button>
             </div>
           </div>
   
           <div class="row">
             <div class="container">
-                <label for="total-absent">Total Processed Payslips</label>
-                <button class="toggle-btn">
-                  <!-- <i class="bx bxs-toggle-left"></i> Off --> OFF
-                </button>
+              <label for="total-absent">Total Processed Payslips</label>
+              <button (click)="toggleState('processed')" 
+                [ngClass]="{'off': !containerVisibility.processed, 'on': containerVisibility.processed}" 
+                class="toggle-btn">
+                {{ containerVisibility.processed ? 'ON' : 'OFF' }}
+              </button>
             </div>
             <div class="container">
               <label for="other-container">Attendance Summary</label>
-              <button class="toggle-btn">
-                <!-- <i class="bx bxs-toggle-left"></i> Off --> OFF
+              <button (click)="toggleState('attendance')" 
+                [ngClass]="{'off': !containerVisibility.attendance, 'on': containerVisibility.attendance}" 
+                class="toggle-btn">
+                {{ containerVisibility.attendance ? 'ON' : 'OFF' }}
               </button>
             </div>
           </div>
@@ -42,15 +50,19 @@
           <div class="row">
             <div class="container">
               <label for="other-container">Payroll Summary</label>
-              <button class="toggle-btn">
-                <!-- <i class="bx bxs-toggle-left"></i> Off --> OFF
+              <button (click)="toggleState('payroll')" 
+                [ngClass]="{'off': !containerVisibility.payroll, 'on': containerVisibility.payroll}" 
+                class="toggle-btn">
+                {{ containerVisibility.payroll ? 'ON' : 'OFF' }}
               </button>
             </div>
             <div class="container">
-                <label for="other-container">Attendance Summary</label>
-                <button class="toggle-btn">
-                  <!-- <i class="bx bxs-toggle-left"></i> Off --> OFF
-                </button>
+              <label for="other-container">Attendance Summary</label>
+              <button (click)="toggleState('summary')" 
+                [ngClass]="{'off': !containerVisibility.summary, 'on': containerVisibility.summary}" 
+                class="toggle-btn">
+                {{ containerVisibility.summary ? 'ON' : 'OFF' }}
+              </button>
               </div>
           </div>
         </div>

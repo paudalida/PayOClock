@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -14,20 +14,38 @@ export class ToggleActionComponent {
   latesState: boolean = false;
   absentState: boolean = false;
 
+  @Input() containerVisibility: Record<'present' | 'lates' | 'absences' | 'announcement' | 'announcementHistory', boolean> = {
+    present: true,
+    lates: true,
+    absences: true,
+    announcement: true,
+    announcementHistory: false
+  };
+
+  // Output to send updated state back to parent component
+  @Output() visibilityChanged: EventEmitter<Record<'present' | 'lates' | 'absences' | 'announcement' | 'announcementHistory', boolean>> = new EventEmitter();
+
+
   constructor(
     private router: Router,
     public dialogRef: MatDialogRef<ToggleActionComponent>
   ) {}
 
-  // Function to handle the toggle action for each button
   toggleState(type: string): void {
     if (type === 'present') {
-      this.presentState = !this.presentState;
+      this.containerVisibility.present = !this.containerVisibility.present;
     } else if (type === 'lates') {
-      this.latesState = !this.latesState;
-    } else if (type === 'absent') {
-      this.absentState = !this.absentState;
+      this.containerVisibility.lates = !this.containerVisibility.lates;
+    } else if (type === 'absences') {
+      this.containerVisibility.absences = !this.containerVisibility.absences;
+    } else if (type === 'announcement') {
+      this.containerVisibility.announcement = !this.containerVisibility.announcement;
+    } else if (type === 'announcementHistory') {
+      this.containerVisibility.announcementHistory = !this.containerVisibility.announcementHistory;
     }
+  
+    // Emit updated state back to the parent
+    this.visibilityChanged.emit(this.containerVisibility);
   }
 
   closePopup() {

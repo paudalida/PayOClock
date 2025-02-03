@@ -6,6 +6,9 @@ import { UploadProofComponent } from './upload-proof/upload-proof.component';
 import { ProofHistoryComponent } from './proof-history/proof-history.component';
 import { EmployeeService } from '../../../../services/employee/employee.service';
 
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+
 @Component({
   selector: 'app-attendance',
   templateUrl: './attendance.component.html',
@@ -75,7 +78,6 @@ export class AttendanceComponent implements OnInit {
     this.currentMonthYear = now.toLocaleString('en-US', { month: 'long', year: 'numeric' });
   }
   
-
   formatAttendanceData() {
     if (!this.attendance.length) return;
 
@@ -150,32 +152,42 @@ export class AttendanceComponent implements OnInit {
     this.buttonLoading = true;
     const now = new Date();
     
-    // Format time and date correctly
-    const formattedTime = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
-    const formattedDate = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    const formattedTime = now.toLocaleTimeString('en-US', { 
+      hour: '2-digit', 
+      minute: '2-digit', 
+      hour12: true, 
+      timeZone: 'Asia/Manila' 
+    });
+  
+    const formattedDate = now.toLocaleDateString('en-US', { 
+      month: 'long', 
+      day: 'numeric', 
+      year: 'numeric', 
+      timeZone: 'Asia/Manila' 
+    });
   
     this.ds.request('POST', 'employee/attendance/clock').subscribe({
       next: (res: any) => {
         this.pop.toastWithTimer('success', res.message);
         this.isTimedIn = !this.isTimedIn;
   
-        // Ensure the date is always correctly formatted
         this.currentDate = formattedDate;
+        this.currentTime = formattedTime; 
   
         let record = this.attendance.find(element => element.date === formattedDate);
   
         if (record) {
           if (this.isTimedIn) {
-            record.time_in = formattedTime; // Update Time In
+            record.time_in = formattedTime;  
             this.currentTimeIn = formattedTime;
           } else {
-            record.time_out = formattedTime; // Update Time Out
+            record.time_out = formattedTime; 
             this.currentTimeOut = formattedTime;
           }
         } else {
           this.attendance.push({
-            date: formattedDate, // Store formatted date
-            day: now.toLocaleDateString('en-US', { weekday: 'long' }),
+            date: formattedDate,
+            day: now.toLocaleDateString('en-US', { weekday: 'long', timeZone: 'Asia/Manila' }),
             time_in: this.isTimedIn ? formattedTime : null,
             time_out: !this.isTimedIn ? formattedTime : null,
           });
@@ -190,6 +202,53 @@ export class AttendanceComponent implements OnInit {
         this.buttonLoading = false;
       }
     });
+  }
+  
+  exportAttendanceAsPDF() {
+    const doc = new jsPDF();
+    
+    // Set font
+    doc.setFont('helvetica', 'normal');
+  
+    const logoUrl = '/assets/images/gm18.png';
+    const logoWidth = 30, logoHeight = 30;
+    try {
+      doc.addImage(logoUrl, 'PNG', 170, 10, logoWidth, logoHeight);
+    } catch (error) {
+      console.warn('Logo could not be loaded:', error);
+    }
+  
+    // Company details
+    doc.setFontSize(12);
+    doc.text('GM18 Driving School', 10, 15);
+    doc.text('106 Gordon Avenue, New Kalalake, Olongapo City, Philippines 2200', 10, 22);
+    doc.text('Tel No.: (047) 222-2446 / Cell No.: 0999 220 0158', 10, 29);
+  
+    // Title
+    doc.setFontSize(14);
+    doc.text('Attendance Records', 105, 40, { align: 'center' });
+  
+    // Table Data
+    const tableData = this.attendance.map((record: any) => [
+      `${record.date} - ${record.day}`,
+      record.time_in || 'N/A',
+      record.time_out || 'N/A'
+    ]);
+  
+    // Table Options
+    (doc as any).autoTable({
+      head: [['Date', 'Time In', 'Time Out']],
+      body: tableData,
+      startY: 50,
+      margin: { left: 10, right: 10 },
+      styles: { fontSize: 10, cellPadding: 2, font: 'helvetica' },
+      headStyles: { halign: 'center' },
+      columnStyles: { 0: { halign: 'center' }, 1: { halign: 'center' }, 2: { halign: 'center' } }
+    });
+  
+    // Save PDF
+    const fileName = `Attendance_Records_${new Date().toLocaleDateString()}.pdf`;
+    doc.save(fileName);
   }
   
   calculateAccumulatedHours() {

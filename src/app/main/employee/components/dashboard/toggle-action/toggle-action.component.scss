@@ -15,7 +15,7 @@
     position: relative;
     background: var(--white);
     width: 800px;
-    height: 300px; 
+    height: 310px; 
     overflow-y: auto; 
     overflow-x: hidden;
     border-radius: 5px;
@@ -71,8 +71,8 @@
 }
 
 .container-body {
-    padding-top: 120px;
-    padding-bottom: 50px;
+    padding-top: 110px;
+    padding-bottom: 20px;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -92,7 +92,7 @@
     background: var(--white);
     box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.322);
     border: 0.5px solid var(--table-border);
-    padding: 10px;
+    padding: 20px;
     border-radius: 8px;
 }
 
@@ -102,29 +102,25 @@ label {
     color: var(--dark-gray);
 }
 
-.toggle-btn {
-    padding: 5px 15px;
-    background-color: var(--primary-color);
+.toggle-btn.off {
+    background-color: var(--absent); 
+  }
+  
+  .toggle-btn.on {
+    background-color: var(--primary-color); 
+  }
+  
+  .toggle-btn {
+    padding: 10px 15px;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1rem;
-}
-
-.toggle-btn:focus {
+    font-size: 13px;
+  }
+  
+  .toggle-btn:focus {
     outline: none;
 }
-
-.toggle-btn.off {
-    background-color: var(--gray); /* Color for the Off state */
-}
-
-.toggle-btn.on {
-    background-color: var(--green); /* Color for the On state */
-}
-
-.toggle-btn i {
-    font-size: 1.5rem;
-}
+  
   

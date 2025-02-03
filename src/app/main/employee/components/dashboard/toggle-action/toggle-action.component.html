@@ -1,51 +1,60 @@
 <main>
-    <div class="main-container">
-      <div class="attendance-history">
-        <div class="header">
-          <h1>Customize Dashboard</h1>
-          <button type="button" class="close-button" (click)="closePopup()">
-            <i class='bx bx-x'></i>
-          </button>
-        </div>
-  
-        <div class="container-body">
-          <div class="row">
-            <div class="container">
-              <label for="total-present">Total Present</label>
-              <button class="toggle-btn">
-                <!-- <i class="bx bxs-toggle-right"></i> On --> ON 
-              </button>
-            </div>
-            <div class="container">
-              <label for="total-lates">Total Lates</label>
-              <button class="toggle-btn">
-                <!-- <i class="bx bxs-toggle-left"></i> Off --> OFF
-              </button>
-            </div>
-            <div class="container">
-                <label for="total-absent">Total Absent</label>
-                <button class="toggle-btn">
-                  <!-- <i class="bx bxs-toggle-left"></i> Off --> OFF
-                </button>
-            </div>
+  <div class="main-container">
+    <div class="attendance-history">
+      <div class="header">
+        <h1>Customize Dashboard</h1>
+        <button type="button" class="close-button" (click)="closePopup()">
+          <i class='bx bx-x'></i>
+        </button>
+      </div>
+
+      <div class="container-body">
+        <div class="row">
+          <div class="container">
+            <label for="total-present">Total Present</label>
+            <button (click)="toggleState('present')" 
+                    [ngClass]="{'off': !containerVisibility.present, 'on': containerVisibility.present}" 
+                    class="toggle-btn">
+              {{ containerVisibility.present ? 'ON' : 'OFF' }}
+            </button>
           </div>
-  
-          <div class="row">
-            <div class="container">
-              <label for="other-container">New Announcement</label>
-              <button class="toggle-btn">
-                <!-- <i class="bx bxs-toggle-left"></i> Off --> OFF
-              </button>
-            </div>
-            <div class="container">
-                <label for="other-container">Announcement History</label>
-                <button class="toggle-btn">
-                  <!-- <i class="bx bxs-toggle-left"></i> Off --> OFF
-                </button>
-              </div>
+          <div class="container">
+            <label for="total-lates">Total Lates</label>
+            <button (click)="toggleState('lates')" 
+                    [ngClass]="{'off': !containerVisibility.lates, 'on': containerVisibility.lates}" 
+                    class="toggle-btn">
+              {{ containerVisibility.lates ? 'ON' : 'OFF' }}
+            </button>
+          </div>
+          <div class="container">
+            <label for="total-absent">Total Absent</label>
+            <button (click)="toggleState('absences')" 
+                    [ngClass]="{'off': !containerVisibility.absences, 'on': containerVisibility.absences}" 
+                    class="toggle-btn">
+              {{ containerVisibility.absences ? 'ON' : 'OFF' }}
+            </button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="container">
+            <label for="other-container">New Announcement</label>
+            <button (click)="toggleState('announcement')" 
+                    [ngClass]="{'off': !containerVisibility.announcement, 'on': containerVisibility.announcement}" 
+                    class="toggle-btn">
+              {{ containerVisibility.announcement ? 'ON' : 'OFF' }}
+            </button>
+          </div>
+          <div class="container">
+            <label for="other-container">Announcement History</label>
+            <button (click)="toggleState('announcementHistory')" 
+                    [ngClass]="{'off': !containerVisibility.announcementHistory, 'on': containerVisibility.announcementHistory}" 
+                    class="toggle-btn">
+              {{ containerVisibility.announcementHistory ? 'ON' : 'OFF' }}
+            </button>
           </div>
         </div>
       </div>
     </div>
-  </main>
-  
+  </div>
+</main>
