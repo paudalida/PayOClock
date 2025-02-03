@@ -9,6 +9,7 @@ import { AdminService } from '../../../../services/admin/admin.service';
 import { PopupService } from '../../../../services/popup/popup.service';
 import { AttendanceDetailPopupComponent } from './attendance-detail-popup/attendance-detail-popup.component';
 import { AttendanceHistoryComponent } from './attendance-history/attendance-history.component';
+import { DatePipe } from '@angular/common';
 
 export interface AttendanceRecord {
   name: string;
@@ -45,7 +46,8 @@ export class AttendanceComponent implements OnInit {
     private dialog: MatDialog,
     private ds: DataService,
     private as: AdminService,
-    private pop: PopupService
+    private pop: PopupService,
+    private datePipe: DatePipe
   ) { }
 
   isLoading = false;
@@ -61,7 +63,12 @@ export class AttendanceComponent implements OnInit {
   };
   groupedRecordsByWeek: any;
   groupedRecordsByPeriod: any;
+  groupedRecordsByDay: any;
+  weekFilter: any;
+  periodFilter: any;
   payrollPeriods: any;
+  currFilter = '';
+  columns: any = [];
 
   get employees() {
     return this.as.getEmployees();
@@ -137,8 +144,14 @@ export class AttendanceComponent implements OnInit {
     this.isLoading = true;
     this.ds.request('GET', 'admin/attendance').subscribe({
       next: (res: any) => {
-        this.groupedRecordsByWeek = this.groupByWeek(res.data.attendance)
-        this.groupedRecordsByPeriod = this.groupByPeriod(res.data.attendance, res.data.payroll_periods);
+        this.groupedRecordsByDay = this.groupByDay(res.data.attendance)
+        // this.groupedRecordsByWeek = this.groupByWeek(res.data.attendance)
+        // this.groupedRecordsByPeriod = this.groupByPeriod(res.data.attendance, res.data.payroll_periods);
+        // this.weekFilter = Object.keys(this.groupedRecordsByWeek)
+        this.periodFilter = this.combinePayrollPeriods(res.data.payroll_periods)
+        this.currFilter = this.periodFilter[0];
+        this.columns = this.getDateRangeFromString(this.currFilter);
+        console.log(this.groupedRecordsByDay['2024-12-30'])
         // this.attendance = res.data.records;
         // this.attendanceWeeks = Object.keys(this.attendance);
         // this.generateDateRange(this.attendanceWeeks[0]);
@@ -153,6 +166,22 @@ export class AttendanceComponent implements OnInit {
       },
       complete: () => { this.isLoading = false; }
     });
+  }
+
+  changeFilter() {
+    this.columns = this.getDateRangeFromString(this.currFilter)
+  }
+
+  getRecordForDay(employeeId: number, day: string): boolean {
+    const recordsForDay = this.groupedRecordsByDay[day] || [];
+    return recordsForDay.some((record: any) => record.user_id === employeeId);
+  }
+  
+  convertTime(time: string): string {
+    if(time == '') return '-';
+    // Assuming the time is in the format 'HH:mm:ss'
+    const formattedTime = this.datePipe.transform(`1970-01-01T${time}`, 'h:mm a');
+    return formattedTime || time;  // Return formatted time or original if formatting fails
   }
 
   filterByDate(): void {
@@ -277,6 +306,64 @@ export class AttendanceComponent implements OnInit {
     this.dates = dates;
   }
 
+  getDateRangeFromString(dateRange: string): string[] {
+    // Split the input string by ' to ' to get start and end dates
+    const [startDate, endDate] = dateRange.split(' to ');
+  
+    // Call the function to generate the date array
+    return this.getDateRange(startDate, endDate);
+  }
+
+  combinePayrollPeriods(payrolls: any[]) {
+    return payrolls.map((period, index) => {
+      // Convert the dates to strings in the format 'YYYY-MM-DD'
+      const startDate = new Date(period.payday_start).toISOString().split('T')[0]; // Format as YYYY-MM-DD
+      const endDate = new Date(period.payday_end).toISOString().split('T')[0]; // Format as YYYY-MM-DD
+  
+      // If this is the last period, extend the end date to today
+      if (index === payrolls.length - 1) {
+        const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+        return `${startDate} to ${endDate} to ${today}`;
+      }
+  
+      // Return the combined string in the format "startDate to endDate"
+      return `${startDate} to ${endDate}`;
+    });
+  }
+  
+  
+  groupByDay(attendanceData: any[]) {
+    // Initialize an empty object to hold the grouped data
+    let groupedByDay: any = {};
+  
+    // Loop through the attendance data
+    attendanceData.forEach(record => {
+      // Assuming each record has a 'date' field, you can format it as YYYY-MM-DD for grouping
+      const date = new Date(record.date).toISOString().split('T')[0]; // Format to "YYYY-MM-DD"
+  
+      // Group by date (day)
+      if (!groupedByDay[date]) {
+        groupedByDay[date] = []; // If date doesn't exist, create an array
+      }
+      groupedByDay[date].push(record); // Push record to the correct day
+    });
+  
+    return groupedByDay;
+  }
+  
+  getDateRange(startDate: string, endDate: string): string[] {
+    let dates: string[] = [];
+    let start = new Date(startDate);
+    let end = new Date(endDate);
+  
+    while (start <= end) {
+      dates.push(start.toISOString().split('T')[0]); // Format as "YYYY-MM-DD"
+      start.setDate(start.getDate() + 1); // Move to the next day
+    }
+  
+    return dates;
+  }
+
   dateFilter(event: Event) {
     const date = (event.target as HTMLSelectElement).value
     this.formatData(this.attendance[date]);
@@ -344,24 +431,24 @@ export class AttendanceComponent implements OnInit {
   }
   
 
-  openAttendanceDetail(date: any, day: string, data: any): void {
-    const dayShort = day.substring(0, 3).toLowerCase();
+  openAttendanceDetail(user_id: string, date: any, data?: any): void {
+    const now = new Date(); // Get the current date and time
+    const givenDate = new Date(date); // Convert the input date to a Date object
 
-    if(this.dayNames.indexOf(dayShort) > this.dayNames.indexOf(this.current) && 
-        this.selectedDateRange == this.attendanceWeeks[0]
-      ) {    
-      this.pop.swalBasic('error', 'Oops! Can\'t access date', 'Can\'t access future dates')
+    // Check if the given date is in the future compared to the current date
+    if (givenDate > now) {
+      this.pop.swalBasic('error', 'Oops! Can\'t access date', 'Can\'t access future dates');
       return;
     }
-    this.selectedDate = date;
-    if(!data.user_id) {
+    // this.selectedDate = date;
+    if(!data) {
       data = this.defaultRecord;
+      data.user_id = user_id
     }
 
     const dialogRef = this.dialog.open(AttendanceDetailPopupComponent, {
       data: {
         selectedDate: date,
-        selectedDay: day,
         details: data
       }
     });

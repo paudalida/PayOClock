@@ -169,9 +169,14 @@
     }
 
     td.status-present {
-        background-color: var(--time-in-button);
-        color: var(--white);
+        background-color: #27ae60;
+        // color: var(--white);
         font-weight: 700;
+
+        hr {
+            background-color: #333;
+            width: 100%;
+        }
     }
 
     td.status-late {
@@ -181,7 +186,7 @@
     }
 
     td.status-absent {
-        background-color: var(--absent);
+        background-color: #c0392b;
         color: var(--white);
         font-weight: 700;
     }

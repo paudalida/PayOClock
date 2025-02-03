@@ -271,7 +271,7 @@ export class RequestFormComponent implements OnInit {
       //   }
       // }
   
-      if (this.formType === 'leave' && this.form.get('leaveType')?.value === 'Paid Leave') {
+      if (this.formType === 'leave' && this.form.get('request_type')?.value === 'Paid Leave') {
         for (let i = 0; i < this.files.length; i++) {
           formData.append('attachments[]', this.files[i]);
         }

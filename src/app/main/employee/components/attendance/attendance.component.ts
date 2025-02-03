@@ -6,6 +6,7 @@ import { UploadProofComponent } from './upload-proof/upload-proof.component';
 import { ProofHistoryComponent } from './proof-history/proof-history.component';
 import { EmployeeService } from '../../../../services/employee/employee.service';
 import { DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -146,8 +147,8 @@ export class AttendanceComponent implements OnInit {
   updateCurrentMonthYear() {
     const now = new Date();
     this.currentMonthYear = now.toLocaleString('en-US', { month: 'long', year: 'numeric' });
-  }
-  
+  }  
+
   formatAttendanceData() {
     if (!this.attendance.length) return;
 

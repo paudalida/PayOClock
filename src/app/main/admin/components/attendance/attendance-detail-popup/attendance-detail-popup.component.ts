@@ -37,7 +37,7 @@ export class AttendanceDetailPopupComponent {
     private as: AdminService,
     private pop: PopupService
   ) {
-    this.selectedDay = data.day;
+    this.selectedDay = data.selectedDate;
   }
 
   get employee() {
@@ -81,7 +81,8 @@ export class AttendanceDetailPopupComponent {
   }
 
   get forTimeIn() {
-    if(!this.data.details.time_in || this.data.details.time_out) return true;
+    if(!this.data.details) return true;
+    // if(!this.data.details.time_in || this.data.details.time_out) return true;
     else return false;
   }
 

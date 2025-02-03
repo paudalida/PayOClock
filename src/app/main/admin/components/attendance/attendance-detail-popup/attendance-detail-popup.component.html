@@ -2,7 +2,7 @@
   <div class="main-container">
     <div class="attendance-detail">
       <div class="header">
-        <h1>{{ data.selectedDay }}</h1>
+        <h1>{{ selectedDay }}</h1>
         <button type="button" class="close-button" (click)="closePopup()">
           <i class='bx bx-x'></i>
         </button>
@@ -11,15 +11,17 @@
       <div class="popup-content">
         <div class="time-row">
           <!-- With Records -->
-          <p *ngIf="data.details.time_in" >   <strong>Time In:</strong> {{ formatTime(data.details.time_in) }} </p>
-          <p *ngIf="data.details.time_out">   <strong>Time Out:</strong> {{ formatTime(data.details.time_out) }} </p>
+          <ng-container *ngIf="data.details">
+            <p *ngIf="data.details.time_in" >   <strong>Time In:</strong> {{ formatTime(data.details.time_in) }} </p>
+            <p *ngIf="data.details.time_out">   <strong>Time Out:</strong> {{ formatTime(data.details.time_out) }} </p>
+          </ng-container>
 
           <!-- With leave or absent  -->
-          <p *ngIf="data.details.leave_type" ><strong> Leave Type: </strong> {{ data.details.leave_type }}</p>
-          <p *ngIf="data.details.is_absent">  <strong> Absent </strong></p>
+          <!-- <p *ngIf="data.details.leave_type" ><strong> Leave Type: </strong> {{ data.details.leave_type }}</p>
+          <p *ngIf="data.details.is_absent">  <strong> Absent </strong></p> -->
 
           <!-- No data -->
-          <p *ngIf="!data.details.status" ><strong> No Data Available </strong></p>
+          <p *ngIf="!data.details" ><strong> No Data Available </strong></p>
         </div>        
 
         <div class="button-row">
@@ -36,12 +38,12 @@
               <div *ngSwitchCase="'manual'" class="manual-action">
                 <div class="time-row">
                   <div class="label">Time In</div>
-                  <input type="time" [(ngModel)]="manual.timeIn" class="time-input" [disabled]="data.details.time_in != null" />
+                  <input type="time" [(ngModel)]="manual.timeIn" class="time-input"  />
                 </div>
           
                 <div class="time-row">
                   <div class="label">Time Out</div>
-                  <input type="time" [(ngModel)]="manual.timeOut" class="time-input" [disabled]="data.details.time_out != null" />
+                  <input type="time" [(ngModel)]="manual.timeOut" class="time-input"  />
                 </div>
                 <!-- <div *ngIf="!timeInEntered" class="time-input">
                   <select [(ngModel)]="manualTimeIn.hours">
