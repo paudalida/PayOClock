@@ -90,8 +90,7 @@ export class UpdateComponent implements OnInit {
   }
 
   closePopup(value = false) {
-    this.dialogRef.close(value); 
-    this.router.navigate(['/admin/payslips']);
+    this.dialogRef.close(value);
   }
 
 }

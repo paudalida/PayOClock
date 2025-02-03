@@ -9,8 +9,17 @@
         <!-- Report Button -->
         <button class="report-button" type="button" (click)="openPayroll()">Maximize</button>
         <button class="report-button" type="button" (click)="generateReport()">Export</button>
-        <button class="report-button" type="button" (click)="confirmSyncPay()" [disabled]="release_date">Sync Pay</button>
-        
+        <!-- <button class="report-button" type="button" (click)="confirmSyncPay()" [disabled]="release_date">Sync Pay</button> -->
+               
+        <div class="update-container">
+          <button id="update-btn" (click)="setupdate()"> 
+              <ng-container *ngIf="!date.payday_start"> No data available</ng-container>
+              <ng-container *ngIf="date.payday_start">
+                  {{ date.payday_start | date: 'mediumDate' }} - {{ date.payday_end | date: 'mediumDate' }}
+              </ng-container>
+          </button>
+        </div>
+
         <div class="date-range-dropdown">
           <div class="select-wrapper">
             <select (change)="changeData()" [(ngModel)]="filterValue">
@@ -41,7 +50,7 @@
             <ng-container *ngIf="i > 0">
               
               <ng-container  *ngFor="let data of row; let j = index;" >
-                <td *ngIf="j < 4"> {{ row[j] || 'N/A' }} </td>
+                <td *ngIf="j < 4"> {{ row[j] || ' - ' }} </td>
               </ng-container>  
             </ng-container>          
           </tr>
@@ -55,7 +64,7 @@
           <ng-container *ngFor="let row of payroll; let i = index;"> 
             <tr *ngIf="i == 0">
               <ng-container *ngFor="let column of row; let j = index">
-                <th *ngIf="j >= 4">
+                <th *ngIf="j >= 4 && i < payroll.length - 1">
                   {{ column }}
                 </th>
               </ng-container>               
@@ -66,7 +75,7 @@
             <ng-container *ngIf="i > 0">
               
               <ng-container  *ngFor="let data of row; let j = index;" >
-                <td *ngIf="j >= 4"> {{ row[j] || 'N/A' }} </td>
+                <td *ngIf="j >= 4 && i < payroll.length - 1"> {{ row[j] || ' - ' }} </td>
               </ng-container>  
             </ng-container>          
           </tr>
@@ -150,8 +159,14 @@
         </table> -->
       </div>
     </div>
+
+    <div class="totals">
+      <div class="field">Total Contributions: {{ curr_sums.contributions }}</div>
+      <div class="field">Total Net Pays: {{ curr_sums.net_pays }}</div>
+      <div class="field">Total Expenses: {{ curr_sums.expenses }} </div>
+    </div>
     <!-- Pagination -->
     <!-- <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons aria-label="Select page of periodic elements">
-    </mat-paginator>
-  </div> -->
+    </mat-paginator> -->
+  </div>
 </div>

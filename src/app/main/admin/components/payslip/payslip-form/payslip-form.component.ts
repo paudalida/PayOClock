@@ -102,7 +102,7 @@ export class PayslipFormComponent implements OnInit{
   }
   
   redirectToPayrolls() {
-    this.router.navigate(['/admin/payslips']);
+    this.router.navigate(['/admin/payroll']);
   }
 
   redirectToPayslipHistory() {

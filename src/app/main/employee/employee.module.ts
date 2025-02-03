@@ -41,7 +41,6 @@ import { ToggleActionComponent } from './components/dashboard/toggle-action/togg
     UploadProofComponent, 
     PayslipHistoryComponent, 
     ChangePasswordComponent, ProofHistoryComponent, RequestComponent, RequestFormComponent, ViewDetailsComponent, ToggleActionComponent
-
   ],
   imports: [
     EmployeeRoutingModule,

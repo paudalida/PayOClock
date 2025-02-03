@@ -28,38 +28,81 @@
   <div class="table-header">
     <h2 class="table-title">Attendance Records</h2>
     <!-- <button class="report-button" type="button" (click)="generateReport()">Export</button> -->
-    <div class="right-side">
-      <button class="report-button" type="button" (click)="exportAttendanceAsPDF()">Export</button>
+    <div class="right-side">      
       <div class="date-range-dropdown">
         <div class="select-wrapper">
-          <select (change)="changeData()" [(ngModel)]="filterValue">
-            <option *ngFor="let element of dateFilter" [value]="element"> {{ element }} </option>
+          <select [(ngModel)]="typeFilter">
+            <option value="period"> By Period </option>
+            <option value="month"> By Month </option>
+            <option value="week"> By Week </option>
+          </select>
+        </div>
+      </div>
+
+      <button class="report-button" type="button">Export</button>
+
+      <div class="date-range-dropdown">
+        <div class="select-wrapper">
+          <select [(ngModel)]="periodFilter" *ngIf="typeFilter == 'period'">
+            <option *ngFor="let element of periods; let i = index;" [value]="element" [selected]="i == 0"> {{ element }} </option>
+          </select>
+          <select [(ngModel)]="monthFilter" *ngIf="typeFilter == 'month'">
+            <option *ngFor="let element of months; let i = index;" [value]="element" [selected]="i == 0"> {{ element }} </option>
+          </select>
+          <select [(ngModel)]="weekFilter" *ngIf="typeFilter == 'week'">
+            <option *ngFor="let element of weeks; let i = index;" [value]="element" [selected]="i == 0"> {{ element }} </option>
           </select>
         </div>
       </div>
     </div>
   </div>
-  <table class="attendance-table">
-    <thead>
-      <tr>
-        <th>{{ currentMonthYear }}</th>
-        <th>Time In</th>
-        <th>Time Out</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let record of attendance">
+
+<table class="attendance-table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Time In</th>
+      <th>Time Out</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngIf="typeFilter == 'period'">
+      <tr *ngFor="let record of groupedByPeriod[periodFilter]">
         <td>
-          <span>{{ record.date }} - {{ record.day }}</span>
+          <span>{{ record.date }}</span>
         </td>
         
-        <td>{{ record.time_in || 'N/A' }}</td>
+        <td>{{ convertTime(record.time_in) }}</td>
         
-        <td>{{ record.time_out || 'N/A' }}</td>
+        <td>{{ convertTime(record.time_out) }}</td>
       </tr>
-    </tbody>
-  </table>
+    </ng-container>
   
+    <ng-container *ngIf="typeFilter == 'month'">
+      <tr *ngFor="let record of groupedByMonth[monthFilter]">
+        <td>
+          <span>{{ record.date }}</span>
+        </td>
+        
+        <td>{{ convertTime(record.time_in) }}</td>
+        
+        <td>{{ convertTime(record.time_out) }}</td>
+      </tr>
+    </ng-container>
+
+    <ng-container *ngIf="typeFilter == 'week'">
+      <tr *ngFor="let record of groupedByWeek[weekFilter]">
+        <td>
+          <span>{{ record.date }}</span>
+        </td>
+        
+        <td>{{ convertTime(record.time_in) }}</td>
+        
+        <td>{{ convertTime(record.time_out) }}</td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>
 
 
 

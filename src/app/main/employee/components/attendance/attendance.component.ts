@@ -5,6 +5,7 @@ import { DataService } from '../../../../services/data/data.service';
 import { UploadProofComponent } from './upload-proof/upload-proof.component';
 import { ProofHistoryComponent } from './proof-history/proof-history.component';
 import { EmployeeService } from '../../../../services/employee/employee.service';
+import { DatePipe } from '@angular/common';
 
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -17,7 +18,7 @@ import 'jspdf-autotable';
 export class AttendanceComponent implements OnInit {
 
   constructor(
-    private dialog: MatDialog,
+    private datePipe: DatePipe,
     private ds: DataService,
     private pop: PopupService,
     private es: EmployeeService,
@@ -42,6 +43,18 @@ export class AttendanceComponent implements OnInit {
   release_date: string = '';
   release_dates: any = [];
 
+  /* Kay Chaws */
+  groupedByWeek: any;
+  groupedByPeriod: any;
+  groupedByMonth: any;
+  periods: any;
+  weeks: any;
+  months: any;
+  weekFilter: any;
+  periodFilter: any;
+  monthFilter: any;
+  typeFilter: any;
+
   ngOnInit(): void {
     this.updateCurrentMonthYear();
     this.employee = this.es.getEmployee();
@@ -50,16 +63,16 @@ export class AttendanceComponent implements OnInit {
 
     this.ds.request('GET', 'employee/attendance').subscribe({
       next: (res: any) => {
-        this.attendance = res.data.attendance;
-        this.currentTimeIn = res.data.current.time_in;
-        this.currentTimeOut = res.data.current.time_out;
-
-        if (this.currentTimeIn) this.isTimedIn = true;
-        if (this.currentTimeOut) this.isTimedIn = false;
-
-        this.formatAttendanceData();
-        // this.setAttendanceProof();
-        this.updateCurrentMonthYear();
+        this.groupedByWeek = this.groupByWeek(res.data.attendance);
+        this.groupedByPeriod = this.groupByPeriod(res.data.attendance, res.data.payroll_periods);
+        this.groupedByMonth = this.groupByMonth(res.data.attendance);
+        this.weeks = Object.keys(this.groupedByWeek);
+        this.periods = Object.keys(this.groupedByPeriod);
+        this.months = Object.keys(this.groupedByMonth)
+        this.weekFilter = this.weeks[0];
+        this.periodFilter = this.periods[0];
+        this.monthFilter = this.months[0];
+        this.typeFilter = 'period';
       },
       error: (err: any) => {
         this.pop.swalBasic('error', this.pop.genericErrorTitle, err.error.message);
@@ -71,6 +84,63 @@ export class AttendanceComponent implements OnInit {
       setInterval(() => {
         this.updateDateTime();
       }, 1000);
+  }
+
+  convertTime(time: string): string {
+    if(time == '') return '-';
+    // Assuming the time is in the format 'HH:mm:ss'
+    const formattedTime = this.datePipe.transform(`1970-01-01T${time}`, 'h:mm a');
+    return formattedTime || time;  // Return formatted time or original if formatting fails
+  }
+
+  groupByWeek(records: any[]) {
+    return records.reduce((acc, record) => {
+      const date = new Date(record.date);
+      const startOfWeek = new Date(date);
+      startOfWeek.setDate(date.getDate() - (date.getDay() === 0 ? 6 : date.getDay() - 1)); // Monday start
+      const endOfWeek = new Date(startOfWeek);
+      endOfWeek.setDate(startOfWeek.getDate() + 6); // Sunday end
+  
+      const key = `${startOfWeek.toISOString().split('T')[0].replace(/-/g, '/')} to ${endOfWeek.toISOString().split('T')[0].replace(/-/g, '/')}`;
+  
+      (acc[key] = acc[key] || []).push(record);
+      return acc;
+    }, {} as Record<string, any[]>);
+  }
+
+  groupByMonth(records: any[]) {
+    return records.reduce((acc, record) => {
+      const date = new Date(record.date);
+  
+      // Extract the month and year as the key
+      const year = date.getFullYear();
+      const month = date.toLocaleString('default', { month: 'long' });
+      
+      const key = `${month} ${year}`;  // Format as 'YYYY/MM'
+  
+      // Group records by month
+      (acc[key] = acc[key] || []).push(record);
+  
+      return acc;
+    }, {} as Record<string, any[]>);
+  }
+  
+  groupByPeriod(records: any[], periods: any[]) {
+    return records.reduce((acc, record) => {
+      const recordDate = new Date(record.date);
+  
+      // Find the correct payroll period for the record
+      const period = periods.find(p =>
+        recordDate >= new Date(p.payday_start) && recordDate <= new Date(p.payday_end)
+      );
+  
+      if (period) {
+        const key = `${period.payday_start.replace(/-/g, '/')} to ${period.payday_end.replace(/-/g, '/')}`;
+        (acc[key] = acc[key] || []).push(record);
+      }
+  
+      return acc;
+    }, {} as Record<string, any[]>);
   }
 
   updateCurrentMonthYear() {
@@ -126,16 +196,16 @@ export class AttendanceComponent implements OnInit {
   }
 
   getData() {
-    this.ds.request('GET', 'admin/payrolls').subscribe({
+    this.ds.request('GET', 'employee/attendance').subscribe({
       next: (res: any) => {
-        this.columns = res.data.columns;
-        this.dateFilter = Object.keys(res.data.columns);
-        this.payrolls = res.data.payrolls;
-        this.filterValue = this.dateFilter[0];
-        this.release_dates = res.data.release_dates;
-        this.release_date = this.release_dates[this.filterValue];
+        // this.columns = res.data.columns;
+        // this.dateFilter = Object.keys(res.data.columns);
+        // this.payrolls = res.data.payrolls;
+        // this.filterValue = this.dateFilter[0];
+        // this.release_dates = res.data.release_dates;
+        // this.release_date = this.release_dates[this.filterValue];
 
-        this.changeData();
+        // this.changeData();
       },
       error: (err: any) => {
         this.pop.swalBasic('error', 'Oops! Cannot fetch payrolls!', this.pop.genericErrorMessage);

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Validators, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { DataService } from '../../../../services/data/data.service';
 import { PopupService } from '../../../../services/popup/popup.service';
-import { dateValidator, duplicateTypeSubtypeValidator } from '../../../../utils/custom-validators';
+import { dateValidator } from '../../../../utils/custom-validators';
 import { Router } from '@angular/router';
 
 @Component({
@@ -76,9 +76,50 @@ export class SettingsComponent {
   syncEEValues(): void {
     this.configFormsArray('SSS', 'ER').controls.forEach((erForm, i) => {
       const eeForm = this.configFormsArray('SSS', 'EE').at(i);
-      eeForm?.get('min_pay_range')?.setValue(erForm.get('min_pay_range')?.value);
-      eeForm?.get('max_pay_range')?.setValue(erForm.get('max_pay_range')?.value);
+      eeForm?.get('min_pay_range')?.patchValue(erForm.get('min_pay_range')?.value);
+      eeForm?.get('max_pay_range')?.patchValue(erForm.get('max_pay_range')?.value);
     });
+  }
+
+  rangePattern() {
+    let pattern: any = {
+      range: 0,
+      er: 0,
+      ee: 0
+    };
+
+    const sssForm = this.configForm.get('SSS') as FormGroup;
+    pattern.range = Number(sssForm.get('ER')?.get('1')?.get('max_pay_range')?.value) - Number(sssForm.get('ER')?.get('0')?.get('max_pay_range')?.value);
+    pattern.er = Number(sssForm.get('ER')?.get('1')?.get('amount')?.value) - Number(sssForm.get('ER')?.get('0')?.get('amount')?.value);
+    pattern.ee = Number(sssForm.get('EE')?.get('1')?.get('amount')?.value) - Number(sssForm.get('EE')?.get('0')?.get('amount')?.value);
+
+    for(let i = 2; i < (sssForm.get('ER') as FormArray).length; i++) {
+      let max_pay_range = (Number(sssForm.get('ER')?.get((i - 1).toString())?.get('max_pay_range')?.value) + pattern.range).toFixed(2);
+      if(i == (sssForm.get('ER') as FormArray).length - 1) {
+        max_pay_range = '';
+      }
+
+      if(i == 20) {
+        sssForm.get('ER')?.get(i.toString())?.patchValue({
+          min_pay_range: (Number(sssForm.get('ER')?.get((i - 1).toString())?.get('min_pay_range')?.value) + pattern.range).toFixed(2),
+          max_pay_range: max_pay_range
+        });
+      } else {
+        sssForm.get('ER')?.get(i.toString())?.patchValue({
+          min_pay_range: (Number(sssForm.get('ER')?.get((i - 1).toString())?.get('min_pay_range')?.value) + pattern.range).toFixed(2),
+          max_pay_range: max_pay_range,
+          amount: Number(sssForm.get('ER')?.get((i - 1).toString())?.get('amount')?.value) + pattern.er
+        });
+      }
+
+      sssForm.get('EE')?.get(i.toString())?.patchValue({
+        min_pay_range: (Number(sssForm.get('EE')?.get((i - 1).toString())?.get('min_pay_range')?.value) + pattern.range).toFixed(2),
+        max_pay_range: max_pay_range,
+        amount: Number(sssForm.get('EE')?.get((i - 1).toString())?.get('amount')?.value) + pattern.ee
+      })
+    }
+
+    sssForm.updateValueAndValidity();
   }
 
   duplicateInput(category: string, index: number) {
@@ -200,15 +241,21 @@ export class SettingsComponent {
     max_pay_range?: number,
     id?: number
   ) {
+    const isOver2 = this.configFormsArray('SSS', category).length >= 2;
+    const is20 = this.configFormsArray('SSS', category).length == 20;
+    const isER = category == 'ER';
+    
     this.configFormsArray('SSS', category).push(this.fb.group({
       formKey: [formKey],
       operation_type: [operation_type, [Validators.required, Validators.maxLength(20)]],
       type: [type, [Validators.required, Validators.maxLength(30)]],
-      min_pay_range: [min_pay_range, [Validators.required]],
-      max_pay_range: [max_pay_range, [Validators.required]],
-      amount: [amount, [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]],
+      min_pay_range: [{value: min_pay_range ?? '', disabled: isOver2}, [Validators.required]],
+      max_pay_range: [{value: max_pay_range ?? '', disabled: isOver2}, [Validators.required]],
+      amount: [{value: amount ?? '', disabled: (isOver2 && !isER) || !is20}, [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]],
       id: [id]
     }));
+
+    this.rangePattern();
   }
 
   addToHolidayForm(
@@ -267,7 +314,7 @@ export class SettingsComponent {
     }
 
     if(form?.valid) {
-      this.ds.request('POST', url, { form: form.value }).subscribe({
+      this.ds.request('POST', url, { form: form.getRawValue() }).subscribe({
         next: (res: any) => {
           this.pop.toastWithTimer('success', res.message);
         },

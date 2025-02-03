@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfigFormComponent as Dialog } from '../config-form/config-form.component';
-import { error } from 'console';
+import { IndivPayslipComponent } from '../../payroll/indiv-payslip/indiv-payslip.component';
 
 @Component({
   selector: 'app-payroll-forms',
@@ -32,8 +32,11 @@ export class PayrollFormsComponent implements OnInit{
   employee: any;
   hourlyRate: number = 0; grossPay: number = 0; totalDeductions: number = 0;
   isLoading = false; changedValues = false;
-  savedValue: any;
   basePay = 0;
+  date = {
+    payday_start: '',
+    payday_end: ''
+  };
 
   activeTable = -1; 
   hasActive = false; 
@@ -90,12 +93,11 @@ export class PayrollFormsComponent implements OnInit{
 
   getData() {
     const details = this.form.get('details');
-    const date = this.as.getPayday();
+    this.date = this.as.getPayday();
 
     this.ds.request('GET', 'admin/transactions/' + this.as.getPayday().payday_end + '/user/' + this.employee.id).subscribe({
       next: (res: any) => { 
-        if(res.data) { 
-          this.savedValue = res.data;
+        if(res.data) {
 
           res.data.forEach((element: any) => {
             if(element.category == 'allowance'
@@ -114,12 +116,12 @@ export class PayrollFormsComponent implements OnInit{
                   );
             }
           });
-          this.isLoading = false; 
         }
+        this.isLoading = false; 
 
         details.patchValue({
-          payday_start: date.payday_start,
-          payday_end: date.payday_end
+          payday_start: this.date.payday_start,
+          payday_end: this.date.payday_end
         });
       },
       error: (err: any) => { this.pop.toastWithTimer('error', err.error.message); }
@@ -210,50 +212,48 @@ export class PayrollFormsComponent implements OnInit{
     }
   }
   
-  getConfig() {
-    this.ds.request('GET', 'admin/periodic-transactions/user/' + this.employee.id).subscribe({
-      next: (res: any) => { 
-        this.periodicTransactions = res.data;
+  // getConfig() {
+  //   this.ds.request('GET', 'admin/periodic-transactions/user/' + this.employee.id).subscribe({
+  //     next: (res: any) => { 
+  //       this.periodicTransactions = res.data;
 
-        res.data.forEach((element: any) => {
-          if(element.category == 'deduction'
-             || element.category == 'allowance'
-             || element.category == 'other_deduction' 
-            ){
+  //       res.data.forEach((element: any) => {
+  //         if(element.category == 'deduction'
+  //            || element.category == 'allowance'
+  //            || element.category == 'other_deduction' 
+  //           ){
 
-            this.addToFormsArray(
-                  element.category, 
-                  'add',
-                  element.operation_type, 
-                  element.type, 
-                  element.subtype, 
-                  element.amount,
-                  element.id, 
-                );
-          }
-        });
-        this.isLoading = false; 
-      },
-      error: (err1: any) => { this.pop.toastWithTimer('error', err1.error.message); },
-      complete: () => { this.isLoading = false; }
-    });
-  }
+  //           this.addToFormsArray(
+  //                 element.category, 
+  //                 'add',
+  //                 element.operation_type, 
+  //                 element.type, 
+  //                 element.subtype, 
+  //                 element.amount,
+  //                 element.id, 
+  //               );
+  //         }
+  //       });
+  //       this.isLoading = false; 
+  //     },
+  //     error: (err1: any) => { this.pop.toastWithTimer('error', err1.error.message); },
+  //     complete: () => { this.isLoading = false; }
+  //   });
+  // }
 
   totalsListener() {
     this.form.valueChanges.subscribe((value: any) => {
       this.totalDeductions = 0; this.grossPay = 0;
-      if(this.savedValue != value) { this.changedValues = true; } 
-      else this.changedValues = false;
 
-      this.formsArray('deduction').value.forEach((element: any) => {
-        if(element.amount) {
-          if(element.operation_type == 'deduction') {
-            this.totalDeductions += parseInt(element.amount as string);
-          } else if(element.operation_type == 'percentage deduction') {
-            // this.totalDeductions += (parseInt(element.amount as string) * (parseInt(this.formsArray('base_pay').at(0).get('amount')?.value as string) / 100));
-          }
-        }
-      });
+      // this.formsArray('deduction').value.forEach((element: any) => {
+      //   if(element.amount) {
+      //     if(element.operation_type == 'deduction') {
+      //       this.totalDeductions += parseInt(element.amount as string);
+      //     } else if(element.operation_type == 'percentage deduction') {
+      //       // this.totalDeductions += (parseInt(element.amount as string) * (parseInt(this.formsArray('base_pay').at(0).get('amount')?.value as string) / 100));
+      //     }
+      //   }
+      // });
 
       this.formsArray('other_deduction').value.forEach((element: any) => {
         if(element.amount) {
@@ -262,6 +262,16 @@ export class PayrollFormsComponent implements OnInit{
       });
 
       this.formsArray('allowance').value.forEach((element: any) => {
+        if(element.amount)
+        this.grossPay += parseInt(element.amount as string);
+      });
+      
+      this.formsArray('adjustment_deductions').value.forEach((element: any) => {
+        if(element.amount)
+        this.grossPay += parseInt(element.amount as string);
+      });
+      
+      this.formsArray('adjustment_additions').value.forEach((element: any) => {
         if(element.amount)
         this.grossPay += parseInt(element.amount as string);
       });
@@ -313,97 +323,97 @@ export class PayrollFormsComponent implements OnInit{
     }
   }
 
-  async resetClick(type: string) {
-    switch(type) {
-      case 'default':
-        const reset1 = await this.pop.swalWithCancel(
-          'question', 
-          'Reset to defaults?',
-          'Are you sure you want to reset the forms to default values set in configuration? This action can\'t be undone!',
-          'Yes, reset to default',
-          'No, I take it back'
-        );
+  // async resetClick(type: string) {
+  //   switch(type) {
+  //     case 'default':
+  //       const reset1 = await this.pop.swalWithCancel(
+  //         'question', 
+  //         'Reset to defaults?',
+  //         'Are you sure you want to reset the forms to default values set in configuration? This action can\'t be undone!',
+  //         'Yes, reset to default',
+  //         'No, I take it back'
+  //       );
     
-        if(!reset1) return;
-        if(!this.periodicTransactions) this.getConfig();
-        this.resetToDefaults();
-        break;
+  //       if(!reset1) return;
+  //       if(!this.periodicTransactions) this.getConfig();
+  //       this.resetToDefaults();
+  //       break;
 
-      case 'saved':
-        const reset2 = await this.pop.swalWithCancel(
-          'question', 
-          'Reset to last saved?',
-          'Are you sure you want to reset the forms to last saved data? This action can\'t be undone!',
-          'Yes, reset values',
-          'No, I take it back'
-        );
+  //     case 'saved':
+  //       const reset2 = await this.pop.swalWithCancel(
+  //         'question', 
+  //         'Reset to last saved?',
+  //         'Are you sure you want to reset the forms to last saved data? This action can\'t be undone!',
+  //         'Yes, reset values',
+  //         'No, I take it back'
+  //       );
   
-        if(!reset2) return;
-        if(!this.savedValue) this.resetToDefaults()
-        this.resetToSaved();
-        break;
-    }
-  }
+  //       if(!reset2) return;
+  //       if(!this.savedValue) this.resetToDefaults()
+  //       this.resetToSaved();
+  //       break;
+  //   }
+  // }
 
-  resetToDefaults() {
-    this.formsArray('deduction').clear();
-    this.formsArray('other_deduction').clear();
-    this.formsArray('allowance').clear();
-    this.formsArray('adjustment_deductions').clear();
-    this.formsArray('adjustment_additions').clear();
+  // resetToDefaults() {
+  //   this.formsArray('deduction').clear();
+  //   this.formsArray('other_deduction').clear();
+  //   this.formsArray('allowance').clear();
+  //   this.formsArray('adjustment_deductions').clear();
+  //   this.formsArray('adjustment_additions').clear();
 
-    if(this.periodicTransactions) {
-      this.periodicTransactions.forEach((element: any) => {
+  //   if(this.periodicTransactions) {
+  //     this.periodicTransactions.forEach((element: any) => {
         
-        if(element.category == 'deduction'
-          || element.category == 'allowance'
-          || element.category == 'other_deduction'
-        ){
+  //       if(element.category == 'deduction'
+  //         || element.category == 'allowance'
+  //         || element.category == 'other_deduction'
+  //       ){
             
-          this.addToFormsArray(
-                element.category, 
-                'add',
-                element.operation_type, 
-                element.type, 
-                element.subtype, 
-                element.amount,
-                element.id, 
-              );
-        }
-      });
-    }
-  }
+  //         this.addToFormsArray(
+  //               element.category, 
+  //               'add',
+  //               element.operation_type, 
+  //               element.type, 
+  //               element.subtype, 
+  //               element.amount,
+  //               element.id, 
+  //             );
+  //       }
+  //     });
+  //   }
+  // }
 
-  resetToSaved() {
-    this.formsArray('deduction').clear();
-    this.formsArray('other_deduction').clear();
-    this.formsArray('allowance').clear();
-    this.formsArray('adjustment_deductions').clear();
-    this.formsArray('adjustment_additions').clear();
+  // resetToSaved() {
+  //   this.formsArray('deduction').clear();
+  //   this.formsArray('other_deduction').clear();
+  //   this.formsArray('allowance').clear();
+  //   this.formsArray('adjustment_deductions').clear();
+  //   this.formsArray('adjustment_additions').clear();
 
-    if(this.savedValue) {
-      this.savedValue.forEach((element: any) => {
+  //   if(this.savedValue) {
+  //     this.savedValue.forEach((element: any) => {
         
-        if(element.category == 'deduction'
-          || element.category == 'allowance'
-          || element.category == 'other_deduction' 
-          || element.category == 'adjustment_deductions' 
-          || element.category == 'adjustment_additions'
-        ){
+  //       if(element.category == 'deduction'
+  //         || element.category == 'allowance'
+  //         || element.category == 'other_deduction' 
+  //         || element.category == 'adjustment_deductions' 
+  //         || element.category == 'adjustment_additions'
+  //       ){
 
-          this.addToFormsArray(
-                element.category, 
-                'update',
-                element.operation_type, 
-                element.type, 
-                element.subtype, 
-                element.amount,
-                element.id, 
-              );
-        }
-      });
-    }
-  }
+  //         this.addToFormsArray(
+  //               element.category, 
+  //               'update',
+  //               element.operation_type, 
+  //               element.type, 
+  //               element.subtype, 
+  //               element.amount,
+  //               element.id, 
+  //             );
+  //       }
+  //     });
+  //   }
+  // }
 
   /* Error catching */
   invalidInputLabel(controlName: string) {
@@ -450,7 +460,6 @@ export class PayrollFormsComponent implements OnInit{
     if(this.form.valid) {
       this.ds.request('POST', 'admin/transactions/process/user/' + this.employee.id, { form: this.form.value }).subscribe({
         next: (res: any) => {
-          this.savedValue = res.data;
           this.pop.toastWithTimer('success', res.message);
 
           let employees = this.as.getEmployees();
@@ -491,7 +500,7 @@ export class PayrollFormsComponent implements OnInit{
 
       dialogRef.afterClosed().subscribe((res: any) => {
         this.periodicTransactions = res;
-        if(!this.savedValue) { this.resetToDefaults(); }
+        // if(!this.savedValue) { this.resetToDefaults(); }
       });
     }
   }
@@ -501,5 +510,16 @@ export class PayrollFormsComponent implements OnInit{
       .then(isConfirmed => {
         if (isConfirmed) this.router.navigate(['admin/payslips']);
       });
+  }
+
+  viewPayslip() {
+    if (this.dialog) {
+      this.dialog.open(IndivPayslipComponent, {
+        data: {
+          start: this.date.payday_start,
+          end: this.date.payday_end 
+        }
+      })
+    }
   }
 }

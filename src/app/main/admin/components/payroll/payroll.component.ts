@@ -8,12 +8,19 @@ import { saveAs } from 'file-saver';
 import { MatDialog } from '@angular/material/dialog';
 import { IndivPayslipComponent } from './indiv-payslip/indiv-payslip.component';
 import { PayrollSumComponent } from './payroll-sum/payroll-sum.component';
+import { UpdateComponent } from '../payslip/update/update.component';
+import { Router } from '@angular/router';
+
+interface PayrollSums {
+  [key: string]: number; // key is a string, value is a number
+}
 
 @Component({
   selector: 'app-payroll',
   templateUrl: './payroll.component.html',
   styleUrls: ['./payroll.component.scss']
 })
+
 export class PayrollComponent implements OnInit {
   fixedColumns = ['Employee ID', 'Name', 'Position', 'Rate'];
   payrolls: any = null;
@@ -24,15 +31,34 @@ export class PayrollComponent implements OnInit {
   selectedRow: any = null;
   release_date: string = '';
   release_dates: any = [];
+  curr_sums = {
+    net_pays: 0,       // Default value for net_pays
+    contributions: 0,      // Default value for contributions
+    expenses: 0        // Default value for expenses
+  };
+  sums = {
+    net_pays: {} as PayrollSums,
+    contributions: {} as PayrollSums,
+    expenses: {} as PayrollSums
+  };  
+
+  disabledInput = true;
+  date = {
+    payday_start: '',
+    payday_end: ''
+  };
 
   constructor(
     private dialog: MatDialog,
     private ds: DataService,
     private as: AdminService,
-    private pop: PopupService
+    private pop: PopupService,
+    private router: Router
   ) {  }
 
   ngOnInit(): void {
+    this.date = this.as.getPayday();
+    // this.syncPay();
     this.getData();
   }
 
@@ -41,14 +67,41 @@ export class PayrollComponent implements OnInit {
   }
 
   getData() {
+    this.ds.request('GET', 'admin/transactions/latest').subscribe({
+      next: (res: any) => {
+        this.date.payday_start = res.data.payday_start;
+        this.date.payday_end = res.data.payday_end;
+
+        this.disabledInput = res.data.released_at ? true : false;
+        this.as.setPayday(res.data);
+      },
+      error: (err: any) => {
+        this.pop.swalBasic('error', 'Oops! Cannot fetch payroll date', err.error.message);
+      }
+    })
+
     this.ds.request('GET', 'admin/payrolls').subscribe({
       next: (res: any) => {
         this.columns = res.data.columns;
         this.dateFilter = Object.keys(res.data.columns);
+
         this.payrolls = res.data.payrolls;
         this.filterValue = this.dateFilter[0];
+
         this.release_dates = res.data.release_dates;
         this.release_date = this.release_dates[this.filterValue];
+
+        this.sums = {
+          net_pays: res.data.total_net_pays,
+          contributions: res.data.total_contributions,
+          expenses: res.data.total_expenses
+        }
+
+        this.curr_sums = {
+          net_pays: res.data.total_net_pays[this.filterValue],
+          contributions: res.data.total_contributions[this.filterValue],
+          expenses: res.data.total_expenses[this.filterValue]
+        };
 
         this.changeData();
       },
@@ -61,6 +114,11 @@ export class PayrollComponent implements OnInit {
   changeData() {
     this.payroll = this.payrolls[this.filterValue]
     this.release_date = this.release_dates[this.filterValue]
+    this.curr_sums = {
+      net_pays: this.sums.net_pays[this.filterValue],
+      contributions: this.sums.contributions[this.filterValue],
+      expenses: this.sums.expenses[this.filterValue]
+    };
   }  
 
   release() {
@@ -87,6 +145,7 @@ export class PayrollComponent implements OnInit {
   });;
     
   }
+
   confirmSyncPay(): void {
     this.pop.swalWithCancel(
       'question', 
@@ -100,17 +159,27 @@ export class PayrollComponent implements OnInit {
   }
   
   syncPay(): void {
-    this.ds.request('POST', 'admin/payrolls/process/all/transaction').subscribe({
-      next: (res: any) => {
-        this.pop.toastWithTimer('success', res.message);
+    this.ds.request('POST', 'admin/payrolls/process/all/transaction').subscribe(
+      () => {
         this.getData();
-      },
-      error: (err: any) => {
-        this.pop.swalBasic('error', 'Oops!', err.error.message);
       }
-    })
-  } 
+    )
+  }   
+  
+  setupdate() {
+    if (this.dialog) {
+      const dialogRef = this.dialog.open(UpdateComponent);
 
+      dialogRef.afterClosed().subscribe(result => {
+        if(result) {
+          this.date = this.as.getPayday();
+          this.syncPay();
+        }
+      });
+    } else {
+      console.error('Dialog is not initialized');
+    }
+  }
   // EXCEL FILE 
   async generateReport(): Promise<void> {
     if (!this.payrolls || !this.filterValue) {
@@ -272,24 +341,30 @@ export class PayrollComponent implements OnInit {
     if(employee) {
       this.as.setEmployee(employee);
 
-      if (this.dialog) {
-          let [start, end] = this.filterValue.split(' - ');
-
-          this.dialog.open(IndivPayslipComponent, {
-            data: {
-              start: start.replaceAll('/', '-'),
-              end: end.replaceAll('/', '-') 
-            }
-          })
+      if(!this.release_date) {
+        this.router.navigate(['admin/payroll/form']);
       } else {
-        console.error('Dialog is not initialized');
+        if (this.dialog) {
+            let [start, end] = this.filterValue.split(' - ');
+  
+            this.dialog.open(IndivPayslipComponent, {
+              data: {
+                start: start.replaceAll('/', '-'),
+                end: end.replaceAll('/', '-') 
+              }
+            })
+        } else {
+          console.error('Dialog is not initialized');
+        }
       }
     }
   }
 
   openPayroll() {
     if (this.dialog) {
-      this.dialog.open(PayrollSumComponent);
+      this.dialog.open(PayrollSumComponent, {
+        data: this.payroll
+      } );
     } else {
       console.error('Dialog is not initialized');
     }

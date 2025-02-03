@@ -96,7 +96,7 @@ export class AdminComponent implements OnInit {
   }
 
   navigateToProfile(): void {
-    this.router.navigate(['/admin/profile']);
+    this.router.navigate(['/admin/settings/profile']);
   }
 
   getNotifications() {

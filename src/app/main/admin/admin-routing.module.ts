@@ -33,16 +33,22 @@ const routes: Routes = [
   },
   // { path: 'activity', component: ActivitylogsComponent}, 
   { path: 'attendance', component: AttendanceComponent }, 
-  {
-    path: 'payslips',
+  // {
+  //   path: 'payslips',
+  //   children: [
+  //     { path: '', component: PayslipComponent, pathMatch: 'full'}, 
+  //     { path: 'form', component: PayrollFormsComponent}, 
+  //     { path: 'payslip', component: PayslipFormComponent},
+  //   ]
+  // },
+  { path: 'payroll',
     children: [
-      { path: '', component: PayslipComponent, pathMatch: 'full'}, 
-      { path: 'form', component: PayrollFormsComponent}, 
-      { path: 'payslip', component: PayslipFormComponent},
+      { path: '', component: PayrollComponent, pathMatch: 'full' },
+      { path: 'form', component: PayrollFormsComponent, pathMatch: 'full' },
+      { path: 'payslip', component: PayslipFormComponent, pathMatch: 'full' },
       { path: 'payslips-history', component: PayslipHistoryComponent}
-    ]
+    ] 
   },
-  { path: 'payroll', component: PayrollComponent },
   { path: 'employees', component: EmployeeComponent}, 
   { path: 'request', component: RequestComponent},
   { path: 'announcements', component: AnnouncementsComponent }, 

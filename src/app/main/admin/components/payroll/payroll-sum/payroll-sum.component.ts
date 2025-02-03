@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DataService } from '../../../../../services/data/data.service';
 import { AdminService } from '../../../../../services/admin/admin.service';
 import { PopupService } from '../../../../../services/popup/popup.service';
@@ -13,48 +14,22 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class PayrollSumComponent implements OnInit {
   fixedColumns = ['Employee ID', 'Name', 'Position', 'Rate'];
-  payrolls: any = null;
-  payroll: any = null;
-  dateFilter: any = null;
-  filterValue = '';
+  // payrolls: any = null;
+  // payroll: any = null;
+  // dateFilter: any = null;
+  // filterValue = '';
   columns: any;
   selectedRow: any = null;
   isPopupVisible: boolean = true;
 
    constructor(
-    private dialogRef: MatDialogRef<PayrollSumComponent>, 
-    private dialog: MatDialog,
-    private ds: DataService,
+    private dialogRef: MatDialogRef<PayrollSumComponent>,
     private as: AdminService,
-    private pop: PopupService
+    @Inject(MAT_DIALOG_DATA) public payroll: any
   ) {  }
 
   ngOnInit(): void {
-    this.getData();
-  }
-
-  get employees() {
-    return this.as.getEmployees();
-  }
-
-  getData() {
-    this.ds.request('GET', 'admin/payrolls').subscribe({
-      next: (res: any) => {
-        this.columns = res.data.columns;
-        this.dateFilter = Object.keys(res.data.columns);
-        this.payrolls = res.data.payrolls;
-        this.filterValue = this.dateFilter[0];
-  
-        this.changeData();
-      },
-      error: (err: any) => {
-        this.pop.swalBasic('error', 'Oops! Cannot fetch payrolls!', this.pop.genericErrorMessage);
-      }
-    });
-  }
-  
-  changeData() {
-    this.payroll = this.payrolls[this.filterValue];
+    
   }
 
   closePopup(): void {

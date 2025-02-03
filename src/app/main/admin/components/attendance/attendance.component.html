@@ -31,6 +31,12 @@
                         <option *ngFor="let date of attendanceWeeks; let last = last;" [selected]="last">{{ date }}</option>
                     </select>
                 </div>
+                <!-- <div class="date-range-dropdown">
+                    <select [(ngModel)]="filterType" (change)="changeFilterType($event)">
+                        <option value="period"> By Payroll Period </option>
+                        <option value="weekly"> By Week </option>
+                    </select>
+                </div> -->
             
                 <!-- New Date Picker for Specific Date Filtering -->
                 <div class="date-picker">

@@ -33,7 +33,7 @@
                             </div>
             
                             <div class="information-case">
-                                <th> RATE/HOUR: </th>  
+                                <th> RATE/{{ employee.position == 'Instructor' ? 'HOUR' : 'DAY'}}: </th>  
                                 <td> {{ rate || 'N/A' }} </td> 
                             </div>
                         </div>
@@ -46,7 +46,7 @@
                         </div>
                     </div>
             
-                    <div *ngIf="noPayslip && !isLoading" class="no-payslip"> <!-- Lagay mo dito P kung wala ano didisplay hehe-->
+                    <div *ngIf="noPayslip && !isLoading" class="no-payslip">
                         No payslip available 
                     </div>
                     
@@ -61,18 +61,45 @@
                                             <th>Amount</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Regular Work Pay</td>
-                                            <td>{{ base_pay }}</td>
+                                    <tbody>                                
+                                        <tr *ngIf="!payslip.attendance">
+                                            <td> - </td>
+                                            <td> - </td>
                                         </tr>
-                                        <tr>
-                                            <td>Food Allowance</td>
-                                            <td>{{ total_additions }}</td>
+
+                                        <tr *ngFor="let type of payslip.attendance.types; let i = index;">
+                                            <td>{{ type }} {{ payslip.attendance.hours[i] }}</td>
+                                            <td>{{ payslip.attendance.amounts[i] }}</td>
                                         </tr>
+
+                                        <tr class="total-row">
+                                            <td><strong>Sub Total</strong></td>
+                                            <td><strong>₱ {{ totals.attendance | number: '1.2-2' }}</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <table>
+                                    <thead>
                                         <tr>
-                                            <td>Transportation</td>
-                                            <td>{{ total_additions }}</td>
+                                            <th>Other Earnings</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>                                
+                                        <tr *ngIf="!payslip.allowance.types.length">
+                                            <td> - </td>
+                                            <td> - </td>
+                                        </tr>
+
+                                        <tr *ngFor="let type of payslip.allowance.types; let i = index;">
+                                            <td>{{ type }}</td>
+                                            <td>{{ payslip.allowance.amounts[i] }}</td>
+                                        </tr>
+
+                                        <tr class="total-row">
+                                            <td><strong>Sub Total</strong></td>
+                                            <td><strong>₱ {{ totals.other_earnings | number: '1.2-2' }}</strong></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -86,12 +113,17 @@
                                             <th>Amount</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>SSS Provident Fund EE</td>
-                                            <td>{{ total_deductions }}</td>
+                                    <tbody>                                
+                                        <tr *ngIf="!payslip.deduction.types.length">
+                                            <td> - </td>
+                                            <td> - </td>
                                         </tr>
-                                        <tr>
+
+                                        <tr *ngFor="let type of payslip.deduction.types; let i = index;">
+                                            <td>{{ type }}</td>
+                                            <td>{{ payslip.deduction.amounts[i] }}</td>
+                                        </tr>
+                                        <!-- <tr>
                                             <td>SSS Prem Payable-EE</td>
                                             <td>{{ total_deductions }}</td>
                                         </tr>
@@ -102,15 +134,15 @@
                                         <tr>
                                             <td>HDMF Prem Payable-EE</td>
                                             <td>{{ total_deductions }}</td>
-                                        </tr>
+                                        </tr> -->
                                         <tr class="total-row">
                                             <td><strong>Sub Total</strong></td>
-                                            <td><strong>{{ total_deductions }}</strong></td>
+                                            <td><strong>₱ {{ totals.deductions | number: '1.2-2' }}</strong></td>
                                         </tr>
                                     </tbody>
                                 </table>
                         
-                                <table>
+                                <!-- <table>
                                     <thead>
                                         <tr>
                                             <th>Loan Type</th>
@@ -131,7 +163,7 @@
                                             <td><strong>{{ total_deductions }}</strong></td>
                                         </tr>
                                     </tbody>
-                                </table>
+                                </table> -->
                         
                                 <table>
                                     <thead>
@@ -140,18 +172,27 @@
                                             <th>Amount</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
+                                    <tbody>                                       
+                                        <tr *ngIf="!payslip.other_deduction.types.length">
+                                            <td> - </td>
+                                            <td> - </td>
+                                        </tr>
+
+                                        <tr *ngFor="let type of payslip.other_deduction.types; let i = index;">
+                                            <td>{{ type }}</td>
+                                            <td>{{ payslip.other_deduction.amounts[i] }}</td>
+                                        </tr>
+                                        <!-- <tr>
                                             <td>Sample Deductions 1</td>
                                             <td>{{ total_deductions }}</td>
                                         </tr>
                                         <tr>
                                             <td>Sample Deductions 2</td>
                                             <td>{{ total_deductions }}</td>
-                                        </tr>
+                                        </tr> -->
                                         <tr class="total-row">
                                             <td><strong>Sub Total</strong></td>
-                                            <td><strong>{{ total_deductions }}</strong></td>
+                                            <td><strong>₱ {{ totals.other_deductions | number: '1.2-2' }}</strong></td>
                                         </tr>
                                     </tbody>
                                 </table>    
@@ -164,18 +205,28 @@
                             <table class="pay-row-table">
                                 <tr class="pay-row">
                                     <td><strong>Gross Pay</strong></td>
-                                    <td><strong>{{ gross_pay }}</strong></td>
+                                    <td><strong>₱ {{ totals.gross | number: '1.2-2' }}</strong></td>
                                 </tr>
                             </table>
                         
                             <table class="total-deduc-table">
                                 <tr class="total-deduc">
                                     <td><strong>Total Deductions</strong></td>
-                                    <td><strong>{{ total_deductions }}</strong></td>
+                                    <td><strong>₱ {{ totals.total_deductions | number: '1.2-2' }}</strong></td>
                                 </tr>
                             </table>
                         </div>
-                    </div>
+                        <div class="totals-wrapper">
+                            <table class="pay-row-table">
+                            </table>
+                            <table class="pay-row-table">
+                                <tr class="pay-row">
+                                    <td><strong>Net Pay</strong></td>
+                                    <td><strong>₱ {{ totals.net_pay | number: '1.2-2' }}</strong></td>
+                                </tr>
+                            </table>
+                        </div>
+                </div>
                 </ng-container>                
             </div>
         </div>

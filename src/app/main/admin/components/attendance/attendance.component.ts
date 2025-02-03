@@ -36,14 +36,13 @@ export class AttendanceComponent implements OnInit {
   dataSource: any;
   dates: any = [];
   dayNames = [ 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun' ];
+  filterType = "period";
 
   dateRanges: string[] = [];
   selectedDateRange: string = '';
 
   constructor(
     private dialog: MatDialog,
-    private paginatorIntl: MatPaginatorIntl,
-    private changeDetectorRef: ChangeDetectorRef,
     private ds: DataService,
     private as: AdminService,
     private pop: PopupService
@@ -60,6 +59,9 @@ export class AttendanceComponent implements OnInit {
     user_id: '',
     status: ''
   };
+  groupedRecordsByWeek: any;
+  groupedRecordsByPeriod: any;
+  payrollPeriods: any;
 
   get employees() {
     return this.as.getEmployees();
@@ -69,25 +71,89 @@ export class AttendanceComponent implements OnInit {
     this.defaultRecord.user_id = data;
   }
 
+  groupByWeek(records: any[]) {
+    return records.reduce((acc, record) => {
+      const date = new Date(record.date);
+  
+      // Calculate the start of the week (Monday)
+      const startOfWeek = new Date(date);
+      startOfWeek.setDate(date.getDate() - (date.getDay() === 0 ? 6 : date.getDay() - 1)); // Adjust for Monday start
+  
+      // Calculate the end of the week (Sunday)
+      const endOfWeek = new Date(startOfWeek);
+      endOfWeek.setDate(startOfWeek.getDate() + 6);
+  
+      // Format the key as "YYYY-MM-DD to YYYY-MM-DD"
+      const weekKey = `${startOfWeek.toISOString().split('T')[0]} to ${endOfWeek.toISOString().split('T')[0]}`;
+  
+      // Initialize the weekly group if it doesn't exist
+      if (!acc[weekKey]) {
+        acc[weekKey] = {};
+      }
+  
+      // Initialize the user group inside the week if it doesn't exist
+      if (!acc[weekKey][record.user_id]) {
+        acc[weekKey][record.user_id] = [];
+      }
+  
+      // Push the record to the respective user inside the week group
+      acc[weekKey][record.user_id].push(record);
+  
+      return acc;
+    }, {} as Record<string, Record<number, any[]>>);
+  }  
+
+  groupByPeriod(records: any[], periods: any[]) {
+    return records.reduce((acc, record) => {
+      const recordDate = new Date(record.date);
+  
+      // Find the payroll period the record belongs to
+      const period = periods.find(p =>
+        recordDate >= new Date(p.payday_start) && recordDate <= new Date(p.payday_end)
+      );
+  
+      if (period) {
+        const periodKey = `${period.payday_start} to ${period.payday_end}`;
+  
+        // Initialize the period group if it doesn't exist
+        if (!acc[periodKey]) {
+          acc[periodKey] = {};
+        }
+  
+        // Initialize the user group if it doesn't exist
+        if (!acc[periodKey][record.user_id]) {
+          acc[periodKey][record.user_id] = [];
+        }
+  
+        // Push the record into the appropriate group
+        acc[periodKey][record.user_id].push(record);
+      }
+  
+      return acc;
+    }, {} as Record<string, Record<number, any[]>>);
+  }  
+  
   ngOnInit(): void {    
     this.isLoading = true;
     this.ds.request('GET', 'admin/attendance').subscribe({
       next: (res: any) => {
-        this.attendance = res.data.records;
-        this.attendanceWeeks = Object.keys(this.attendance);
-        this.generateDateRange(this.attendanceWeeks[0]);
-        this.formatData(this.attendance[this.attendanceWeeks[0]]);
+        this.groupedRecordsByWeek = this.groupByWeek(res.data.attendance)
+        this.groupedRecordsByPeriod = this.groupByPeriod(res.data.attendance, res.data.payroll_periods);
+        // this.attendance = res.data.records;
+        // this.attendanceWeeks = Object.keys(this.attendance);
+        // this.generateDateRange(this.attendanceWeeks[0]);
+        // this.formatData(this.attendance[this.attendanceWeeks[0]]);
 
-        this.current = res.data.currentDay;
+        // this.current = res.data.currentDay;
 
-        this.selectedDateRange = this.attendanceWeeks[0];
+        // this.selectedDateRange = this.attendanceWeeks[0];
       },
       error: (err: any) => {
 
       },
       complete: () => { this.isLoading = false; }
     });
-  }  
+  }
 
   filterByDate(): void {
     if (!this.selectedDate) {

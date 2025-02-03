@@ -14,9 +14,9 @@
                 <ng-container *ngIf="i > 0">
                   <td
                     *ngFor="let data of row; let j = index"
-                    [ngClass]="{ 'invalid-fld': data === 'N/A' }"
+                    [ngClass]="{ 'invalid-fld': data === ' - ' }"
                   >
-                    {{ data || 'N/A' }}
+                    {{ data || ' - ' }}
                   </td>
                 </ng-container>
               </tr>

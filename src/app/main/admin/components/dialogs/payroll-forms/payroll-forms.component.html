@@ -67,13 +67,14 @@
                     <div class="input-row1">
                         <div class="entryarea1">
                             <input type="text" name="per_hour" [value]="hourlyRate" disabled>
-                            <div class="labelline1"> Rate (hour) </div>
+                            <div class="labelline1" *ngIf="employee.position == 'Instructor'"> Rate (hourly) </div>
+                            <div class="labelline1" *ngIf="employee.position != 'Instructor'"> Rate (daily) </div>
                         </div>
 
-                        <div class="entryarea1">
+                        <!-- <div class="entryarea1">
                             <input type="text" name="per_day" [value]="hourlyRate * 8" disabled>
                             <div class="labelline1"> Rate (day) </div>
-                        </div>
+                        </div> -->
 
                         <!-- <div class="entryarea1"> -->
                             <!-- Access the 'amount' form control at index 0 in 'base_pay' FormArray -->
@@ -109,13 +110,19 @@
                             <div class="labelline2"> Received by </div>
                         </div>
                     </div>
+
+                    <div class="input-row1">
+                        <div class="entryarea2">
+                            <button type="button" (click)="viewPayslip()"> View Current Payslip </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
 
             <!-- FORMS ARRAY -->
             <!-- <form formArrayName="deduction"> -->
-                <div class="input-row">
+                <!-- <div class="input-row">
                     <div class="container-deduction" [ngClass]="{'expanded': hasActive}">
                         <div class="container-head1"> 
                             Deduction
@@ -139,14 +146,6 @@
                                         <div class="display"> {{ control.get('subtype')?.value }} </div>
                                         <div class="labelline4"> Sub Type </div>
                                     </div>
-
-                                    <!-- <div class="entryarea4">
-                                        <select formControlName="operation_type">
-                                            <option value="deduction"> - </option>
-                                            <option value="percentage deduction"> % </option>
-                                        </select>
-                                        <div class="labelline4"> Operation </div>
-                                    </div> -->
             
                                     <div class="entryarea4">
                                         <input type="text" formControlName="amount"
@@ -158,7 +157,7 @@
                         </div>
 
                     </div>
-                </div>
+                </div> -->
             <!-- </form> -->
             <!-- </form> -->
 

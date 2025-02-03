@@ -28,8 +28,19 @@ export class PayslipsComponent implements OnInit{
   values: any = [];
   employee: any;
   payslips: any = [];
-  payslipDetails: any = [];
-  
+  payslipDetails: any = []; 
+  noPayslip = false;
+  payslip: any;
+  totals = {
+    attendance: 0,
+    other_earnings: 0,
+    gross: 0,
+
+    deductions: 0,
+    other_deductions: 0,
+    total_deductions: 0,
+    net_pay: 0
+  };
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -41,49 +52,40 @@ export class PayslipsComponent implements OnInit{
 
     this.ds.request('GET', 'employee/payslips/latest').subscribe({
       next: (res: any) => {
-        this.payday_start     = res.data.payday_start;
-        this.payday_end       = res.data.payday_end;
-        this.base_pay         = res.data.base_pay;
-        this.adjusted_pay     = res.data.adjusted_pay;
-        this.total_additions  = res.data.total_additions;
-        this.total_deductions = res.data.total_deductions;
-        this.gross_pay        = res.data.gross_pay;
-        this.net_pay          = res.data.net_pay;
-        this.rate      = res.data.rate;
-        
-        let longest = res.data.payslip.attendance.types.length;
-        const payslip = res.data.payslip;
-        if(longest < payslip.allowance.types.length) longest = payslip.allowance.types.length;
-        if(longest < payslip.deduction.types.length + payslip.other_deduction.types.length) longest = payslip.deduction.types.length + payslip.other_deduction.types.length;
+        if(!res.data) { this.noPayslip = true; return; }
 
-        for(let i = 0; i < longest; i ++) {
-          let col1 = payslip.attendance.types[i]   || '';
-          let col2 = payslip.attendance.hours[i]   || '';
-          let col3 = payslip.attendance.amounts[i] || '';
-          let col4 = payslip.allowance.types[i]    || '';
-          let col5 = payslip.allowance.amounts[i]  || '';
-          let col6 = payslip.deduction.types[i]    || '';
-          let col7 = payslip.deduction.amounts[i]  || '';
-
-          /* For other deductions */
-          if(i >= payslip.deduction.types.length) {   
-            
-            let index = i - payslip.deduction.types.length;
-            if(index < payslip.other_deduction.types.length) {
-              col6 = payslip.other_deduction.types[index]    || '';
-              col7 = payslip.other_deduction.amounts[index]  || '';
-            }    
-          }
-
-          /* Append subtypes */
-          if(payslip.allowance.subtypes[i])
-            col4 += ' ' + payslip.allowance.subtypes[i];
-
-          if(payslip.deduction.subtypes[i])
-            col6 += ' ' + payslip.deduction.subtypes[i];
-          
-          this.values.push([col1, col2, col3, col4, col5, col6, col7]);
-        }
+        this.payslip = res.data.payslip;
+        this.rate = res.data.rate;
+        this.payday_start = res.data.payday_start;
+        this.payday_end = res.data.payday_end;
+ 
+        for(let i = 0; i < this.payslip.attendance.types.length; i++) {
+           const amount = parseFloat(this.payslip.attendance.amounts[i].replace(/[^\d.-]/g, ''));
+           this.totals.attendance += amount;
+           this.totals.gross += amount;
+           this.totals.net_pay += amount;
+         }
+         
+         for(let i = 0; i < this.payslip.allowance.types.length; i++) {
+           const amount = parseFloat(this.payslip.allowance.amounts[i].replace(/[^\d.-]/g, ''));
+           this.totals.other_earnings += amount;
+           this.totals.gross += amount;
+           this.totals.net_pay += amount;
+         };
+ 
+         for(let i = 0; i < this.payslip.deduction.types.length; i++) {
+           const amount = parseFloat(this.payslip.deduction.amounts[i].replace(/[^\d.-]/g, ''));
+           this.totals.deductions += amount;
+           this.totals.total_deductions += amount;
+           this.totals.net_pay -= amount;
+         };
+ 
+         for(let i = 0; i < this.payslip.other_deduction.types.length; i++) {
+           const amount = parseFloat(this.payslip.other_deduction.amounts[i].replace(/[^\d.-]/g, ''));
+           this.totals.other_deductions += amount;
+           this.totals.total_deductions += amount;
+           this.totals.net_pay -= amount;
+         };
       },
       error: (err: any) => {
         this.pop.swalBasic('error', 'Oops!', err.error.message)

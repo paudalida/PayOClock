@@ -18,9 +18,10 @@ export class RequestFormComponent implements OnInit {
   employee: any;
   files: any;
   selectedFiles: any[] = [];
+  inputValue = '';
   allTypes: any = {
-    paid: ['Sick Leave', 'Vacation Leave', 'Maternal Leave', 'Bereavement Leave'],
-    unpaid: ['Personal Leave', 'Study Leave', 'Unpaid Sick Leave']
+    paid: ['Sick Leave', 'Vacation Leave', 'Maternal Leave', 'Bereavement Leave', 'Other'],
+    unpaid: ['Personal Leave', 'Study Leave', 'Unpaid Sick Leave', 'Other']
   };
   types: any = [];
   leaveTypes: any = ['Paid Leave', 'Unpaid Leave'];
@@ -42,7 +43,7 @@ export class RequestFormComponent implements OnInit {
 
     /* Initialize types array */
     if(this.formType == 'leave') {
-      this.types = [ 'Sick Leave', 'Vacation leave', 'Maternal leave', 'Bereavement leave' ];
+      this.types = [ 'Sick Leave', 'Vacation leave', 'Maternal leave', 'Bereavement leave', 'Other'];
     } else if(this.formType == 'overtime') {
       this.types = [ 'Overtime' ];
     }
@@ -73,7 +74,6 @@ export class RequestFormComponent implements OnInit {
         files: [''] 
       });
       this.setupLeaveTypeWatcher();
-
     }
   
     this.updateFormValidators();
@@ -91,6 +91,17 @@ export class RequestFormComponent implements OnInit {
   loadUserData(): void {
     const userData = {
     };
+  }
+
+  updateType() {
+    if(this.formType !== 'leave') {
+      if(this.inputValue !== 'Other')
+      this.form.patchValue({
+        type: this.inputValue
+      });
+
+      this.form.updateValueAndValidity();
+    }
   }
 
   setupLeaveTypeWatcher(): void {

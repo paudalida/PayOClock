@@ -35,7 +35,7 @@
                                             <i [ngClass]="expandedTable ? 'bx bx-collapse' : 'bx bx-expand'"></i>
                                         </div>
                                     
-                                        <button class="btn-primary add" type="button" (click)="addToConfigForm('ER', 'add', 'deduction', 'SSS EE Share'); addToConfigForm('EE', 'add', 'deduction', 'SSS EE Share');"> Add </button>
+                                        <!-- <button class="btn-primary add" type="button" (click)="addToConfigForm('ER', 'add', 'deduction', 'SSS ER Share'); addToConfigForm('EE', 'add', 'deduction', 'SSS EE Share');"> Add </button> -->
                                     </div>
 
                                     <div class="side-side" *ngIf="expandedTable">
@@ -49,17 +49,17 @@
                                                         <ng-container formGroupName="ER">
                                                             <ng-container [formGroupName]="i">
                                                                 <div class="entryarea">
-                                                                    <input type="text" formControlName="min_pay_range">
+                                                                    <input type="text" formControlName="min_pay_range" (change)="rangePattern()">
                                                                     <div class="labelline"> Min </div>
                                                                 </div>
             
                                                                 <div class="entryarea">
-                                                                    <input type="text" formControlName="max_pay_range">
+                                                                    <input type="text" formControlName="max_pay_range" (change)="rangePattern()">
                                                                     <div class="labelline"> Max </div>
                                                                 </div>
             
                                                                 <div class="entryarea">
-                                                                    <input type="text" formControlName="amount">
+                                                                    <input type="text" formControlName="amount" (change)="rangePattern()">
                                                                     <div class="labelline"> ER Share </div>
                                                                 </div>
                                                             </ng-container>
@@ -68,7 +68,7 @@
                                                         <ng-container formGroupName="EE">
                                                             <ng-container [formGroupName]="i">
                                                                 <div class="entryarea">                                                     
-                                                                    <input type="text" formControlName="amount">
+                                                                    <input type="text" formControlName="amount" (change)="rangePattern()">
                                                                     <div class="labelline"> EE Share </div>
                                                                 </div>
                                                             </ng-container>
