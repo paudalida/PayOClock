@@ -54,38 +54,40 @@
             <app-spinner></app-spinner>
         </div>
 
-        <table class="attendance-table" *ngIf="!isLoading">
-            <thead>
-                <tr>
-                <!-- Dynamically render table headers -->
-                    <th> NAME </th>
-                    <th *ngFor="let header of columns" class="day-column">{{ header | uppercase }}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Loop through records and display data -->
-                <tr *ngFor="let employee of employees;">
-                    <td>{{ employee.full_name }}</td>
-                    <ng-container *ngFor="let day of columns">
-                      <!-- Check if there's at least one record for this employee on that day -->
-                      <ng-container *ngIf="getRecordForDay(employee.id, day); else noRecord">
-                        <ng-container *ngFor="let record of groupedRecordsByDay[day]">
-                          <!-- Show record if employee.id matches or record has no user_id -->
-                          <td *ngIf="employee.id == record.user_id || !record.user_id" class="status-present" (click)="openAttendanceDetail(employee.id, day, record)">
-                            <!-- If time_in or time_out is missing, display fallback -->
-                            <span *ngIf="record.time_in;">{{ convertTime(record.time_in) }} </span>
-                            <span *ngIf="record.time_out;"><hr>{{ convertTime(record.time_out) }}</span>
-                          </td>
-                        </ng-container>
-                      </ng-container>
+        <div class="attendance-content"> 
+            <table class="attendance-table" *ngIf="!isLoading">
+                <thead>
+                    <tr>
+                    <!-- Dynamically render table headers -->
+                        <th> Employee Name </th>
+                        <th *ngFor="let header of columns" class="day-column">{{ header | uppercase }}</th>
+                    </tr>
+                </thead>    
+                <tbody>
+                    <!-- Loop through records and display data -->
+                    <tr *ngFor="let employee of employees;">
+                        <td>{{ employee.full_name }}</td>
+                        <ng-container *ngFor="let day of columns">
+                          <!-- Check if there's at least one record for this employee on that day -->
+                          <ng-container *ngIf="getRecordForDay(employee.id, day); else noRecord">
+                            <ng-container *ngFor="let record of groupedRecordsByDay[day]">
+                              <!-- Show record if employee.id matches or record has no user_id -->
+                              <td *ngIf="employee.id == record.user_id || !record.user_id" class="status-present" (click)="openAttendanceDetail(employee.id, day, record)">
+                                <!-- If time_in or time_out is missing, display fallback -->
+                                <span *ngIf="record.time_in;">{{ convertTime(record.time_in) }} </span>
+                                <span *ngIf="record.time_out;"><hr>{{ convertTime(record.time_out) }}</span>
+                              </td>
+                            </ng-container>
+                          </ng-container>
+                          
+                          <ng-template #noRecord>
+                            <td class="status-absent" (click)="openAttendanceDetail(employee.id, day)"></td>
+                          </ng-template>
+                        </ng-container>                    
+                      </tr>
                       
-                      <ng-template #noRecord>
-                        <td class="status-absent" (click)="openAttendanceDetail(employee.id, day)"></td>
-                      </ng-template>
-                    </ng-container>                    
-                  </tr>
-                  
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

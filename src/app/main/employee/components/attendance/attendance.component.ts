@@ -2,10 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupService } from '../../../../services/popup/popup.service';
 import { DataService } from '../../../../services/data/data.service';
-import { UploadProofComponent } from './upload-proof/upload-proof.component';
-import { ProofHistoryComponent } from './proof-history/proof-history.component';
 import { EmployeeService } from '../../../../services/employee/employee.service';
-import { DatePipe } from '@angular/common';
 import { DatePipe } from '@angular/common';
 
 import jsPDF from 'jspdf';
