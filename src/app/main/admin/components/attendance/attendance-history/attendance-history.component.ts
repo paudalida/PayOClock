@@ -5,6 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { AdminService } from '../../../../../services/admin/admin.service';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -14,135 +15,133 @@ import 'jspdf-autotable';
   templateUrl: './attendance-history.component.html',
   styleUrls: ['./attendance-history.component.scss']
 })
-export class AttendanceHistoryComponent {
+export class AttendanceHistoryComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;  
 
   employee: any;
-  dataSource: any;
-  dtrRecords: any[] = [];
   attendance: any;
   dates: any = [];
-  defaultRecord = {
-    user_id: '',
-    status: ''
-  };
-  attendanceWeeks: any;
-  selectedDateRange: string = '';
+  groupedByWeek: any;
+  groupedByPeriod: any;
+  groupedByMonth: any;
+  periods: any;
+  weeks: any;
+  months: any;
+  weekFilter: any;
+  periodFilter: any;
+  monthFilter: any;
+  typeFilter: any;
+  dataSource: any = [];
 
   get employees() {
     return this.as.getEmployees();
   }
 
   constructor(
+    private datePipe: DatePipe,
     private as: AdminService,
     private router: Router,
     public dialogRef: MatDialogRef<AttendanceHistoryComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.employee = data.employee;
-    this.prepareDTRRecords();
+    this.attendance = data.attendance;
   }
 
-  prepareDTRRecords() {
-    this.dtrRecords = [
-      { day: 'Monday', date: this.employee.mon.date, status: this.employee.mon.status, time_in: this.employee.mon.time_in, time_out: this.employee.mon.time_out },
-      { day: 'Tuesday', date: this.employee.tue.date, status: this.employee.tue.status, time_in: this.employee.tue.time_in, time_out: this.employee.tue.time_out },
-      { day: 'Wednesday', date: this.employee.wed.date, status: this.employee.wed.status, time_in: this.employee.wed.time_in, time_out: this.employee.wed.time_out },
-      { day: 'Thursday', date: this.employee.thu.date, status: this.employee.thu.status, time_in: this.employee.thu.time_in, time_out: this.employee.thu.time_out },
-      { day: 'Friday', date: this.employee.fri.date, status: this.employee.fri.status, time_in: this.employee.fri.time_in, time_out: this.employee.fri.time_out },
-      { day: 'Saturday', date: this.employee.sat.date, status: this.employee.sat.status, time_in: this.employee.sat.time_in, time_out: this.employee.sat.time_out },
-      { day: 'Sunday', date: this.employee.sun.date, status: this.employee.sun.status, time_in: this.employee.sun.time_in, time_out: this.employee.sun.time_out }
-    ];
-  }
+  colWithoutName = ['fullDate', 'timeIn', 'timeOut'];
+  colWithName = ['name', 'fullDate', 'timeIn', 'timeOut'];
+  displayedColumns: any = [];
 
-    formatData(data: any) {
-      let records: any = [];
-      this.employees.forEach((element: any) => {
-        records.push(
-          {
-            id: element.id,
-            name: element.full_name,
-            mon: this.defaultRecord,
-            tue: this.defaultRecord,
-            wed: this.defaultRecord,
-            thu: this.defaultRecord,
-            fri: this.defaultRecord,
-            sat: this.defaultRecord, 
-            sun: this.defaultRecord
-          }
-        );
-      });
-  
-      data.forEach((element: any) => {
-        let foundRecord = records.find((record: any) => record.id === element.user_id);
-        foundRecord.user_id = element.user_id;
-  
-        switch(element.day) {
-          case 'Monday':
-            foundRecord.mon = element;
-            break;
-  
-          case 'Tuesday':
-            foundRecord.tue = element;
-            break;
-  
-          case 'Wednesday':
-            foundRecord.wed = element;
-            break;
-  
-          case 'Thursday':
-            foundRecord.thu = element;
-            break;
-  
-          case 'Friday':
-            foundRecord.fri = element;
-            break;
-  
-          case 'Saturday':
-            foundRecord.sat = element;
-            break;
-  
-          case 'Sunday' :
-            foundRecord.sun = element;
-        }
-      });
-  
-      this.dataSource = new MatTableDataSource(records);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+  ngOnInit(): void {
+    if(this.data.employee) {
+      this.displayedColumns = this.colWithoutName;
+      
+      this.groupedByWeek = this.groupByWeek(this.data.attendance);
+      this.groupedByPeriod = this.groupByPeriod(this.data.attendance, this.data.periods);
+      this.groupedByMonth = this.groupByMonth(this.data.attendance);
+      this.weeks = Object.keys(this.groupedByWeek);
+      this.periods = Object.keys(this.groupedByPeriod);
+      this.months = Object.keys(this.groupedByMonth)
+      this.weekFilter = this.weeks[0];
+      this.periodFilter = this.periods[0];
+      this.monthFilter = this.months[0];
+      this.typeFilter = 'period';
+
+      this.dataSource = this.groupedByPeriod[this.periodFilter];
     }
-    
-    generateDateRange(key: string) {
-      const [start, end] = key.split(' - ').map(date => new Date(date));
-      const dates: string[] = [];
+    else {
+      this.displayedColumns = this.colWithName;
+      this.dataSource = this.data.attendance;
+    }
+  }
+
+  changedFilter() {
+    if(this.typeFilter == 'period') {
+      this.dataSource = this.groupedByPeriod[this.periodFilter];
+    } else if(this.typeFilter == 'month') {
+      this.dataSource = this.groupedByMonth[this.monthFilter];
+    } else if(this.typeFilter == 'week') {
+      this.dataSource = this.groupedByWeek[this.weekFilter];
+    }
+  }
+
+  groupByWeek(records: any[]) {
+    return records.reduce((acc, record) => {
+      const date = new Date(record.date);
+      const startOfWeek = new Date(date);
+      startOfWeek.setDate(date.getDate() - (date.getDay() === 0 ? 6 : date.getDay() - 1)); // Monday start
+      const endOfWeek = new Date(startOfWeek);
+      endOfWeek.setDate(startOfWeek.getDate() + 6); // Sunday end
   
-      for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-        const month = String(d.getMonth() + 1).padStart(2, '0');
-        const day = String(d.getDate()).padStart(2, '0');
-        const year = d.getFullYear();
+      const key = `${startOfWeek.toISOString().split('T')[0].replace(/-/g, '/')} to ${endOfWeek.toISOString().split('T')[0].replace(/-/g, '/')}`;
   
-        dates.push(`${year}-${month}-${day}`);
+      (acc[key] = acc[key] || []).push(record);
+      return acc;
+    }, {} as Record<string, any[]>);
+  }
+
+  groupByMonth(records: any[]) {
+    return records.reduce((acc, record) => {
+      const date = new Date(record.date);
+  
+      // Extract the month and year as the key
+      const year = date.getFullYear();
+      const month = date.toLocaleString('default', { month: 'long' });
+      
+      const key = `${month} ${year}`;  // Format as 'YYYY/MM'
+  
+      // Group records by month
+      (acc[key] = acc[key] || []).push(record);
+  
+      return acc;
+    }, {} as Record<string, any[]>);
+  }
+  
+  groupByPeriod(records: any[], periods: any[]) {
+    return records.reduce((acc, record) => {
+      const recordDate = new Date(record.date);
+  
+      // Find the correct payroll period for the record
+      const period = periods.find(p =>
+        recordDate >= new Date(p.payday_start) && recordDate <= new Date(p.payday_end)
+      );
+  
+      if (period) {
+        const key = `${period.payday_start.replace(/-/g, '/')} to ${period.payday_end.replace(/-/g, '/')}`;
+        (acc[key] = acc[key] || []).push(record);
       }
   
-      if (dates.length < 7) {
-        const lastDate = new Date(dates[dates.length - 1]);
-        lastDate.setDate(lastDate.getDate() + 1);
-        const month = String(lastDate.getMonth() + 1).padStart(2, '0');
-        const day = String(lastDate.getDate()).padStart(2, '0');
-        const year = lastDate.getFullYear();
-        dates.push(`${year}-${month}-${day}`);
-    }
-  
-  
-      this.dates = dates;
-    }
+      return acc;
+    }, {} as Record<string, any[]>);
+  }
 
-  dateFilter(event: Event) {
-    const date = (event.target as HTMLSelectElement).value
-    this.formatData(this.attendance[date]);
-    this.generateDateRange(date);
+  convertTime(time: string): string {
+    if(!time) return '-';
+    // Assuming the time is in the format 'HH:mm:ss'
+    const formattedTime = this.datePipe.transform(`1970-01-01T${time}`, 'h:mm a');
+    return formattedTime || time;  // Return formatted time or original if formatting fails
   }
 
   downloadPDF(): void {
@@ -170,14 +169,14 @@ export class AttendanceHistoryComponent {
     doc.text(`Daily Time Record - ${this.employee.name}`, 105, 40, { align: 'center' });
 
     // Table Headers
-    const headers = [['Date', 'Status', 'Time In', 'Time Out']];
+    const headers = [['Date', 'Time In', 'Time Out']];
 
     // Table Data
-    const rows = this.dtrRecords.map((record) => [
-      this.formatFullDate(record.date, record.day),
-      record.status,
-      record.time_in || 'N/A',
-      record.time_out || 'N/A'
+    const rows = this.attendance.map((record: any) => [
+      this.formatFullDate(record.date),
+      // record.status,
+      this.convertTime(record.time_in),
+      this.convertTime(record.time_out)
     ]);
 
     // AutoTable Options
@@ -195,11 +194,16 @@ export class AttendanceHistoryComponent {
     doc.save(`DTR-${this.employee.name}.pdf`);
   }
 
-  formatFullDate(dateString: string, dayName: string): string {
-    if (!dateString) return 'N/A';
+  formatFullDate(dateString: string): string {
+    if (!dateString) return '-';
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { month: 'long', day: '2-digit', year: 'numeric' }) + ` (${dayName})`;
-  }
+    return date.toLocaleDateString('en-US', {
+      weekday: 'long',  // Add the day name
+      month: 'long', 
+      day: '2-digit', 
+      year: 'numeric'
+    });
+  }  
 
   closePopup() {
     this.dialogRef.close(); 

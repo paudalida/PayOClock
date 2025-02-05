@@ -1,7 +1,7 @@
 <div class="main-container">
     <form class="form-info">
         <div class="header">
-            <h1>Update Date Range</h1>
+            <h1>Update Payday</h1>
             <button type="button" class="close-button" (click)="closePopup()">
                 <i class='bx bx-x'></i>
             </button>
@@ -9,12 +9,12 @@
 
         <div class="detailsbody">
             <div class="date-range">
-                <div class="date-field">
+                <!-- <div class="date-field">
                     <label for="date-start">Date Start:</label>
                     <input type="date" id="date-start" name="date-start" [(ngModel)]="currentDate.payday_start" disabled>
-                </div>
+                </div> -->
                 <div class="date-field">
-                    <label for="date-end">Date End:</label>
+                    <label for="date-end">New Payday Date:</label>
                     <input type="date" id="date-end" name="date-end" [(ngModel)]="new_payday_end" (change)="checkDate()">
                 </div>
             </div>

@@ -41,6 +41,10 @@ export class PayrollComponent implements OnInit {
     contributions: {} as PayrollSums,
     expenses: {} as PayrollSums
   };  
+  totalIndex: any = {
+    net_pays: [],
+    contributions: []
+  };
 
   disabledInput = true;
   date = {
@@ -58,8 +62,7 @@ export class PayrollComponent implements OnInit {
 
   ngOnInit(): void {
     this.date = this.as.getPayday();
-    // this.syncPay();
-    this.getData();
+    this.syncPay();
   }
 
   get employees() {
@@ -84,6 +87,11 @@ export class PayrollComponent implements OnInit {
       next: (res: any) => {
         this.columns = res.data.columns;
         this.dateFilter = Object.keys(res.data.columns);
+        const contribIndex = this.columns[this.dateFilter[0]].findIndex((column: string) => column === 'TOTAL CONTRIBUTIONS');
+        const netPaysIndex = this.columns[this.dateFilter[0]].findIndex((column: string) => column === 'NET PAY');
+        
+        this.totalIndex.contributions = Array(contribIndex);
+        this.totalIndex.net_pays = Array(netPaysIndex - contribIndex - 1);
 
         this.payrolls = res.data.payrolls;
         this.filterValue = this.dateFilter[0];
@@ -119,6 +127,13 @@ export class PayrollComponent implements OnInit {
       contributions: this.sums.contributions[this.filterValue],
       expenses: this.sums.expenses[this.filterValue]
     };
+
+    const finalRow = [ ...this.totalIndex.contributions, ...[this.curr_sums.contributions], ...this.totalIndex.net_pays, [this.curr_sums.net_pays]];
+    this.payroll.push(finalRow);
+
+    const tempArray = Array(finalRow.length - 2);
+    const pinakaFinalRow = [ ...tempArray, ...[ 'TOTAL EXPENSES', this.curr_sums.expenses ]];
+    this.payroll.push(pinakaFinalRow)
   }  
 
   release() {

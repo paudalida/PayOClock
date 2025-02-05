@@ -144,22 +144,12 @@ export class AttendanceComponent implements OnInit {
     this.isLoading = true;
     this.ds.request('GET', 'admin/attendance').subscribe({
       next: (res: any) => {
+        this.attendance = res.data.attendance;
+        this.payrollPeriods = res.data.payroll_periods;
         this.groupedRecordsByDay = this.groupByDay(res.data.attendance)
-        // this.groupedRecordsByWeek = this.groupByWeek(res.data.attendance)
-        // this.groupedRecordsByPeriod = this.groupByPeriod(res.data.attendance, res.data.payroll_periods);
-        // this.weekFilter = Object.keys(this.groupedRecordsByWeek)
         this.periodFilter = this.combinePayrollPeriods(res.data.payroll_periods)
         this.currFilter = this.periodFilter[0];
         this.columns = this.getDateRangeFromString(this.currFilter);
-        console.log(this.groupedRecordsByDay['2024-12-30'])
-        // this.attendance = res.data.records;
-        // this.attendanceWeeks = Object.keys(this.attendance);
-        // this.generateDateRange(this.attendanceWeeks[0]);
-        // this.formatData(this.attendance[this.attendanceWeeks[0]]);
-
-        // this.current = res.data.currentDay;
-
-        // this.selectedDateRange = this.attendanceWeeks[0];
       },
       error: (err: any) => {
 
@@ -184,44 +174,10 @@ export class AttendanceComponent implements OnInit {
     return formattedTime || time;  // Return formatted time or original if formatting fails
   }
 
-  filterByDate(): void {
-    if (!this.selectedDate) {
-      console.log('No date selected, resetting filter');
-      this.formatData(this.attendance[this.selectedDateRange]); // Reset to the full week
-      return;
-    }
-  
-    const formattedSelectedDate = this.selectedDate.toISOString().split('T')[0];
-    console.log('Selected Date:', formattedSelectedDate);
-  
-    // Find the week that contains the selected date
-    const weekKey = this.attendanceWeeks.find((week: { split: (arg0: string) => { (): any; new(): any; map: { (arg0: (date: any) => Date): [any, any]; new(): any; }; }; }) => {
-      const [start, end] = week.split(' - ').map(date => new Date(date));
-      return new Date(formattedSelectedDate) >= start && new Date(formattedSelectedDate) <= end;
-    });
-  
-    if (!weekKey) {
-      console.warn('Selected date is outside available attendance data.');
-      return;
-    }
-  
-    const weeklyData = this.attendance[weekKey];
-  
-    // Filter records for the selected date
-    const filteredRecords = weeklyData.filter((record: any) => {
-      return (
-        record.mon.date === formattedSelectedDate ||
-        record.tue.date === formattedSelectedDate ||
-        record.wed.date === formattedSelectedDate ||
-        record.thu.date === formattedSelectedDate ||
-        record.fri.date === formattedSelectedDate ||
-        record.sat.date === formattedSelectedDate ||
-        record.sun.date === formattedSelectedDate
-      );
-    });
-  
-    console.log('Filtered Records:', filteredRecords);
-    this.formatData(filteredRecords); // Update the table with filtered data
+  filterByDate(event: Event): void {
+    const filter = (event.target as HTMLSelectElement).value;
+
+    this.openDTRPopup(null, filter);
   }
 
   formatData(data: any) {
@@ -315,22 +271,30 @@ export class AttendanceComponent implements OnInit {
   }
 
   combinePayrollPeriods(payrolls: any[]) {
-    return payrolls.map((period, index) => {
-      // Convert the dates to strings in the format 'YYYY-MM-DD'
-      const startDate = new Date(period.payday_start).toISOString().split('T')[0]; // Format as YYYY-MM-DD
-      const endDate = new Date(period.payday_end).toISOString().split('T')[0]; // Format as YYYY-MM-DD
-  
-      // If this is the last period, extend the end date to today
-      if (index === payrolls.length - 1) {
-        const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
-        return `${startDate} to ${endDate} to ${today}`;
-      }
-  
-      // Return the combined string in the format "startDate to endDate"
-      return `${startDate} to ${endDate}`;
+    const result: string[] = [];
+
+    payrolls.forEach((period, index) => {
+        const startDate = new Date(period.payday_start);
+        const endDate = new Date(period.payday_end);
+        const endDateFormatted = endDate.toISOString().split('T')[0];
+
+        endDate.setDate(endDate.getDate() + 1);
+        const afterEndDate = endDate.toISOString().split('T')[0];
+
+        // If this is the last period (index 0), extend the end date to today
+        if (index === 0) {
+            const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+            if (endDateFormatted < today) {
+                result.unshift(`${afterEndDate} to ${today}`); // Unshift instead of returning
+            } 
+                result.push(`${startDate.toISOString().split('T')[0]} to ${endDateFormatted}`);
+        } else {
+            result.push(`${startDate.toISOString().split('T')[0]} to ${endDateFormatted}`);
+        }
     });
+
+    return result;
   }
-  
   
   groupByDay(attendanceData: any[]) {
     // Initialize an empty object to hold the grouped data
@@ -417,19 +381,30 @@ export class AttendanceComponent implements OnInit {
     }
   }
 
-  openDTRPopup(employee: any): void {
+  openDTRPopup(employee: any, filter?: string): void {
+    let attendanceData: any = [];
+    let title = filter;
+
+    if(employee) {
+      attendanceData = this.attendance.filter((data: any) => data.user_id === employee.id);
+      title = employee.full_name;
+    } else {      
+      attendanceData = this.attendance.filter((element: any) => element.date == filter);
+
+      attendanceData.forEach((element: any) => {
+        element.name = this.employees.find((employee: any) => employee.id == element.user_id).full_name;
+      });
+    }
     const dialogRef = this.dialog.open(AttendanceHistoryComponent, {
       width: '600px',
-      data: { employee }
-    });
-  
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('DTR popup closed with:', result);
+      data: { 
+        title: title,
+        employee: employee,
+        periods: this.payrollPeriods,
+        attendance: attendanceData
       }
     });
   }
-  
 
   openAttendanceDetail(user_id: string, date: any, data?: any): void {
     const now = new Date(); // Get the current date and time

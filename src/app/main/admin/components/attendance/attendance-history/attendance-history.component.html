@@ -2,7 +2,7 @@
   <div class="main-container">
     <div class="attendance-history">
       <div class="header">
-        <h1>Daily Time Record - {{ employee.name }}</h1>
+        <h1>Daily Time Record</h1>
         <button type="button" class="close-button" (click)="closePopup()">
           <i class='bx bx-x'></i>
         </button>
@@ -10,40 +10,70 @@
 
       <div class="container-body">
 
-        <div class="dialog-actions">
-          <button class="button" (click)="downloadPDF()">Download PDF</button>
+        <h1 *ngIf="employee">{{ data.title }}</h1>
+        <h1 *ngIf="!employee">{{ data.title | date: 'EEEE, MMMM d, y' }}</h1>
 
-          <div class="date-range-dropdown">
-            <select [(ngModel)]="selectedDateRange" (change)="dateFilter($event)">
-                <option *ngFor="let date of attendanceWeeks; let last = last;" [selected]="last">{{ date }}</option>
+        <div class="dialog-actions">
+
+          <button class="button" (click)="downloadPDF()">Download PDF</button>
+          <div class="date-range-dropdown" *ngIf="employee">
+            <select [(ngModel)]="typeFilter" (change)="changedFilter()">
+              <option value="period"> By Period </option>
+              <option value="month"> By Month </option>
+              <option value="week"> By Week </option>
             </select>
           </div>
-        </div>
         
-        <table mat-table [dataSource]="dtrRecords" class="mat-elevation-z8">
+          <div class="date-range-dropdown">
+            <div class="select-wrapper">
+              <select [(ngModel)]="periodFilter" *ngIf="typeFilter == 'period'" (change)="changedFilter()">
+                <option *ngFor="let element of periods; let i = index;" [value]="element" [selected]="i == 0"> {{ element }} </option>
+              </select>
+              <select [(ngModel)]="monthFilter" *ngIf="typeFilter == 'month'" (change)="changedFilter()">
+                <option *ngFor="let element of months; let i = index;" [value]="element" [selected]="i == 0"> {{ element }} </option>
+              </select>
+              <select [(ngModel)]="weekFilter" *ngIf="typeFilter == 'week'" (change)="changedFilter()">
+                <option *ngFor="let element of weeks; let i = index;" [value]="element" [selected]="i == 0"> {{ element }} </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="no-data" *ngIf="data.attendance.length == 0">
+          No DTR record for this date
+        </div>
+
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="data.attendance.length > 0">
+
+          <ng-container *ngIf="!data.employee">
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef> Name </th>
+              <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+            </ng-container>
+          </ng-container>
           
           <ng-container matColumnDef="fullDate">
             <th mat-header-cell *matHeaderCellDef> Date </th>
-            <td mat-cell *matCellDef="let element"> {{ formatFullDate(element.date, element.day) }} </td>
+            <td mat-cell *matCellDef="let element"> {{ element.date | date: 'mediumDate' }} </td>
           </ng-container>
       
-          <ng-container matColumnDef="status">
+          <!-- <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef> Status </th>
             <td mat-cell *matCellDef="let element"> {{ element.status }} </td>
-          </ng-container>
+          </ng-container> -->
       
           <ng-container matColumnDef="timeIn">
             <th mat-header-cell *matHeaderCellDef> Time In </th>
-            <td mat-cell *matCellDef="let element"> {{ element.time_in || 'N/A' }} </td>
+            <td mat-cell *matCellDef="let element"> {{ convertTime(element.time_in) }} </td>
           </ng-container>
       
           <ng-container matColumnDef="timeOut">
             <th mat-header-cell *matHeaderCellDef> Time Out </th>
-            <td mat-cell *matCellDef="let element"> {{ element.time_out || 'N/A' }} </td>
+            <td mat-cell *matCellDef="let element"> {{ convertTime(element.time_out) }} </td>
           </ng-container>
       
-          <tr mat-header-row *matHeaderRowDef="['fullDate', 'status', 'timeIn', 'timeOut']"></tr>
-          <tr mat-row *matRowDef="let row; columns: ['fullDate', 'status', 'timeIn', 'timeOut'];"></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         
         </table>
       </div>

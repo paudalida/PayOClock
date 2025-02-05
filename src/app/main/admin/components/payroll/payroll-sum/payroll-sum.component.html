@@ -10,14 +10,12 @@
                   <th *ngIf="j >= 4">{{ column }}</th>
                 </ng-container>
               </tr>
-              <tr *ngFor="let row of payroll; let i = index">
-                <ng-container *ngIf="i > 0">
-                  <td
-                    *ngFor="let data of row; let j = index"
-                    [ngClass]="{ 'invalid-fld': data === ' - ' }"
-                  >
-                    {{ data || ' - ' }}
-                  </td>
+              <tr *ngFor="let row of payroll; let i = index; let last = last;">
+                <ng-container *ngIf="i > 0;">
+                  <ng-container *ngFor="let data of row; let j = index;">
+                    <td *ngIf=" i < payroll.length - 2"> {{ data || ' - ' }} </td>
+                    <td *ngIf=" i >= payroll.length - 2"> {{ data || '' }} </td>
+                  </ng-container>
                 </ng-container>
               </tr>
             </table>

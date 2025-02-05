@@ -27,8 +27,10 @@
 <div class="table-content">
   <div class="table-header">
     <h2 class="table-title">Attendance Records</h2>
-    <!-- <button class="report-button" type="button" (click)="generateReport()">Export</button> -->
-    <div class="right-side">      
+    
+    <div class="right-side">   
+      <button class="report-button" type="button" (click)="exportAttendanceAsPDF()">Export</button>     
+      
       <div class="date-range-dropdown">
         <div class="select-wrapper">
           <select [(ngModel)]="typeFilter">
@@ -38,8 +40,6 @@
           </select>
         </div>
       </div>
-
-      <button class="report-button" type="button">Export</button>
 
       <div class="date-range-dropdown">
         <div class="select-wrapper">

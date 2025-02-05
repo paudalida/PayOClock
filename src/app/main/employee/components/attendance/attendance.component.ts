@@ -196,14 +196,15 @@ export class AttendanceComponent implements OnInit {
   getData() {
     this.ds.request('GET', 'employee/attendance').subscribe({
       next: (res: any) => {
-        // this.columns = res.data.columns;
-        // this.dateFilter = Object.keys(res.data.columns);
-        // this.payrolls = res.data.payrolls;
-        // this.filterValue = this.dateFilter[0];
-        // this.release_dates = res.data.release_dates;
-        // this.release_date = this.release_dates[this.filterValue];
-
-        // this.changeData();
+        this.groupedByWeek = this.groupByWeek(res.data.attendance);
+        this.groupedByPeriod = this.groupByPeriod(res.data.attendance, res.data.payroll_periods);
+        this.groupedByMonth = this.groupByMonth(res.data.attendance);
+        this.weeks = Object.keys(this.groupedByWeek);
+        this.periods = Object.keys(this.groupedByPeriod);
+        this.months = Object.keys(this.groupedByMonth)
+        this.weekFilter = this.weeks[0];
+        this.periodFilter = this.periods[0];
+        this.monthFilter = this.months[0];
       },
       error: (err: any) => {
         this.pop.swalBasic('error', 'Oops! Cannot fetch payrolls!', this.pop.genericErrorMessage);
@@ -211,7 +212,7 @@ export class AttendanceComponent implements OnInit {
     });
   }
   
-  changeData() {
+  changedFilter() {
     this.payroll = this.payrolls[this.filterValue]
     this.release_date = this.release_dates[this.filterValue]
   }  
@@ -261,7 +262,8 @@ export class AttendanceComponent implements OnInit {
           });
         }
   
-        this.formatAttendanceData();
+        // this.formatAttendanceData();
+        this.getData();
       },
       error: (err: any) => {
         this.pop.swalBasic('error', this.pop.genericErrorTitle, err.error.message);
@@ -298,7 +300,7 @@ export class AttendanceComponent implements OnInit {
   
     // Table Data
     const tableData = this.attendance.map((record: any) => [
-      `${record.date} - ${record.day}`,
+      `${record.date}`,
       record.time_in || 'N/A',
       record.time_out || 'N/A'
     ]);
