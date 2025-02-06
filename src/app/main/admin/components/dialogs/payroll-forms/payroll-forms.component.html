@@ -3,7 +3,7 @@
         <h1> Employee Payroll </h1>
             <div class="input-row" *ngIf="!isLoading"> 
                 <button class="btn-primary save-payroll" type="button" (click)="submit(2)" [disabled]="!form.valid"> Completed </button>
-                <button class="btn-pending save-payroll" type="button" (click)="submit(1)" [disabled]="!form.valid"> Incomplete </button>
+                <!-- <button class="btn-pending save-payroll" type="button" (click)="submit(1)" [disabled]="!form.valid"> Incomplete </button> -->
                 <button class="btn-secondary back" type="button" (click)="backRoute()"> Back </button>
             </div>    
     </div>
@@ -65,11 +65,18 @@
                     </div>
 
                     <div class="input-row1">
-                        <div class="entryarea1">
+                        <!-- <div class="entryarea">
                             <input type="text" name="per_hour" [value]="hourlyRate" disabled>
-                            <div class="labelline1" *ngIf="employee.position == 'Instructor'"> Rate (hourly) </div>
-                            <div class="labelline1" *ngIf="employee.position != 'Instructor'"> Rate (daily) </div>
+                            <div class="labelline2" *ngIf="employee.position == 'Instructor'"> Rate (hourly) </div>
+                            <div class="labelline2" *ngIf="employee.position != 'Instructor'"> Rate (daily) </div>
+                        </div> -->
+
+                        <div class="entryarea">
+                            <div class="detail-value">{{ hourlyRate }}</div>
+                            <div class="labelline" *ngIf="employee.position == 'Instructor'"> Rate (hourly) </div>
+                            <div class="labelline" *ngIf="employee.position != 'Instructor'"> Rate (daily) </div>
                         </div>
+                        
 
                         <!-- <div class="entryarea1">
                             <input type="text" name="per_day" [value]="hourlyRate * 8" disabled>
@@ -113,7 +120,7 @@
 
                     <div class="input-row1">
                         <div class="entryarea2">
-                            <button type="button" (click)="viewPayslip()"> View Current Payslip </button>
+                            <button type="button" (click)="viewPayslip()" class="current">Current Payslip </button>
                         </div>
                     </div>
                 </div>
