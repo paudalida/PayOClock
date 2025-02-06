@@ -1,5 +1,5 @@
 import { Component, Inject, Input, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
+import { EmployeeService } from '../../../../../services/employee/employee.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -14,22 +14,18 @@ export class ToggleActionComponent {
   latesState: boolean = false;
   absentState: boolean = false;
 
-  @Input() containerVisibility: Record<'present' | 'lates' | 'absences' | 'announcement' | 'announcementHistory', boolean> = {
-    present: true,
-    lates: true,
-    absences: true,
-    announcement: true,
-    announcementHistory: false
-  };
+  containerVisibility: any;
 
   // Output to send updated state back to parent component
-  @Output() visibilityChanged: EventEmitter<Record<'present' | 'lates' | 'absences' | 'announcement' | 'announcementHistory', boolean>> = new EventEmitter();
+  @Output() visibilityChanged = new EventEmitter<Record<'present' | 'lates' | 'absences' | 'announcement' | 'announcementHistory', boolean>>();
 
 
   constructor(
-    private router: Router,
+    private es: EmployeeService,
     public dialogRef: MatDialogRef<ToggleActionComponent>
-  ) {}
+  ) {
+    this.containerVisibility = es.getConfig();
+  }
 
   toggleState(type: string): void {
     if (type === 'present') {
@@ -43,14 +39,12 @@ export class ToggleActionComponent {
     } else if (type === 'announcementHistory') {
       this.containerVisibility.announcementHistory = !this.containerVisibility.announcementHistory;
     }
-  
-    // Emit updated state back to the parent
-    this.visibilityChanged.emit(this.containerVisibility);
   }
 
-  closePopup() {
+  closePopup() {  
+    // Emit updated state back to the parent
+    this.visibilityChanged.emit(this.containerVisibility);
     this.dialogRef.close();
-    this.router.navigate(['/employee/dashboard']);
   }
 }
 

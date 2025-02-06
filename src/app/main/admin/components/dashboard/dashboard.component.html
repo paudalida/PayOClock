@@ -1,4 +1,8 @@
-<main>
+<div class="spinner" *ngIf="isLoading">
+    <app-spinner></app-spinner>
+</div>
+
+<main *ngIf="!isLoading">
     <div class="content"> 
 
         <div class="button">

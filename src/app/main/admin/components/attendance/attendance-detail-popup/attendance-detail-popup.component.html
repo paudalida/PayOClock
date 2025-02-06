@@ -16,23 +16,11 @@
             <p *ngIf="data.details.time_out">   <strong>Time Out:</strong> {{ formatTime(data.details.time_out) }} </p>
           </ng-container>
 
-          <!-- With leave or absent  -->
-          <!-- <p *ngIf="data.details.leave_type" ><strong> Leave Type: </strong> {{ data.details.leave_type }}</p>
-          <p *ngIf="data.details.is_absent">  <strong> Absent </strong></p> -->
-
           <!-- No data -->
-          <p *ngIf="!data.details" ><strong> No Data Available </strong></p>
+          <p *ngIf="!data.details.time_in" ><strong> No Data Available </strong></p>
         </div>        
 
         <div class="button-row">
-          <div class="action-dropdown">
-            <!-- <button class="action-btn" (click)="toggleDropdown()">Action</button> -->
-            <!-- <div class="dropdown-content" *ngIf="dropdownOpen"> -->
-              <!-- <button (click)="selectAction('button')">Button</button> -->
-              <!-- <button (click)="selectAction('manual')">Manual</button>
-              <button (click)="selectAction('leave')">Leave</button>
-            </div> -->
-          </div>
           <div class="action-display">
             <ng-container [ngSwitch]="selectedAction">
               <div *ngSwitchCase="'manual'" class="manual-action">
@@ -45,51 +33,8 @@
                   <div class="label">Time Out</div>
                   <input type="time" [(ngModel)]="manual.timeOut" class="time-input"  />
                 </div>
-                <!-- <div *ngIf="!timeInEntered" class="time-input">
-                  <select [(ngModel)]="manualTimeIn.hours">
-                    <option *ngFor="let hour of hours" [value]="hour">{{ hour }}</option>
-                  </select>
-                  <select [(ngModel)]="manualTimeIn.minutes">
-                    <option *ngFor="let minute of minutes" [value]="minute" [selected]="minute == 0">
-                      <ng-container *ngIf="minute < 10"> 0{{ minute }} </ng-container>
-                      <ng-container *ngIf="minute >= 10"> {{ minute }} </ng-container>
-                    </option>
-                  </select>
-                  <select [(ngModel)]="manualTimeIn.ampm">
-                    <option value="AM">AM</option>
-                    <option value="PM">PM</option>
-                  </select>
-                  <button class="time-btn time-in" (click)="applyManualTime()">Time In</button>
-                </div>
-                <div *ngIf="timeInEntered" class="time-input">
-                  <select [(ngModel)]="manualTimeOut.hours">
-                    <option *ngFor="let hour of hours" [value]="hour">{{ hour }}</option>
-                  </select>
-                  <select [(ngModel)]="manualTimeOut.minutes">
-                    <option *ngFor="let minute of minutes" [value]="minute">{{ minute }}</option>
-                  </select>
-                  <select [(ngModel)]="manualTimeOut.hours">
-                    <option value="AM">AM</option>
-                    <option value="PM">PM</option>
-                  </select> -->
                   <button class="time-btn time-out" (click)="updateManualTime()" [disabled]="manual.timeIn == null && manual.timeOut == null"> Save </button>
-                <!-- </div> -->
               </div>
-              <!-- <div *ngSwitchCase="'button'" class="button-action">
-                <button class="time-btn" [ngClass]="forTimeIn ? 'time-in' : 'time-out'" (click)="toggleTimeInOut()">
-                  {{ forTimeIn ? 'Time In' : 'Time Out' }}
-                </button>
-              </div> -->
-              <!-- <div *ngSwitchCase="'leave'" class="leave-action">
-                <select [(ngModel)]="selectedLeaveType" class="leave-select">
-                  <option value="Paid Leave">Paid Leave</option>
-                  <option value="Sick Leave">Sick Leave</option>
-                  <option value="Vacation Leave">Vacation Leave</option>
-                  <option value="Maternal Leave">Maternal Leave</option>
-                  <option value="Bereavement Leave">Bereavement Leave</option>
-                </select>
-                <button class="leave-btn" (click)="applyLeave()">Leave</button>
-              </div> -->
             </ng-container>
           </div>
         </div>

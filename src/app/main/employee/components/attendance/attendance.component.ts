@@ -26,13 +26,11 @@ export class AttendanceComponent implements OnInit {
   buttonLoading = false;
   attendance: any[] = [];
   formattedAttendance: any[] = [];
-  currentTimeIn: string | null = null;
-  currentTimeOut: string | null = null;
   employee: any;
   currentMonthYear: string = '';
   currentTime: string = '';
   currentDate: string = '';
-  accumulatedHours: string = '0h 0m';
+  accumulatedHours: any;
   dateFilter: any = null;
   filterValue = '';
   columns: any;
@@ -52,6 +50,13 @@ export class AttendanceComponent implements OnInit {
   periodFilter: any;
   monthFilter: any;
   typeFilter: any;
+  dataSource: any;
+
+  hoursToggle: boolean = false;
+
+  toggleHours() {
+    this.hoursToggle = !this.hoursToggle;
+  }
 
   ngOnInit(): void {
     this.updateCurrentMonthYear();
@@ -61,16 +66,20 @@ export class AttendanceComponent implements OnInit {
 
     this.ds.request('GET', 'employee/attendance').subscribe({
       next: (res: any) => {
+        this.attendance = res.data.attendance;
+        if(this.attendance[0].time_in && !this.attendance[0].time_out) this.isTimedIn = true;
+
         this.groupedByWeek = this.groupByWeek(res.data.attendance);
         this.groupedByPeriod = this.groupByPeriod(res.data.attendance, res.data.payroll_periods);
         this.groupedByMonth = this.groupByMonth(res.data.attendance);
         this.weeks = Object.keys(this.groupedByWeek);
         this.periods = Object.keys(this.groupedByPeriod);
-        this.months = Object.keys(this.groupedByMonth)
+        this.months = Object.keys(this.groupedByMonth);
         this.weekFilter = this.weeks[0];
         this.periodFilter = this.periods[0];
         this.monthFilter = this.months[0];
         this.typeFilter = 'period';
+        this.dataSource = this.groupedByPeriod[this.periodFilter];
       },
       error: (err: any) => {
         this.pop.swalBasic('error', this.pop.genericErrorTitle, err.error.message);
@@ -78,14 +87,32 @@ export class AttendanceComponent implements OnInit {
       complete: () => { this.buttonLoading = false; }
     });
 
+    this.ds.request('GET', 'employee/attendance/hours').subscribe({
+      next: (res: any) => {
+        this.accumulatedHours = res.data;
+      }
+    })
     this.updateDateTime();
-      setInterval(() => {
-        this.updateDateTime();
-      }, 1000);
+    setInterval(() => {
+      this.updateDateTime();
+    }, 1000);
+  }
+
+  changeData() {
+    if(this.typeFilter == 'week') {
+      this.filterValue = this.weekFilter;
+      this.dataSource = this.groupedByWeek[this.filterValue];
+    } else if(this.typeFilter == 'period') {
+      this.filterValue = this.periodFilter;
+      this.dataSource = this.groupedByPeriod[this.filterValue];
+    } else if(this.typeFilter == 'month') {
+      this.filterValue = this.monthFilter;
+      this.dataSource = this.groupedByMonth[this.filterValue];
+    }
   }
 
   convertTime(time: string): string {
-    if(time == '') return '-';
+    if(!time) return '-';
     // Assuming the time is in the format 'HH:mm:ss'
     const formattedTime = this.datePipe.transform(`1970-01-01T${time}`, 'h:mm a');
     return formattedTime || time;  // Return formatted time or original if formatting fails
@@ -219,51 +246,25 @@ export class AttendanceComponent implements OnInit {
  
   toggleTime() {
     this.buttonLoading = true;
-    const now = new Date();
-    
-    const formattedTime = now.toLocaleTimeString('en-US', { 
-      hour: '2-digit', 
-      minute: '2-digit', 
-      hour12: true, 
-      timeZone: 'Asia/Manila' 
-    });
-  
-    const formattedDate = now.toLocaleDateString('en-US', { 
-      month: 'long', 
-      day: 'numeric', 
-      year: 'numeric', 
-      timeZone: 'Asia/Manila' 
-    });
   
     this.ds.request('POST', 'employee/attendance/clock').subscribe({
       next: (res: any) => {
         this.pop.toastWithTimer('success', res.message);
-        this.isTimedIn = !this.isTimedIn;
-  
-        this.currentDate = formattedDate;
-        this.currentTime = formattedTime; 
-  
-        let record = this.attendance.find(element => element.date === formattedDate);
-  
-        if (record) {
-          if (this.isTimedIn) {
-            record.time_in = formattedTime;  
-            this.currentTimeIn = formattedTime;
-          } else {
-            record.time_out = formattedTime; 
-            this.currentTimeOut = formattedTime;
-          }
+
+        if(this.isTimedIn) {
+          let index = this.attendance.findIndex((element: any) => element.id == res.data.id);
+          if (index !== -1) this.attendance[index] = res.data;
+          this.groupedByWeek = this.groupByWeek(this.attendance);
+          this.groupedByPeriod = this.groupByPeriod(this.attendance, res.data.payroll_periods);
+          this.groupedByMonth = this.groupByMonth(this.attendance);
         } else {
-          this.attendance.push({
-            date: formattedDate,
-            day: now.toLocaleDateString('en-US', { weekday: 'long', timeZone: 'Asia/Manila' }),
-            time_in: this.isTimedIn ? formattedTime : null,
-            time_out: !this.isTimedIn ? formattedTime : null,
-          });
-        }
-  
-        // this.formatAttendanceData();
-        this.getData();
+          this.attendance.unshift(res.data);
+          this.groupedByWeek = this.groupByWeek(this.attendance);
+          this.groupedByPeriod = this.groupByPeriod(this.attendance, res.data.payroll_periods);
+          this.groupedByMonth = this.groupByMonth(this.attendance);
+        }      
+        this.isTimedIn = !this.isTimedIn;
+        this.changeData();
       },
       error: (err: any) => {
         this.pop.swalBasic('error', this.pop.genericErrorTitle, err.error.message);
@@ -299,7 +300,7 @@ export class AttendanceComponent implements OnInit {
     doc.text('Attendance Records', 105, 40, { align: 'center' });
   
     // Table Data
-    const tableData = this.attendance.map((record: any) => [
+    const tableData = this.dataSource.map((record: any) => [
       `${record.date}`,
       record.time_in || 'N/A',
       record.time_out || 'N/A'

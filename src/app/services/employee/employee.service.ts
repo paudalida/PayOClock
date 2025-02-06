@@ -33,6 +33,7 @@ export class EmployeeService {
       zip_code: null
     }
   };
+  private config: any;
 
   public setImage(data: any) {
     this.employeeData.image = data;
@@ -48,5 +49,13 @@ export class EmployeeService {
   
   public getEmployee() {
     return this.employeeData;
+  }
+
+  public setConfig(data: any) {
+    this.config = data;
+  }
+
+  public getConfig() {
+    return this.config;
   }
 }

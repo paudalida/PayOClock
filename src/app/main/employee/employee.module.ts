@@ -27,6 +27,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ViewDetailsComponent } from './components/dashboard/view-details/view-details.component';
 import { ToggleActionComponent } from './components/dashboard/toggle-action/toggle-action.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { ToggleActionComponent } from './components/dashboard/toggle-action/togg
     AnnouncementsComponent, 
     ViewAnnouncementComponent, 
     UploadProofComponent, 
-    PayslipHistoryComponent, 
+    PayslipHistoryComponent,
+    SpinnerComponent,
     ChangePasswordComponent, ProofHistoryComponent, RequestComponent, RequestFormComponent, ViewDetailsComponent, ToggleActionComponent
   ],
   imports: [

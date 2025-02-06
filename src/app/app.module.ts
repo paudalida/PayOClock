@@ -35,6 +35,7 @@ import { httpInterceptor } from './http.interceptor';
 // import { ActivitylogsComponent } from './main/admin/components/activitylogs/activitylogs.component';
 
 import { DatePipe } from '@angular/common';
+import { SpinnerComponent } from './main/employee/spinner/spinner.component';
 
 @NgModule({
   declarations: [

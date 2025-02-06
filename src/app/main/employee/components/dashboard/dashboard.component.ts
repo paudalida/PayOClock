@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DataService } from '../../../../services/data/data.service';
 import { ViewDetailsComponent } from './view-details/view-details.component';
 import { ToggleActionComponent } from './toggle-action/toggle-action.component';
+import { EmployeeService } from '../../../../services/employee/employee.service';
 
 interface ContainerVisibility {
   present: boolean;
@@ -20,49 +21,40 @@ interface ContainerVisibility {
 })
 export class DashboardComponent implements OnInit {
 
-  absences = 0;
-  lates = 0;
-  present = 0;
-  announcement = {
-    image: '',
-    title: '',
-    content: '',
-    published_at: ''
-  };
-  recentAnnouncement: any = null;  
-  previousAnnouncement: any[] = [];
-
-  attendanceRecords = [
-    { month: 'January', day: 1, year: 2025, date: '2025-01-01', timeIn: '9:00 AM', timeOut: '5:00 PM', status: 'Late' },
-    { month: 'January', day: 2, year: 2025, date: '2025-01-02', timeIn: '9:15 AM', timeOut: '5:00 PM', status: 'Late' },
-    { month: 'January', day: 3, year: 2025, date: '2025-01-03', timeIn: '', timeOut: '', status: 'Absent' },
-    { month: 'January', day: 4, year: 2025, date: '2025-01-04', timeIn: '10:00 AM', timeOut: '5:00 PM', status: 'Late' },
-    { month: 'January', day: 5, year: 2025, date: '2025-01-05', timeIn: '9:05 AM', timeOut: '5:00 PM', status: 'Late' },
-    { month: 'January', day: 6, year: 2025, date: '2025-01-06', timeIn: '8:00 AM', timeOut: '5:00 PM', status: 'Present' },
-    { month: 'January', day: 7, year: 2025, date: '2025-01-07', timeIn: '8:55 AM', timeOut: '5:00 PM', status: 'Late' },
-    { month: 'January', day: 8, year: 2025, date: '2025-01-08', timeIn: '', timeOut: '', status: 'Absent' },
-    { month: 'January', day: 9, year: 2025, date: '2025-01-09', timeIn: '9:20 AM', timeOut: '5:00 PM', status: 'Late' },
-    { month: 'January', day: 10, year: 2025, date: '2025-01-10', timeIn: '8:00 AM', timeOut: '5:00 PM', status: 'Present' },
-    { month: 'January', day: 10, year: 2025, date: '2025-01-11', timeIn: '8:00 AM', timeOut: '5:00 PM', status: 'Present' },
-    { month: 'January', day: 10, year: 2025, date: '2025-01-12', timeIn: '8:00 AM', timeOut: '5:00 PM', status: 'Present' }
-  ];
-
+  isLoading = true;
   selectedFilterOption: string = 'week'; 
   containerData: { [key: string]: any } = {
-    present: 20,
-    lates: 5,
-    absences: 3,
+    present: {
+      weekly: 0,
+      monthly: 0
+    },
+    lates: {
+      weekly: 0,
+      monthly: 0
+    },
+    absences: {
+      weekly: 0,
+      monthly: 0
+    },
+    attendanceWeekly: {
+      present: [],
+      absences: []
+    },
+    attendanceMonthly: {
+      present: [],
+      absences: []
+    },
     announcement: {
       image: '',
       title: '',
       content: '',
-      published_at: ''
+      created_at: ''
     },
     announcementHistory: {
       image: '',
       title: '',
       content: '',
-      published_at: ''
+      created_at: ''
     }
   };
 
@@ -77,22 +69,26 @@ export class DashboardComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private router: Router,
-    private ds: DataService
+    private ds: DataService,
+    private es: EmployeeService
   ) { }
 
-  ngOnInit(): void {
-    this.present = 10;
-    this.absences = 5;
-    this.lates = 3;
-
+  ngOnInit(): void {   
     this.ds.request('GET', 'employee/dashboard').subscribe({
       next: (res: any) => {
-        this.announcement.image = res.data.announcement.image;
-        this.announcement.title = res.data.announcement.title;
-        this.announcement.content = res.data.announcement.content;
-        this.announcement.published_at = res.data.announcement.published_at;
+        this.containerData['announcement'] = res.data.announcements[0];
+        this.containerData['announcementHistory'] = res.data.announcements[1];
+        this.containerData['present']['weekly'] = res.data.attendance.weekly.present;
+        this.containerData['present']['monthly'] = res.data.attendance.monthly.present;
+        this.containerData['absences']['weekly'] = res.data.attendance.weekly.absences;
+        this.containerData['absences']['monthly'] = res.data.attendance.monthly.absences;
+        this.containerData['attendanceWeekly'] = res.data.attendanceRecords.weekly;
+        this.containerData['attendanceMonthly'] = res.data.attendanceRecords.monthly;
+        
+        this.containerVisibility = this.es.getConfig();
+        this.isLoading = false;  
       }
-    })
+    });
   }
 
   toggleContainerVisibility(container: string) {
@@ -103,21 +99,27 @@ export class DashboardComponent implements OnInit {
   openPopup(type: string): void {
     let popupData: any[] = [];
     let popupTitle = '';
+    let status = 'Present';
 
     if (type === 'present') {
-      popupTitle = 'Present Records';
-      popupData = this.attendanceRecords.filter(record => record.timeIn && record.timeOut);
-    } else if (type === 'lates') {
-      popupTitle = 'Late Records';
-      popupData = this.attendanceRecords.filter(record => record.status === 'Late');
+      if(this.selectedFilterOption === 'week') {
+        popupData = this.containerData['attendanceWeekly']['present'];
+      } else if(this.selectedFilterOption === 'month') {
+        popupData = this.containerData['attendanceMonthly']['present'];
+      }
     } else if (type === 'absences') {
-      popupTitle = 'Absence Records';
-      popupData = this.attendanceRecords.filter(record => !record.timeIn && !record.timeOut);
+      status = 'Absent';
+      popupTitle = 'Absent Records';
+      if(this.selectedFilterOption === 'week') {
+        popupData = this.containerData['attendanceWeekly']['absences'];
+      } else if(this.selectedFilterOption === 'month') {
+        popupData = this.containerData['attendanceMonthly']['absences'];
+      }
     }
 
     this.dialog.open(ViewDetailsComponent, {
       width: '600px',
-      data: { popupData, popupTitle }
+      data: { popupData: popupData.reverse(), popupTitle, status: status }
     });
   }
 
@@ -127,7 +129,17 @@ export class DashboardComponent implements OnInit {
     });
   
     dialogRef.componentInstance.visibilityChanged.subscribe((updatedVisibility) => {
-      this.containerVisibility = updatedVisibility;  
+      this.containerVisibility = updatedVisibility;
+      this.es.setConfig(this.containerVisibility);
+
+      const config = {
+        config: JSON.stringify(updatedVisibility)
+      }
+      this.ds.request('POST', 'view/dashboard/toggle', config).subscribe({
+        next: (res: any) => {
+          console.log('Toggle action response:', res.message);
+        }
+      });
     });
   }
 

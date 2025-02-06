@@ -6,6 +6,7 @@ import { Router, RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { ToggleActionAdminComponent } from './toggle-action-admin/toggle-action-admin.component';
+import { EmployeeService } from '../../../../services/employee/employee.service';
 
 interface ContainerVisibility {
   employee: boolean;
@@ -50,25 +51,6 @@ export class DashboardComponent implements OnInit {
   options: any;
   currentMonth: any;
 
-  selectedFilterOption: string = 'week'; 
-  containerData: { [key: string]: any } = {
-    present: 20,
-    lates: 5,
-    absences: 3,
-    announcement: {
-      image: '',
-      title: '',
-      content: '',
-      published_at: ''
-    },
-    announcementHistory: {
-      image: '',
-      title: '',
-      content: '',
-      published_at: ''
-    }
-  };
-
   containerVisibility: Record<'employee' | 'pending' | 'processed' | 'attendance' | 'payroll' | 'summary', boolean> = {
     employee: true,
     pending: true,
@@ -77,9 +59,11 @@ export class DashboardComponent implements OnInit {
     payroll: true, 
     summary: true,
   };
+  isLoading = true;
 
   constructor(
     private as: AdminService,
+    private es: EmployeeService,
     private ds: DataService,
     private router: Router, 
     private datePipe: DatePipe, 
@@ -106,6 +90,11 @@ export class DashboardComponent implements OnInit {
   
     dialogRef.componentInstance.visibilityChanged.subscribe((updatedVisibility) => {
       this.containerVisibility = updatedVisibility;  // Update the containerVisibility when the toggle changes
+      this.es.setConfig(this.containerVisibility)
+      const form = { config: this.containerVisibility };
+      this.ds.request('POST', 'view/dashboard/toggle', form).subscribe({
+        next: (res: any) => { }
+      });
     });
   }
 
@@ -120,8 +109,7 @@ export class DashboardComponent implements OnInit {
     this.details.processed = employees.filter((employee: any) => employee.status === 'Complete').length;
     this.details.pending = this.details.employeeCount - this.details.processed;
     this.setBarChart();
-    this.setDoughnut();
-    
+    this.setDoughnut();    
 
     this.ds.request('GET', 'admin/dashboard').subscribe((res: any) => {
       this.tableData = res.data.attendanceWeekly;
@@ -134,6 +122,9 @@ export class DashboardComponent implements OnInit {
       this.payrollsTotal.labels = Object.keys(summary[this.payrollsQuarters[0]]);
       this.payrollsTotal.data = summary[this.payrollsQuarters[0]];
       this.setBarChart();
+
+      if(this.es.getConfig()) this.containerVisibility = this.es.getConfig();
+      this.isLoading = false;
     });
 
   }

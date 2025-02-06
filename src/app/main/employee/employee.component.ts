@@ -38,6 +38,12 @@ export class EmployeeComponent implements OnInit {
 
     // Initially check window size to set visibility
     this.checkWindowSize();
+
+    this.ds.request('GET', 'view/dashboard/config').subscribe({
+      next: (res: any) => {
+        this.es.setConfig(res.data);
+      }
+    })
   }
 
   // Listen to window resize and update visibility

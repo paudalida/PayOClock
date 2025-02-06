@@ -51,10 +51,11 @@ export class AdminComponent implements OnInit {
       }
     });
 
-    // this.updateDateTime();
-    // setInterval(() => {
-    //   this.updateDateTime();
-    // }, 1000);
+    this.ds.request('GET', 'view/dashboard/config').subscribe({
+      next: (res: any) => {
+        this.es.setConfig(res.data);
+      }
+    })
 
     this.getNotifications();
     setInterval(() => {
@@ -65,27 +66,6 @@ export class AdminComponent implements OnInit {
       this.countNotifications();
     }, 1000);
   }
-
-  // updateDateTime(): void {
-  //   const now = new Date();
-
-  //   const dateOptions: Intl.DateTimeFormatOptions = {
-  //     weekday: 'long',
-  //     month: 'long',
-  //     day: 'numeric'
-  //   };
-
-  //   const timeOptions: Intl.DateTimeFormatOptions = {
-  //     hour: 'numeric',
-  //     minute: 'numeric',
-  //     hour12: true
-  //   };
-
-  //   const datePart = now.toLocaleDateString('en-US', dateOptions);
-  //   const timePart = now.toLocaleTimeString('en-US', timeOptions);
-
-  //   this.currentDateTime = `${datePart}, ${timePart}`;
-  // }
   
   toggleNotifications(): void {
     this.showNotifications = !this.showNotifications;

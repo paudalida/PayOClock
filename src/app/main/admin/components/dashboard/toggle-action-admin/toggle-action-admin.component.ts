@@ -1,6 +1,7 @@
 import { Component, Inject, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { EmployeeService } from '../../../../../services/employee/employee.service';
 
 @Component({
   selector: 'app-toggle-action-admin',
@@ -25,11 +26,12 @@ export class ToggleActionAdminComponent {
   // Output to send updated state back to parent component
   @Output() visibilityChanged: EventEmitter<Record<'employee' | 'pending' | 'processed' | 'attendance' | 'payroll' | 'summary', boolean>> = new EventEmitter();
 
-
   constructor(
-    private router: Router,
+    private es: EmployeeService,
     public dialogRef: MatDialogRef<ToggleActionAdminComponent>
-  ) {}
+  ) {
+    this.containerVisibility = es.getConfig();
+  }
 
   toggleState(type: string): void {
     if (type === 'employee') {
@@ -45,13 +47,10 @@ export class ToggleActionAdminComponent {
     } else if (type === 'summary') {
       this.containerVisibility.summary = !this.containerVisibility.summary;
     }
-  
-    // Emit updated state back to the parent
-    this.visibilityChanged.emit(this.containerVisibility);
   }
 
   closePopup() {
+    this.visibilityChanged.emit(this.containerVisibility);
     this.dialogRef.close();
-    this.router.navigate(['/admin/dashboard']);
   }
 }

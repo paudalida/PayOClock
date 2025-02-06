@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DatePipe } from '@angular/common';
 
 interface Record {
   month: string;
@@ -28,11 +29,12 @@ export class ViewDetailsComponent {
   constructor(
     private router: Router,
     public dialogRef: MatDialogRef<ViewDetailsComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private datePipe: DatePipe
   ) {
     this.popupData = data.popupData || [];
-    this.popupTitle = data.popupTitle || 'Details';
-    this.isPresentOrLate = data.isPresentOrLate || false;
+    this.popupTitle = data.popupTitle || 'Attendance Details';
+    this.isPresentOrLate = data.popupTitle === '';
     this.isLate = data.isLate || false;
 
     // Dynamically set displayed columns
@@ -42,20 +44,11 @@ export class ViewDetailsComponent {
     }
   }
 
-  formatFullDate(date: string): string {
-    const fullDate = new Date(date);
-    if (isNaN(fullDate.getTime())) {
-      return 'Invalid Date';
-    }
-  
-    const options: Intl.DateTimeFormatOptions = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      weekday: 'long'
-    };
-  
-    return fullDate.toLocaleDateString('en-US', options);
+  convertTime(time: string): string {
+    if(time == '') return '-';
+    // Assuming the time is in the format 'HH:mm:ss'
+    const formattedTime = this.datePipe.transform(`1970-01-01T${time}`, 'h:mm a');
+    return formattedTime || time;  // Return formatted time or original if formatting fails
   }
 
   closePopup() {

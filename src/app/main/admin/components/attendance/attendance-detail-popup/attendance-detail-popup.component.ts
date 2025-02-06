@@ -82,50 +82,15 @@ export class AttendanceDetailPopupComponent {
 
   get forTimeIn() {
     if(!this.data.details) return true;
-    // if(!this.data.details.time_in || this.data.details.time_out) return true;
     else return false;
-  }
-
-  // toggleTimeInOut(): void {
-  //   if (this.selectedAction === 'button') {
-        
-  //       this.ds.request('POST', 'admin/attendance/clock/user/' + this.employee.id).subscribe({
-  //         next: (res: any) => {
-  //           this.pop.toastWithTimer('success', res.message);
-  //         },
-  //         error: (err: any) => {
-  //           this.pop.swalBasic('error', 'Oops! An error has occured', err.error.message);
-  //         }
-  //       });
-  //       // this.dialogRef.close({ timeIn: true });
-  //     // } else {
-  //     //   this.ds.request('POST', 'admin/attendance/time-out/user/' + this.employee.id).subscribe({
-  //     //     next: (res: any) => {
-  //     //       this.pop.toastWithTimer('success', res.message);
-  //     //       this.timeInActive = false;
-  //     //     },
-  //     //     error: (err: any) => {
-  //     //       this.pop.swalBasic('error', 'Oops! An error has occured', err.error.message);
-  //     //     }
-  //     //   })
-  //     //   // this.dialogRef.close({ timeOut: true });
-  //     // }
-  //   }
-  // }
-
-  applyLeave(): void {
-    let data = {
-      leave_type: this.selectedLeaveType,
-      date: this.data.selectedDate
-    };
-
-    this.submit(data)
   }
 
   submit(data: any) {
     this.ds.request('POST', 'admin/attendance/manual/user/' + this.data.details.user_id, data).subscribe({
       next: (res: any) => {
-        this.closePopup(res.data)
+        let action = 'add';
+        if(this.data.details.id) action = 'update';
+        this.closePopup({ action: action, data: res.data })
         this.pop.toastWithTimer('success', res.message);
       },
       error: (err: any) => {
@@ -136,6 +101,5 @@ export class AttendanceDetailPopupComponent {
 
   closePopup(data?: any) {
     this.dialogRef.close(data);
-    this.router.navigate(['/admin/attendance']);
   }
 }

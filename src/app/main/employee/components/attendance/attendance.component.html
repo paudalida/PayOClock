@@ -8,16 +8,25 @@
         <p class="employee-position">{{ employee.position }}</p>
         <p class="current-time">{{ currentTime }}</p>
         <p class="current-date">{{ currentDate }}</p>
-        <button class="btn-primary toggle-button" [ngClass]="!isTimedIn ? 'btn-time-in' : 'btn-time-out'" (click)="toggleTime()" [disabled]="currentTimeOut || buttonLoading">
+        <button class="btn-primary toggle-button" [ngClass]="!isTimedIn ? 'btn-time-in' : 'btn-time-out'" (click)="toggleTime()" [disabled]="buttonLoading">
           {{ isTimedIn ? 'Time Out' : 'Time In'  }}
         </button>
       </div>
     </div>
   
-    <div class="employee-container">
+    <div class="employee-container" (click)="toggleHours()">
       <div class="employee-right">
-        <h2 class="accumulated-title">Accumulated Hours</h2>
-        <p class="accumulated-hours">{{ accumulatedHours || '0h 0m' }}</p>
+        <h2 class="accumulated-title">Accumulated Hours This Payday</h2>
+        <p class="accumulated-hours"> Basic: {{ accumulatedHours.basic }}</p>
+
+        <ng-container *ngIf="hoursToggle">
+          <p class="accumulated-hours"> Regular Holiday: {{ accumulatedHours.regholiday }}</p>
+          <p class="accumulated-hours"> Special Holiday: {{ accumulatedHours.specialnwholiday }}</p>
+          <p class="accumulated-hours"> Leaves: {{ accumulatedHours.leave }}</p>
+          <p class="accumulated-hours"> Overtime: {{ accumulatedHours.overtime.basic }}</p>
+          <p class="accumulated-hours"> Regular Holiday Overtime: {{ accumulatedHours.overtime.regholiday }}</p>
+          <p class="accumulated-hours"> Special Holiday Overtime: {{ accumulatedHours.overtime.specialnwholiday }}</p>
+        </ng-container>
       </div>
     </div>
   </div>
@@ -33,7 +42,7 @@
       
       <div class="date-range-dropdown">
         <div class="select-wrapper">
-          <select [(ngModel)]="typeFilter">
+          <select [(ngModel)]="typeFilter" (change)="changeData()">>
             <option value="period"> By Period </option>
             <option value="month"> By Month </option>
             <option value="week"> By Week </option>
@@ -43,13 +52,13 @@
 
       <div class="date-range-dropdown">
         <div class="select-wrapper">
-          <select [(ngModel)]="periodFilter" *ngIf="typeFilter == 'period'">
+          <select [(ngModel)]="periodFilter" *ngIf="typeFilter == 'period'" (change)="changeData()">
             <option *ngFor="let element of periods; let i = index;" [value]="element" [selected]="i == 0"> {{ element }} </option>
           </select>
-          <select [(ngModel)]="monthFilter" *ngIf="typeFilter == 'month'">
+          <select [(ngModel)]="monthFilter" *ngIf="typeFilter == 'month'" (change)="changeData()">
             <option *ngFor="let element of months; let i = index;" [value]="element" [selected]="i == 0"> {{ element }} </option>
           </select>
-          <select [(ngModel)]="weekFilter" *ngIf="typeFilter == 'week'">
+          <select [(ngModel)]="weekFilter" *ngIf="typeFilter == 'week'" (change)="changeData()">
             <option *ngFor="let element of weeks; let i = index;" [value]="element" [selected]="i == 0"> {{ element }} </option>
           </select>
         </div>
@@ -66,8 +75,8 @@
     </tr>
   </thead>
   <tbody>
-    <ng-container *ngIf="typeFilter == 'period'">
-      <tr *ngFor="let record of groupedByPeriod[periodFilter]">
+    <!-- <ng-container *ngIf="typeFilter == 'period'"> -->
+      <tr *ngFor="let record of dataSource">
         <td>
           <span>{{ record.date }}</span>
         </td>
@@ -76,7 +85,7 @@
         
         <td>{{ convertTime(record.time_out) }}</td>
       </tr>
-    </ng-container>
+    <!-- </ng-container>
   
     <ng-container *ngIf="typeFilter == 'month'">
       <tr *ngFor="let record of groupedByMonth[monthFilter]">
@@ -100,7 +109,7 @@
         
         <td>{{ convertTime(record.time_out) }}</td>
       </tr>
-    </ng-container>
+    </ng-container> -->
   </tbody>
 </table>
 

@@ -427,13 +427,20 @@ export class AttendanceComponent implements OnInit {
         details: data
       }
     });
-  
-    dialogRef.afterClosed().subscribe((res: any) => {
-      if(res) {
-        const index = this.dataSource.data.findIndex((employee: any) => (employee.id === res.user_id));
-        if (index === -1) return;
 
-        this.dataSource.data[index][res.day.slice(0,3).toLowerCase()] = res;
+    dialogRef.afterClosed().subscribe((res: any) => {
+
+      if(res.action == 'update') {
+        let index = this.attendance.findIndex((element: any) => element.id == res.data.id);
+        if (index !== -1) {
+          this.attendance[index] = res.data;
+
+          let gIndex = this.groupedRecordsByDay[res.data.date].findIndex((element: any) => element.id == res.data.id);
+          this.groupedRecordsByDay[res.data.date][gIndex] = res.data;
+        }
+      } else {
+        this.attendance.push(res.data);
+        this.groupedRecordsByDay = this.groupByDay(this.attendance);
       }
     });
   }
@@ -443,61 +450,6 @@ export class AttendanceComponent implements OnInit {
     const options: Intl.DateTimeFormatOptions = { month: 'long', day: '2-digit', year: 'numeric' };
     return `${date.toLocaleDateString('en-US', options)} (${dayName})`;
   }
-
-  // openAttendanceHistory() {
-  //   if (this.dialog) {
-  //     this.dialog.open(AttendanceHistoryComponent);
-  //   } else {
-  //     console.error('Dialog is not initialized');
-  //   }
-  // }
-
-  // viewProof(data: any) {
-  //   let proof = [];
-
-  //   /* Improve */
-  //   if(data.mon.status) {
-  //     // if(data.mon.images.length > 0) {
-  //       proof.push(data.mon);
-  //     // }
-  //   }
-   
-  //   if(data.tue.status) {
-  //     // if(data.tue.images.length > 0) {
-  //       proof.push(data.tue);
-  //     // }
-  //   }
-
-  //   if(data.wed.status) {
-  //     // if(data.wed.images.length > 0) {
-  //       proof.push(data.wed);
-  //     // }
-  //   }
-    
-  //   if(data.thu.status) {
-  //     // if(data.thu.images.length > 0) {
-  //       proof.push(data.thu);
-  //     // }
-  //   }
-    
-  //   if(data.fri.status) {
-  //     // if(data.fri.images.length > 0) {
-  //       proof.push(data.fri);
-  //     // }
-  //   }
-    
-  //   if(data.sat.status) {
-  //     // if(data.sat.images.length > 0) {
-  //       proof.push(data.sat);
-  //     // }
-  //   }
-
-  //   if (this.dialog) {
-  //     this.dialog.open(ViewProofComponent, { data: proof });
-  //   } else {
-  //     console.error('Dialog is not initialized');
-  //   }
-  // }
 
   isBeforeOrNow(date: string) {
     const date2 = '2024-11-01';
