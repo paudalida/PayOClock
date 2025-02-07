@@ -34,10 +34,11 @@
                         <!-- Type of Request Column -->
                         <ng-container matColumnDef="request_type">
                             <th mat-header-cell *matHeaderCellDef> Type of Request </th>
-                            <td mat-cell *matCellDef="let element"> 
-                                {{ element.type | titlecase }} 
+                            <td mat-cell *matCellDef="let element">
+                              <!-- Check if the type is 'Other' and display otherType if true, else display the type -->
+                              {{ element.type === 'Other' && element.otherType ? (element.otherType) : (element.type | titlecase) }}
                             </td>
-                        </ng-container>
+                          </ng-container>
                 
                         <!-- Start Date Column -->
                         <ng-container matColumnDef="start_date">

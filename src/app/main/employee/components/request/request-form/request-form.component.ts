@@ -206,95 +206,93 @@ export class RequestFormComponent implements OnInit {
 
   async submit() {
     if (!this.files) {
-      this.files = [];
+        this.files = [];
     }
   
     if (this.formType === 'overtime' && !this.form.get('reason')?.value) {
-      this.pop.toastWithTimer('error', 'Reason is required for overtime request.');
-      return;
+        this.pop.toastWithTimer('error', 'Reason is required for overtime request.');
+        return;
     }
   
     if (this.formType === 'leave' && this.form.get('leaveType')?.value === 'Paid Leave' && this.files.length === 0) {
-      this.pop.toastWithTimer('error', 'No files selected for upload.');
-      return;
+        this.pop.toastWithTimer('error', 'No files selected for upload.');
+        return;
     }
   
     let isConfirmed: boolean;
   
     if (this.formType === 'overtime') {
-      isConfirmed = await this.pop.swalWithCancel(
-        'warning',
-        'Submit Overtime Request?',
-        'Are you sure you want to submit your overtime request with the provided reason?',
-        'Yes',
-        'No'
-      );
+        isConfirmed = await this.pop.swalWithCancel(
+            'warning',
+            'Submit Overtime Request?',
+            'Are you sure you want to submit your overtime request with the provided reason?',
+            'Yes',
+            'No'
+        );
     } else {
-      if (this.form.get('leaveType')?.value === 'Paid Leave') {
-        isConfirmed = await this.pop.swalWithCancel(
-          'warning',
-          'UPLOAD files?',
-          'Are you sure you want to ADD these file(s) and submit the leave request?',
-          'Yes',
-          'No'
-        );
-      } else {
-        isConfirmed = await this.pop.swalWithCancel(
-          'warning',
-          'Submit Leave Request?',
-          'Are you sure you want to submit the leave request without attaching files?',
-          'Yes',
-          'No'
-        );
-      }
+        if (this.form.get('leaveType')?.value === 'Paid Leave') {
+            isConfirmed = await this.pop.swalWithCancel(
+                'warning',
+                'UPLOAD files?',
+                'Are you sure you want to ADD these file(s) and submit the leave request?',
+                'Yes',
+                'No'
+            );
+        } else {
+            isConfirmed = await this.pop.swalWithCancel(
+                'warning',
+                'Submit Leave Request?',
+                'Are you sure you want to submit the leave request without attaching files?',
+                'Yes',
+                'No'
+            );
+        }
     }
   
     if (isConfirmed) {
-      const formData = new FormData();
-      const formValues = this.form.value;
+        const formData = new FormData();
+        const formValues = this.form.value;
   
-      formData.append('request_type', this.formType);
+        formData.append('request_type', this.formType);
   
-      for (const key in formValues) {
-        if (formValues.hasOwnProperty(key)) {
-          formData.append(key, formValues[key]);
+        // If the type is 'Other', use the value from 'otherType'
+        if (this.form.get('type')?.value === 'Other' && this.form.get('otherType')?.value) {
+            formData.set('type', this.form.get('otherType')?.value); // Set 'otherType' as the 'type' value
+        } else {
+            formData.set('type', this.form.get('type')?.value); // Use selected 'type'
         }
-      }
   
-      // Deduct leave balance logic
-      // const leaveType = this.form.get('leaveType')?.value; // Get the selected leave type
-      // if (leaveType === 'Paid Leave' || leaveType === 'Sick Leave') {
-      //   if (leaveType === 'Paid Leave') {
-      //     this.leaveCredits.paidLeave -= 1;
-      //   } else if (leaveType === 'Sick Leave') {
-      //     this.leaveCredits.sickLeave -= 1;
-      //   }
-      // }
-  
-      if (this.formType === 'leave' && this.form.get('request_type')?.value === 'Paid Leave') {
-        for (let i = 0; i < this.files.length; i++) {
-          formData.append('attachments[]', this.files[i]);
+        // Append other form values to formData
+        for (const key in formValues) {
+            if (formValues.hasOwnProperty(key)) {
+                formData.append(key, formValues[key]);
+            }
         }
-      }
   
-      this.ds.request('POST', 'employee/time-requests/store', formData).subscribe({
-        next: (res: any) => {
-          this.pop.toastWithTimer('success', res.message);
-          this.dialogRef.close(res.data);
-        },
-        error: (err: any) => {
-          this.pop.swalBasic('error', 'Error uploading images', err.error.message);
-          // const errorMessage = err?.error?.message || 'An unexpected error occurred.';
-          // this.pop.swalBasic('error', 'Error uploading images', errorMessage);
-        },
-      });
+        // If there are files selected, append them
+        if (this.formType === 'leave' && this.form.get('request_type')?.value === 'Paid Leave') {
+            for (let i = 0; i < this.files.length; i++) {
+                formData.append('attachments[]', this.files[i]);
+            }
+        }
+  
+        // Send the request
+        this.ds.request('POST', 'employee/time-requests/store', formData).subscribe({
+            next: (res: any) => {
+                this.pop.toastWithTimer('success', res.message);
+                this.dialogRef.close(res.data);
+            },
+            error: (err: any) => {
+                this.pop.swalBasic('error', 'Error uploading images', err.error.message);
+            },
+        });
     } else {
-      this.pop.toastWithTimer('error', 'Request canceled.');
-      this.dialogRef.close();
+        this.pop.toastWithTimer('error', 'Request canceled.');
+        this.dialogRef.close();
     }
-  }
-  
+}
 
+  
   close(): void {
     this.form.reset();
     this.dialogRef.close();

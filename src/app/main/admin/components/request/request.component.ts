@@ -9,17 +9,17 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { NotificationService } from '../../../../services/notification/notification.service';
 
-
 interface EmployeeRequest {
   id: number;
   user_id: string;
   full_name: string;
   employee_id: string;
   request_type: string;
+  otherType?: string;  // otherType added to handle custom 'Other' request types
   start_date: string;
   end_date: string;
   status: string;
-  proofs: { name: string; url: string }[];  
+  proofs: { name: string; url: string }[];
 }
 
 @Component({
@@ -56,13 +56,20 @@ export class RequestComponent implements OnInit, AfterViewInit {
         res.data.forEach((element: any) => {
           const matchedEmployee = this.employees.find((employee: any) => employee.id === element.user_id);
 
-          if(matchedEmployee) {
+          if (matchedEmployee) {
             element.full_name = matchedEmployee.full_name;
             element.employee_id = matchedEmployee.employee_id;
             element.image = matchedEmployee.image;
-            element.user_id = matchedEmployee.id
+            element.user_id = matchedEmployee.id;
+          }
+
+          // Check if the request_type is "Other", and if so, replace it with the value of "otherType"
+          if (element.request_type === 'Other' && element.otherType) {
+            element.request_type = element.otherType;  // Replace the "Other" type with the actual custom type
           }
         });
+
+        // Split data into pending and finished
         this.pendingRequests.data = res.data.filter((request: any) => request.status === 0);
         this.finishedRequests.data = res.data.filter((request: any) => request.status !== 0);
 
@@ -72,7 +79,7 @@ export class RequestComponent implements OnInit, AfterViewInit {
           this.notif.setNotifications();
         });
       }
-    })
+    });
   }
 
   ngAfterViewInit(): void {
@@ -106,14 +113,14 @@ export class RequestComponent implements OnInit, AfterViewInit {
           this.updateDataSources(element.id, 1);
         },
         error: (err: any) => {
-          this.popupService.swalBasic('error', 'Oops! An Error has occured.', this.popupService.genericErrorMessage);
+          this.popupService.swalBasic('error', 'Oops! An Error has occurred.', this.popupService.genericErrorMessage);
         }
       });
     } else {
       this.popupService.toastWithTimer('error', 'Approval cancelled.');
     }
   }
-  
+
   // Deny request method
   async denyRequest(element: EmployeeRequest) {
     const result = await Swal.fire({
@@ -159,7 +166,7 @@ export class RequestComponent implements OnInit, AfterViewInit {
           this.updateDataSources(element.id, 2, result.value);
         },
         error: (err: any) => {
-          this.popupService.swalBasic('error', 'Oops! An Error has occured.', this.popupService.genericErrorMessage);
+          this.popupService.swalBasic('error', 'Oops! An Error has occurred.', this.popupService.genericErrorMessage);
         }
       });
     } else if (result.dismiss === Swal.DismissReason.cancel) {
@@ -172,29 +179,23 @@ export class RequestComponent implements OnInit, AfterViewInit {
     const index = this.pendingRequests.data.findIndex((request: any) => request.id === id);
 
     if (index !== -1) {
-
-      /* temp */
       let record = this.pendingRequests.data[index];
       record.status = status;
       record.denial_reason = denial_reason;
 
-      /* remove */
+      // If request type is 'Other', replace with the "otherType" value
+      if (record.request_type === 'Other' && record.otherType) {
+        record.request_type = record.otherType;
+      }
+
+      // Remove from pending
       this.pendingRequests.data.splice(index, 1);
       this.pendingRequests.data = [...this.pendingRequests.data];
 
-      /* add to finished */
+      // Add to finished
       this.finishedRequests.data.unshift(record);
       this.finishedRequests.data = [...this.finishedRequests.data];
     }
-    
-    // const matchedEmployee = this.employees.find((employee: any) => employee.id === data.user_id);
-
-    // if(matchedEmployee) {
-    //   data.full_name = matchedEmployee.full_name;
-    //   data.employee_id = matchedEmployee.employee_id;
-    //   data.user_id = matchedEmployee.id
-    // }
-
   }
 
   viewRequest(employeeData: any) {
@@ -206,5 +207,4 @@ export class RequestComponent implements OnInit, AfterViewInit {
       console.error('Dialog is not initialized');
     }
   }
-  
 }

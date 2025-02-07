@@ -1,6 +1,5 @@
-<div class="main-container">
+  <div class="main-container">
     <form class="form-info" [formGroup]="form" (submit)="submit()">
-    <!-- <form class="form-info" [formGroup]="form"> -->
         <div class="header">
             <h1>{{ formType || '' | titlecase }} Request Form</h1>
         </div>
@@ -14,41 +13,28 @@
                   <div class="labelline">Leave Type</div>
                 </div>
 
-              <div class="entryarea">
-                <select formControlName="type" [disabled]="formType == 'overtime'"> 
-                    <option *ngFor="let type of types" [value]="type"> {{ type }} </option>
-                </select>
-                <div class="labelline">Type of {{ formType || '' | titlecase }}</div>
+                <div class="entryarea">
+                  <select formControlName="type" [disabled]="formType == 'overtime'" (change)="updateType()"> 
+                      <option *ngFor="let type of types" [value]="type"> {{ type }} </option>
+                  </select>
+                  <div class="labelline">Type of {{ formType || '' | titlecase }}</div>
+                </div>
               </div>
-            </div>
-
-            <!-- <div class="input-row" *ngIf="isPaidLeaveSelected">
-              <div class="leave-credits">
-                  <p><strong>Remaining Leave Credits:</strong> 
-                  <br> Sick Leave: {{ leaveCredits.sickLeave }}
-                  <br> Paid Leave: {{ leaveCredits.paidLeave }}</p>
-              </div>  
-            </div> -->
-            
-
-            <!-- <div class="input-row" *ngIf="inputValue === 'Other'">
-              <div class="entryarea">
-                <input formControlName="type">
-                <div class="labelline">Other Type</div>
+    
+              <div class="input-row" *ngIf="form.get('type')?.value === 'Other'">
+                <div class="entryarea">
+                  <input formControlName="otherType" placeholder="Specify Other Type">
+                  <div class="labelline">Other Type</div>
+                </div>
               </div>
-            </div> -->
 
             <div class="input-row">
                 <div class="entryarea">
-                    <!-- Time picker for start time -->
-                    <input type="datetime-local" formControlName="start"
-                           (change)="validateStartTime($event)">
+                    <input type="datetime-local" formControlName="start" (change)="validateStartTime($event)">
                     <div class="labelline">Start Date</div>
                 </div>
                 <div class="entryarea">
-                    <!-- Time picker for end time -->
-                    <input type="datetime-local" formControlName="end"
-                           (change)="validateEndTime($event)">
+                    <input type="datetime-local" formControlName="end" (change)="validateEndTime($event)">
                     <div class="labelline">End Date</div>
                 </div>
             </div>
@@ -63,12 +49,9 @@
             
             <div class="input-row" *ngIf="form.get('request_type')?.value === 'Paid Leave'">
                 <div class="entryarea2">
-                  <!-- Multiple file input -->
                   <input #fileInput class="inputtxt" type="file" (change)="onFileChange($event)" multiple>
                   <span></span>
                   <div class="labelline2">Upload File(s)</div>
-              
-                  <!-- Preview section -->
                   <div class="file-preview">
                     <div *ngFor="let file of selectedFiles; let i = index;" class="preview-item">
                       <div class="file-container">
@@ -90,8 +73,7 @@
                 <div class="cancel-btn">
                     <button class = "button" type="button" value="Cancel" id="cancel" (click)="close()"> CANCEL </button>
                 </div>
-                
             </div>
         </div>
     </form>
-</div>
+  </div>
