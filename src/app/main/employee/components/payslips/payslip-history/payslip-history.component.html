@@ -53,51 +53,76 @@
                 </div>
         
                 <div class="table-content1" *ngIf="activeTable == i && hasActive">
-        
-                    <table>
-                        <tr class="table-header">
-                            <th> Earnings </th>
-                            <th> </th>
-                            <th> Amount </th>
-                            <th> Earnings </th>
-                            <th> Amount </th>
-                            <th> Deductions </th>
-                            <th> Amount </th>
-                        </tr>
-        
-                        <ng-container *ngFor="let value of payslips[i]">
-                            <tr>
-                                <td> {{ value[0] }} </td>
-                                <td> {{ value[1] }} </td>
-                                <td> {{ value[2] }} </td>
-                                <td> {{ value[3] }} </td>
-                                <td> {{ value[4] }} </td>
-                                <td> {{ value[5] }} </td>
-                                <td> {{ value[6] }} </td>
-                            </tr>
-                        </ng-container>
-        
-                        <tr class="totals">
-                            <td> </td>
-                            <td> Adjusted Pay </td>
-                            <td> {{ payslipDetails[i].adjusted_pay }} </td>
-                            <td> Total Additions </td>
-                            <td> {{ payslipDetails[i].total_additions  }}</td>
-                            <td> Total Deductions </td>
-                            <td> {{ payslipDetails[i].total_deductions }}</td>
-                        </tr>
-        
-                        <tr>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> Total Earnings </td>
-                            <td> {{ payslipDetails[i].gross_pay }}</td>
-                            <td> Net Salary Transferred </td>
-                            <td> {{ payslipDetails[i].net_pay }}</td>
-                        </tr>
+                    <div class="earnings-and-deductions">
+                        <div class="earnings-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Earnings</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let value of payslips[i]">
+                                        <td>{{ value[0] }}</td>
+                                        <td>{{ value[2] }}</td>
+                                    </tr>
+                                    <tr class="total-row">
+                                        <td><strong>Total Additions</strong></td>
+                                        <td><strong>{{ payslipDetails[i].total_additions }}</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         
-                    </table>
+                        <div class="deductions-loans-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Deductions</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let value of payslips[i]">
+                                        <td>{{ value[5] }}</td>
+                                        <td>{{ value[6] }}</td>
+                                    </tr>
+                                    <tr class="total-row">
+                                        <td><strong>Total Deductions</strong></td>
+                                        <td><strong>{{ payslipDetails[i].total_deductions }}</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                
+                    <hr class="divider-line">
+                    
+                    <div class="totals-wrapper">
+                        <table class="pay-row-table">
+                            <tr class="pay-row">
+                                <td><strong>Gross Pay</strong></td>
+                                <td><strong>{{ payslipDetails[i].gross_pay }}</strong></td>
+                            </tr>
+                        </table>
+                        
+                        <table class="total-deduc-table">
+                            <tr class="total-deduc">
+                                <td><strong>Total Deductions</strong></td>
+                                <td><strong>{{ payslipDetails[i].total_deductions }}</strong></td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="totals-wrapper">
+                        <table class="pay-row-table">
+                            <tr class="pay-row">
+                                <td><strong>Net Pay</strong></td>
+                                <td><strong>{{ payslipDetails[i].net_pay }}</strong></td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </ng-container>

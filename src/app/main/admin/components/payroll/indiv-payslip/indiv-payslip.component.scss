@@ -68,14 +68,26 @@
 
         .information-case {
             font-size: 17px;
-            font-weight: 500;
-            padding-right: 15px;
+            font-weight: 500;   
         }
 
         td {
             padding-left: 15px;
         }
     
+    }
+
+    .export {
+        padding-top: 15px;
+        background-color: var(--primary-color);
+        color: var(--white);
+        padding: 11px;
+        border: none;
+        border-radius: 3px;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .no-payslip {

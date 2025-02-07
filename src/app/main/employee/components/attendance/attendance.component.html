@@ -17,15 +17,15 @@
     <div class="employee-container" (click)="toggleHours()">
       <div class="employee-right">
         <h2 class="accumulated-title">Accumulated Hours This Payday</h2>
-        <p class="accumulated-hours"> Basic: {{ accumulatedHours.basic }}</p>
+        <p class="accumulated-hours"> Basic: <span>{{ accumulatedHours.basic }}</span></p>
 
         <ng-container *ngIf="hoursToggle">
-          <p class="accumulated-hours"> Regular Holiday: {{ accumulatedHours.regholiday }}</p>
-          <p class="accumulated-hours"> Special Holiday: {{ accumulatedHours.specialnwholiday }}</p>
-          <p class="accumulated-hours"> Leaves: {{ accumulatedHours.leave }}</p>
-          <p class="accumulated-hours"> Overtime: {{ accumulatedHours.overtime.basic }}</p>
-          <p class="accumulated-hours"> Regular Holiday Overtime: {{ accumulatedHours.overtime.regholiday }}</p>
-          <p class="accumulated-hours"> Special Holiday Overtime: {{ accumulatedHours.overtime.specialnwholiday }}</p>
+          <p class="accumulated-hours"> Regular Holiday: <span>{{ accumulatedHours.regholiday }}</span></p>
+          <p class="accumulated-hours"> Special Holiday: <span>{{ accumulatedHours.specialnwholiday }}</span></p>
+          <p class="accumulated-hours"> Leaves: <span>{{ accumulatedHours.leave }}</span></p>
+          <p class="accumulated-hours"> Overtime: <span>{{ accumulatedHours.overtime.basic }}</span></p>
+          <p class="accumulated-hours"> Regular Holiday Overtime: <span>{{ accumulatedHours.overtime.regholiday }}</span></p>
+          <p class="accumulated-hours"> Special Holiday Overtime: <span>{{ accumulatedHours.overtime.specialnwholiday }}</span></p>
         </ng-container>
       </div>
     </div>

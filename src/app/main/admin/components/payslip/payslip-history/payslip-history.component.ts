@@ -219,12 +219,12 @@ export class PayslipHistoryComponent implements OnInit{
     else { this.activeTable = index; this.hasActive = true; }
   }
 
-  redirectToPayslip() {
-    this.router.navigate(['/admin/payslips/payslip']);
-  }
+  // redirectToPayslip() {
+  //   this.router.navigate(['/admin/payslips/payslip']);
+  // }
 
   redirectToPayrolls() {
-    this.router.navigate(['/admin/payslips']);
+    this.router.navigate(['/admin/payroll']);
   }
 
   changePaginator(event: Event) {

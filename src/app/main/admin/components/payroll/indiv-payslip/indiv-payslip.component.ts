@@ -149,6 +149,11 @@ export class IndivPayslipComponent implements OnInit{
     });
   }
 
+  redirectToHistory() {
+    this.dialogRef.close();
+    this.router.navigate(['/admin/payroll/payslips-history']);
+  }
+
   closePopup() {
     this.dialogRef.close();
   }
