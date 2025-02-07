@@ -51,6 +51,7 @@ export class PayrollComponent implements OnInit {
     payday_start: '',
     payday_end: ''
   };
+  isLoading = true;
 
   constructor(
     private dialog: MatDialog,
@@ -70,18 +71,18 @@ export class PayrollComponent implements OnInit {
   }
 
   getData() {
-    this.ds.request('GET', 'admin/transactions/latest').subscribe({
-      next: (res: any) => {
-        this.date.payday_start = res.data.payday_start;
-        this.date.payday_end = res.data.payday_end;
+    // this.ds.request('GET', 'admin/transactions/latest').subscribe({
+    //   next: (res: any) => {
+    //     this.date.payday_start = res.data.payday_start;
+    //     this.date.payday_end = res.data.payday_end;
 
-        this.disabledInput = res.data.released_at ? true : false;
-        this.as.setPayday(res.data);
-      },
-      error: (err: any) => {
-        this.pop.swalBasic('error', 'Oops! Cannot fetch payroll date', err.error.message);
-      }
-    })
+    //     this.disabledInput = res.data.released_at ? true : false;
+    //     this.as.setPayday(res.data);
+    //   },
+    //   error: (err: any) => {
+    //     this.pop.swalBasic('error', 'Oops! Cannot fetch payroll date', err.error.message);
+    //   }
+    // })
 
     this.ds.request('GET', 'admin/payrolls').subscribe({
       next: (res: any) => {
@@ -95,6 +96,11 @@ export class PayrollComponent implements OnInit {
 
         this.payrolls = res.data.payrolls;
         this.filterValue = this.dateFilter[0];
+
+        const dateRange = this.filterValue; // Get the 0 index value
+        const [startDate, endDate] = dateRange.split(' - ').map(date => date.replace(/\//g, '-'));
+        this.date.payday_start = startDate;
+        this.date.payday_end = endDate;
 
         this.release_dates = res.data.release_dates;
         this.release_date = this.release_dates[this.filterValue];
@@ -112,6 +118,7 @@ export class PayrollComponent implements OnInit {
         };
 
         this.changeData();
+        this.isLoading = false;
       },
       error: (err: any) => {
         this.pop.swalBasic('error', 'Oops! Cannot fetch payrolls!', this.pop.genericErrorMessage);
@@ -128,7 +135,7 @@ export class PayrollComponent implements OnInit {
       expenses: this.sums.expenses[this.filterValue]
     };
 
-    const finalRow = [ ...this.totalIndex.contributions, ...[this.curr_sums.contributions], ...this.totalIndex.net_pays, [this.curr_sums.net_pays]];
+    const finalRow = [ ...this.totalIndex.contributions, ...[this.curr_sums.contributions], ...this.totalIndex.net_pays, ...[this.curr_sums.net_pays]];
     this.payroll.push(finalRow);
 
     const tempArray = Array(finalRow.length - 2);
@@ -314,7 +321,7 @@ export class PayrollComponent implements OnInit {
         const startCell = `${col}${12 + rowIndex}`;
         const cell = worksheet.getCell(startCell);
   
-        cell.value = row[header] || 'N/A';
+        cell.value = row[header] || '';
   
         cell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
         if (12 + rowIndex === 12) {

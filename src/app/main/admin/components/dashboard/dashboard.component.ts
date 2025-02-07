@@ -51,13 +51,10 @@ export class DashboardComponent implements OnInit {
   options: any;
   currentMonth: any;
 
-  containerVisibility: Record<'employee' | 'pending' | 'processed' | 'attendance' | 'payroll' | 'summary', boolean> = {
-    employee: true,
-    pending: true,
-    processed: true,
-    attendance: true,
+  containerVisibility: Record<'attendance_weekly' | 'payroll' | 'attendance_summary', boolean> = {
+    attendance_weekly: true,
     payroll: true, 
-    summary: true,
+    attendance_summary: true,
   };
   isLoading = true;
 
@@ -79,8 +76,8 @@ export class DashboardComponent implements OnInit {
   }
 
   toggleContainerVisibility(container: string) {
-    this.containerVisibility[container as 'employee' | 'pending' | 'processed' | 'attendance' | 'payroll' | 'summary'] = 
-      !this.containerVisibility[container as 'employee' | 'pending' | 'processed' | 'attendance' | 'payroll' | 'summary'];
+    this.containerVisibility[container as 'attendance_weekly' | 'payroll' | 'attendance_summary'] = 
+      !this.containerVisibility[container as 'attendance_weekly' | 'payroll' | 'attendance_summary'];
   }
 
   toggleAction(): void {
@@ -165,13 +162,13 @@ export class DashboardComponent implements OnInit {
     const textColor = documentStyle.getPropertyValue('--text-color');
 
     this.doughnutChartData = {
-      labels: ['Present', 'Late', 'Absent'],
+      labels: ['Present', 'Absent'],
       datasets: [
         {
-          data: [this.doughnutRawData.present, this.doughnutRawData.late, this.doughnutRawData.absent],
+          data: [this.doughnutRawData.present, this.doughnutRawData.absent],
           backgroundColor: [
             documentStyle.getPropertyValue('--present'),
-            documentStyle.getPropertyValue('--late'),
+            // documentStyle.getPropertyValue('--late'),
             documentStyle.getPropertyValue('--absent')
           ]
         }

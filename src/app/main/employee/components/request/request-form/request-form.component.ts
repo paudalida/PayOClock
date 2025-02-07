@@ -26,10 +26,8 @@ export class RequestFormComponent implements OnInit {
   types: any = [];
   leaveTypes: any = ['Paid Leave', 'Unpaid Leave'];
 
-  // leaveCredits = {
-  //   sickLeave: 4,
-  //   paidLeave: 4
-  // };
+  leaveCredits = 0;
+  otherType = '';
 
 
   constructor(
@@ -37,9 +35,10 @@ export class RequestFormComponent implements OnInit {
     private dialogRef: MatDialogRef<RequestFormComponent>, 
     private pop: PopupService,
     private ds: DataService,
-    @Inject(MAT_DIALOG_DATA) public data: string
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.formType = data;
+    this.formType = data.type;
+    this.leaveCredits = data.leaveCredits;
 
     /* Initialize types array */
     if(this.formType == 'leave') {
@@ -59,7 +58,7 @@ export class RequestFormComponent implements OnInit {
         request_type: ['overtime', Validators.required],
         type:   ['overtime', Validators.required],
         start:  ['', Validators.required],
-        end:    ['', Validators.required],
+        end:    [{value: '', disabled: this.form?.get('start')?.value === ''}, Validators.required],
         reason: ['', Validators.required], 
         files: [''] 
       });
@@ -68,6 +67,7 @@ export class RequestFormComponent implements OnInit {
       this.form = this.fb.group({
         request_type: ['', Validators.required],
         type:   ['', Validators.required],
+        otherType: [''],
         start:  ['', Validators.required],
         end:    ['', Validators.required],
         reason: [''], 
@@ -79,9 +79,13 @@ export class RequestFormComponent implements OnInit {
     this.updateFormValidators();
   }
 
-  // get isPaidLeaveSelected(): boolean {
-  //   return this.form.get('request_type')?.value === 'Paid Leave';
-  // }
+  get isPaidLeaveSelected(): boolean {
+    return this.form.get('request_type')?.value === 'Paid Leave';
+  }
+
+  getLeaveCredits() {
+    return `${Math.floor(this.leaveCredits / 8)} days and ${this.leaveCredits % 8} hours`;
+  }
 
   updateFormValidators(): void {
     this.form.get('reason')?.updateValueAndValidity();
@@ -128,7 +132,7 @@ export class RequestFormComponent implements OnInit {
   }
   
   validateStartTime(event: any): void {
-    const selectedTime = new Date(event.target.value);
+    const selectedTime = new Date((event.target as HTMLInputElement).value);
     let valid = false;
   
     if (this.formType === 'leave') {
@@ -148,12 +152,12 @@ export class RequestFormComponent implements OnInit {
   }
 
   validateEndTime(event: any): void {
-    const selectedTime = new Date(event.target.value);
+    const selectedTime = new Date((event.target as HTMLInputElement).value);
     const startTime = new Date(this.form.get('start')?.value);
     let valid = false;
   
     if (this.formType === 'leave') {
-      valid = selectedTime.getHours() >= 8 && selectedTime.getHours() <= 17 && selectedTime >= startTime;
+      valid = selectedTime.getHours() >= 8 && selectedTime.getHours() <= 17;
     } else if (this.formType === 'overtime') {
       valid = selectedTime.getHours() >= 17 && selectedTime >= startTime;
     }
@@ -165,9 +169,63 @@ export class RequestFormComponent implements OnInit {
       } else if (this.formType === 'overtime') {
         this.pop.toastWithTimer('error', 'End time must be from 05:00 PM onwards for overtime.');
       }
+    } else if(selectedTime < startTime) {
+      this.pop.toastWithTimer('error', 'End time must be greater than start time.');
+      this.form.get('end')?.setValue('');
+    } else if(this.form.get('request_type')?.value === 'Paid Leave') {
+      const totalHours = this.calculateHours();
+      if (totalHours > this.leaveCredits) {
+        this.pop.toastWithTimer('error', 'You do not have enough leave credits for this request.');
+        this.form.get('end')?.setValue('');
+      }
     }
   }
   
+  calculateHours() {
+    const start = new Date(this.form.get('start')?.value);
+    const end = new Date(this.form.get('end')?.value);
+    let totalHours = 0;
+  
+    // Helper function to calculate hours for a single day
+    function calculateDailyHours(date: Date, isStart: boolean, isEnd: boolean): number {
+      const day = date.getDay();
+      if (day === 0 || day === 6) return 0; // Exclude weekends
+  
+      let hours = 0;
+      const startHour = isStart ? date.getHours() : 8;
+      const endHour = isEnd ? date.getHours() : 17;
+  
+      if (startHour < 8) date.setHours(8, 0, 0, 0); // Start at 8 AM if earlier
+      if (endHour >= 17) date.setHours(17, 0, 0, 0); // No working hours after 5 PM
+  
+      if (startHour < 12) {
+        hours += Math.min(12, endHour) - startHour;
+      }
+      if (endHour >= 13) {
+        hours += Math.min(17, endHour) - Math.max(13, startHour);
+      }
+      return hours;
+    }
+  
+    // Calculate hours for the start day
+    if (start.toDateString() === end.toDateString()) {
+      totalHours += calculateDailyHours(start, true, true);
+    } else {
+      totalHours += calculateDailyHours(start, true, false);
+      totalHours += calculateDailyHours(end, false, true);
+  
+      // Calculate hours for the days in between
+      let currentDate = new Date(start);
+      currentDate.setDate(currentDate.getDate() + 1);
+      while (currentDate.toDateString() !== end.toDateString()) {
+        totalHours += calculateDailyHours(currentDate, false, false);
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+    }
+  
+    return totalHours;
+  }
+
   onFileChange(event: any): void {
     const files = event.target.files;
     let length = files.length;
@@ -255,13 +313,6 @@ export class RequestFormComponent implements OnInit {
   
         formData.append('request_type', this.formType);
   
-        // If the type is 'Other', use the value from 'otherType'
-        if (this.form.get('type')?.value === 'Other' && this.form.get('otherType')?.value) {
-            formData.set('type', this.form.get('otherType')?.value); // Set 'otherType' as the 'type' value
-        } else {
-            formData.set('type', this.form.get('type')?.value); // Use selected 'type'
-        }
-  
         // Append other form values to formData
         for (const key in formValues) {
             if (formValues.hasOwnProperty(key)) {
@@ -271,9 +322,16 @@ export class RequestFormComponent implements OnInit {
   
         // If there are files selected, append them
         if (this.formType === 'leave' && this.form.get('request_type')?.value === 'Paid Leave') {
-            for (let i = 0; i < this.files.length; i++) {
-                formData.append('attachments[]', this.files[i]);
-            }
+          // If the type is 'Other', use the value from 'otherType'
+          if (this.form.get('type')?.value === 'Other' && this.form.get('otherType')?.value) {
+              formData.set('type', this.form.get('otherType')?.value); // Set 'otherType' as the 'type' value
+          } else {
+              formData.set('type', this.form.get('type')?.value); // Use selected 'type'
+          }
+
+          for (let i = 0; i < this.files.length; i++) {
+              formData.append('attachments[]', this.files[i]);
+          }
         }
   
         // Send the request

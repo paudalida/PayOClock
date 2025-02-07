@@ -14,17 +14,14 @@ export class ToggleActionAdminComponent {
   latesState: boolean = false;
   absentState: boolean = false;
 
-  @Input() containerVisibility: Record<'employee' | 'pending' | 'processed' | 'attendance' | 'payroll' | 'summary', boolean> = {
-    employee: true,
-    pending: true,
-    processed: true,
-    attendance: true,
+  @Input() containerVisibility: Record<'attendance_weekly' | 'payroll' | 'attendance_summary', boolean> = {
+    attendance_weekly: true,
     payroll: true, 
-    summary: true,
+    attendance_summary: true,
   };
 
   // Output to send updated state back to parent component
-  @Output() visibilityChanged: EventEmitter<Record<'employee' | 'pending' | 'processed' | 'attendance' | 'payroll' | 'summary', boolean>> = new EventEmitter();
+  @Output() visibilityChanged: EventEmitter<Record<'attendance_weekly' | 'payroll' | 'attendance_summary', boolean>> = new EventEmitter();
 
   constructor(
     private es: EmployeeService,
@@ -34,18 +31,12 @@ export class ToggleActionAdminComponent {
   }
 
   toggleState(type: string): void {
-    if (type === 'employee') {
-      this.containerVisibility.employee = !this.containerVisibility.employee;
-    } else if (type === 'pending') {
-      this.containerVisibility.pending = !this.containerVisibility.pending;
-    } else if (type === 'processed') {
-      this.containerVisibility.processed = !this.containerVisibility.processed;
-    } else if (type === 'attendance') {
-      this.containerVisibility.attendance = !this.containerVisibility.attendance;
-    } else if (type === 'payroll') {
+    if (type === 'payroll') {
       this.containerVisibility.payroll = !this.containerVisibility.payroll;
     } else if (type === 'summary') {
-      this.containerVisibility.summary = !this.containerVisibility.summary;
+      this.containerVisibility.attendance_summary = !this.containerVisibility.attendance_summary;
+    } else if (type === 'weekly') {
+      this.containerVisibility.attendance_weekly = !this.containerVisibility.attendance_weekly;
     }
   }
 

@@ -11,42 +11,37 @@
       <div class="card" *ngIf="containerVisibility.present" (click)="openPopup('present')">
         <div class="card-header">
           <h3>Total Present</h3>
-          <p class="number" *ngIf="selectedFilterOption === 'week'">{{ containerData['present']['weekly'] }}</p>
-          <p class="number" *ngIf="selectedFilterOption === 'month'">{{ containerData['present']['monthly'] }}</p>
+          <p class="number">{{ containerData['present'] }}</p>
           <!-- Dropdown for filter -->
           <div class="filter-dropdown">
-            <select (click)="stopPopupPropagation($event)" (change)="selectFilterOption($event)">
-              <option value="week" [selected]="selectedFilterOption === 'week'">Week</option>
-              <option value="month" [selected]="selectedFilterOption === 'month'">Month</option>
+            <select (click)="stopPopupPropagation($event)" (change)="selectFilterOption()" [(ngModel)]="filterValue">
+              <option *ngFor="let month of months" [value]="month"> {{ month | date: 'MMMM YYYY' }} </option>
             </select>
           </div>          
         </div>
       </div>
   
-      <div class="card" *ngIf="containerVisibility.lates" (click)="openPopup('lates')">
+      <!-- <div class="card" *ngIf="containerVisibility.lates" (click)="openPopup('lates')">
         <div class="card-header">
           <h3>Total Lates</h3>
           <p class="number">0</p>
-          <!-- Dropdown for filter -->
+          
           <div class="filter-dropdown">
-            <select (click)="stopPopupPropagation($event)" (change)="selectFilterOption($event)">
-              <option value="week" [selected]="selectedFilterOption === 'week'">Week</option>
-              <option value="month" [selected]="selectedFilterOption === 'month'">Month</option>
+            <select (click)="stopPopupPropagation($event)" (change)="selectFilterOption()">
+              <option *ngFor="let month of months" [value]="month"> {{ month | date: 'MMMM YYYY' }} </option>
             </select>
           </div>
         </div>
-      </div>
+      </div> -->
   
       <div class="card" *ngIf="containerVisibility.absences" (click)="openPopup('absences')">
         <div class="card-header">
           <h3>Total Absences</h3>
-          <p class="number" *ngIf="selectedFilterOption === 'week'">{{ containerData['absences']['weekly'] }}</p>
-          <p class="number" *ngIf="selectedFilterOption === 'month'">{{ containerData['absences']['monthly'] }}</p>
+          <p class="number" *ngIf="selectedFilterOption === 'week'">{{ containerData['absences'] }}</p>
           <!-- Dropdown for filter -->
           <div class="filter-dropdown">
-            <select (click)="stopPopupPropagation($event)" (change)="selectFilterOption($event)">
-              <option value="week" [selected]="selectedFilterOption === 'week'">Week</option>
-              <option value="month" [selected]="selectedFilterOption === 'month'">Month</option>
+            <select (click)="stopPopupPropagation($event)" (change)="selectFilterOption()" [(ngModel)]="filterValue">
+              <option *ngFor="let month of months" [value]="month"> {{ month | date: 'MMMM YYYY' }} </option>
             </select>
           </div>          
         </div>

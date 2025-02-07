@@ -61,6 +61,7 @@ export class AttendanceComponent implements OnInit {
     user_id: '',
     status: ''
   };
+  leaves: any = [];
   groupedRecordsByWeek: any;
   groupedRecordsByPeriod: any;
   groupedRecordsByDay: any;
@@ -145,6 +146,7 @@ export class AttendanceComponent implements OnInit {
     this.ds.request('GET', 'admin/attendance').subscribe({
       next: (res: any) => {
         this.attendance = res.data.attendance;
+        this.leaves = res.data.leaves;
         this.payrollPeriods = res.data.payroll_periods;
         this.groupedRecordsByDay = this.groupByDay(res.data.attendance)
         this.periodFilter = this.combinePayrollPeriods(res.data.payroll_periods)
@@ -162,10 +164,35 @@ export class AttendanceComponent implements OnInit {
     this.columns = this.getDateRangeFromString(this.currFilter)
   }
 
-  getRecordForDay(employeeId: number, day: string): boolean {
+  getRecordForDay(employeeId: number, day: string): string {
     const recordsForDay = this.groupedRecordsByDay[day] || [];
-    return recordsForDay.some((record: any) => record.user_id === employeeId);
+    const hasAttendanceRecord = recordsForDay.some((record: any) => record.user_id === employeeId);
+  
+    if (hasAttendanceRecord) {
+      return 'Present';
+    }
+  
+    // Check for leaves if no attendance record is found
+    const dayDate = new Date(day);
+    const leaveRecord = this.leaves.find((leave: any) => {
+      const leaveStart = new Date(leave.start);
+      const leaveEnd = new Date(leave.end);
+      return leave.user_id === employeeId && dayDate >= leaveStart && dayDate <= leaveEnd;
+    });
+  
+    if (leaveRecord) {
+      return leaveRecord.request_type;
+    }
+  
+    // Check if the day is a weekend (Saturday or Sunday)
+    const dayOfWeek = dayDate.getDay();
+    if (dayOfWeek === 0 || dayOfWeek === 6) {
+      return ''; // Return an empty string for weekends with no records
+    }
+
+    return 'Absent';
   }
+  
   
   convertTime(time: string): string {
     if(time == '') return '-';
@@ -414,8 +441,12 @@ export class AttendanceComponent implements OnInit {
     if (givenDate > now) {
       this.pop.swalBasic('error', 'Oops! Can\'t access date', 'Can\'t access future dates');
       return;
+    } else if(this.currFilter != this.periodFilter[0]) {
+      this.pop.swalBasic('error', 'Oops! Can\'t access date', 'Can\'t access past payroll periods');
+      return;
     }
-    // this.selectedDate = date;
+
+    this.selectedDate = date;
     if(!data) {
       data = this.defaultRecord;
       data.user_id = user_id

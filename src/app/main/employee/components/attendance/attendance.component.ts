@@ -251,18 +251,18 @@ export class AttendanceComponent implements OnInit {
       next: (res: any) => {
         this.pop.toastWithTimer('success', res.message);
 
-        if(this.isTimedIn) {
+        if (this.isTimedIn) {
           let index = this.attendance.findIndex((element: any) => element.id == res.data.id);
           if (index !== -1) this.attendance[index] = res.data;
-          this.groupedByWeek = this.groupByWeek(this.attendance);
-          this.groupedByPeriod = this.groupByPeriod(this.attendance, res.data.payroll_periods);
-          this.groupedByMonth = this.groupByMonth(this.attendance);
         } else {
           this.attendance.unshift(res.data);
-          this.groupedByWeek = this.groupByWeek(this.attendance);
-          this.groupedByPeriod = this.groupByPeriod(this.attendance, res.data.payroll_periods);
-          this.groupedByMonth = this.groupByMonth(this.attendance);
-        }      
+        }
+
+        // Update grouped data
+        this.groupedByWeek = this.groupByWeek(this.attendance);
+        this.groupedByPeriod = this.groupByPeriod(this.attendance, this.periods);
+        this.groupedByMonth = this.groupByMonth(this.attendance);
+        
         this.isTimedIn = !this.isTimedIn;
         this.changeData();
       },

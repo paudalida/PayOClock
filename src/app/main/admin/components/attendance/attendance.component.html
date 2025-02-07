@@ -69,19 +69,36 @@
                         <td (click)="openDTRPopup(employee)">{{ employee.full_name }}</td>
                         <ng-container *ngFor="let day of columns">
                           <!-- Check if there's at least one record for this employee on that day -->
-                          <ng-container *ngIf="getRecordForDay(employee.id, day); else noRecord">
+                          <ng-container *ngIf="getRecordForDay(employee.id, day) == 'Present'; else checkLeave">
                             <ng-container *ngFor="let record of groupedRecordsByDay[day]">
-                              <!-- Show record if employee.id matches or record has no user_id -->
                               <td *ngIf="employee.id == record.user_id || !record.user_id" class="status-present" (click)="openAttendanceDetail(employee.id, day, record)">
-                                <!-- If time_in or time_out is missing, display fallback -->
                                 <span *ngIf="record.time_in;">{{ convertTime(record.time_in) }} </span>
                                 <span *ngIf="record.time_out;"><hr>{{ convertTime(record.time_out) }}</span>
                               </td>
                             </ng-container>
                           </ng-container>
                           
+                          <ng-template #checkLeave>
+                            <ng-container *ngIf="getRecordForDay(employee.id, day) == 'Paid Leave'; else checkLeaveUnpaid">
+                              <!-- Content for on leave -->
+                               <td class="status-paid-leave" (click)="openAttendanceDetail(employee.id, day)">
+                                <span>Paid Leave</span>
+                               </td>
+                            </ng-container>
+                          </ng-template>
+
+                          <ng-template #checkLeaveUnpaid>
+                            <ng-container *ngIf="getRecordForDay(employee.id, day) == 'Unpaid Leave'; else noRecord">
+                              <!-- Content for on leave -->
+                               <td class="status-unpaid-leave" (click)="openAttendanceDetail(employee.id, day)">
+                                <span>Unpaid Leave</span>
+                               </td>
+                            </ng-container>
+                          </ng-template>
+
                           <ng-template #noRecord>
-                            <td class="status-absent" (click)="openAttendanceDetail(employee.id, day)"></td>
+                            <td *ngIf="getRecordForDay(employee.id, day) === ''" (click)="openAttendanceDetail(employee.id, day)"></td>
+                            <td *ngIf="getRecordForDay(employee.id, day) === 'Absent'" class="status-absent" (click)="openAttendanceDetail(employee.id, day)"></td>
                           </ng-template>
                         </ng-container>                    
                       </tr>

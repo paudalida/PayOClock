@@ -2,8 +2,7 @@
     <div class="header"> 
         <h1> Employee Payroll </h1>
             <div class="input-row" *ngIf="!isLoading"> 
-                <button class="btn-primary save-payroll" type="button" (click)="submit(2)" [disabled]="!form.valid"> Completed </button>
-                <!-- <button class="btn-pending save-payroll" type="button" (click)="submit(1)" [disabled]="!form.valid"> Incomplete </button> -->
+                <button class="btn-primary save-payroll" type="button" (click)="submit(2)" [disabled]="!form.valid"> Submit </button>
                 <button class="btn-secondary back" type="button" (click)="backRoute()"> Back </button>
             </div>    
     </div>
@@ -14,16 +13,7 @@
 
     <div class="content" *ngIf="!isLoading"> 
 
-        <!-- <button class="btn-primary config" (click)="openDialog()"> Configuration </button>
-        <button class="btn-primary btns" (click)="resetClick('saved')"> Saved </button>
-        <button class="btn-primary btns" (click)="resetClick('default')"> Default </button> -->
-
         <form [formGroup]="form">
-
-            <!-- <div class="date-range" formGroupName="details">         
-                <input type="date" formControlName="payday_end" />
-                <input type="date" formControlName="payday_start" />   
-            </div> -->
 
             <div class="input-row"> 
 
@@ -126,48 +116,6 @@
                 </div>
             </div>
 
-
-            <!-- FORMS ARRAY -->
-            <!-- <form formArrayName="deduction"> -->
-                <!-- <div class="input-row">
-                    <div class="container-deduction" [ngClass]="{'expanded': hasActive}">
-                        <div class="container-head1"> 
-                            Deduction
-
-                            <div *ngFor="let item of items; let i = index">
-                                <div class="icon" (click)="clickTable(i)">
-                                    <i [ngClass]="hasActive && activeTable === i ? 'bx bx-collapse' : 'bx bx-expand'"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div *ngFor="let control of formsArray('deduction')?.controls; let i = index">
-                            <form [formGroupName]="i">
-                                <div *ngIf="hasActive && activeTable === 0"  class="input-row1"> 
-                                    <div class="entryarea4">
-                                        <div class="display"> {{ control.get('type')?.value }} </div>
-                                        <div class="labelline4"> Type </div>
-                                    </div>
-
-                                    <div class="entryarea4">
-                                        <div class="display"> {{ control.get('subtype')?.value }} </div>
-                                        <div class="labelline4"> Sub Type </div>
-                                    </div>
-            
-                                    <div class="entryarea4">
-                                        <input type="text" formControlName="amount"
-                                        (input)="showErrors('deduction', i, 'amount')">
-                                        <div class="labelline4"> Amount </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
-                    </div>
-                </div> -->
-            <!-- </form> -->
-            <!-- </form> -->
-
             <!-- <form [formGroup]="form" (submit)="submit()"> -->
             <div class="input-row2"> 
                 <div class="container-others">
@@ -179,22 +127,7 @@
                     <form formArrayName="other_deduction">
                         <div *ngFor="let control of formsArray('other_deduction').controls; let i = index">
                             <form [formGroupName]="i">
-                                <div class="input-row1"> 
-                                    <!-- <div class="entryarea">
-                                        <input type="text" formControlName="type"                                                                                    
-                                                [ngClass]="{ 'invalid-fld': duplicateInput('other_deduction', i)}" 
-                                                (input)="showErrors('other_deduction', i, 'type')">
-                                        <div class="labelline"> Type </div>
-                                    </div>   -->
-
-                                    <!-- <div class="entryarea">
-                                        <select formControlName="type">
-                                            <option value="option1">Option 1</option>
-                                            <option value="option2">Option 2</option>
-                                            <option value="option3">Option 3</option>
-                                        </select>
-                                        <div class="labelline">Type</div>
-                                    </div> -->
+                                <div class="input-row1">
 
                                     <div class="entryarea">
                                         <input 
@@ -245,21 +178,6 @@
                             <div *ngFor="let control of formsArray('allowance').controls; let i = index">
                                 <form [formGroupName]="i">
                                     <div class="input-row1"> 
-                                        <!-- <div class="entryarea">
-                                            <input type="text" formControlName="type"                                                                                        
-                                                    [ngClass]="{ 'invalid-fld': duplicateInput('allowance', i)}" 
-                                                    (input)="showErrors('allowance', i, 'type')">
-                                            <div class="labelline"> Type </div>
-                                        </div> -->
-
-                                        <!-- <div class="entryarea">
-                                            <select formControlName="type">
-                                                <option value="option1">Option 1</option>
-                                                <option value="option2">Option 2</option>
-                                                <option value="option3">Option 3</option>
-                                            </select>
-                                            <div class="labelline">Type</div>
-                                        </div> -->
 
                                         <div class="entryarea">
                                             <input 
@@ -319,26 +237,6 @@
                                 <div *ngFor="let control of formsArray('adjustment_deductions').controls; let i = index">
                                     <form [formGroupName]="i">
                                         <div class="input-row1"> 
-                                            <!-- <div class="entryarea1">
-                                                <input type="text" formControlName="type"                                    
-                                                        [ngClass]="{ 'invalid-fld': duplicateInput('adjustment_deductions', i)}"
-                                                        (input)="showErrors('adjustment_deductions', i, 'type')">
-                                                <div class="labelline1"> Type </div>
-                                            </div> -->
-
-                                            <!-- <div class="entryarea">
-                                                <select formControlName="type">
-                                                    <option value="option1">Option 1</option>
-                                                    <option value="option2">Option 2</option>
-                                                    <option value="option3">Option 3</option>
-                                                </select>
-                                                <div class="labelline">Type</div>
-                                            </div> -->
-
-                                            <!-- <div class="entryarea1">
-                                                <input type="date" formControlName="date">
-                                                <div class="labelline2"> Date </div>
-                                            </div> -->
 
                                             <div class="entryarea">
                                                 <input 
@@ -388,21 +286,6 @@
                                 <div *ngFor="let control of formsArray('adjustment_additions').controls; let i = index">
                                     <form [formGroupName]="i">
                                         <div class="input-row1"> 
-                                            <!-- <div class="entryarea1">
-                                                <input type="text" formControlName="type"                                    
-                                                        [ngClass]="{ 'invalid-fld': duplicateInput('adjustment_additions', i)}"
-                                                        (input)="showErrors('adjustment_additions', i, 'type')">
-                                                <div class="labelline1"> Type </div>
-                                            </div> -->
-
-                                            <!-- <div class="entryarea">
-                                                <select formControlName="type">
-                                                    <option value="option1">Option 1</option>
-                                                    <option value="option2">Option 2</option>
-                                                    <option value="option3">Option 3</option>
-                                                </select>
-                                                <div class="labelline">Type</div>
-                                            </div> -->
 
                                             <div class="entryarea">
                                                 <input 

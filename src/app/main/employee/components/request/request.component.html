@@ -1,4 +1,8 @@
-<div class="main-content">
+<div class="spinner" *ngIf="isLoading">
+  <app-spinner></app-spinner>
+</div>
+
+<div class="main-content" *ngIf="!isLoading">
   <div class="header">
     <h1 class="title">Leave and OT Request</h1>
     <h1 class="header-mobile">Request</h1>

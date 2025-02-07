@@ -4,6 +4,7 @@ import { DataService } from '../../../../services/data/data.service';
 import { PopupService } from '../../../../services/popup/popup.service';
 import { dateValidator } from '../../../../utils/custom-validators';
 import { Router } from '@angular/router';
+import { config } from 'process';
 
 @Component({
   selector: 'app-settings',
@@ -242,8 +243,7 @@ export class SettingsComponent {
     id?: number
   ) {
     const isOver2 = this.configFormsArray('SSS', category).length >= 2;
-    const is20 = this.configFormsArray('SSS', category).length == 20;
-    const isER = category == 'ER';
+    const isNot20ER = this.configFormsArray('SSS', category).length != 20 || !(this.configFormsArray('SSS', category).length == 20 && category == 'ER');
     
     this.configFormsArray('SSS', category).push(this.fb.group({
       formKey: [formKey],
@@ -251,7 +251,7 @@ export class SettingsComponent {
       type: [type, [Validators.required, Validators.maxLength(30)]],
       min_pay_range: [{value: min_pay_range ?? '', disabled: isOver2}, [Validators.required]],
       max_pay_range: [{value: max_pay_range ?? '', disabled: isOver2}, [Validators.required]],
-      amount: [{value: amount ?? '', disabled: (isOver2 && !isER) || !is20}, [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]],
+      amount: [{value: amount ?? '', disabled:  (isOver2 && isNot20ER)}, [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]],
       id: [id]
     }));
 
