@@ -44,6 +44,7 @@ export class AttendanceComponent implements OnInit {
   groupedByPeriod: any;
   groupedByMonth: any;
   periods: any;
+  periodsRaw: any;
   weeks: any;
   months: any;
   weekFilter: any;
@@ -74,6 +75,7 @@ export class AttendanceComponent implements OnInit {
         this.groupedByMonth = this.groupByMonth(res.data.attendance);
         this.weeks = Object.keys(this.groupedByWeek);
         this.periods = Object.keys(this.groupedByPeriod);
+        this.periodsRaw = res.data.payroll_periods;
         this.months = Object.keys(this.groupedByMonth);
         this.weekFilter = this.weeks[0];
         this.periodFilter = this.periods[0];
@@ -260,7 +262,7 @@ export class AttendanceComponent implements OnInit {
 
         // Update grouped data
         this.groupedByWeek = this.groupByWeek(this.attendance);
-        this.groupedByPeriod = this.groupByPeriod(this.attendance, this.periods);
+        this.groupedByPeriod = this.groupByPeriod(this.attendance, this.periodsRaw);
         this.groupedByMonth = this.groupByMonth(this.attendance);
         
         this.isTimedIn = !this.isTimedIn;

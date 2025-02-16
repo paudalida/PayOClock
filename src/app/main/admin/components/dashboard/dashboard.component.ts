@@ -26,8 +26,7 @@ export class DashboardComponent implements OnInit {
 
   defaults = {
     absent: 0,
-    present: 0,
-    late: 0
+    present: 0
   };
 
   tableData = {
@@ -36,7 +35,8 @@ export class DashboardComponent implements OnInit {
     Wednesday: this.defaults,
     Thursday: this.defaults,
     Friday: this.defaults,
-    Saturday: this.defaults
+    Saturday: this.defaults,
+    Sunday: this.defaults
   };
 
   payrollsQuarters: any = [];

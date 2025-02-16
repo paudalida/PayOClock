@@ -75,7 +75,6 @@
     </tr>
   </thead>
   <tbody>
-    <!-- <ng-container *ngIf="typeFilter == 'period'"> -->
       <tr *ngFor="let record of dataSource">
         <td>
           <span>{{ record.date }}</span>
@@ -85,31 +84,6 @@
         
         <td>{{ convertTime(record.time_out) }}</td>
       </tr>
-    <!-- </ng-container>
-  
-    <ng-container *ngIf="typeFilter == 'month'">
-      <tr *ngFor="let record of groupedByMonth[monthFilter]">
-        <td>
-          <span>{{ record.date }}</span>
-        </td>
-        
-        <td>{{ convertTime(record.time_in) }}</td>
-        
-        <td>{{ convertTime(record.time_out) }}</td>
-      </tr>
-    </ng-container>
-
-    <ng-container *ngIf="typeFilter == 'week'">
-      <tr *ngFor="let record of groupedByWeek[weekFilter]">
-        <td>
-          <span>{{ record.date }}</span>
-        </td>
-        
-        <td>{{ convertTime(record.time_in) }}</td>
-        
-        <td>{{ convertTime(record.time_out) }}</td>
-      </tr>
-    </ng-container> -->
   </tbody>
 </table>
 
