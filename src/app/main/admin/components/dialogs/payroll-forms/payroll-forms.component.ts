@@ -202,7 +202,18 @@ export class PayrollFormsComponent implements OnInit{
     if(formErrors) {
       if(formErrors['pattern'] && formErrors['pattern']['requiredPattern'] === '^\\d+(\\.\\d{1,2})?$') {
         this.pop.toastWithTimer('error', 'Should be a number up to 2 decimal places');
-        formField.setValue(formField.value.slice(0, -1))
+        // Remove all non-numeric characters except for the decimal point
+        let cleanedValue = formField.value.replace(/[^0-9.]/g, '');
+
+        // Ensure the value conforms to the pattern
+        const match = cleanedValue.match(/^\d+(\.\d{0,2})?/);
+        if (match) {
+          cleanedValue = match[0];
+        } else {
+          cleanedValue = '';
+        }
+
+        formField.setValue(cleanedValue);
       } else if(formErrors['maxlength']) {
         const maxlength = formErrors['maxlength']['requiredLength'];
 

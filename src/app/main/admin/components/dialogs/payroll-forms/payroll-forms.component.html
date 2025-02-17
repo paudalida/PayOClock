@@ -55,29 +55,12 @@
                     </div>
 
                     <div class="input-row1">
-                        <!-- <div class="entryarea">
-                            <input type="text" name="per_hour" [value]="hourlyRate" disabled>
-                            <div class="labelline2" *ngIf="employee.position == 'Instructor'"> Rate (hourly) </div>
-                            <div class="labelline2" *ngIf="employee.position != 'Instructor'"> Rate (daily) </div>
-                        </div> -->
 
                         <div class="entryarea">
                             <div class="detail-value">{{ hourlyRate }}</div>
                             <div class="labelline" *ngIf="employee.position == 'Instructor'"> Rate (hourly) </div>
                             <div class="labelline" *ngIf="employee.position != 'Instructor'"> Rate (daily) </div>
                         </div>
-                        
-
-                        <!-- <div class="entryarea1">
-                            <input type="text" name="per_day" [value]="hourlyRate * 8" disabled>
-                            <div class="labelline1"> Rate (day) </div>
-                        </div> -->
-
-                        <!-- <div class="entryarea1"> -->
-                            <!-- Access the 'amount' form control at index 0 in 'base_pay' FormArray -->
-                            <!-- <input type="text" [value]="basePay" (keyup)="changeBasePay($event)">
-                            <div class="labelline1"> AMT </div>
-                        </div> -->
                         
                     </div>
                 </div>
@@ -116,7 +99,6 @@
                 </div>
             </div>
 
-            <!-- <form [formGroup]="form" (submit)="submit()"> -->
             <div class="input-row2"> 
                 <div class="container-others">
                     <div class="container-head"> 
@@ -153,7 +135,7 @@
                                         <input 
                                           type="text" 
                                           formControlName="amount"
-                                          (input)="showErrors('other_deduction', i, 'amount')"
+                                          (change)="showErrors('other_deduction', i, 'amount')"
                                         />
                                         <div class="labelline"> Amount </div>
                                       </div>                            
@@ -203,7 +185,7 @@
                                             <input 
                                               type="text" 
                                               formControlName="amount"
-                                              (input)="showErrors('allowance', i, 'amount')"
+                                              (change)="showErrors('allowance', i, 'amount')"
                                             />
                                             <div class="labelline"> Amount </div>
                                           </div>
@@ -262,7 +244,7 @@
                                                 <input 
                                                   type="text" 
                                                   formControlName="amount"
-                                                  (input)="showErrors('adjustment_deductions', i, 'amount')"
+                                                  (change)="showErrors('adjustment_deductions', i, 'amount')"
                                                 />
                                                 <div class="labelline"> Amount </div>
                                               </div>
@@ -311,7 +293,7 @@
                                                 <input 
                                                   type="text" 
                                                   formControlName="amount"
-                                                  (input)="showErrors('adjustment_additions', i, 'amount')"
+                                                  (change)="showErrors('adjustment_additions', i, 'amount')"
                                                 />
                                                 <div class="labelline"> Amount </div>
                                               </div>
