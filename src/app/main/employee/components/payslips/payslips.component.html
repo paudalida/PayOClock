@@ -65,12 +65,20 @@
                             </tr>
 
                             <tr *ngFor="let type of payslip.attendance.types; let i = index;">
-                                <td>{{ type }} {{ payslip.attendance.hours[i] }}</td>
-                                <td>{{ payslip.attendance.amounts[i] }}</td>
+                                <ng-container *ngIf="payslip.attendance.hours[i] || i == 0">
+                                    <td>
+                                        <ng-container *ngIf="type">
+                                            {{ type }} ({{ payslip.attendance.hours[i] }})
+                                        </ng-container>
+                                        
+                                        <ng-container *ngIf="!type && i == 0"> - </ng-container>
+                                    </td>
+                                    <td>{{ payslip.attendance.amounts[i] || '-' }}</td>
+                                </ng-container>
                             </tr>
 
                             <tr class="total-row">
-                                <td><strong>Sub Total</strong></td>
+                                <td><strong>Total</strong></td>
                                 <td><strong>₱ {{ totals.attendance | number: '1.2-2' }}</strong></td>
                             </tr>
                         </tbody>
@@ -94,7 +102,7 @@
                             </tr>
 
                             <tr class="total-row">
-                                <td><strong>Sub Total</strong></td>
+                                <td><strong>Total</strong></td>
                                 <td><strong>₱ {{ totals.other_earnings | number: '1.2-2' }}</strong></td>
                             </tr>
                         </tbody>
@@ -119,20 +127,8 @@
                                 <td>{{ type }}</td>
                                 <td>{{ payslip.deduction.amounts[i] }}</td>
                             </tr>
-                            <!-- <tr>
-                                <td>SSS Prem Payable-EE</td>
-                                <td>{{ total_deductions }}</td>
-                            </tr>
-                            <tr>
-                                <td>PHIC Prem Payable-EE</td>
-                                <td>{{ total_deductions }}</td>
-                            </tr>
-                            <tr>
-                                <td>HDMF Prem Payable-EE</td>
-                                <td>{{ total_deductions }}</td>
-                            </tr> -->
                             <tr class="total-row">
-                                <td><strong>Sub Total</strong></td>
+                                <td><strong>Total</strong></td>
                                 <td><strong>₱ {{ totals.deductions | number: '1.2-2' }}</strong></td>
                             </tr>
                         </tbody>
@@ -155,16 +151,8 @@
                                 <td>{{ type }}</td>
                                 <td>{{ payslip.other_deduction.amounts[i] }}</td>
                             </tr>
-                            <!-- <tr>
-                                <td>Sample Deductions 1</td>
-                                <td>{{ total_deductions }}</td>
-                            </tr>
-                            <tr>
-                                <td>Sample Deductions 2</td>
-                                <td>{{ total_deductions }}</td>
-                            </tr> -->
                             <tr class="total-row">
-                                <td><strong>Sub Total</strong></td>
+                                <td><strong>Total</strong></td>
                                 <td><strong>₱ {{ totals.other_deductions | number: '1.2-2' }}</strong></td>
                             </tr>
                         </tbody>

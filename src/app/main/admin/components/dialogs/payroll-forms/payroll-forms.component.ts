@@ -83,7 +83,7 @@ export class PayrollFormsComponent implements OnInit{
 
     this.employee = this.as.getEmployee();
 
-    if(!this.employee.id) { this.router.navigate(['/admin/payslips']); } // return to payrolls if employee data is not set (browser refreshed)
+    if(!this.employee.id) { this.router.navigate(['/admin/payroll']); } // return to payrolls if employee data is not set (browser refreshed)
     
     this.hourlyRate = this.employee.rate;
 
@@ -124,7 +124,7 @@ export class PayrollFormsComponent implements OnInit{
           payday_end: this.date.payday_end
         });
       },
-      error: (err: any) => { this.pop.toastWithTimer('error', err.error.message); }
+      error: (err: any) => {  }
     });
   }
 
