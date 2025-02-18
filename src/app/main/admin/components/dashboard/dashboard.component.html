@@ -6,94 +6,14 @@
     <div class="content"> 
 
         <div class="button">
-            <!-- <button (click)="navigate('dashboard/activity')" class="activity-log"> 
-                Activity Logs 
-            </button> -->
             <div class="toggle-icon" (click)="toggleAction()">
                 <i class="bx bx-menu"></i>
             </div>
         </div>
-        
-        <div class="cards">
-            <div class="input-row">
-                <div class="card" *ngIf="containerVisibility.employee" (click)="navigate('employees')">
-                        <img src="assets/images/employee.png">
-                    <div class="box">
-                        <h1> {{ details.employeeCount }} </h1>
-                        <h3>Total Employees</h3>
-                    </div>
-                </div>
-        
-                <div class="card" *ngIf="containerVisibility.pending" (click)="navigate('payslips')">
-                        <img src="assets/images/pending.png">
-                    <div class="box">
-                        <h1> {{ details.pending }} </h1>
-                        <h3>Total Pending Payslips</h3>
-                    </div>
-                </div>
-                
-                <div class="card" *ngIf="containerVisibility.processed" (click)="navigate('payslips')">
-                        <img src="assets/images/processed.png">
-                    <div class="box">
-                        <h1> {{ details.processed }} </h1>
-                        <h3>Total Processed Payslips </h3>
-                    </div>
-                </div>    
-            </div>
-        </div>
-
-        <div class="attendance" *ngIf="containerVisibility.attendance">
-            <div class="header-content">
-                <h1>Attendance Summary</h1>
-            </div>
-            <div class="table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Status</th>
-                            <th>Monday</th>
-                            <th>Tuesday</th>
-                            <th>Wednesday</th>
-                            <th>Thursday</th>
-                            <th>Friday</th>
-                            <th>Saturday</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td [ngClass]="getStatusClass(0)">{{ getStatus(0) }}</td>
-                            <td>{{ tableData.Monday.present }}</td>
-                            <td>{{ tableData.Tuesday.present }}</td>
-                            <td>{{ tableData.Wednesday.present }}</td>
-                            <td>{{ tableData.Thursday.present }}</td>
-                            <td>{{ tableData.Friday.present }}</td>
-                            <td>{{ tableData.Saturday.present }}</td>                        </tr>
-                        <tr>
-                            <td [ngClass]="getStatusClass(1)">{{ getStatus(1) }}</td>
-                            <td>{{ tableData.Monday.late }}</td>
-                            <td>{{ tableData.Tuesday.late }}</td>
-                            <td>{{ tableData.Wednesday.late }}</td>
-                            <td>{{ tableData.Thursday.late }}</td>
-                            <td>{{ tableData.Friday.late }}</td>
-                            <td>{{ tableData.Saturday.late }}</td>
-                        </tr>
-                        <tr>
-                            <td class="status-absent">Absent</td>
-                            <td>{{ tableData.Monday.absent }}</td>
-                            <td>{{ tableData.Tuesday.absent }}</td>
-                            <td>{{ tableData.Wednesday.absent }}</td>
-                            <td>{{ tableData.Thursday.absent }}</td>
-                            <td>{{ tableData.Friday.absent }}</td>
-                            <td>{{ tableData.Saturday.absent }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>                               
-        </div>
 
         <div class="graph-container" *ngIf="containerVisibility.payroll">
             <div class="right" style="height: 450px;">
-                <span class="header">Payroll Summary</span>
+                <span class="header">Payroll Total Net Pays Summary</span>
                 
                 <span>
                     <select (change)="updateBarChart($event)">
@@ -108,12 +28,56 @@
                 </div>
             </div>
 
-            <div class="left" style="height: 450px;" *ngIf="containerVisibility.summary">
+            <div class="left" style="height: 450px;" *ngIf="containerVisibility.attendance_summary">
                 <span class="header">Attendance Summary - {{ currentMonth }}</span>
                 <div class="doughnut-container" style="height: 300px;">
                     <p-chart type="doughnut" [data]="doughnutChartData" [options]="options.doughnut"></p-chart>
                 </div>
             </div>
+        </div>
+
+        <div class="attendance" *ngIf="containerVisibility.attendance_weekly">
+            <div class="header-content">
+                <h1>Attendance Summary for the Week</h1>
+            </div>
+            <div class="table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                            <th>Saturday</th>
+                            <th>Sunday</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td [ngClass]="getStatusClass(0)">{{ getStatus(0) }}</td>
+                            <td>{{ tableData.Monday.present }}</td>
+                            <td>{{ tableData.Tuesday.present }}</td>
+                            <td>{{ tableData.Wednesday.present }}</td>
+                            <td>{{ tableData.Thursday.present }}</td>
+                            <td>{{ tableData.Friday.present }}</td>
+                            <td>{{ tableData.Saturday.present }}</td>    
+                            <td>{{ tableData.Sunday.present }}</td>                         
+                        </tr>
+                        <tr>
+                            <td class="status-absent">Absent</td>
+                            <td>{{ tableData.Monday.absent }}</td>
+                            <td>{{ tableData.Tuesday.absent }}</td>
+                            <td>{{ tableData.Wednesday.absent }}</td>
+                            <td>{{ tableData.Thursday.absent }}</td>
+                            <td>{{ tableData.Friday.absent }}</td>
+                            <td>{{ tableData.Saturday.absent }}</td>
+                            <td>{{ tableData.Sunday.absent }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>                               
         </div>
     </div>
 </main> 

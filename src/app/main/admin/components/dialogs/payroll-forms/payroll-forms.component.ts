@@ -83,7 +83,7 @@ export class PayrollFormsComponent implements OnInit{
 
     this.employee = this.as.getEmployee();
 
-    if(!this.employee.id) { this.router.navigate(['/admin/payslips']); } // return to payrolls if employee data is not set (browser refreshed)
+    if(!this.employee.id) { this.router.navigate(['/admin/payroll']); } // return to payrolls if employee data is not set (browser refreshed)
     
     this.hourlyRate = this.employee.rate;
 
@@ -124,7 +124,7 @@ export class PayrollFormsComponent implements OnInit{
           payday_end: this.date.payday_end
         });
       },
-      error: (err: any) => { this.pop.toastWithTimer('error', err.error.message); }
+      error: (err: any) => {  }
     });
   }
 
@@ -202,7 +202,18 @@ export class PayrollFormsComponent implements OnInit{
     if(formErrors) {
       if(formErrors['pattern'] && formErrors['pattern']['requiredPattern'] === '^\\d+(\\.\\d{1,2})?$') {
         this.pop.toastWithTimer('error', 'Should be a number up to 2 decimal places');
-        formField.setValue(formField.value.slice(0, -1))
+        // Remove all non-numeric characters except for the decimal point
+        let cleanedValue = formField.value.replace(/[^0-9.]/g, '');
+
+        // Ensure the value conforms to the pattern
+        const match = cleanedValue.match(/^\d+(\.\d{0,2})?/);
+        if (match) {
+          cleanedValue = match[0];
+        } else {
+          cleanedValue = '';
+        }
+
+        formField.setValue(cleanedValue);
       } else if(formErrors['maxlength']) {
         const maxlength = formErrors['maxlength']['requiredLength'];
 

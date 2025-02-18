@@ -141,7 +141,7 @@ export class IndivPayslipComponent implements OnInit{
         // }
       },
       error: (err: any) => {
-        this.pop.swalBasic('error', 'Oops!', err.error.message)
+        // this.pop.swalBasic('error', 'Oops!', err.error.message)
       },
       complete: () => {
         this.isLoading = false;

@@ -166,18 +166,30 @@ export class AttendanceHistoryComponent implements OnInit {
   
     // Title
     doc.setFontSize(14);
-    doc.text(`Daily Time Record - ${this.employee.name}`, 105, 40, { align: 'center' });
+    if(this.employee) doc.text(`Daily Time Record - ${this.employee.full_name}`, 105, 40, { align: 'center' });
+    else doc.text(`Daily Time Record - ${this.data.title}`, 105, 40, { align: 'center' });
 
     // Table Headers
-    const headers = [['Date', 'Time In', 'Time Out']];
+    let headers: any = [];
+    if(this.employee) headers = [['Date', 'Time In', 'Time Out']];
+    else headers = [['Name', 'Date', 'Time In', 'Time Out']];
 
     // Table Data
-    const rows = this.attendance.map((record: any) => [
-      this.formatFullDate(record.date),
-      // record.status,
-      this.convertTime(record.time_in),
-      this.convertTime(record.time_out)
-    ]);
+    let rows: any = [];
+    if(this.employee) {
+      rows = this.dataSource.map((record: any) => [
+        this.formatFullDate(record.date),
+        this.convertTime(record.time_in),
+        this.convertTime(record.time_out)
+      ]);
+    } else {
+      rows = this.dataSource.map((record: any) => [
+        record.name,
+        this.formatFullDate(record.date),
+        this.convertTime(record.time_in),
+        this.convertTime(record.time_out)
+      ]);
+    }
 
     // AutoTable Options
     (doc as any).autoTable({
@@ -191,7 +203,8 @@ export class AttendanceHistoryComponent implements OnInit {
     });
 
     // Save PDF
-    doc.save(`DTR-${this.employee.name}.pdf`);
+    if(this.employee) doc.save(`DTR-${this.employee.full_name}.pdf`);
+    else doc.save(`DTR-${this.data.title}.pdf`);
   }
 
   formatFullDate(dateString: string): string {

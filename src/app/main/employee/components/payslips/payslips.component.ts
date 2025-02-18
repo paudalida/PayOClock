@@ -166,10 +166,6 @@ export class PayslipsComponent implements OnInit{
     doc.save(fileName);
   }
 
-  // get employee() {
-  //   return this.as.getEmployee();
-  // }
-
   redirectToPayslipHistory() {
     this.router.navigate(['/employee/payslips/payslips-history']);
   }

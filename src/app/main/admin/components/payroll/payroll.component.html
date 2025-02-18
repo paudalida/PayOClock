@@ -7,11 +7,9 @@
 
       <div class="actions">
         <!-- Report Button -->
-        <button class="report-button" type="button" (click)="openPayroll()">Maximize</button>
-        <button class="report-button" type="button" (click)="generateReport()">Export</button>
-        <!-- <button class="report-button" type="button" (click)="confirmSyncPay()" [disabled]="release_date">Sync Pay</button> -->
-               
-        <button class="report-button" (click)="setupdate()"> Set Date</button>
+        <button class="report-button" type="button" (click)="openPayroll()" [disabled]="isLoading">Maximize</button>
+        <button class="report-button" type="button" (click)="generateReport()" [disabled]="isLoading">Export</button>
+        <button class="report-button" (click)="setupdate()" [disabled]="isLoading"> Set Date</button>
 
         <div class="date-range-dropdown">
           <div class="select-wrapper">
@@ -21,7 +19,7 @@
           </div>
         </div>
 
-        <button class="report-button" type="button" (click)="release()" [disabled]="release_date">Release</button>
+        <button class="report-button" type="button" (click)="release()" [disabled]="release_date || isLoading">Release</button>
 
       </div>
     </div>
@@ -38,20 +36,6 @@
           <tr>
             <th *ngFor="let column of fixedColumns"> {{ column }} </th>
           </tr>
-
-          <!-- <tr *ngFor="let row of payroll; let i = index; let last = last;" (click)="openDialog(row[0])">
-            <ng-container *ngIf="i > 0">
-              
-              <ng-container  *ngFor="let data of row; let j = index;" >
-                <td *ngIf="j < 4 && i >= payroll.length - 2"> {{ row[j] }} </td>
-                <td *ngIf="j < 4 && i < payroll.length - 2"> {{ row[j] || ' - ' }} </td>
-              </ng-container> 
-            </ng-container>
-          </tr>
-          
-          <tr>
-            <td *ngFor="let space of [0, 1, 2, 3, 4]"> </td>
-           </tr> -->
 
            <tr *ngFor="let row of payroll; let i = index;" (click)="openDialog(row[0])">
             <ng-container *ngIf="i > 0">
@@ -91,93 +75,7 @@
             </ng-container>          
           </tr>
         </table>
-        
-        <!-- <table mat-table [dataSource]="dataSource" matSort> -->
-
-          <!-- Dynamic column definition -->
-          <!-- <ng-container *ngFor="let column of scrollableColumns" [matColumnDef]="column">
-            <th mat-header-cell *matHeaderCellDef> {{ column }} </th>
-            <td mat-cell *matCellDef="let element"> {{ element[column] }} </td>
-          </ng-container>
-        
-          <tr mat-header-row *matHeaderRowDef="columns"></tr>
-          <tr mat-row *matRowDef="let row; columns: columns;"></tr>
-        </table> -->
-        
-        <!-- <table mat-table [dataSource]="dataSource" matSort>
-
-          <ng-container *ngFor="let column of scrollableColumns" [matColumnDef]="column">
-            <th mat-header-cell *matHeaderCellDef> {{ column }} </th>
-            <td mat-cell *matCellDef="let element"> {{ element[column] }} </td> -->
-          <!-- </ng-container> -->
-
-                <!-- <ng-container *ngIf="column == 'GROSS'">
-                  <td> {{ element.gross_pay }} </td>
-                </ng-container>
-
-                <ng-container *ngIf="column == 'TOTAL DEDUCTIONS'">
-                  <td> {{ element.total_deductions }} </td>
-                </ng-container>
-
-                <ng-container *ngIf="column == 'NET PAY'">
-                  <td> {{ element.net_pay }} </td>
-                </ng-container>
-
-                <ng-container *ngIf="!['GROSS', 'TOTAL DEDUCTIONS', 'NET PAY'].includes(column)">
-                  <td> {{ element[column] || 'N/A' }} </td>
-                </ng-container> -->
-          <!-- </ng-container> -->
-          
-
-          <!-- Allowance Column -->
-          <!-- <ng-container matColumnDef="allowance">
-            <th mat-header-cell *matHeaderCellDef> Allowance </th>
-            <td mat-cell *matCellDef="let element"> {{element.allowance}} </td>
-          </ng-container> -->
-
-          <!-- Contributions Column -->
-          <!-- <ng-container matColumnDef="contributions">
-            <th mat-header-cell *matHeaderCellDef> Contributions </th>
-            <td mat-cell *matCellDef="let element"> {{element.contributions}} </td>
-          </ng-container> -->
-
-          <!-- Other Deductions Column -->
-          <!-- <ng-container matColumnDef="other_deductions">
-            <th mat-header-cell *matHeaderCellDef> Other Deductions </th>
-            <td mat-cell *matCellDef="let element"> {{element.other_deductions}} </td>
-          </ng-container> -->
-
-          <!-- Total Deductions Column -->
-          <!-- <ng-container matColumnDef="total_deductions">
-            <th mat-header-cell *matHeaderCellDef> Total Deductions </th>
-            <td mat-cell *matCellDef="let element"> {{element.total_deductions}} </td>
-          </ng-container> -->
-
-          <!-- Net Salary Column -->
-          <!-- <ng-container matColumnDef="net_salary">
-            <th mat-header-cell *matHeaderCellDef> Net Salary </th>
-            <td mat-cell *matCellDef="let element"> {{element.net_salary}} </td>
-          </ng-container> -->
-
-          <!-- Total Salary Column -->
-          <!-- <ng-container matColumnDef="total_salary">
-            <th mat-header-cell *matHeaderCellDef> Total </th>
-            <td mat-cell *matCellDef="let element"> {{element.total_salary}} </td>
-          </ng-container> -->
-
-          <!-- <tr mat-header-row *matHeaderRowDef="scrollableColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: scrollableColumns;"></tr>
-        </table> -->
       </div>
     </div>
-
-    <!-- <div class="totals">
-      <div class="field">Total Contributions: {{ curr_sums.contributions }}</div>
-      <div class="field">Total Net Pays: {{ curr_sums.net_pays }}</div>
-      <div class="field">Total Expenses: {{ curr_sums.expenses }} </div>
-    </div> -->
-    <!-- Pagination -->
-    <!-- <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons aria-label="Select page of periodic elements">
-    </mat-paginator> -->
   </div>
 </div>

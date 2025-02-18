@@ -19,14 +19,6 @@
             </button>
           </div>
           <div class="container">
-            <label for="total-lates">Total Lates</label>
-            <button (click)="toggleState('lates')" 
-                    [ngClass]="{'off': !containerVisibility.lates, 'on': containerVisibility.lates}" 
-                    class="toggle-btn">
-              {{ containerVisibility.lates ? 'ON' : 'OFF' }}
-            </button>
-          </div>
-          <div class="container">
             <label for="total-absent">Total Absent</label>
             <button (click)="toggleState('absences')" 
                     [ngClass]="{'off': !containerVisibility.absences, 'on': containerVisibility.absences}" 

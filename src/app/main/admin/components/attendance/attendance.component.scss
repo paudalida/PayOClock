@@ -198,21 +198,22 @@ td.status-present {
         background-color: #333;
         width: 100%;
     }
+}
 
-    td.status-absent {
-        background-color: #c0392b;
-        color: var(--white);
-        font-weight: 700;
-    }
+td.status-absent {
+    background-color: #c0392b;
+    color: var(--white);
+    font-weight: 700;
+}
 
-    td.status-leave {
-        background-color: var(--primary-color); 
-    }
-    
-    td.status-paid-leave {
-        background-color: var(--primary-color);  
-        color: var(--white);
-    }
+td.status-paid-leave {
+    background-color: var(--primary-color);  
+    color: var(--white);
+}
+
+td.status-unpaid-leave {
+    background-color: #424949;  
+    color: var(--white);
 }
 
 .paginator {

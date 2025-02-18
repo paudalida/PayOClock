@@ -28,13 +28,22 @@
                 </div>
               </div>
 
+              <div class="input-row" *ngIf="form.get('request_type')?.value === 'Paid Leave'">
+                <div class="entryarea">
+                  <strong>Leave Credits: </strong>{{ getLeaveCredits() }}
+                </div>
+              </div>
+
             <div class="input-row">
                 <div class="entryarea">
                     <input type="datetime-local" formControlName="start" (change)="validateStartTime($event)">
                     <div class="labelline">Start Date</div>
                 </div>
                 <div class="entryarea">
-                    <input type="datetime-local" formControlName="end" (change)="validateEndTime($event)">
+                    <!-- Time picker for end time -->
+                    <input type="datetime-local" formControlName="end"
+                           (change)="validateEndTime($event)" 
+                           [disabled]="form.get('start')?.value === ''">
                     <div class="labelline">End Date</div>
                 </div>
             </div>

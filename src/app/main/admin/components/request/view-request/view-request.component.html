@@ -26,8 +26,12 @@
                   <td><p>{{ data.employee_id }}</p></td>
                 </tr>
                 <tr>
-                  <td><label>Type of Request</label></td>
-                  <td><p>{{ data.request_type }}</p></td>
+                  <td><label>Request</label></td>
+                  <td><p>{{ data.request_type | titlecase }}</p></td>
+                </tr>
+                <tr>
+                <td><label>Type</label></td>
+                  <td><p>{{ data.type }}</p></td>
                 </tr>
                 <tr>
                   <td><label>Start Date</label></td>

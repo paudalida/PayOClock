@@ -36,17 +36,7 @@ export class PayslipHistoryComponent implements OnInit{
         res.data.forEach((element: any) => {      
           let values = [];
 
-          this.payslipDetails.push({
-            payday_start     : element.payday_start,
-            payday_end       : element.payday_end,
-            base_pay         : element.base_pay,
-            adjusted_pay     : element.adjusted_pay,
-            total_additions  : element.total_additions,
-            total_deductions : element.total_deductions,
-            gross_pay        : element.gross_pay,
-            net_pay          : element.net_pay
-          });
-
+          let total_monthly = 0; let total_other_deductions = 0;
           let longest = element.payslip.attendance.types.length;
           const payslip = element.payslip;
           if(longest < payslip.allowance.types.length) longest = payslip.allowance.types.length;
@@ -60,16 +50,21 @@ export class PayslipHistoryComponent implements OnInit{
             let col5 = payslip.allowance.amounts[i]  || '';
             let col6 = payslip.deduction.types[i]    || '';
             let col7 = payslip.deduction.amounts[i]  || '';
+            let col8 = payslip.other_deduction.types[i]    || '';
+            let col9 = payslip.other_deduction.amounts[i]  || '';
+
+            if(col7) total_monthly += parseFloat(payslip.deduction.amounts[i].replace(/[₱,]/g, ''));
+            if(col9) total_other_deductions += parseFloat(payslip.other_deduction.amounts[i].replace(/[₱,]/g, ''));
 
             /* For other deductions */
-            if(i >= payslip.deduction.types.length) {   
+            // if(i >= payslip.deduction.types.length) {   
               
-              let index = i - payslip.deduction.types.length;
-              if(index < payslip.other_deduction.types.length) {
-                col6 = payslip.other_deduction.types[index]    || '';
-                col7 = payslip.other_deduction.amounts[index]  || '';
-              }    
-            }
+            //   let index = i - payslip.deduction.types.length;
+            //   if(index < payslip.other_deduction.types.length) {
+            //     col6 = payslip.other_deduction.types[index]    || '';
+            //     col7 = payslip.other_deduction.amounts[index]  || '';
+            //   }    
+            // }
 
             /* Append subtypes */
             if(payslip.allowance.subtypes[i])
@@ -78,8 +73,22 @@ export class PayslipHistoryComponent implements OnInit{
             if(payslip.deduction.subtypes[i])
               col6 += ' ' + payslip.deduction.subtypes[i];
             
-            values.push([col1, col2, col3, col4, col5, col6, col7]);
-          }
+            values.push([col1, col2, col3, col4, col5, col6, col7, col8, col9]);
+          }          
+
+          this.payslipDetails.push({
+            rate             : element.rate,
+            payday_start     : element.payday_start,
+            payday_end       : element.payday_end,
+            base_pay         : element.base_pay,
+            adjusted_pay     : element.adjusted_pay,
+            total_additions  : element.total_additions,
+            total_monthly    : total_monthly,
+            total_other_deductions : total_other_deductions,
+            total_deductions : element.total_deductions,
+            gross_pay        : element.gross_pay,
+            net_pay          : element.net_pay
+          });
           
           this.payslips.push(values);
         });

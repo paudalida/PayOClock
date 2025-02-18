@@ -1,17 +1,7 @@
 <div class="main-content">
     <div class="form-info">
         <div class="header"> 
-            <h1> Settings and Configurations </h1> 
-            <div class="button-group">
-                <!-- <button class="activity" type="button" (click)="redirectToActivity()"> 
-                    <i class='bx bx-list-ul'></i>
-                     Activity Log 
-                </button> -->
-                <button class="profile" type="button" (click)="redirectToProfile()"> 
-                    <i class='bx bxs-user'></i>
-                     Profile 
-                </button>
-            </div>
+            <h1> Settings and Configurations </h1>
         </div>
 
         <div class="body-content">
@@ -92,7 +82,7 @@
 
                                         <form formArrayName="PHIC">
                                             <div class="flex-between">
-                                                <div class="multi-field-header">PHIC</div>
+                                                <div class="multi-field-header">PHIC (%)</div>
                                             
                                                 <form formGroupName="EE">
                                                     <div class="entryarea">
@@ -131,46 +121,6 @@
                                         </form>
                                     </div>    
                                 </div>
-                                
-                            <!-- </div> -->
-                            
-                            <!-- <form formArrayName="allowance" class="container">
-                                <div class="container-head">
-                                    <h1> Allowance </h1>
-                                    <button class="btn-primary add" type="button" (click)="addToConfigForm('allowance', 'add', 'addition')"> Add </button>
-                                </div>
-                                <div class="container-body">
-                                    <div *ngFor="let control of formsArray('config', 'allowance')?.controls; let i = index">
-                                        <form [formGroupName]="i" class="input-row">
-                                            <div class="entryarea">
-                                                <input type="text" formControlName="type"
-                                                        [ngClass]="{ 'invalid-fld': duplicateInput('allowance', i)}"
-                                                        (input)="showErrors('allowance', i, 'type')">
-                                                <div class="labelline"> Type </div>
-                                            </div> -->
-                    
-                                            <!-- <div class="entryarea">
-                                                <select formControlName="operation_type">
-                                                    <option value="addition"> Normal Addition </option>
-                                                    <option value="percentage addition"> Percentage Addition </option>
-                                                </select>
-                                                <div class="labelline"> Operation </div>
-                                            </div> -->
-                    
-                                            <!-- <div class="entryarea">
-                                                <input type="text" formControlName="amount"
-                                                (input)="showErrors('allowance', i, 'amount')">
-                                                <div class="labelline"> Amount </div>
-                                            </div>
-                    
-                                            <button class="btn-danger remove" type="button" (click)="removeFromFormsArray('config', 'allowance', i)">
-                                                <i class='bx bx-x'></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div> [disabled]="!configForm.valid"
-                            </form>
-        -->
                             <button class="btn-primary update" type="submit"> Update </button>
                         </form>
                     </div>

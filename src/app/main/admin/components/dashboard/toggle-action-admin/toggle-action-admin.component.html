@@ -12,44 +12,6 @@
           <div class="row">
             <div class="container">
               <label for="total-present">Total Employee</label>
-              <button (click)="toggleState('employee')" 
-                [ngClass]="{'off': !containerVisibility.employee, 'on': containerVisibility.employee}" 
-                class="toggle-btn">
-                {{ containerVisibility.employee ? 'ON' : 'OFF' }}
-              </button>
-            </div>
-            <div class="container">
-              <label for="total-lates">Total Pending Payslips</label>
-              <button (click)="toggleState('pending')" 
-                [ngClass]="{'off': !containerVisibility.pending, 'on': containerVisibility.pending}" 
-                class="toggle-btn">
-                {{ containerVisibility.pending ? 'ON' : 'OFF' }}
-              </button>
-            </div>
-          </div>
-  
-          <div class="row">
-            <div class="container">
-              <label for="total-absent">Total Processed Payslips</label>
-              <button (click)="toggleState('processed')" 
-                [ngClass]="{'off': !containerVisibility.processed, 'on': containerVisibility.processed}" 
-                class="toggle-btn">
-                {{ containerVisibility.processed ? 'ON' : 'OFF' }}
-              </button>
-            </div>
-            <div class="container">
-              <label for="other-container">Attendance Summary</label>
-              <button (click)="toggleState('attendance')" 
-                [ngClass]="{'off': !containerVisibility.attendance, 'on': containerVisibility.attendance}" 
-                class="toggle-btn">
-                {{ containerVisibility.attendance ? 'ON' : 'OFF' }}
-              </button>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="container">
-              <label for="other-container">Payroll Summary</label>
               <button (click)="toggleState('payroll')" 
                 [ngClass]="{'off': !containerVisibility.payroll, 'on': containerVisibility.payroll}" 
                 class="toggle-btn">
@@ -57,13 +19,24 @@
               </button>
             </div>
             <div class="container">
-              <label for="other-container">Attendance Summary</label>
+              <label for="total-lates">Total Pending Payslips</label>
               <button (click)="toggleState('summary')" 
-                [ngClass]="{'off': !containerVisibility.summary, 'on': containerVisibility.summary}" 
+                [ngClass]="{'off': !containerVisibility.attendance_summary, 'on': containerVisibility.attendance_summary}" 
                 class="toggle-btn">
-                {{ containerVisibility.summary ? 'ON' : 'OFF' }}
+                {{ containerVisibility.attendance_summary ? 'ON' : 'OFF' }}
               </button>
-              </div>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="container">
+              <label for="total-absent">Total Processed Payslips</label>
+              <button (click)="toggleState('weekly')" 
+                [ngClass]="{'off': !containerVisibility.attendance_weekly, 'on': containerVisibility.attendance_weekly}" 
+                class="toggle-btn">
+                {{ containerVisibility.attendance_weekly ? 'ON' : 'OFF' }}
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import Swal, { SweetAlertIcon } from 'sweetalert2';
 import { PopupService } from '../../../../services/popup/popup.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -28,35 +27,9 @@ export class RequestComponent implements OnInit {
   requests: any;
   dataSource: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  // allRequests: pendingRequests[] = [
-  //   {
-  //     request_type: 'Leave',
-  //     start_date: '2024-10-13T15:05:00',
-  //     end_date: '2024-10-14T15:05:00',
-  //     status: 'Pending',
-  //     proofs: [
-  //       { name: 'medical_certificate.pdf', url: '/assets/images/admin.png' },
-  //       { name: 'medical_certificate.pdf', url: '/assets/images/admin.png' },
-  //       { name: 'medical_certificate.pdf', url: '/assets/images/admin.png' }
-  //     ],
-  //     id: 0,
-  //     user_id: ''
-  //   },
-  //   {
-  //     request_type: 'Leave',
-  //     start_date: '2024-10-13T15:05:00',
-  //     end_date: '2024-10-14T15:05:00',
-  //     status: 'Pending',
-  //     proofs: [
-  //       { name: 'medical_certificate.pdf', url: '/assets/images/admin.png' }
-  //     ],
-  //     id: 1,
-  //     user_id: ''
-  //   },
-  // ];
-
-  // dataSource = new MatTableDataSource<pendingRequests>(this.allRequests);
   columns: string[] = ['request_type', 'start_date', 'end_date', 'status', 'proofs', 'action'];
+  leaveCredits = 0;
+  isLoading = true;
 
   constructor(
     private popupService: PopupService,
@@ -66,8 +39,11 @@ export class RequestComponent implements OnInit {
 
   ngOnInit(): void {
     this.ds.request('GET', 'employee/requests').subscribe((res: any) => {
-      this.dataSource = new MatTableDataSource(res.data);
+      this.dataSource = new MatTableDataSource(res.data.requests);
       this.dataSource.paginator = this.paginator;
+
+      this.leaveCredits = res.data.leave_credits;
+      this.isLoading = false;
     })
   }
 
@@ -84,6 +60,7 @@ export class RequestComponent implements OnInit {
               record.status = 3;
 
               this.dataSource.data = [...this.dataSource.data];
+              this.leaveCredits = res.data.leave_credits;
             },
             error: (err: any) => {
               this.popupService.swalBasic('error', this.popupService.genericErrorTitle, err.error.message);
@@ -95,11 +72,12 @@ export class RequestComponent implements OnInit {
 
   openForm(type: string) {
     if (this.dialog) {
-      const dialogRef = this.dialog.open(RequestFormComponent, { data:  type });
+      const dialogRef = this.dialog.open(RequestFormComponent, { data:  { type, leaveCredits: this.leaveCredits }});
 
       dialogRef.afterClosed().subscribe((res: any) => {
         if(res) {
-          this.dataSource.data = [res, ...this.dataSource.data];
+          this.dataSource.data = [res.record, ...this.dataSource.data];
+          this.leaveCredits = res.leave_credits;
         }
       })
     } else {
