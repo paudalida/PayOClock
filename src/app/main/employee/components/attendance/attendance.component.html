@@ -18,11 +18,13 @@
       <div class="employee-right">
         <h2 class="accumulated-title">Accumulated Hours This Payday</h2>
         <p class="accumulated-hours"> Basic: <span>{{ accumulatedHours.basic }}</span></p>
-
+        <br>
         <ng-container *ngIf="hoursToggle">
           <p class="accumulated-hours"> Regular Holiday: <span>{{ accumulatedHours.regholiday }}</span></p>
           <p class="accumulated-hours"> Special Holiday: <span>{{ accumulatedHours.specialnwholiday }}</span></p>
+          <br>
           <p class="accumulated-hours"> Leaves: <span>{{ accumulatedHours.leave }}</span></p>
+          <br>
           <p class="accumulated-hours"> Overtime: <span>{{ accumulatedHours.overtime.basic }}</span></p>
           <p class="accumulated-hours"> Regular Holiday Overtime: <span>{{ accumulatedHours.overtime.regholiday }}</span></p>
           <p class="accumulated-hours"> Special Holiday Overtime: <span>{{ accumulatedHours.overtime.specialnwholiday }}</span></p>
@@ -50,7 +52,7 @@
         </div>
       </div>
 
-      <div class="date-range-dropdown">
+      <div class="date-range-dropdown1">
         <div class="select-wrapper">
           <select [(ngModel)]="periodFilter" *ngIf="typeFilter == 'period'" (change)="changeData()">
             <option *ngFor="let element of periods; let i = index;" [value]="element" [selected]="i == 0"> {{ element }} </option>

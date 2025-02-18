@@ -174,32 +174,38 @@
 }
 
 .employee-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center; 
   flex: 1;
-  text-align: center;
   padding-top: 15px;
+}
 
-  .accumulated-title {
-    font-size: 20px;
-    font-weight: bold;
-    color: var(--primary-color);
-    margin-bottom: 25px;
-  }
-  
-  .accumulated-hours {
-    font-size: 17px;
-    color: var(--landing-font);
-    display: grid;
-    grid-template-columns: 1fr auto; /* First column takes full width, second auto */
-    align-items: center; /* Ensures vertical alignment */
-    width: 100%; /* Ensures full width */
-    max-width: 400px; /* Limits the width to keep alignment neat */
-  }
-  
-  span {
-    text-align: center;
-    font-weight: bold;
-    justify-self: center; /* Ensures all spans align in the center column */
-  }
+.accumulated-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-bottom: 25px;
+}
+
+.accumulated-hours {
+  font-size: 17px;
+  color: var(--landing-font);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  gap: 10px; 
+}
+
+span {
+  display: block;  
+  text-align: left; 
+  font-weight: bold;
+  width: 100%; 
+  padding-left: 10px; 
 }
 
 
@@ -290,7 +296,8 @@
   }
 }
 
-.date-range-dropdown {
+.date-range-dropdown, 
+.date-range-dropdown1 {
   display: flex;
   justify-content: end;
 
@@ -340,7 +347,7 @@ table tr:hover{
 }
 
 table td:nth-child(1) {
-  padding-left: 35px;
+  // padding-left: 35px;
   min-width: 100px;
   max-width: 100px;
 }
@@ -355,99 +362,153 @@ table td:nth-child(3) {
   max-width: 200px;
 }
 
+hr {
+  width: 50%;
+  color: var(--black);
+}
 
 
+@media (max-width: 500px) {
+  .main-content {
+    padding: 25px;
+  }
 
-// @media (max-width: 500px) {
-//   .main-content {
-//     padding-left: 25px;
-//     padding-right: 25px;
-//     padding-top: 25px;
-//     padding-bottom: 25px;
-//   }
+  .employee-body {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
 
-//   .button-group {
-//     display: flex;
-//     flex-wrap: wrap; 
-//     padding-right: 15px;
-//   }
+  .employee-container {
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    padding: 15px;
+  }
 
-//   .button-group > div {
-//     width: 40%; 
-//     display: flex;
-//     justify-content: center;
-//   }
+  .employee-left {
+    margin-bottom: 10px;
+  }
 
-//   .upload, 
-//   .toggle-button {
-//     width: 100%; 
-//     padding: 10px; 
-//     font-size: 14px; 
-//     text-align: center; 
-//   }
+  .employee-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
 
-//   .employee-container {
-//     flex-direction: column;
-//     align-items: center;
-//     width: 90%;
-//     padding: 15px; 
+  .employee-middle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
 
-//     .employee-left {
-//       margin-bottom: 10px; 
-//     }
-  
-//     .employee-image {
-//       width: 150px; 
-//       height: 150px;
-//       border-radius: 50%;
-//       object-fit: cover;
-//     }
-  
-//     .employee-middle {
-//       display: flex;
-//       flex-direction: column;
-//       justify-content: center;
-//       text-align: center; 
-//     }
-  
-//     .employee-name {
-//       font-size: 1.2rem; 
-//       margin-top: 10px;
-//     }
-  
-//     .employee-position {
-//       font-size: 1rem; 
-//       color: #666;
-//       margin-top: 5px;
-//     }
-  
-//     .employee-right {
-//       display: none; 
-//     }
-//   }
+  .employee-name {
+    font-size: 1.2rem;
+    margin-top: 10px;
+  }
 
-//   .row {
-//     flex-direction: column; /* Stack the cards vertically */
-//     align-items: center; /* Center the stacked cards */
-//     gap: 20px; /* Reduce spacing between cards */
-//   }
+  .employee-position {
+    font-size: 1rem;
+    color: #666;
+    margin-top: 5px;
+  }
 
-//   .day {
-//     width: 90%; /* Make cards take up most of the screen width */
-//     max-width: none; /* Remove max-width restriction */
-//   }
+  .employee-right {
+    width: 100%;
+    text-align: center;
+    margin-top: 15px;
+  }
 
-//   .day-label {
-//     font-size: 16px; /* Slightly smaller text for day labels */
-//     padding: 10px; /* Adjust padding for smaller screens */
-//   }
+  .accumulated-hours {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-//   .label {
-//     font-size: 14px; /* Adjust font size for labels */
-//     margin: 10px 0; /* Reduce margin for better spacing */
-//   }
+  span {
+    text-align: center;
+  }
 
-// }
+  .toggle-button {
+    margin-left: 28px;
+    width: 100%;
+    max-width: 250px;
+    margin-top: 15px;
+  }
+
+  .table-content {
+    padding: 8px;
+  }
+
+  .table-header {
+    padding-top: 15px;
+    font-size: 14px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    position: relative;
+  }
+
+  .right-side {
+    padding-top: 15px;
+    justify-content: flex-start;
+  }
+
+  .date-range-dropdown,
+  .date-range-dropdown1 {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+    top: 15px;
+    width: 100%;
+  }
+
+  .date-range-dropdown select {
+    width: 120px;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .date-range-dropdown1 select {
+    width: 210px;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  table,
+  th,
+  td {
+    padding: 8px;
+  }
+
+  table td:nth-child(1),
+  table td:nth-child(2),
+  table td:nth-child(3) {
+    min-width: 80px;
+    max-width: 100px;
+  }
+
+  .report-button {
+    position: absolute;
+    top: 15px;
+    right: 0;
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 10px 14px;
+    border: none;
+    border-radius: 3px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .report-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+}
 
 
-  
