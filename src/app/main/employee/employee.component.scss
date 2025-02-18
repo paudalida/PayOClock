@@ -111,7 +111,7 @@ span {
     display: flex;
     align-items: center;
     gap: 20px; 
-    padding-right: 55px ;
+    padding-right: 55px;
 }
 
 .profile-container {
@@ -152,7 +152,7 @@ span {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     width: 150px;
-    z-index: 10;
+    z-index: 9999;
 }
 
 .profile-dropdown ul {
@@ -198,37 +198,22 @@ span {
         align-items: center;
     }
 
-    .title {
-        display: none; 
-        font-size: 25px;
+    h1 {
+        margin-left: 0;
+        font-size: 15px;
     }
     
-    .header-mobile {
-        display: block; 
-        padding-top: 15px;
+    span {
         font-size: 15px;
-        padding-right: 0;
     }
 
-    .current-date-time {
-        display: none;
+    .right-side {
+        gap: 10px;
+        padding-right: 45px;
     }
 
-    .header-actions .logout-button {
-        display: flex !important;
-        padding-right: 50px;
-        
-    }
-
-    .header-actions .current-date-time {
-        margin-right: 0;
-        font-size: 12px;
-        padding-right: 47px;
-        display: none;
-    }
-
-    .header .current-date-time i {
-        font-size: 12px;
+    .profile-dropdown {
+        right: 5px;
     }
 }
 
@@ -253,23 +238,8 @@ span {
         align-items: center;
     }
 
-    .title {
-        display: none; 
-        font-size: 25px;
-    }
-    
-    .header-mobile {
-        display: block; 
-        padding-top: 15px;
-        font-size: 15px;
-    }
-
-    .header .current-date-time {
-        font-size: 12px;
-        padding-right: 47px;
-    }
-    .header .current-date-time i {
-        font-size: 12px;
+    h1 {
+        margin-left: 0;
     }
 }
 
