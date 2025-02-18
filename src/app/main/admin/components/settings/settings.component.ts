@@ -20,6 +20,7 @@ export class SettingsComponent {
     private fb: FormBuilder
   ){}
   
+  isLoading = true;
   holidayForm = this.fb.group({
     regular: this.fb.array([]),
     special_non_working: this.fb.array([])
@@ -162,6 +163,7 @@ export class SettingsComponent {
   }
 
   getHolidays() {
+    this.isLoading = true;
     this.ds.request('GET', 'view/holidays').subscribe({
       next: (res: any) => {
         res.data.forEach((element: any) => {
@@ -170,11 +172,15 @@ export class SettingsComponent {
       },
       error: (err: any) => {
         this.pop.swalBasic('error', this.pop.genericErrorTitle, err.error.message);
+      },
+      complete: () => {
+        this.isLoading = false;
       }
     })
   }
 
   getConfig() {
+    this.isLoading = true;
     this.ds.request('GET', 'admin/periodic-transactions/config').subscribe({
       next: (res: any) => {
         Object.entries(res.data).forEach(([key, values]: [string, any]) => {
@@ -207,6 +213,9 @@ export class SettingsComponent {
             });
           }
         });
+      },
+      complete: () => {
+        this.isLoading = false;
       }
     })
   }

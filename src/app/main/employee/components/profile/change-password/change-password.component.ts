@@ -14,8 +14,8 @@ export class ChangePasswordComponent {
 
   form: FormGroup = this.fb.group({
     current:   [''],
-    new:       ['', [ Validators.required, , Validators.minLength(10), Validators.maxLength(20) ]],
-    confirmed: ['', [ Validators.required, , Validators.minLength(10), Validators.maxLength(20) ]]
+    new:       ['', [ Validators.required, Validators.minLength(10), Validators.maxLength(20) ]],
+    confirmed: ['', [ Validators.required]]
   });
 
   isCurrentPasswordVisible: boolean = false;
@@ -25,10 +25,10 @@ export class ChangePasswordComponent {
   showCurrentPasswordIcon: boolean = false;
   showNewPasswordIcon: boolean = false;
   showConfirmPasswordIcon: boolean = false;
+  warning: string = 'Empty form fields';
 
   constructor(
-    private dialogRef: MatDialogRef<ChangePasswordComponent>, 
-    private router: Router,
+    private dialogRef: MatDialogRef<ChangePasswordComponent>,
     private fb: FormBuilder,
     private ds: DataService,
     private pop: PopupService
@@ -40,6 +40,7 @@ export class ChangePasswordComponent {
         this.ds.request('POST', 'employee/password/change', this.form.value).subscribe({
           next: (res: any) => {
             this.pop.toastWithTimer('success', res.message);
+            this.closePopup();
           },
           error: (err: any) => {
             this.pop.swalBasic('error', 'Oops! Password update failed', err.error.message);
@@ -51,9 +52,55 @@ export class ChangePasswordComponent {
     }
   }
 
+  checkPasswords() {
+    // Reset the warning message
+    this.warning = '';
+  
+    // Check if any of the fields are empty
+    if (this.form.get('current')?.value.length == 0 || this.form.get('new')?.value.length == 0 || this.form.get('confirmed')?.value.length == 0) {
+      this.warning = 'Fill in all form fields';
+      return true;
+    }
+  
+    // Check for validation errors
+    const currentControl = this.form.get('current');
+    const newControl = this.form.get('new');
+    const confirmedControl = this.form.get('confirmed');
+  
+    // Warning for current password field
+    if (currentControl?.hasError('required')) {
+      this.warning = 'Current password is required';
+      return true;
+    }
+  
+    // Warnings for new password field
+    if (newControl?.hasError('required')) {
+      this.warning = 'New password is required';
+      return true;
+    } else if (newControl?.hasError('minlength')) {
+      this.warning = 'New password must be at least 10 characters long';
+      return true;
+    } else if (newControl?.hasError('maxlength')) {
+      this.warning = 'New password cannot exceed 20 characters';
+      return true;
+    }
+  
+    // Warnings for confirmed password field
+    if (confirmedControl?.hasError('required')) {
+      this.warning = 'Password confirmation is required';
+      return true;
+    } else if (newControl?.value != confirmedControl?.value) {
+      this.warning = 'Passwords do not match';
+      return true;
+    }
+  
+    // If no errors, return false
+    return false;
+  }
+  
+
   closePopup() {
     this.dialogRef.close(); 
-    this.router.navigate(['/employee/profile']);
   }
 
   togglePasswordVisibility(field: string) {

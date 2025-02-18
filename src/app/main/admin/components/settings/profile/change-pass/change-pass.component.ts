@@ -25,6 +25,7 @@ export class ChangePassComponent {
   showCurrentPasswordIcon: boolean = false;
   showNewPasswordIcon: boolean = false;
   showConfirmPasswordIcon: boolean = false;
+  warning: string = 'Empty form fields';
 
   constructor(
     private dialogRef: MatDialogRef<ChangePassComponent>, 
@@ -50,6 +51,52 @@ export class ChangePassComponent {
         this.pop.swalBasic('error', 'Passwords do not match!', 'New password and confirmation password do not match');
       }
     }
+  }
+
+  checkPasswords() {
+    // Reset the warning message
+    this.warning = '';
+  
+    // Check if any of the fields are empty
+    if (this.form.get('current')?.value.length == 0 || this.form.get('new')?.value.length == 0 || this.form.get('confirmed')?.value.length == 0) {
+      this.warning = 'Fill in all form fields';
+      return true;
+    }
+  
+    // Check for validation errors
+    const currentControl = this.form.get('current');
+    const newControl = this.form.get('new');
+    const confirmedControl = this.form.get('confirmed');
+  
+    // Warning for current password field
+    if (currentControl?.hasError('required')) {
+      this.warning = 'Current password is required';
+      return true;
+    }
+  
+    // Warnings for new password field
+    if (newControl?.hasError('required')) {
+      this.warning = 'New password is required';
+      return true;
+    } else if (newControl?.hasError('minlength')) {
+      this.warning = 'New password must be at least 10 characters long';
+      return true;
+    } else if (newControl?.hasError('maxlength')) {
+      this.warning = 'New password cannot exceed 20 characters';
+      return true;
+    }
+  
+    // Warnings for confirmed password field
+    if (confirmedControl?.hasError('required')) {
+      this.warning = 'Password confirmation is required';
+      return true;
+    } else if (newControl?.value != confirmedControl?.value) {
+      this.warning = 'Passwords do not match';
+      return true;
+    }
+  
+    // If no errors, return false
+    return false;
   }
 
   closePopup() {

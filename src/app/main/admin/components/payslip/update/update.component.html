@@ -9,19 +9,18 @@
 
         <div class="detailsbody">
             <div class="date-range">
-                <!-- <div class="date-field">
-                    <label for="date-start">Date Start:</label>
-                    <input type="date" id="date-start" name="date-start" [(ngModel)]="currentDate.payday_start" disabled>
-                </div> -->
                 <div class="date-field">
                     <label for="date-end">New Payday Date:</label>
                     <input type="date" id="date-end" name="date-end" [(ngModel)]="new_payday_end" (change)="checkDate()">
                 </div>
             </div>
 
+            <div class="warning">{{ current_warning }}</div>
+            <div class="warning" *ngIf="current_warning != new_warning">{{ new_warning }}</div>
+
             <div class="button-group">
-                <button type="button" class="edit-button" (click)="submit('current')">Edit Current</button>
-                <button type="submit" class="update-button" (click)="submit('new')">Update to New</button>
+                <button type="button" class="edit-button" (click)="submit('current')" [disabled]="checkSubmitDate()">Edit Current</button>
+                <button type="submit" class="update-button" (click)="submit('new')" [disabled]="checkSubmitDate('new')">Update to New</button>
             </div>
         </div>
     </form>

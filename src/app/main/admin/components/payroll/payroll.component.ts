@@ -71,19 +71,6 @@ export class PayrollComponent implements OnInit {
   }
 
   getData() {
-    // this.ds.request('GET', 'admin/transactions/latest').subscribe({
-    //   next: (res: any) => {
-    //     this.date.payday_start = res.data.payday_start;
-    //     this.date.payday_end = res.data.payday_end;
-
-    //     this.disabledInput = res.data.released_at ? true : false;
-    //     this.as.setPayday(res.data);
-    //   },
-    //   error: (err: any) => {
-    //     this.pop.swalBasic('error', 'Oops! Cannot fetch payroll date', err.error.message);
-    //   }
-    // })
-
     this.ds.request('GET', 'admin/payrolls').subscribe({
       next: (res: any) => {
         this.columns = res.data.columns;
@@ -118,7 +105,6 @@ export class PayrollComponent implements OnInit {
         };
 
         this.changeData();
-        this.isLoading = false;
       },
       error: (err: any) => {
         this.pop.swalBasic('error', 'Oops! Cannot fetch payrolls!', this.pop.genericErrorMessage);
@@ -181,11 +167,15 @@ export class PayrollComponent implements OnInit {
   }
   
   syncPay(): void {
-    this.ds.request('POST', 'admin/payrolls/process/all/transaction').subscribe(
-      () => {
+    this.isLoading = true;
+    this.ds.request('POST', 'admin/payrolls/process/all/transaction').subscribe({
+      next: () => {
         this.getData();
+      },
+      complete: () => {
+        this.isLoading = false;
       }
-    )
+    })
   }   
   
   setupdate() {

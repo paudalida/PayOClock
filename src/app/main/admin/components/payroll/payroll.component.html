@@ -28,7 +28,11 @@
       <div class="bold">Released at: </div><div>{{ release_date || 'N/A' }}</div>
     </div>
     
-    <div class="scroll-container">
+    <div class="spinner" *ngIf="isLoading">
+      <app-spinner></app-spinner>
+    </div>
+
+    <div class="scroll-container" *ngIf="!isLoading">
       <div class="fixed-columns">
         <table>
 
