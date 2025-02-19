@@ -3,10 +3,7 @@ import { AdminService } from '../../../../../services/admin/admin.service';
 import { Router } from '@angular/router';
 import { DataService } from '../../../../../services/data/data.service';
 import { PopupService } from '../../../../../services/popup/popup.service';
-import html2pdf from 'html2pdf.js';
-
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+// import html2pdf from 'html2pdf.js';
 
 @Component({
   selector: 'app-payslip-history',
@@ -29,7 +26,7 @@ export class PayslipHistoryComponent implements OnInit{
   hasData = false;
   payslipDetails: any = [];
 
-  paginatorIndex = 1;
+  paginatorIndex = 0;
   paginatorCount = 5;
 
   ngOnInit(): void {
@@ -37,7 +34,6 @@ export class PayslipHistoryComponent implements OnInit{
 
     this.ds.request('GET', 'admin/payslips/history/user/' + this.employee.id).subscribe({
       next: (res: any) => {
-        this.payslips = res.data;
         if(res.data.length == 0) { this.hasData = false; return; }
         else { this.hasData = true; }
         
@@ -102,7 +98,8 @@ export class PayslipHistoryComponent implements OnInit{
     });
   }
 
-  downloadPDF(i: number) {
+  async downloadPDF(i: number) {
+    const html2pdf = (await import('html2pdf.js')).default;
     const element = document.getElementById('printSection' + i); // Get the div to convert
   
     if (!element) {
@@ -173,14 +170,15 @@ export class PayslipHistoryComponent implements OnInit{
     this.router.navigate(['/admin/payroll']);
   }
 
+  /* Paginator functions */
   changePaginator(event: Event) {
     const count = (event.target as HTMLSelectElement).value;
     this.paginatorCount = Number(count);
-    this.paginatorIndex = 1;
+    this.paginatorIndex = 0;
   }
 
   first() {
-    this.paginatorIndex = 1;
+    this.paginatorIndex = 0;
   }
 
   next() {
@@ -189,14 +187,14 @@ export class PayslipHistoryComponent implements OnInit{
   }
 
   previous() {
-    if((this.paginatorIndex - this.paginatorCount) >= 1 )
+    if((this.paginatorIndex - this.paginatorCount) >= 0 )
       this.paginatorIndex -= this.paginatorCount;
   }
 
   last() {
     const length = this.payslips.length;
     const excess = (length % this.paginatorCount) == 0 ? (this.paginatorCount) : (length % this.paginatorCount);
-    this.paginatorIndex = length - excess+1;
+    this.paginatorIndex = length - excess;
   }
 }
 

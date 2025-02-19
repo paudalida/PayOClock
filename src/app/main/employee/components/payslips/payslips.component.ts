@@ -3,10 +3,7 @@ import { Router } from '@angular/router';
 import { DataService } from '../../../../services/data/data.service';
 import { PopupService } from '../../../../services/popup/popup.service';
 import { EmployeeService } from '../../../../services/employee/employee.service';
-import html2pdf from 'html2pdf.js';
-
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+// import html2pdf from 'html2pdf.js';
 
 @Component({
   selector: 'app-payslips',
@@ -100,7 +97,8 @@ export class PayslipsComponent implements OnInit{
     });
   }
 
-  downloadPDF() {
+  async downloadPDF() {
+    const html2pdf = (await import('html2pdf.js')).default;
     const element = document.getElementById('printSection'); // Get the div to convert
   
     if (!element) {
@@ -138,77 +136,6 @@ export class PayslipsComponent implements OnInit{
         });
       });
   }
-
-  exportPayslipAsPDF(index: number) {
-    const doc = new jsPDF();
-    const payslip = this.payslips[index] || [];
-    const details = this.payslipDetails[index] || {};
-    const employee = this.employee || {};
-  
-    // Set font
-    doc.setFont('helvetica', 'normal');
-  
-    const logoUrl = '/assets/images/gm18.png';
-    const logoWidth = 30, logoHeight = 30;
-    try {
-      doc.addImage(logoUrl, 'PNG', 170, 10, logoWidth, logoHeight);
-    } catch (error) {
-      console.warn('Logo could not be loaded:', error);
-    }
-  
-    // Company details
-    doc.setFontSize(12);
-    doc.text('GM18 Driving School', 10, 15);
-    doc.text('106 Gordon Avenue, New Kalalake, Olongapo City, Philippines 2200', 10, 22);
-    doc.text('Tel No.: (047) 222-2446 / Cell No.: 0999 220 0158', 10, 29);
-  
-    // Employee details
-    doc.text(`Name: ${employee.full_name || 'N/A'}`, 10, 50);
-    doc.text(`Position: ${employee.position || 'N/A'}`, 200, 50, { align: 'right' });
-    doc.text(`ID: ${employee.employee_id || 'N/A'}`, 10, 58);
-    doc.text(`Rate: ${employee.hourly_rate || 'N/A'}`, 200, 58, { align: 'right' });
-  
-    doc.text(`Payroll Period: ${details.payday_start || 'N/A'} - ${details.payday_end || 'N/A'}`, 105, 62, { align: 'center' });
-  
-    // Table Data
-    const tableData = payslip.map((row: any) => [
-      row[0] || '', 
-      row[1] || '', 
-      (row[2] || '').replace(/[₱]/g, '').replace(/[+-]/g, ''),
-      row[3] || '', 
-      (row[4] || '').replace(/[₱]/g, '').replace(/[+-]/g, ''),
-      row[5] || '', 
-      (row[6] || '').replace(/[₱]/g, '').replace(/[+-]/g, '')
-    ]);
-  
-    tableData.push([
-      'Adjusted Pay', '', `${details.adjusted_pay || '0'}`, 
-      'Total Additions', `${details.total_additions || '0'}`, 
-      'Total Deductions', `${details.total_deductions || '0'}`
-    ]);
-  
-    tableData.push([
-      '', '', '', 
-      'Gross Pay', `${details.gross_pay || '0'}`, 
-      'Net Salary Transferred', `${details.net_pay || '0'}`
-    ]);
-  
-    // Table Options
-    (doc as any).autoTable({
-      head: [['Attendance Earnings', 'Hours', 'Amount', 'Other Earnings', 'Amount', 'Deductions', 'Amount']],
-      body: tableData,
-      startY: 75,
-      margin: { left: 10, right: 10 },
-      styles: { fontSize: 10, cellPadding: 2, font: 'helvetica' },
-      columnStyles: { 2: { halign: 'center' }, 4: { halign: 'center' }, 6: { halign: 'center' } }
-    });
-    
-  
-    // Save PDF
-    const fileName = `Payslip_${employee.full_name || 'Unknown'}_${details.payday_start || 'Unknown'}_${details.payday_end || 'Unknown'}.pdf`;
-    doc.save(fileName);
-  }
-
   redirectToPayslipHistory() {
     this.router.navigate(['/employee/payslips/payslips-history']);
   }
