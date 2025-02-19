@@ -3,6 +3,7 @@ import { AdminService } from '../../../../../services/admin/admin.service';
 import { Router } from '@angular/router';
 import { DataService } from '../../../../../services/data/data.service';
 import { PopupService } from '../../../../../services/popup/popup.service';
+import html2pdf from 'html2pdf.js';
 
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -32,7 +33,7 @@ export class PayslipHistoryComponent implements OnInit{
   paginatorCount = 5;
 
   ngOnInit(): void {
-    if(!this.employee.id) { this.router.navigate(['/admin/payrolls']); } // return to payrolls if employee data is not set (browser refreshed)
+    if(!this.employee.id) { this.router.navigate(['/admin/payroll']); } // return to payrolls if employee data is not set (browser refreshed)
 
     this.ds.request('GET', 'admin/payslips/history/user/' + this.employee.id).subscribe({
       next: (res: any) => {
@@ -63,16 +64,6 @@ export class PayslipHistoryComponent implements OnInit{
             if(col7) total_monthly += parseFloat(payslip.deduction.amounts[i].replace(/[₱,]/g, ''));
             if(col9) total_other_deductions += parseFloat(payslip.other_deduction.amounts[i].replace(/[₱,]/g, ''));
 
-            /* For other deductions */
-            // if(i >= payslip.deduction.types.length) {   
-              
-            //   let index = i - payslip.deduction.types.length;
-            //   if(index < payslip.other_deduction.types.length) {
-            //     col6 = payslip.other_deduction.types[index]    || '';
-            //     col7 = payslip.other_deduction.amounts[index]  || '';
-            //   }    
-            // }
-
             /* Append subtypes */
             if(payslip.allowance.subtypes[i])
               col4 += ' ' + payslip.allowance.subtypes[i];
@@ -84,9 +75,11 @@ export class PayslipHistoryComponent implements OnInit{
           }
           
           this.payslipDetails.push({
+            position         : element.position,
             rate             : element.rate,
             payday_start     : element.payday_start,
             payday_end       : element.payday_end,
+            released_at      : element.released_at,
             base_pay         : element.base_pay,
             adjusted_pay     : element.adjusted_pay,
             total_additions  : element.total_additions,
@@ -109,100 +102,44 @@ export class PayslipHistoryComponent implements OnInit{
     });
   }
 
-  exportPayslipAsPDF(index: number) {
-    const doc = new jsPDF();
-    const payslip = this.payslips[index];
-    const details = this.payslipDetails[index];
-    const employee = this.employee;
+  downloadPDF(i: number) {
+    const element = document.getElementById('printSection' + i); // Get the div to convert
   
-    // Set font
-    doc.setFont('helvetica', 'normal'); // Change font to Helvetica (you can customize this)
+    if (!element) {
+      console.error('Print section not found!');
+      return;
+    }
   
-    // Add logo to the top-right
-    const logoUrl = '/assets/images/gm18.png'; // Update this with the actual path or Base64 string
-    const logoWidth = 30;
-    const logoHeight = 30;
-    doc.addImage(logoUrl, 'PNG', 170, 10, logoWidth, logoHeight);
-  
-    // Add company details to the top-left
-    doc.setFontSize(12);
-    doc.text('GM18 Driving School', 10, 15);
-    doc.text('106 Gordon Avenue, New Kalalake, Olongapo City, Philippines 2200', 10, 22);
-    doc.text('Tel No.: (047) 222-2446 / Cell No.: 0999 220 0158', 10, 29);
-  
-    // Employee details (same as before)
-    doc.setFontSize(12);
-    doc.text(`Name: ${employee.full_name}`, 10, 50);
-    doc.text(`Position: ${employee.position}`, 200, 50, { align: 'right' });
-    doc.text(`ID: ${employee.employee_id}`, 10, 58);
-    doc.text(`Rate: ${employee.rate}`, 200, 58, { align: 'right' });
-  
-    doc.setFontSize(12);
-    doc.text(`Payroll Period: ${details.payday_start} - ${details.payday_end}`, 105, 62, { align: 'center' });
-  
-    // Table Data with signs and peso signs removed
-    const tableData = payslip.map((row: any) => [
-      row[0], // Attendance Earnings
-      row[1], // Hours
-      row[2]?.replace(/[₱]/g, '').replace(/[+-]/g, ''), // Remove peso sign and any signs
-      row[3], // Other Earnings
-      row[4]?.replace(/[₱]/g, '').replace(/[+-]/g, ''), // Remove peso sign and any signs
-      row[5], // Deductions
-      row[6]?.replace(/[₱]/g, '').replace(/[+-]/g, ''), // Remove peso sign and any signs
-    ]);
-  
-    // Add the totals as the last rows in the table
-    tableData.push([
-      'Adjusted Pay', 
-      '', 
-      ` ${details.adjusted_pay.replace(/[₱]/g, '').replace(/[+-]/g, '')}`, 
-      'Total Additions', 
-      ` ${details.total_additions.replace(/[₱]/g, '').replace(/[+-]/g, '')}`, 
-      'Total Deductions', 
-      ` ${details.total_deductions.replace(/[₱]/g, '').replace(/[+-]/g, '')}`
-    ]);
-  
-    tableData.push([
-      '', 
-      '', 
-      '', 
-      'Gross Pay', 
-      ` ${details.gross_pay.replace(/[₱]/g, '').replace(/[+-]/g, '')}`, 
-      'Net Salary Transferred', 
-      ` ${details.net_pay.replace(/[₱]/g, '').replace(/[+-]/g, '')}`
-    ]);
-  
-    // Table Options
-    const tableOptions = {
-      head: [['Attendance Earnings', 'Hours', 'Amount', 'Other Earnings', 'Amount', 'Deductions', 'Amount']],
-      body: tableData,
-      startY: 75,
-      margin: { left: 10, right: 10 },
-      styles: {
-        fontSize: 10,
-        overflow: 'linebreak',
-        cellPadding: 2,
-        font: 'helvetica', // Apply Helvetica font
-      },
-      columnStyles: {
-        0: { cellWidth: 40 }, // Column 1 width
-        1: { cellWidth: 20 }, // Column 2 width
-        2: { cellWidth: 20, halign: 'center', charSpace: -0.1 }, // Amount column 1 (removed signs)
-        3: { cellWidth: 30 }, // Column 4 width
-        4: { cellWidth: 20, halign: 'center', charSpace: -0.1 }, // Amount column 2 (removed signs)
-        5: { cellWidth: 40 }, // Column 6 width
-        6: { cellWidth: 20, halign: 'center', charSpace: -0.1 }, // Amount column 3 (removed signs)
-      },
-    };
-  
-    // Generate Table
-    const table = doc.autoTable(tableOptions);
-  
-    // Save the PDF
-    const fileName = `Payslip_${employee.full_name}_${details.payday_start}_${details.payday_end}.pdf`;
-    doc.save(fileName);
-  }
-  
+    const table = element.querySelector('.table-content') as HTMLElement;
+    const textElements = table.querySelectorAll('*');
+    const hidden = document.querySelectorAll('.hide-on-print'); // Select elements to hide
+    const show = document.querySelectorAll('.show-on-print'); // Select elements to show
+
+    // Hide elements before generating PDF
+    hidden.forEach(hidden => (hidden as HTMLElement).style.display = 'none');
+    show.forEach(show => (show as HTMLElement).style.display = 'block');
+    textElements.forEach(el => {
+      (el as HTMLElement).style.fontSize = '10px';
+    });
+
+    html2pdf()
+      .set({
+        margin: 0,
+        filename: this.employee.full_name + '.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      })
+      .from(element)
+      .save()
+      .then(() => {  // Reset to defaults
+        hidden.forEach(hidden => (hidden as HTMLElement).style.display = 'block');
+        show.forEach(show => (show as HTMLElement).style.display = 'none');
+        textElements.forEach(el => {
+          (el as HTMLElement).style.fontSize = '';
+        });
+      });
+  }  
 
   getPayDateRange(date: string): string {
     const payday = new Date(date);
