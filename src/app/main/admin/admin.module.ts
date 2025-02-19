@@ -28,7 +28,7 @@ import { AnnouncementsComponent } from './components/announcements/announcements
 import { AnnouncementFormComponent } from './components/dialogs/announcement-form/announcement-form.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { ViewDetailsComponent } from './components/employee/view-details/view-details.component';
-import { SpinnerComponent } from '../admin/spinner/spinner.component';
+import { EmpSpinnerComponent } from '../admin/spinner/spinner.component';
 import { AttendanceDetailPopupComponent } from './components/attendance/attendance-detail-popup/attendance-detail-popup.component';
 import { AttendanceHistoryComponent } from './components/attendance/attendance-history/attendance-history.component';
 
@@ -66,7 +66,7 @@ import { ToggleActionAdminComponent } from './components/dashboard/toggle-action
     PayrollComponent,
 
     AnnouncementsComponent,
-    SpinnerComponent,
+    EmpSpinnerComponent,
 
     /* Dialog imports */
     AnnouncementFormComponent,

@@ -6,184 +6,209 @@
         </div>
     </div>
 
-    <div class="table-content">
-        <div class="table-head">
-            <div class="input-row">
-                <div class="information-case">
-                    <strong>Employee name: </strong>
-                    <span>{{ employee.full_name }}</span>
+    <div class="loading" *ngIf="isLoading">
+        <app-spinner></app-spinner>
+    </div>
+
+    <div class="print-content" #printSection id="printSection">
+        <div class="print-header show-on-print">
+            <div class="flex">
+                <div class="container">
+                    <div class="text">GM18 Driving School</div>
+                    <div class="text">106 Gordon Avenue, New Kalalake, Olongapo City, Philippines 2200</div>
+                    <div class="text">Tel No.: (047) 222-2446 / Cell No.: 0999 220 0158</div>
                 </div>
     
-                <div class="information-case">
-                    <strong>Payroll Period: </strong>
-                    <span>{{ payday_start | date: 'mediumDate' }} - {{ payday_end | date: 'mediumDate' }}</span>  
-                </div>
-            </div>
-
-            <div class="input-row">
-                <div class="information-case">
-                    <strong>ID Number: </strong>
-                    <span>{{ employee.employee_id }}</span>
-                </div>
-
-                <div class="information-case">
-                    <strong>RATE{{ employee.position == 'Instructor' ? '/HOUR' : '/DAY'}}: </strong>
-                    <span>{{ rate }}</span>
-                </div>
-            </div>
-
-            <div class="input-row">
-                <div class="information-case">
-                    <strong>Position: </strong>
-                    <span>{{ employee.position }}</span>
-                </div>
-
-                <div class="button-container">
-                    <button class="btn-primary export" (click)="exportPayslipAsPDF(0)">Export to PDF</button>
+                <div class="container">
+                    <img [src]="'/assets/images/gm18.png'">
                 </div>
             </div>
         </div>
 
-        <div class="loading" *ngIf="isLoading">
-            <!-- <app-spinner></app-spinner> -->
+        <div class="table-content" *ngIf="!isLoading">
+            <div class="table-head">
+                <div class="input-row">
+                    <div class="information-case">
+                        <strong>Employee name: </strong>
+                        <span>{{ employee.full_name }}</span>
+                    </div>
+        
+                    <div class="information-case">
+                        <strong>Payroll Period: </strong>
+                        <span>{{ payday_start | date: 'mediumDate' }} - {{ payday_end | date: 'mediumDate' }}</span>  
+                    </div>
+                </div>
+    
+                <div class="input-row">
+                    <div class="information-case">
+                        <strong>ID Number: </strong>
+                        <span>{{ employee.employee_id }}</span>
+                    </div>
+    
+                    <div class="information-case">
+                        <strong>Released at: </strong>
+                        <span>{{ released_at | date: 'mediumDate' }}</span>
+                    </div>
+                </div>
+    
+                <div class="input-row">
+                    <div class="information-case">
+                        <strong>Position: </strong>
+                        <span>{{ position }}</span>
+                    </div>
+    
+                    <div class="information-case">
+                        <strong>RATE{{ employee.position == 'Instructor' ? '/HOUR' : '/DAY'}}: </strong>
+                        <span>{{ rate }}</span>
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <div></div>
+
+                    <div class="button-container hide-on-print">
+                        <button class="btn-primary export" (click)="downloadPDF();">Export to PDF</button>
+                    </div>
+                </div>                
+            </div>
+    
+            <div class="table-content1">
+                <div class="earnings-and-deductions">
+                    <div class="earnings-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Earnings</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngIf="!payslip.attendance">
+                                    <td> - </td>
+                                    <td> - </td>
+                                </tr>
+    
+                                <tr *ngFor="let type of payslip.attendance.types; let i = index;">
+                                    <ng-container *ngIf="payslip.attendance.hours[i] || i == 0">
+                                        <td>
+                                            <ng-container *ngIf="type">
+                                                {{ type }} ({{ payslip.attendance.hours[i] }})
+                                            </ng-container>
+                                            
+                                            <ng-container *ngIf="!type && i == 0"> - </ng-container>
+                                        </td>
+                                        <td>{{ payslip.attendance.amounts[i] || '-' }}</td>
+                                    </ng-container>
+                                </tr>
+    
+                                <tr class="total-row">
+                                    <td><strong>Total</strong></td>
+                                    <td><strong>₱ {{ totals.attendance | number: '1.2-2' }}</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Other Earnings</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>                                
+                                <tr *ngIf="!payslip.allowance.types.length">
+                                    <td> - </td>
+                                    <td> - </td>
+                                </tr>
+    
+                                <tr *ngFor="let type of payslip.allowance.types; let i = index;">
+                                    <td>{{ type }}</td>
+                                    <td>{{ payslip.allowance.amounts[i] }}</td>
+                                </tr>
+    
+                                <tr class="total-row">
+                                    <td><strong>Total</strong></td>
+                                    <td><strong>₱ {{ totals.other_earnings | number: '1.2-2' }}</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                
+                    <div class="deductions-loans-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Deductions</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>                                
+                                <tr *ngIf="!payslip.deduction.types.length">
+                                    <td> - </td>
+                                    <td> - </td>
+                                </tr>
+    
+                                <tr *ngFor="let type of payslip.deduction.types; let i = index;">
+                                    <td>{{ type }}</td>
+                                    <td>{{ payslip.deduction.amounts[i] }}</td>
+                                </tr>
+                                <tr class="total-row">
+                                    <td><strong>Total</strong></td>
+                                    <td><strong>₱ {{ totals.deductions | number: '1.2-2' }}</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Other Deductions</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>                                       
+                                <tr *ngIf="!payslip.other_deduction.types.length">
+                                    <td> - </td>
+                                    <td> - </td>
+                                </tr>
+    
+                                <tr *ngFor="let type of payslip.other_deduction.types; let i = index;">
+                                    <td>{{ type }}</td>
+                                    <td>{{ payslip.other_deduction.amounts[i] }}</td>
+                                </tr>
+                                <tr class="total-row">
+                                    <td><strong>Total</strong></td>
+                                    <td><strong>₱ {{ totals.other_deductions | number: '1.2-2' }}</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+    
+                <hr class="divider-line">
+                
+                <div class="totals-wrapper">
+                    <table class="pay-row-table">
+                        <tr class="pay-row">
+                            <td><strong>Gross Pay</strong></td>
+                            <td><strong>₱ {{ totals.gross | number: '1.2-2' }}</strong></td>
+                        </tr>
+                    </table>
+                
+                    <table class="total-deduc-table">
+                        <tr class="total-deduc">
+                            <td><strong>Total Deductions</strong></td>
+                            <td><strong>₱ {{ totals.total_deductions | number: '1.2-2' }}</strong></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="totals-wrapper">
+                    <table class="pay-row-table">
+                        <tr class="pay-row">
+                            <td><strong>Net Pay</strong></td>
+                            <td><strong>₱ {{ totals.net_pay | number: '1.2-2' }}</strong></td>
+                        </tr>
+                    </table>
+                </div>
         </div>
-
-        <div class="table-content1" *ngIf="!isLoading">
-            <div class="earnings-and-deductions">
-                <div class="earnings-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Earnings</th>
-                                <th>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngIf="!payslip.attendance">
-                                <td> - </td>
-                                <td> - </td>
-                            </tr>
-
-                            <tr *ngFor="let type of payslip.attendance.types; let i = index;">
-                                <ng-container *ngIf="payslip.attendance.hours[i] || i == 0">
-                                    <td>
-                                        <ng-container *ngIf="type">
-                                            {{ type }} ({{ payslip.attendance.hours[i] }})
-                                        </ng-container>
-                                        
-                                        <ng-container *ngIf="!type && i == 0"> - </ng-container>
-                                    </td>
-                                    <td>{{ payslip.attendance.amounts[i] || '-' }}</td>
-                                </ng-container>
-                            </tr>
-
-                            <tr class="total-row">
-                                <td><strong>Total</strong></td>
-                                <td><strong>₱ {{ totals.attendance | number: '1.2-2' }}</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Other Earnings</th>
-                                <th>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>                                
-                            <tr *ngIf="!payslip.allowance.types.length">
-                                <td> - </td>
-                                <td> - </td>
-                            </tr>
-
-                            <tr *ngFor="let type of payslip.allowance.types; let i = index;">
-                                <td>{{ type }}</td>
-                                <td>{{ payslip.allowance.amounts[i] }}</td>
-                            </tr>
-
-                            <tr class="total-row">
-                                <td><strong>Total</strong></td>
-                                <td><strong>₱ {{ totals.other_earnings | number: '1.2-2' }}</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            
-                <div class="deductions-loans-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Deductions</th>
-                                <th>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>                                
-                            <tr *ngIf="!payslip.deduction.types.length">
-                                <td> - </td>
-                                <td> - </td>
-                            </tr>
-
-                            <tr *ngFor="let type of payslip.deduction.types; let i = index;">
-                                <td>{{ type }}</td>
-                                <td>{{ payslip.deduction.amounts[i] }}</td>
-                            </tr>
-                            <tr class="total-row">
-                                <td><strong>Total</strong></td>
-                                <td><strong>₱ {{ totals.deductions | number: '1.2-2' }}</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-            
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Other Deductions</th>
-                                <th>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>                                       
-                            <tr *ngIf="!payslip.other_deduction.types.length">
-                                <td> - </td>
-                                <td> - </td>
-                            </tr>
-
-                            <tr *ngFor="let type of payslip.other_deduction.types; let i = index;">
-                                <td>{{ type }}</td>
-                                <td>{{ payslip.other_deduction.amounts[i] }}</td>
-                            </tr>
-                            <tr class="total-row">
-                                <td><strong>Total</strong></td>
-                                <td><strong>₱ {{ totals.other_deductions | number: '1.2-2' }}</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <hr class="divider-line">
-            
-            <div class="totals-wrapper">
-                <table class="pay-row-table">
-                    <tr class="pay-row">
-                        <td><strong>Gross Pay</strong></td>
-                        <td><strong>₱ {{ totals.gross | number: '1.2-2' }}</strong></td>
-                    </tr>
-                </table>
-            
-                <table class="total-deduc-table">
-                    <tr class="total-deduc">
-                        <td><strong>Total Deductions</strong></td>
-                        <td><strong>₱ {{ totals.total_deductions | number: '1.2-2' }}</strong></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="totals-wrapper">
-                <table class="pay-row-table">
-                    <tr class="pay-row">
-                        <td><strong>Net Pay</strong></td>
-                        <td><strong>₱ {{ totals.net_pay | number: '1.2-2' }}</strong></td>
-                    </tr>
-                </table>
-            </div>
-    </div>
+    </div>    
 </div>

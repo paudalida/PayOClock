@@ -1,8 +1,9 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from '../../../../services/data/data.service';
 import { PopupService } from '../../../../services/popup/popup.service';
 import { EmployeeService } from '../../../../services/employee/employee.service';
+import html2pdf from 'html2pdf.js';
 
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -23,7 +24,8 @@ export class PayslipsComponent implements OnInit{
 
   isMobile: boolean = false;
   isLoading = true;
-  payday_start = ''; payday_end = ''; base_pay = 0; adjusted_pay = 0; total_additions = 0; total_deductions = 0; gross_pay = 0; net_pay = 0; rate = 0;
+  position = ''; payday_start = ''; payday_end = ''; released_at = ''; 
+  base_pay = 0; adjusted_pay = 0; total_additions = 0; total_deductions = 0; gross_pay = 0; net_pay = 0; rate = 0;
   attendance: any = []; deductions: any = []; additions: any = [];
   values: any = [];
   employee: any;
@@ -55,9 +57,11 @@ export class PayslipsComponent implements OnInit{
         if(!res.data) { this.noPayslip = true; return; }
 
         this.payslip = res.data.payslip;
+        this.position = res.data.position;
         this.rate = res.data.rate;
         this.payday_start = res.data.payday_start;
         this.payday_end = res.data.payday_end;
+        this.released_at = res.data.released_at;
  
         for(let i = 0; i < this.payslip.attendance.types.length; i++) {
            const amount = parseFloat(this.payslip.attendance.amounts[i].replace(/[^\d.-]/g, ''));
@@ -94,6 +98,45 @@ export class PayslipsComponent implements OnInit{
         this.isLoading = false;
       }
     });
+  }
+
+  downloadPDF() {
+    const element = document.getElementById('printSection'); // Get the div to convert
+  
+    if (!element) {
+      console.error('Print section not found!');
+      return;
+    }
+  
+    const table = document.querySelector('.table-content') as HTMLElement;
+    const textElements = table.querySelectorAll('*');
+    const hidden = document.querySelectorAll('.hide-on-print'); // Select elements to hide
+    const show = document.querySelectorAll('.show-on-print'); // Select elements to show
+
+    // Hide elements before generating PDF
+    hidden.forEach(hidden => (hidden as HTMLElement).style.display = 'none');
+    show.forEach(show => (show as HTMLElement).style.display = 'block');
+    textElements.forEach(el => {
+      (el as HTMLElement).style.fontSize = '10px';
+    });
+
+    html2pdf()
+      .set({
+        margin: 0,
+        filename: this.employee.full_name + '.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      })
+      .from(element)
+      .save()
+      .then(() => {  // Reset to defaults
+        hidden.forEach(hidden => (hidden as HTMLElement).style.display = 'block');
+        show.forEach(show => (show as HTMLElement).style.display = 'none');
+        textElements.forEach(el => {
+          (el as HTMLElement).style.fontSize = '';
+        });
+      });
   }
 
   exportPayslipAsPDF(index: number) {
