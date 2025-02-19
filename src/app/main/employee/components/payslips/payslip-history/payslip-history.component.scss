@@ -68,6 +68,16 @@
     
 }
 
+.divider-line {
+    border: none;
+    border-top: 2px solid #ddd;
+    width: 100%; 
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
 .table-content {
     border-radius: 5px;
     padding: 30px 45px;
@@ -154,6 +164,13 @@
     margin-top: 20px;
 }
 
+.totals-wrapper1 {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 20px;
+}
+
 .pay-row-table, .total-deduc-table {
     width: 48%;
 }
@@ -214,6 +231,53 @@ h3 {
     box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.322);
     border: 0.5px solid var(--table-border);
     float: right;
+}
+
+.paginator {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 10px;
+    margin-bottom: 20px;
+}
+  
+.paginator .label {
+    font-size: 16px;
+    color: #333;
+    margin-right: 20px;
+}
+  
+.paginator-select {
+    font-size: 16px;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+  
+.paginator-btn {
+    background-color: var(--primary-color);
+    color: var(--white);
+    font-size: 24px;
+    border: none;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+  
+.paginator-btn:hover {
+    background-color: #0056b3;
+}
+  
+.paginator-btn:focus {
+    outline: none;
+}
+  
+.paginator-btn i {
+    display: block;
+    font-size: 24px;
 }
 
 @media (max-width: 500px) {

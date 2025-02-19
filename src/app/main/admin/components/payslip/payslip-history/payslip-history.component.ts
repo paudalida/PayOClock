@@ -239,7 +239,7 @@ export class PayslipHistoryComponent implements OnInit{
   changePaginator(event: Event) {
     const count = (event.target as HTMLSelectElement).value;
     this.paginatorCount = Number(count);
-    this.paginatorIndex = 0;
+    this.paginatorIndex = 1;
   }
 
   first() {
@@ -253,7 +253,7 @@ export class PayslipHistoryComponent implements OnInit{
   }
 
   previous() {
-    if (this.paginatorIndex - this.paginatorCount >= 0) {
+    if (this.paginatorIndex - this.paginatorCount >= 1) {
       this.paginatorIndex -= this.paginatorCount;
     }
   }

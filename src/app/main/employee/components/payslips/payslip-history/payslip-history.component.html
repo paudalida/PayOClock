@@ -167,7 +167,7 @@
                         </table>
                     </div>
                     
-                    <div class="totals-wrapper">
+                    <div class="totals-wrapper1">
                         <table class="pay-row-table">
                             <tr class="pay-row">
                                 <td><strong>Net Pay</strong></td>
@@ -179,4 +179,31 @@
             </div>
         </ng-container>
     </ng-container>
+
+    <div class="paginator">
+        <div class="label"> 
+            Showing {{ paginatorIndex }} - 
+            {{ (this.paginatorIndex + this.paginatorCount) > this.payslips.length ? this.payslips.length : this.paginatorIndex + this.paginatorCount }} 
+            of {{ payslips.length }} 
+        </div>
+    
+        <select (change)="changePaginator($event)" class="paginator-select">
+            <option value="5"> 5 </option>
+            <option value="10"> 10 </option>
+            <option value="15"> 15 </option>
+        </select>
+    
+        <button class="paginator-btn" (click)="first()">
+            <i class='bx bx-chevrons-left'></i>
+        </button>
+        <button class="paginator-btn" (click)="previous()">
+            <i class='bx bx-chevron-left'></i>
+        </button>
+        <button class="paginator-btn" (click)="next()">
+            <i class='bx bx-chevron-right'></i>
+        </button>
+        <button class="paginator-btn" (click)="last()">
+            <i class='bx bx-chevrons-right'></i>
+        </button>
+    </div>
 </div>

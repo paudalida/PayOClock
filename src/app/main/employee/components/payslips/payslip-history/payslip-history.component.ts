@@ -28,6 +28,9 @@ export class PayslipHistoryComponent implements OnInit{
   payslipDetails: any = [];
   employee: any;
 
+  paginatorIndex = 1;
+  paginatorCount = 5;
+
   ngOnInit(): void {
     this.employee = this.es.getEmployee();
 
@@ -222,5 +225,33 @@ export class PayslipHistoryComponent implements OnInit{
 
   redirectToPayslip() {
     this.router.navigate(['/employee/payslips']);
+  }
+
+  changePaginator(event: Event) {
+    const count = (event.target as HTMLSelectElement).value;
+    this.paginatorCount = Number(count);
+    this.paginatorIndex = 1;
+  }
+
+  first() {
+    this.paginatorIndex = 1;
+  }
+
+  next() {
+    if (this.paginatorIndex + this.paginatorCount < this.payslips.length) {
+      this.paginatorIndex += this.paginatorCount;
+    }
+  }
+
+  previous() {
+    if (this.paginatorIndex - this.paginatorCount >= 1) {
+      this.paginatorIndex -= this.paginatorCount;
+    }
+  }
+
+  last() {
+    const length = this.payslips.length;
+    const excess = (length % this.paginatorCount) == 0 ? (this.paginatorCount) : (length % this.paginatorCount);
+    this.paginatorIndex = length - excess+1;
   }
 }
