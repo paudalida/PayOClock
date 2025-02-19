@@ -37,6 +37,7 @@ export class PayslipHistoryComponent implements OnInit{
 
     this.ds.request('GET', 'employee/payslips/history').subscribe({
       next: (res: any) => {
+        this.payslips = res.data;
         res.data.forEach((element: any) => {      
           let values = [];
 
@@ -259,6 +260,7 @@ export class PayslipHistoryComponent implements OnInit{
     this.router.navigate(['/employee/payslips']);
   }
 
+  /* Paginator functions */
   changePaginator(event: Event) {
     const count = (event.target as HTMLSelectElement).value;
     this.paginatorCount = Number(count);
@@ -270,15 +272,13 @@ export class PayslipHistoryComponent implements OnInit{
   }
 
   next() {
-    if (this.paginatorIndex + this.paginatorCount < this.payslips.length) {
+    if((this.paginatorIndex + this.paginatorCount) < this.payslips.length)
       this.paginatorIndex += this.paginatorCount;
-    }
   }
 
   previous() {
-    if (this.paginatorIndex - this.paginatorCount >= 1) {
+    if((this.paginatorIndex - this.paginatorCount) >= 1 )
       this.paginatorIndex -= this.paginatorCount;
-    }
   }
 
   last() {

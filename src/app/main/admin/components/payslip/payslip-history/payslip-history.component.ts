@@ -36,7 +36,7 @@ export class PayslipHistoryComponent implements OnInit{
 
     this.ds.request('GET', 'admin/payslips/history/user/' + this.employee.id).subscribe({
       next: (res: any) => {
-
+        this.payslips = res.data;
         if(res.data.length == 0) { this.hasData = false; return; }
         else { this.hasData = true; }
         
@@ -247,15 +247,13 @@ export class PayslipHistoryComponent implements OnInit{
   }
 
   next() {
-    if (this.paginatorIndex + this.paginatorCount < this.payslips.length) {
+    if((this.paginatorIndex + this.paginatorCount) < this.payslips.length)
       this.paginatorIndex += this.paginatorCount;
-    }
   }
 
   previous() {
-    if (this.paginatorIndex - this.paginatorCount >= 1) {
+    if((this.paginatorIndex - this.paginatorCount) >= 1 )
       this.paginatorIndex -= this.paginatorCount;
-    }
   }
 
   last() {

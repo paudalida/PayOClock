@@ -12,6 +12,7 @@
 
     <ng-container *ngIf="!isLoading">
         <ng-container *ngFor="let payslip of payslips; let i = index;">
+            <ng-container *ngIf="i >= paginatorIndex && i < paginatorIndex + paginatorCount">
             <div #printSection [id]="'printSection' + i">
                 <div class="print-header show-on-print">
                     <div class="flex">
@@ -201,6 +202,7 @@
                     </div>
                 </div>
             </div>
+        </ng-container>
         </ng-container>
     </ng-container>
 
