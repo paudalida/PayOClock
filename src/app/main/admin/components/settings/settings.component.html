@@ -6,7 +6,11 @@
 
         <div class="body-content">
             
-            <mat-tab-group>
+            <div class="spinner" *ngIf="isLoading">
+                <app-spinner></app-spinner>
+              </div>
+
+            <mat-tab-group *ngIf="!isLoading">
                 <mat-tab label="Deductions">
                     <div class="body-config">
                         <h1> MONTHLY DEDUCTIONS CONFIGURATION </h1> 
@@ -132,7 +136,7 @@
                         <form [formGroup]="holidayForm" (submit)="submit('holiday')">
                             <form formArrayName="regular" class="container">
                                 <div class="container-head">
-                                    <h1> Regular Holidays </h1>
+                                    <h1> Regular Holidays (Double Pay)</h1>
                                     <button class="btn-primary add" type="button" (click)="addToHolidayForm('regular', 0)"> Add </button>
                                 </div>
         
@@ -166,7 +170,7 @@
                             </form>
                             <form formArrayName="special_non_working" class="container">
                                 <div class="container-head">
-                                    <h1> Special Non-working Holidays </h1>
+                                    <h1> Special Non-working Holidays (130% Pay)</h1>
                                     <button class="btn-primary add" type="button" (click)="addToHolidayForm('special_non_working', 0)"> Add </button>
                                 </div>
         

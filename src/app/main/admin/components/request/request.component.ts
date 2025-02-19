@@ -91,6 +91,13 @@ export class RequestComponent implements OnInit, AfterViewInit {
     this.finishedRequests.paginator = this.finishedPaginator;
   }
 
+  applyFilter(filterValue: Event) {
+    this.finishedRequests.filterPredicate = (data: any, filter: string) => {
+      return filter == '' || data.status == filter;
+    };
+    this.finishedRequests.filter = (filterValue.target as HTMLSelectElement).value;
+  }
+  
   // Approve request method
   async approveRequest(element: EmployeeRequest) {
     const isConfirmed = await this.popupService.swalWithCancel(

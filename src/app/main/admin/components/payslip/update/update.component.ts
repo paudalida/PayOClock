@@ -25,6 +25,9 @@ export class UpdateComponent implements OnInit {
     payday_end: '',
   };
 
+  current_warning: string = 'No changes to current payday date';
+  new_warning: string = 'No changes to current payday date';
+
   new_payday_end = '';
 
   ngOnInit(): void {
@@ -46,6 +49,51 @@ export class UpdateComponent implements OnInit {
       this.pop.toastWithTimer('error', 'Payday end date cannot be more than a month from the last saved payday', 5);
       this.new_payday_end = '';
     }
+  }
+
+  checkSubmitDate(type: string = 'edit') {
+    if(this.new_payday_end == '') {
+      this.current_warning = 'Payday date cannot be empty';
+      this.new_warning = 'Payday date cannot be empty';
+      return true;
+    }
+
+    const date = new Date(this.new_payday_end);
+    const currentPaydayStart = new Date(this.currentDate.payday_start);
+    const currentPaydayEnd   = new Date(this.currentDate.payday_end);
+    const nextMonthStart          = new Date(currentPaydayStart);
+    const nextMonth          = new Date(currentPaydayEnd);
+    nextMonth.setMonth(nextMonth.getMonth() + 1);
+    nextMonthStart.setMonth(nextMonthStart.getMonth() + 1);
+
+    if(type == 'new') {
+      if(date.getTime() < currentPaydayEnd.getTime()) {
+        this.new_warning = 'New payday end date cannot be less than the current payday end date';
+        return true;
+      } else if(date.getTime() >= nextMonth.getTime()) {
+        this.new_warning = 'New payday end date cannot be more than a month from the last saved payday';
+        return true;
+      } else this.new_warning = ''; 
+    } else {
+      if(date.getTime() <= currentPaydayStart.getTime()) {
+        this.current_warning = 'Current payday end date cannot be less than or equal to the current payday start date';
+        return true;
+      } else if(date.getTime() >= nextMonthStart.getTime()) {
+        this.current_warning = 'Current payday end date cannot be more than a month from the current payday start date';
+        return true;
+      } else this.current_warning = '';
+    }
+
+    return false;
+    // if(date.getTime() == currentPaydayEnd.getTime()) {
+    //   this.current_warning = 'No changes to current payday date';
+    //   this.new_warning = 'No changes to current payday date';
+    //   return true;      
+    // } else {
+    //   this.current_warning = '';
+    //   this.new_warning = '';
+    //   return false;
+    // }
   }
 
   submit(type: string) {

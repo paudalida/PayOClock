@@ -153,6 +153,11 @@ table td:nth-child(6) {
     font-weight: bold; 
 }
 
+.status-cancelled {
+    color: #273746; 
+    font-weight: bold; 
+}
+
 .status-denied {
     color: var(--absent); 
     font-weight: bold; 

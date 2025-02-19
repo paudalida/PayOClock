@@ -26,14 +26,14 @@
               <div *ngSwitchCase="'manual'" class="manual-action">
                 <div class="time-row">
                   <div class="label">Time In</div>
-                  <input type="time" [(ngModel)]="manual.timeIn" class="time-input"  />
+                  <input type="time" [(ngModel)]="manual.timeIn" class="time-input" [disabled]="data.details.time_in" />
                 </div>
           
                 <div class="time-row">
                   <div class="label">Time Out</div>
-                  <input type="time" [(ngModel)]="manual.timeOut" class="time-input"  />
+                  <input type="time" [(ngModel)]="manual.timeOut" class="time-input" [disabled]="data.details.time_out || (!manual.timeIn && !data.details.time_in)" />
                 </div>
-                  <button class="time-btn time-out" (click)="updateManualTime()" [disabled]="manual.timeIn == null && manual.timeOut == null"> Save </button>
+                  <button class="time-btn time-out" (click)="updateManualTime()" [disabled]="(manual.timeIn == null && manual.timeOut == null)"> Save </button>
               </div>
             </ng-container>
           </div>

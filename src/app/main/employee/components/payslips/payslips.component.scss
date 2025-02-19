@@ -1,4 +1,4 @@
-.main-content {
+  .main-content {
     justify-content: center;
     align-items: center;
     padding-left: 20px;
@@ -119,42 +119,6 @@
         }
     }
 }
-
-// .earnings-and-deductions {
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: flex-start; /* Aligns elements at the top */
-//     gap: 25px;
-//     width: 100%;
-// }
-
-// .earnings-container {
-//     width: 50%;
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: space-between; /* Ensures pay-row stays aligned */
-// }
-
-// .deductions-loans-container {
-//     width: 50%;
-//     display: flex;
-//     flex-direction: column;
-// }
-
-// .divider-line {
-//     border: none;
-//     border-top: 2px solid #ddd;
-//     width: 100%; 
-//     margin-top: 20px;
-//     margin-bottom: 10px;
-//     margin-left: 0;
-//     margin-right: 0;
-// }
-
-// .total-row, .pay-row {
-//     font-weight: bold;
-//     background-color: #f2f2f2; /* Light gray background */
-// }
 
 .earnings-and-deductions {
     display: flex;
@@ -302,5 +266,29 @@ h3 {
     .pay-row {
         margin-top: 0;
         margin-bottom: 0;
+    }
+}
+
+/* PRINTABLES */
+.print-header {
+    display: none;
+    font-size: 12px;
+    
+    .flex {
+        padding: 10px 50px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .container {
+            img {
+                width: 80px;
+                height: 80px;
+            }
+
+            .text {
+                font-weight: bold;
+            }
+        }
     }
 }

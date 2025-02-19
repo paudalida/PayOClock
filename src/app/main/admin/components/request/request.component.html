@@ -98,11 +98,11 @@
                     </div>
         
                     <div class="header-dropdown"> 
-                        <select class="dropdown">
-                            <option value="all">All Requests</option>
-                            <option value="pending">Approved</option>
-                            <option value="rejected">Denied</option>
-                            <option value="rejected">Cancelled</option>
+                        <select class="dropdown" (change)="applyFilter($event)">
+                            <option value="">All Requests</option>
+                            <option value="1">Approved</option>
+                            <option value="2">Denied</option>
+                            <option value="3">Cancelled</option>
                         </select>
                     </div>
                 </div>

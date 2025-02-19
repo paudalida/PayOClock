@@ -246,4 +246,17 @@ table td:nth-child(6) {
     } 
 }
 
+.status-approved {
+    color: var(--primary-color); 
+    font-weight: bold; 
+}
 
+.status-pending {
+    color: var(--late); 
+    font-weight: bold; 
+}
+
+.status-cancelled {
+    color: #273746; 
+    font-weight: bold; 
+}
