@@ -33,7 +33,7 @@ export class PayslipHistoryComponent implements OnInit{
     if(!this.employee.id) { this.router.navigate(['/admin/payroll']); } // return to payrolls if employee data is not set (browser refreshed)
 
     this.ds.request('GET', 'admin/payslips/history/user/' + this.employee.id).subscribe({
-      next: (res: any) => {
+      next: (res: any = []) => {
         if(res.data.length == 0) { this.hasData = false; return; }
         else { this.hasData = true; }
         
@@ -157,7 +157,8 @@ export class PayslipHistoryComponent implements OnInit{
     return this.as.getEmployee();
   }
 
-  clickTable(index: number) {
+  clickTable(event: Event, index: number) {
+    if((event.target as HTMLElement).tagName == 'BUTTON') return;
     if(this.activeTable == index && this.hasActive) this.hasActive = !this.hasActive;
     else { this.activeTable = index; this.hasActive = true; }
   }
