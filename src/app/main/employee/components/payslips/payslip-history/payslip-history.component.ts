@@ -33,7 +33,7 @@ export class PayslipHistoryComponent implements OnInit{
     this.employee = this.es.getEmployee();
 
     this.ds.request('GET', 'employee/payslips/history').subscribe({
-      next: (res: any) => {
+      next: (res: any = []) => {
         res.data.forEach((element: any) => {      
           let values = [];
 
@@ -150,7 +150,8 @@ export class PayslipHistoryComponent implements OnInit{
     }
   }
 
-  clickTable(index: number) {
+  clickTable(event: Event, index: number) {
+    if((event.target as HTMLElement).tagName == 'BUTTON') return;
     if(this.activeTable == index && this.hasActive) this.hasActive = !this.hasActive;
     else { this.activeTable = index; this.hasActive = true; }
   }
