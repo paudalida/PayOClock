@@ -1,22 +1,5 @@
 <div class="content">
-    <!-- <div class="header">
-        <h1> Payroll Management System </h1>
-
-        <div class="notifications">
-            <i class='bx bx-bell'></i>
-            <span class="notification-count">{{ notificationCount }}</span>
-        </div>
-
-        <div class="current-date-time">
-            <i class='bx bx-calendar'></i>
-            {{ currentDateTime }}
-        </div>
-    </div> -->
-
     <div class="header">
-        <!-- <div class="left-side">
-            <h1>Payroll Management System</h1>
-        </div> -->
         <div class="left-side">
             <h1>Welcome, <span>{{ employee?.full_name }}</span> !</h1>
         </div>
@@ -32,7 +15,6 @@
                 <ng-container *ngIf="notifications.length > 0">
                     <div *ngFor="let notification of notifications" class="notification-item" (click)="redirectToRequests()">
                         <span class="notification-message">
-                            <!-- <i class='bx bx-bell'></i> -->
                              {{ notification.message }}
                         </span>
                         <span class="notification-time">{{ notification.time }}</span>
@@ -45,8 +27,8 @@
             </div>
 
             <div class="profile-container" (click)="toggleProfileDropdown()">
-                <img [src]="employee.image || 'assets/images/no image.png'" alt="Employee Photo" class="profile-icon">
-                <!-- <img src ="assets/images/hustler.png" alt="Employee Photo" class="profile-icon"> -->
+                <!-- <img [src]="employee.image || 'assets/images/no image.png'" alt="Employee Photo" class="profile-icon"> -->
+                <img src ="assets/images/hustler.png" alt="Employee Photo" class="profile-icon">
                 <i class='bx bx-chevron-down dropdown-icon'></i>
         
                 <!-- Dropdown Menu -->
@@ -57,17 +39,9 @@
                     </ul>
                 </div>
             </div>
-            
-    
-            <!-- Date and Time -->
-            <!-- <div class="current-date-time">
-                <i class='bx bx-calendar'></i>
-                {{ currentDateTime }}
-            </div> -->
         </div>
     </div>
        
-    
     <div class="body-content">
         <div class="admin-container"> 
             <div class="loading" *ngIf="isLoading">
@@ -87,9 +61,6 @@
                 <div class="logo">
                     <img src="assets/images/PayO'Clock logo.png">
                 </div>
-                <!-- <div class="burger-icon">
-                    <i class='bx bx-menu'></i>
-                </div> -->
             </div>
     
             <mat-nav-list>
@@ -109,17 +80,9 @@
                     <span class="tab-icon"> <i class='bx bxs-cog'></i> </span>
                     <span class="tab-name">Settings</span>
                 </a>
-                <!-- <a mat-list-item routerLink="payrolls" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
-                    <span class="tab-icon"> <i class='bx bxs-coin-stack'></i> </span>
-                    <span class="tab-name">Payrolls</span>
-                </a> -->
-                <!-- <a mat-list-item routerLink="payslips" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
-                    <span class="tab-icon"> <i class='bx bxs-wallet-alt'></i> </span>
-                    <span class="tab-name">Payslips</span>
-                </a> -->
                 <a mat-list-item routerLink="payroll" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
                     <span class="tab-icon"> <i class='bx bxs-coin-stack'></i> </span>
-                    <span class="tab-name">Payrolls</span>
+                    <span class="tab-name">Payroll</span>
                 </a>
                 <a mat-list-item routerLink="request" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
                     <span class="tab-icon"> <i class='bx bx-list-plus'></i> </span>
@@ -136,6 +99,10 @@
                 <a mat-list-item routerLink="activity" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
                     <span class="tab-icon"> <i class='bx bxs-time-five'></i></span>
                     <span class="tab-name">Activity Log</span>
+                </a>
+                <a mat-list-item routerLink="report" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
+                    <span class="tab-icon"> <i class='bx bxs-report'></i></span>
+                    <span class="tab-name">Report</span>
                 </a>
 
                 <!-- <a mat-list-item (click)="logout()" class="logout">

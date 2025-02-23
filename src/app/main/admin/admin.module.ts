@@ -53,6 +53,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ToggleActionAdminComponent } from './components/dashboard/toggle-action-admin/toggle-action-admin.component';
+import { ReportsComponent } from './components/reports/reports.component';
 
 @NgModule({
   declarations: [
@@ -89,7 +90,8 @@ import { ToggleActionAdminComponent } from './components/dashboard/toggle-action
     IndivPayslipComponent,
     PayrollSumComponent,
     ActivitylogsComponent,
-    ToggleActionAdminComponent
+    ToggleActionAdminComponent,
+    ReportsComponent
     
   ],
   imports: [

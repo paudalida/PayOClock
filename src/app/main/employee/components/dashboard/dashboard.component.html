@@ -7,6 +7,7 @@
     <div class="toggle-icon" (click)="toggleAction()">
       <i class="bx bx-menu"></i>
     </div>
+    
     <div class="cards-row">
       <div class="card" *ngIf="containerVisibility.present" (click)="openPopup('present')">
         <div class="card-header">
@@ -20,19 +21,6 @@
           </div>          
         </div>
       </div>
-  
-      <!-- <div class="card" *ngIf="containerVisibility.lates" (click)="openPopup('lates')">
-        <div class="card-header">
-          <h3>Total Lates</h3>
-          <p class="number">0</p>
-          
-          <div class="filter-dropdown">
-            <select (click)="stopPopupPropagation($event)" (change)="selectFilterOption()">
-              <option *ngFor="let month of months" [value]="month"> {{ month | date: 'MMMM YYYY' }} </option>
-            </select>
-          </div>
-        </div>
-      </div> -->
   
       <div class="card" *ngIf="containerVisibility.absences" (click)="openPopup('absences')">
         <div class="card-header">

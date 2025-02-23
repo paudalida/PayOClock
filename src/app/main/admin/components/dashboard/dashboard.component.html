@@ -11,28 +11,31 @@
             </div>
         </div>
 
-        <div class="graph-container" *ngIf="containerVisibility.payroll">
-            <div class="right" style="height: 450px;">
-                <span class="header">Payroll Total Net Pays Summary</span>
-                
-                <span>
-                    <select (change)="updateBarChart($event)">
-                        <ng-container *ngFor="let quarter of payrollsQuarters">
-                            <option [value]="quarter"> {{ quarter }} </option>
-                        </ng-container> 
-                    </select>
-                </span>
-
-                <div class="bar-container" style="height: 100%;">
-                    <p-chart type="bar" [data]="barChartData" [options]="options.bar" style="height: 100%;"></p-chart>
-                </div>
+        <div class="cards-row">
+            <div class="card" (click)="openPopup('present')" *ngIf="containerVisibility.present">
+              <div class="card-header">
+                <h3>Total Present</h3>
+                <p class="number">{{ containerData['present'] }}</p>
+                <!-- Dropdown for filter -->
+                <div class="filter-dropdown">
+                  <select (click)="stopPopupPropagation($event)" (change)="selectFilterOption()" [(ngModel)]="filterValue">
+                    <option *ngFor="let month of months" [value]="month"> {{ month | date: 'MMMM YYYY' }} </option>
+                  </select>
+                </div>          
+              </div>
             </div>
-
-            <div class="left" style="height: 450px;" *ngIf="containerVisibility.attendance_summary">
-                <span class="header">Attendance Summary - {{ currentMonth }}</span>
-                <div class="doughnut-container" style="height: 300px;">
-                    <p-chart type="doughnut" [data]="doughnutChartData" [options]="options.doughnut"></p-chart>
-                </div>
+              
+            <div class="card" (click)="openPopup('absences')" *ngIf="containerVisibility.absences">
+              <div class="card-header">
+                <h3>Total Absences</h3>
+                <p class="number" *ngIf="selectedFilterOption === 'week'">{{ containerData['absences'] }}</p>
+                <!-- Dropdown for filter -->
+                <div class="filter-dropdown">
+                  <select (click)="stopPopupPropagation($event)" (change)="selectFilterOption()" [(ngModel)]="filterValue">
+                    <option *ngFor="let month of months" [value]="month"> {{ month | date: 'MMMM YYYY' }} </option>
+                  </select>
+                </div>          
+              </div>
             </div>
         </div>
 
@@ -78,6 +81,31 @@
                     </tbody>
                 </table>
             </div>                               
+        </div>
+
+        <div class="graph-container" *ngIf="containerVisibility.payroll">
+            <div class="right" style="height: 450px;">
+                <span class="header">Payroll Total Net Pays Summary</span>
+                
+                <span>
+                    <select (change)="updateBarChart($event)">
+                        <ng-container *ngFor="let quarter of payrollsQuarters">
+                            <option [value]="quarter"> {{ quarter }} </option>
+                        </ng-container> 
+                    </select>
+                </span>
+
+                <div class="bar-container" style="height: 100%;">
+                    <p-chart type="bar" [data]="barChartData" [options]="options.bar" style="height: 100%;"></p-chart>
+                </div>
+            </div>
+
+            <div class="left" style="height: 450px;" *ngIf="containerVisibility.attendance_summary">
+                <span class="header">Attendance Summary - {{ currentMonth }}</span>
+                <div class="doughnut-container" style="height: 300px;">
+                    <p-chart type="doughnut" [data]="doughnutChartData" [options]="options.doughnut"></p-chart>
+                </div>
+            </div>
         </div>
     </div>
 </main> 

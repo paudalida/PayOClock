@@ -9,6 +9,8 @@ import { ToggleActionAdminComponent } from './toggle-action-admin/toggle-action-
 import { EmployeeService } from '../../../../services/employee/employee.service';
 
 interface ContainerVisibility {
+  present: boolean;
+  absences: boolean;
   employee: boolean;
   pending: boolean;
   processed: boolean;
@@ -22,12 +24,26 @@ interface ContainerVisibility {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
+
 export class DashboardComponent implements OnInit {
 
   defaults = {
     absent: 0,
     present: 0
   };
+
+  selectedFilterOption: string = 'week'; 
+  containerData: { [key: string]: any } = {
+    present: 0,
+    absences: 0,
+    attendanceMonthly: {
+      present: [],
+      absences: []
+    },
+  }
+  groupedByMonth: any;
+  filterValue = '';
+  months: any = [];
 
   tableData = {
     Monday: this.defaults,
@@ -51,10 +67,12 @@ export class DashboardComponent implements OnInit {
   options: any;
   currentMonth: any;
 
-  containerVisibility: Record<'attendance_weekly' | 'payroll' | 'attendance_summary', boolean> = {
+  containerVisibility: Record<'present' | 'absences' |'attendance_weekly' | 'payroll' | 'attendance_summary', boolean> = {
     attendance_weekly: true,
-    payroll: true, 
+    payroll: true,
     attendance_summary: true,
+    present: true,
+    absences: true,
   };
   isLoading = true;
 
@@ -76,8 +94,8 @@ export class DashboardComponent implements OnInit {
   }
 
   toggleContainerVisibility(container: string) {
-    this.containerVisibility[container as 'attendance_weekly' | 'payroll' | 'attendance_summary'] = 
-      !this.containerVisibility[container as 'attendance_weekly' | 'payroll' | 'attendance_summary'];
+    this.containerVisibility[container as 'present' | 'absences' |'attendance_weekly' | 'payroll' | 'attendance_summary'] = 
+      !this.containerVisibility[container as 'present' | 'absences' |'attendance_weekly' | 'payroll' | 'attendance_summary'];
   }
 
   toggleAction(): void {
@@ -93,6 +111,38 @@ export class DashboardComponent implements OnInit {
         next: (res: any) => { }
       });
     });
+  }
+
+  openPopup(type: string): void {
+    let popupData: any[] = [];
+    let popupTitle = '';
+    let status = 'Present';
+
+    if (type === 'present') {
+      popupData = this.containerData['attendanceMonthly']['present'];
+    } else if (type === 'absences') {
+      status = 'Absent';
+      popupTitle = 'Absent Records';
+      popupData = this.containerData['attendanceMonthly']['absences'];
+    }
+
+    // this.dialog.open(ViewDetailsComponent, {
+    //   width: '600px',
+    //   data: { popupData: popupData.reverse(), popupTitle, status: status }
+    // });
+  }
+
+  
+
+  selectFilterOption(): void {
+    this.containerData['attendanceMonthly']['present'] = this.groupedByMonth[this.filterValue].attendance;
+    this.containerData['attendanceMonthly']['absences'] = this.groupedByMonth[this.filterValue].absences;
+    this.containerData['present'] = this.containerData['attendanceMonthly']['present'].length;
+    this.containerData['absences'] = this.containerData['attendanceMonthly']['absences'].length;
+  }  
+
+  stopPopupPropagation(event: MouseEvent): void {
+    event.stopPropagation();  
   }
 
   setCurrentMonth(): void {

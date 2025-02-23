@@ -14,14 +14,16 @@ export class ToggleActionAdminComponent {
   latesState: boolean = false;
   absentState: boolean = false;
 
-  @Input() containerVisibility: Record<'attendance_weekly' | 'payroll' | 'attendance_summary', boolean> = {
+  @Input() containerVisibility: Record<'present' | 'absences' |'attendance_weekly' | 'payroll' | 'attendance_summary', boolean> = {
     attendance_weekly: true,
-    payroll: true, 
+    payroll: true,
     attendance_summary: true,
+    present: true,
+    absences: true,
   };
 
   // Output to send updated state back to parent component
-  @Output() visibilityChanged: EventEmitter<Record<'attendance_weekly' | 'payroll' | 'attendance_summary', boolean>> = new EventEmitter();
+  @Output() visibilityChanged: EventEmitter<Record<'present' | 'absences' |'attendance_weekly' | 'payroll' | 'attendance_summary', boolean>> = new EventEmitter();
 
   constructor(
     private es: EmployeeService,
@@ -31,13 +33,18 @@ export class ToggleActionAdminComponent {
   }
 
   toggleState(type: string): void {
-    if (type === 'payroll') {
+    if (type === 'present') {
+      this.containerVisibility.present = !this.containerVisibility.present;
+    } else if (type === 'absences') {
+      this.containerVisibility.absences = !this.containerVisibility.absences;
+    } else if (type === 'weekly') {
+      this.containerVisibility.attendance_weekly = !this.containerVisibility.attendance_weekly;
+    } else if (type === 'payroll') {
       this.containerVisibility.payroll = !this.containerVisibility.payroll;
     } else if (type === 'summary') {
       this.containerVisibility.attendance_summary = !this.containerVisibility.attendance_summary;
-    } else if (type === 'weekly') {
-      this.containerVisibility.attendance_weekly = !this.containerVisibility.attendance_weekly;
     }
+    
   }
 
   closePopup() {

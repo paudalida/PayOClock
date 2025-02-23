@@ -6,10 +6,10 @@
 
 .toggle-icon {
     position: absolute;
-    top: 20px; 
-    right: 20px; 
+    top: 10px;  
+    right: 0;
     bottom: 20px;
-    font-size: 2rem; 
+    font-size: 25px; 
     cursor: pointer;
     color: var(--primary-color);
     transition: color 0.3s ease;
@@ -19,13 +19,133 @@
     color: #555; 
 }
 
-@media screen and (min-width: 1220px) {
-    content {
-        margin-top: 10px;
-        margin-left: 50px;
+.cards-row {
+    display: flex;
+    justify-content: flex-start; 
+    margin-top: 10px;
+    margin-left: 30px; 
+    gap: 10px;
+    height: auto;
+    max-width: 60%;
 
+    .card {
+        background: var(--white);
+        box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.2);
+        border: 0.5px solid var(--table-border);
+        border-radius: 8px; 
+        width: 40%; 
+        padding: 15px; 
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+    }
+      
+    .card .card-header {
+        display: flex;
+        width: 100%;
+        align-items: center;
+    }
+    
+    .card .card-header h3 {
+        font-size: 13px; 
+        color: var(--landing-font);
+        font-weight: 500;
+        margin: 0;
+        flex: 1;
+        text-align: left;
+    }
+      
+    .card .card-header .number {
+        font-size: 25px; 
+        font-weight: 600;
+        color: var(--primary-color);
+        margin: 0;
+        flex: 1;
+        text-align: center; 
+    }
+      
+    .filter-dropdown {
+        flex: 1;
+        text-align: right; 
+    }
+      
+    .filter-dropdown select {
+        width: 65px;
+        padding: 2px; 
+        font-size: 15px;
+        border-radius: 3px;
+        border: 1px solid var(--table-border);
+        background-color: var(--white);
+        color: var(--primary-color);
+        transition: background-color 0.3s ease, border 0.3s ease;
     }
 }
+
+
+.attendance {
+    padding: 50px;
+    margin-top: 30px;
+    margin-left: 40px;
+    margin-bottom: 10px;
+    background: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    .header-content {
+        display: flex;
+        align-items: center; 
+        justify-content: space-between; 
+        margin-bottom: 30px; 
+        
+        h1 {
+            color: var(--landing-font);
+            font-size: 17px;
+            margin: 0; 
+        }
+    }
+
+    .table {
+        table {
+            width: 100%;
+            border-collapse: collapse;
+    
+            th, td {
+                padding: 20px;
+                font-size: 12px;
+                text-align: center;
+                border: 1px solid var(--table-border);
+            }
+    
+            thead {
+                th {
+                    background-color: var(--primary-color);
+                    color: var(--white);
+                    font-weight: bold;
+                    font-size: 12px;
+                    padding: 20px;
+                    border: none;
+                }
+            }
+
+            tbody {
+                
+                .status-present {
+                    color: var(--present);
+                    font-weight: bold;
+                    font-size: 12px;
+                }
+    
+                .status-absent {
+                    color: var(--absent);
+                    font-weight: bold;
+                    font-size: 12px;
+                }
+            }
+        }
+    }     
+}    
 
 .input-row {
     display: flex;
@@ -44,7 +164,7 @@
 
 .card {
     width: 100%;
-    height: 100px;
+    height: 50px;
     background-color: var(--primary-color);
     color: var(--background-color);
     margin-top: 25px;
@@ -57,127 +177,7 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
-    img {
-        height: 60px;
-        width: 65px;
-        margin-top: 10px;
-        margin-left: 5px;
-    }
 }
-
-.card:hover {
-    background-color: var(--buttons-hover);
-    box-shadow: 8px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-}
-
-.box {
-
-    h1 {
-        margin-left: 65px;
-        font-size: 27px;
-        font-weight: 500;
-    }
-
-    h3 {
-        margin-left: 5px;
-        font-size: 16px;
-        font-weight: 700;
-    }
-
-}
-
-.button {
-    padding-top: 30px;
-    padding-right: 10px;
-    display: flex;
-    justify-content: flex-end ;
-}
-
-.activity-log {
-    background-color: var(--primary-color);
-    color: var(--white);
-    padding: 14px;
-    border: none;
-    border-radius: 3px;
-    font-weight: bold;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-    &:hover {
-        transform: scale(1.1);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-}
-
-// ATTENDANCE 
-
-.attendance {
-    padding: 50px;
-    margin-top: 30px;
-    margin-left: 40px;
-    margin-right: 10px;
-    margin-bottom: 50px;
-    background: var(--white);
-    border-radius: 8px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-
-    .header-content {
-        display: flex;
-        align-items: center; 
-        justify-content: space-between; 
-        margin-bottom: 30px; 
-        
-        h1 {
-            color: var(--landing-font);
-            font-size: 1.5rem;
-            margin: 0; 
-        }
-    }
-
-    .table {
-        table {
-            width: 100%;
-            border-collapse: collapse;
-    
-            th, td {
-                padding: 20px;
-                text-align: center;
-                border: 1px solid var(--table-border);
-            }
-    
-            thead {
-                th {
-                    background-color: var(--primary-color);
-                    color: var(--white);
-                    font-weight: bold;
-                    padding: 20px;
-                    border: none;
-                }
-            }
-
-            tbody {
-                
-                .status-present {
-                    color: var(--present);
-                    font-weight: bold;
-                }
-    
-                .status-late {
-                    color:var(--late);
-                    font-weight: bold;
-                }
-    
-                .status-absent {
-                    color: var(--absent);
-                    font-weight: bold;
-                }
-            }
-        }
-    }     
-}    
-
 
 // GRAPHS
 
@@ -190,10 +190,10 @@
 }
 
 .graph-container .right, .graph-container .left {
-    width: calc(45% - 30px);
+    width: calc(44% - 30px);
     max-width: 100%;
     height: 500px; 
-    margin-top: 30px;
+    // margin-top: 30px;
     border-radius: 10px;
     padding: 15px;
     display: flex;
@@ -208,12 +208,14 @@
 
 .graph-container .left {
     padding: 35px;
+    margin-left: 25px;
 }
 
 .right, .left {
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 600;
-    padding-top: 20px;
+    margin-right: 0;
+    // padding-top: 20px;
     padding-bottom: 20px;
     align-items: center;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -223,7 +225,7 @@
 .header {
     padding-bottom: 25px;
     color: var(--landing-font);
-    font-size: 1.3rem;
+    font-size: 13px;
 }
 
 .bar-container {

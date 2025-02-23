@@ -23,6 +23,8 @@ import { ProfileComponent } from './components/settings/profile/profile.componen
 import { AnnouncementComponent } from './components/archives/announcement/announcement.component';
 import { ActivitylogsComponent } from './components/activitylogs/activitylogs.component';
 
+import { ReportsComponent } from './components/reports/reports.component';
+
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, 
   { path: 'dashboard', component: DashboardComponent, pathMatch: 'full'},  
@@ -62,6 +64,7 @@ const routes: Routes = [
     ]
   },
   { path: 'activity', component: ActivitylogsComponent },
+  { path: 'report', component: ReportsComponent},
   { path: '**', redirectTo: 'dashboard' }
 ];
 
