@@ -1,9 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DataService } from '../../../../../services/data/data.service';
 import { AdminService } from '../../../../../services/admin/admin.service';
-import { PopupService } from '../../../../../services/popup/popup.service';
-import { MatDialog } from '@angular/material/dialog';
 
 import { MatDialogRef } from '@angular/material/dialog';
 
@@ -14,10 +11,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class PayrollSumComponent implements OnInit {
   fixedColumns = ['Employee ID', 'Name', 'Position', 'Rate'];
-  // payrolls: any = null;
-  // payroll: any = null;
-  // dateFilter: any = null;
-  // filterValue = '';
   columns: any;
   selectedRow: any = null;
   isPopupVisible: boolean = true;

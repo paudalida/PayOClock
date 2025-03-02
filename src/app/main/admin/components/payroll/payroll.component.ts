@@ -23,6 +23,8 @@ interface PayrollSums {
 
 export class PayrollComponent implements OnInit {
   fixedColumns = ['Employee ID', 'Name', 'Position', 'Rate'];
+  showColumns = ['Employee ID', 'Name', 'Position', 'Rate', 'GROSS', 'TOTAL CONTRIBUTIONS', 'TOTAL DEDUCTIONS', 'NET PAY'];
+  employeeTypeFilter = '';
   payrolls: any = null;
   payroll: any = null;
   dateFilter: any = null;
@@ -112,22 +114,51 @@ export class PayrollComponent implements OnInit {
     });
   }
 
-  changeData() {
-    this.payroll = this.payrolls[this.filterValue]
-    this.release_date = this.release_dates[this.filterValue]
-    this.curr_sums = {
-      net_pays: this.sums.net_pays[this.filterValue],
-      contributions: this.sums.contributions[this.filterValue],
-      expenses: this.sums.expenses[this.filterValue]
-    };
+  showColumn(column: string) {
+    return this.showColumns.includes(column);
+  }
 
-    const finalRow = [ ...this.totalIndex.contributions, ...[this.curr_sums.contributions], ...this.totalIndex.net_pays, ...[this.curr_sums.net_pays]];
+  changeData() {
+    let tempPayroll = JSON.parse(JSON.stringify(this.payrolls[this.filterValue]));
+    
+    const contribIndex = this.columns[this.filterValue].findIndex((column: string) => column === 'TOTAL CONTRIBUTIONS');
+    const netPaysIndex = this.columns[this.filterValue].findIndex((column: string) => column === 'NET PAY');
+
+    this.payroll = [ tempPayroll[0] ];
+    let contribTotal = 0; let netTotal = 0;
+    for(let i = 1; i < tempPayroll.length; i++) {
+      if ((tempPayroll[i][2] == 'Instructor' && this.employeeTypeFilter == 'instructors')  || (tempPayroll[i][2] != 'Instructor' && this.employeeTypeFilter == 'non-instructors') || this.employeeTypeFilter == '') {
+        this.payroll.push(tempPayroll[i]);
+        contribTotal += Number(tempPayroll[i][contribIndex].replace(/[₱,]/g, ""));
+        netTotal += Number(tempPayroll[i][netPaysIndex].replace(/[₱,]/g, ""));
+        console.log(Number(tempPayroll[i][contribIndex].replace(/[₱,]/g, "")));
+      }
+    }
+    this.release_date = this.release_dates[this.filterValue]
+    // this.curr_sums = {
+    //   net_pays: this.sums.net_pays[this.filterValue],
+    //   contributions: this.sums.contributions[this.filterValue],
+    //   expenses: this.sums.expenses[this.filterValue]
+    // };
+    
+    this.totalIndex.contributions = Array(contribIndex);
+    this.totalIndex.net_pays = Array(netPaysIndex - contribIndex - 1);
+    const total1 = `₱ ${contribTotal.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    const total2 = `₱ ${netTotal.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    const total3 = `₱ ${(netTotal + contribTotal).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+    const finalRow = [ ...this.totalIndex.contributions, ...[total1], ...this.totalIndex.net_pays, ...[total2]];
     this.payroll.push(finalRow);
 
     const tempArray = Array(finalRow.length - 2);
-    const pinakaFinalRow = [ ...tempArray, ...[ 'TOTAL EXPENSES', this.curr_sums.expenses ]];
-    this.payroll.push(pinakaFinalRow)
+    const pinakaFinalRow = [ ...tempArray, ...[ 'TOTAL EXPENSES', total3 ]];
+    this.payroll.push(pinakaFinalRow);
   }  
+
+  changeEmployeeType() {
+    this.payroll = this.payrolls[this.filterValue];
+    const netPayIndex = this.payroll[0].findIndex()
+  }
 
   release() {
     this.pop.swalWithCancel(

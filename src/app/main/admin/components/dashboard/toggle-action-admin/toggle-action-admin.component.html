@@ -10,6 +10,17 @@
   
         <div class="container-body">
           <div class="row">
+            <div class="container full">
+              <label for="total-absent">Attendance Weekly Summary</label>
+              <button (click)="toggleState('weekly')" 
+                [ngClass]="{'off': !containerVisibility.attendance_weekly, 'on': containerVisibility.attendance_weekly}" 
+                class="toggle-btn">
+                {{ containerVisibility.attendance_weekly ? 'ON' : 'OFF' }}
+              </button>
+            </div>
+          </div>
+
+          <div class="row">
             <div class="container">
               <label for="total-present">Total Present</label>
               <button (click)="toggleState('present')" 

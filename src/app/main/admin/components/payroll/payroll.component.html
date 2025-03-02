@@ -6,6 +6,16 @@
       </div>
 
       <div class="actions">
+        <div class="date-range-dropdown">
+          <div class="select-wrapper">
+            <select (change)="changeData()" [(ngModel)]="employeeTypeFilter">
+              <option value="">All</option>
+              <option value="instructors">Instructors</option>
+              <option value="non-instructors">Non-instructors</option>
+            </select>
+          </div>
+        </div>
+
         <!-- Report Button -->
         <button class="report-button" type="button" (click)="openPayroll()" [disabled]="isLoading">Maximize</button>
         <button class="report-button" type="button" (click)="generateReport()" [disabled]="isLoading">Export</button>
@@ -25,7 +35,7 @@
     </div>
 
     <div class="release-date"> 
-      <div class="bold">Released at: </div><div>{{ release_date || 'N/A' }}</div>
+      <div class="bold">Release date: </div><div>{{ release_date || 'N/A' }}</div>
     </div>
     
     <div class="spinner" *ngIf="isLoading">
@@ -38,20 +48,24 @@
 
           <!-- Get first data of array and limit to the fixed columns -->
           <tr>
-            <th *ngFor="let column of fixedColumns"> {{ column }} </th>
+            <th *ngFor="let column of fixedColumns"> 
+              <ng-container *ngIf="showColumn(column)"> {{ column }} </ng-container> 
+            </th>
           </tr>
 
-           <tr *ngFor="let row of payroll; let i = index;" (click)="openDialog(row[0])">
-            <ng-container *ngIf="i > 0">
-              <ng-container *ngFor="let data of row; let j = index;">
-                <td *ngIf="j < 4">
-                  <span [ngStyle]="{ opacity: row[j] ? '1' : '0' }">
-                    {{ row[j] !== undefined && row[j] !== null ? row[j] : '-' }}
-                  </span>
-                </td>
+          <ng-container *ngFor="let row of payroll; let i = index;" (click)="openDialog(row[0])">
+           <tr>
+              <ng-container *ngIf="i > 0">
+                <ng-container *ngFor="let data of row; let j = index;">
+                  <td *ngIf="j < 4">
+                    <span [ngStyle]="{ opacity: row[j] ? '1' : '0' }">
+                      {{ row[j] !== undefined && row[j] !== null ? row[j] : '-' }}
+                    </span>
+                  </td>
+                </ng-container>
               </ng-container>
-            </ng-container>
-          </tr>
+            </tr>
+          </ng-container>
         </table>
       </div>
 
@@ -62,22 +76,23 @@
           <ng-container *ngFor="let row of payroll; let i = index"> 
             <tr *ngIf="i == 0">
               <ng-container *ngFor="let column of row; let j = index">
-                <th *ngIf="j >= 4">
+                <th *ngIf="j >= 4 && showColumn(payroll[0][j])">
                   {{ column }}
                 </th>
               </ng-container>               
             </tr>
           </ng-container>
 
-          <tr *ngFor="let row of payroll; let i = index; let last = last">
-            <ng-container *ngIf="i > 0">
-              
-              <ng-container  *ngFor="let data of row; let j = index;" >
-                <td *ngIf="j >= 4 && i >= payroll.length - 2"> {{ row[j] }} </td>
-                <td *ngIf="j >= 4 && i < payroll.length - 2"> {{ row[j] || ' - ' }} </td>
-              </ng-container>
-            </ng-container>          
-          </tr>
+          <ng-container *ngFor="let row of payroll; let i = index; let last = last">
+            <tr>
+              <ng-container *ngIf="i > 0">                
+                <ng-container  *ngFor="let data of row; let j = index;" >
+                  <td *ngIf="(j >= 4 && i >= payroll.length - 2) && showColumn(payroll[0][j])"> {{ row[j] }} </td>
+                  <td *ngIf="(j >= 4 && i < payroll.length - 2) && showColumn(payroll[0][j])"> {{ row[j] || ' - ' }} </td>
+                </ng-container>
+              </ng-container>   
+            </tr>
+          </ng-container>
         </table>
       </div>
     </div>
