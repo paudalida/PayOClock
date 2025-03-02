@@ -4,19 +4,11 @@
   padding-top: 70px;
   padding-bottom: 40px;
   padding-left: 50px;
-  padding-right: 20px; 
+  padding-right: 50px; 
   overflow: hidden;
 }
 
 .table-container {
-  // border-radius: 10px;
-  // padding: 30px;
-  // background: var(--white);
-  // box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.322);
-  // border: 0.5px solid var(--table-border);
-  // width: 100%; 
-  // max-width: 1307px;
-  
   border-radius: 10px;
   padding: 2rem; 
   background: var(--white);
@@ -38,7 +30,7 @@
 
 .table-head h1 {
   color: var(--landing-font);
-  font-size: 1.5rem;
+  font-size: 17px;
   font-weight: 700;
   padding-left: 5px;
   cursor: pointer;
@@ -64,16 +56,18 @@
 
 .release-date div {
   margin: 3px;
+  font-size: 13px;
 }
 
 .report-button {
   background-color: var(--primary-color);
   color: var(--white);
-  padding: 14px;
+  width: 90px;
+  height: 35px;
+  font-size: 13px;
   border: none;
   border-radius: 3px;
   font-weight: bold;
-  text-transform: uppercase;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
@@ -86,7 +80,8 @@
 .date-range-dropdown {
   select {
     width: 210px;
-    padding: 10px;
+    padding: 8px;
+    font-size: 13px;
     font-family: "poppins";
     background: var(--white);
     border: 0.5px solid var(--table-border);
@@ -120,7 +115,7 @@ p {
   overflow-x: auto;
   overflow-y: hidden;
   flex: 1;
-  max-width: calc(57.8% - 285px); 
+  max-width: calc(55.8% - 285px); 
   max-height: auto;
 }
 
@@ -162,6 +157,7 @@ table {
 
 td {
   padding: 15px;
+  font-size: 13px;
   text-align: center;
   border-bottom: 1px solid #ddd;
   white-space: normal;
@@ -173,9 +169,9 @@ td {
 th {
   background-color: var(--primary-color) !important;
   color: var(--white);
-  font-size: 15px;
-  padding: 10px;
-  height: 55px;
+  font-size: 13px;
+  padding: 5px;
+  height: 45px;
   text-align: center;
   border-collapse: collapse;
   border-right: none;

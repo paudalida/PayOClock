@@ -16,7 +16,7 @@
     
     .announcement {
         width: auto;
-        height: 45px;
+        height: 35px;
         text-decoration: none;
         background: var(--primary-color);
         color: var(--white);
@@ -27,7 +27,7 @@
         border: 1px;
         padding: 10px 25px;
         font-weight: bold;
-        font-size: 16px;
+        font-size: 13px;
         margin-top: 30px;
         margin-right: 15px;
         float: right;
@@ -69,7 +69,7 @@
 
 .table-head h1 {
     color: var(--landing-font);
-    font-size: 1.5rem;
+    font-size: 17px;
     font-weight: 700;
     padding-left: 5px;
 }
@@ -79,7 +79,7 @@
     padding-top: 5px;
     padding-bottom: 5px;
     font-family: 'Poppins';
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 400;
     width: 250px;
     height: 2em;
@@ -102,14 +102,14 @@ input:focus{
 }
 
 .search-container button {
-    height: 2.5em;
-    width: 2.5em;
+    height: 2.6em;
+    width: 2.6em;
     border: 1px solid var(--primary-color) ;
     background: var(--primary-color);
     color: var(--white);
     border-top-right-radius: 7px;
     border-bottom-right-radius: 7px;
-    font-size: 16px;
+    font-size: 15px;
     cursor: default;
 }
 
@@ -142,7 +142,7 @@ th,
 td {
     padding: 20px;
     font-family: 'Poppins';
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 400;
     text-align: center;
     border-bottom: 1.5px solid var(--table-border);
@@ -151,7 +151,7 @@ td {
 th {
     background-color: var(--primary-color) !important;
     color: var(--white);
-    font-size: 15px;
+    font-size: 13px;
     letter-spacing: 0.8px;
 }
 
@@ -207,7 +207,7 @@ table td:nth-child(5) {
 }
   
   .action-button i {
-    font-size: 24px; 
+    font-size: 17px; 
 }
   
   .view-button {

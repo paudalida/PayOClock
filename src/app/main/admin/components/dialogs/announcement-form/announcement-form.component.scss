@@ -15,9 +15,9 @@
 .form-info {
     position: relative;
     background: var(--white);
-    width: 900px;
+    width: 600px;
     height: 50%;
-    left: 100px;
+    // left: 500px;
     border-radius: 5px;
     padding-bottom: 120px;
     box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.322);
@@ -31,7 +31,7 @@
     display: flex;
     padding: 20px 30px 30px;
     position: fixed;
-    width: 840px;
+    width: 540px;
     background-color: var(--primary-color);
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
@@ -44,14 +44,14 @@
         padding-top: 5px;
         width: 880px;
         font-weight: 700;
-        font-size: 25px;
+        font-size: 17px;
         text-align: center;
     }
 }
 
 
 .detailsbody {
-    padding: 90px 30px 70px 30px;
+    padding: 60px 30px 70px 30px;
     height: auto; 
 }
 
@@ -70,10 +70,10 @@
     .entryarea input {
         font-family: "Poppins";
         position: absolute;
-        width: 85%;
+        width: 79%;
         height: 23px;
         outline: none;
-        font-size: 16px;
+        font-size: 13px;
         padding: 0 18px;
         margin-top: 45px;
         height: 52px;
@@ -87,7 +87,7 @@
         font-family: "Poppins";
         width: 98%;
         outline: none;
-        font-size: 16px;
+        font-size: 13px;
         padding: 15px 18px;
         margin-top: 130px; 
         border-radius: 5px;
@@ -102,10 +102,10 @@
     .entryarea2 input {
         font-family: "Poppins";
         position: absolute;
-        width: 85%;
+        width: 79%;
         height: 23px;
         outline: none;
-        font-size: 16px;
+        font-size: 13px;
         padding: 0 18px;
         margin-top: 25px;
         height: 52px;
@@ -133,9 +133,9 @@
     
     .labelline {
         position: absolute;
-        font-size: 16px;
+        font-size: 12px;
         padding: 0 10px;
-        margin-top: 33px;
+        margin-top: 35px;
         margin-left: 12px;
         background-color: var(--white);
         transition: 0.2s ease;
@@ -143,9 +143,9 @@
 
     .labelline1 {
         position: absolute;
-        font-size: 16px;
+        font-size: 12px;
         padding: 0 10px;
-        margin-top: 209px;
+        margin-top: 180px;
         margin-left: 12px;
         background-color: var(--white);
         transition: 0.2s ease;
@@ -202,12 +202,11 @@
         color: var(--white);
         background: var(--cancel);
         text-decoration: none;
-        height: 50px;
         margin-top: 120px;
         margin-left: 29%;
-        width: 45%;
-        width: 155px;
-        font-size: 15px;
+        width: 90px;
+        height: 35px;
+        font-size: 13px;
         cursor: pointer;
         
     }
@@ -231,12 +230,11 @@
         color: var(--white);
         background: var(--primary-color);
         text-decoration: none;
-        height: 50px;
         margin-top: 120px;
         margin-left: 48%;
-        width: 45%;
-        width: 155px;
-        font-size: 15px;
+        width: 90px;
+        height: 35px;
+        font-size: 13px;
         cursor: pointer;
     }
 

@@ -3,18 +3,18 @@
     align-items: center;
     padding-left: 20px;
     padding-right: 30px;
-    padding-top: 20px;
+    // padding-top: 20px;
     padding-bottom: 20px;
 }
 
 .table-content {
     border-radius: 10px;
     padding: 30px 45px;
-    margin-top: 55px;
+    margin-top: 35px;
     margin-left: 25px;
     margin-right: 15px;
     background: var(--white);
-    width: 75.5vw;
+    width: 74.5vw;
     height: auto;
     // max-width: 78.5vw;
     margin-bottom: 30px;
@@ -36,7 +36,7 @@
 
 .table-head h1 {
     color: var(--landing-font);
-    font-size: 1.5rem;
+    font-size: 17px;
     font-weight: 700;
     margin: 0; 
 }
@@ -71,7 +71,7 @@
     }
 
     span {
-        font-size: 14px;
+        font-size: 13px;
         color: #333;
     }
 }
@@ -79,13 +79,13 @@
 .date-filters {
     display: flex;
     align-items: center;
-    gap: 15px; /* Adds spacing between elements */
-    justify-content: flex-start; /* Align items to the left */
-    flex-wrap: wrap; /* Ensures responsiveness */
+    gap: 15px; 
+    justify-content: flex-start; 
+    flex-wrap: wrap; 
 
     .date-range-dropdown select {
         width: 215px;
-        padding: 10px;
+        padding: 9px;
         border-radius: 3px;
         font-family: "poppins";
         background: var(--white);
@@ -97,13 +97,12 @@
     .date-picker {
         display: flex;
         flex-direction: column;
-        font-size: 14px;
+        font-size: 13px;
 
         input {
             width: 180px; 
-            height: 32px; 
-            padding: 5px 10px;
-            font-size: 14px;
+            padding: 9px;
+            font-size: 13px;
             font-family: "poppins";
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -135,9 +134,9 @@
 
 th, td {
     width: 155px; 
-    height: 100px; 
+    height: 50px; 
     padding: 5px 15px;
-    font-size: 15px;
+    font-size: 13px;
     border: 1px solid var(--table-border);
     text-align: center;
     max-width: 150px; 

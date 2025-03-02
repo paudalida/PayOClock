@@ -55,8 +55,8 @@
       justify-content: center;
   
       i {
-          margin: 0; 
-          font-size: inherit; 
+        margin: 0; 
+        font-size: 15px; 
       }
     }
   
@@ -65,7 +65,7 @@
       padding-top: 5px;
       width: 100%;
       font-weight: 700;
-      font-size: 25px;
+      font-size: 17px;
       text-align: center;
     }
 }
@@ -73,6 +73,11 @@
 .container-body {
     padding-top: 100px;
     padding-bottom: 50px;
+}
+
+h1 {
+    font-size: 17px;
+    color: var(--landing-font);
 }
   
 .dialog-actions {

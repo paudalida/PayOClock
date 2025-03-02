@@ -35,7 +35,7 @@
   right: 10px;       
   background-color: transparent;
   border: none;
-  font-size: 40px; 
+  font-size: 25px; 
   cursor: pointer;
   color: var(--black);
   display: flex;
@@ -77,12 +77,12 @@
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: 17px;
   margin-bottom: 15px;
 }
 
 .description {
-  font-size: 1rem;
+  font-size: 13px;
   color: #666;
   font-family: 'Poppins', sans-serif;
   white-space: pre-wrap;
@@ -92,7 +92,7 @@
 
 .publish-info {
   margin-top: 15px;
-  font-size: 0.875rem;
+  font-size: 13px;
   color: #888;
 }
 
