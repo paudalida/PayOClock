@@ -166,8 +166,8 @@ export class AttendanceHistoryComponent implements OnInit {
   
     // Title
     doc.setFontSize(14);
-    if(this.employee) doc.text(`Daily Time Record - ${this.employee.full_name}`, 105, 40, { align: 'center' });
-    else doc.text(`Daily Time Record - ${this.data.title}`, 105, 40, { align: 'center' });
+    if(this.employee) doc.text(`Attendance Records - ${this.employee.full_name}`, 105, 40, { align: 'center' });
+    else doc.text(`Attendance Records - ${this.data.title}`, 105, 40, { align: 'center' });
 
     // Table Headers
     let headers: any = [];
@@ -204,7 +204,7 @@ export class AttendanceHistoryComponent implements OnInit {
 
     // Save PDF
     if(this.employee) doc.save(`DTR-${this.employee.full_name}.pdf`);
-    else doc.save(`DTR-${this.data.title}.pdf`);
+    else doc.save(`Attendance-${this.data.title}.pdf`);
   }
 
   formatFullDate(dateString: string): string {
@@ -219,7 +219,6 @@ export class AttendanceHistoryComponent implements OnInit {
   }  
 
   closePopup() {
-    this.dialogRef.close(); 
-    this.router.navigate(['/admin/attendance']);
+    this.dialogRef.close();
   }
 }

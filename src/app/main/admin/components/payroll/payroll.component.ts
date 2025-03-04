@@ -121,39 +121,51 @@ export class PayrollComponent implements OnInit {
   changeData() {
     let tempPayroll = JSON.parse(JSON.stringify(this.payrolls[this.filterValue]));
     
-    const contribIndex = this.columns[this.filterValue].findIndex((column: string) => column === 'TOTAL CONTRIBUTIONS');
-    const netPaysIndex = this.columns[this.filterValue].findIndex((column: string) => column === 'NET PAY');
+    let grossIndex = -1;
+    let contribIndex = -1;
+    let netPaysIndex = -1;
+
+    this.columns[this.filterValue].forEach((column: string, index: number) => {
+        if (column === 'GROSS') grossIndex = index;
+        if (column === 'TOTAL CONTRIBUTIONS') contribIndex = index;
+        if (column === 'NET PAY') netPaysIndex = index;
+    });
 
     this.payroll = [ tempPayroll[0] ];
     let contribTotal = 0; let netTotal = 0;
     for(let i = 1; i < tempPayroll.length; i++) {
       if ((tempPayroll[i][2] == 'Instructor' && this.employeeTypeFilter == 'instructors')  || (tempPayroll[i][2] != 'Instructor' && this.employeeTypeFilter == 'non-instructors') || this.employeeTypeFilter == '') {
+        let empContribTotal = 0;
+        for(let j = grossIndex + 1; j < contribIndex; j++) {
+          empContribTotal += this.formatToNumber(tempPayroll[i][j]);
+        }
+        
+        tempPayroll[i][contribIndex] = this.formatToMoney(empContribTotal);
         this.payroll.push(tempPayroll[i]);
-        contribTotal += Number(tempPayroll[i][contribIndex].replace(/[₱,]/g, ""));
-        netTotal += Number(tempPayroll[i][netPaysIndex].replace(/[₱,]/g, ""));
-        console.log(Number(tempPayroll[i][contribIndex].replace(/[₱,]/g, "")));
+        contribTotal += this.formatToNumber(tempPayroll[i][contribIndex]);
+        netTotal += this.formatToNumber(tempPayroll[i][netPaysIndex]);
       }
     }
     this.release_date = this.release_dates[this.filterValue]
-    // this.curr_sums = {
-    //   net_pays: this.sums.net_pays[this.filterValue],
-    //   contributions: this.sums.contributions[this.filterValue],
-    //   expenses: this.sums.expenses[this.filterValue]
-    // };
     
     this.totalIndex.contributions = Array(contribIndex);
     this.totalIndex.net_pays = Array(netPaysIndex - contribIndex - 1);
-    const total1 = `₱ ${contribTotal.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    const total2 = `₱ ${netTotal.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    const total3 = `₱ ${(netTotal + contribTotal).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
-    const finalRow = [ ...this.totalIndex.contributions, ...[total1], ...this.totalIndex.net_pays, ...[total2]];
+    const finalRow = [ ...this.totalIndex.contributions, ...[this.formatToMoney(contribTotal)], ...this.totalIndex.net_pays, ...[this.formatToMoney(netTotal)]];
     this.payroll.push(finalRow);
 
     const tempArray = Array(finalRow.length - 2);
-    const pinakaFinalRow = [ ...tempArray, ...[ 'TOTAL EXPENSES', total3 ]];
+    const pinakaFinalRow = [ ...tempArray, ...[ 'TOTAL EXPENSES', this.formatToMoney(contribTotal + netTotal) ]];
     this.payroll.push(pinakaFinalRow);
   }  
+
+  formatToMoney(num: number) {
+    return `₱ ${num.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  }
+
+  formatToNumber(num: string) {
+    return Number(num.replace(/[₱,]/g, ""));
+  }
 
   changeEmployeeType() {
     this.payroll = this.payrolls[this.filterValue];

@@ -53,19 +53,17 @@
             </th>
           </tr>
 
-          <ng-container *ngFor="let row of payroll; let i = index;" (click)="openDialog(row[0])">
-           <tr>
-              <ng-container *ngIf="i > 0">
-                <ng-container *ngFor="let data of row; let j = index;">
-                  <td *ngIf="j < 4">
-                    <span [ngStyle]="{ opacity: row[j] ? '1' : '0' }">
-                      {{ row[j] !== undefined && row[j] !== null ? row[j] : '-' }}
-                    </span>
-                  </td>
-                </ng-container>
+          <tr *ngFor="let row of payroll; let i = index;" (click)="openDialog(row[0])">
+            <ng-container *ngIf="i > 0">
+              <ng-container *ngFor="let data of row; let j = index;">
+                <td *ngIf="j < 4">
+                  <span [ngStyle]="{ opacity: row[j] ? '1' : '0' }">
+                    {{ row[j] !== undefined && row[j] !== null ? row[j] : '-' }}
+                  </span>
+                </td>
               </ng-container>
-            </tr>
-          </ng-container>
+            </ng-container>
+          </tr>
         </table>
       </div>
 
