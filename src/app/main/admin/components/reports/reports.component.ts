@@ -17,10 +17,13 @@ export class ReportsComponent implements OnInit, AfterViewInit {
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('payrollPaginator') payrollPaginator!: MatPaginator;
+
   
 
-  displayedColumns: string[] = ['employee_id', 'name', 'action'];
+  displayedColumns: string[] = ['employee_id', 'name', 'gender', 'position', 'action'];
   dataSource = new MatTableDataSource<any>();
+  payrollDataSource = new MatTableDataSource<any>();
 
   // attendance: any;
   // payrollPeriods: any;
@@ -33,6 +36,7 @@ export class ReportsComponent implements OnInit, AfterViewInit {
   currFilter: any;
   columns: any;
   isLoading = false;
+  // payrollPaginator: any;
 
   constructor(
     private as: AdminService,
@@ -59,13 +63,24 @@ export class ReportsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
+    if (this.paginator) {
+        this.dataSource.paginator = this.paginator;
+    }
+    if (this.payrollPaginator) {
+        this.payrollDataSource.paginator = this.payrollPaginator;
+    }
     this.dataSource.sort = this.sort;
+    this.payrollDataSource.sort = this.sort;
   }
 
+
+
   protected getData() {
-    this.dataSource.data = this.as.getEmployees();
+    const employees = this.as.getEmployees();
+    this.dataSource.data = employees; // DTR Table
+    this.payrollDataSource.data = employees; // Payroll Table
   }
+
 
   protected setupTableFunctions() {
     this.dataSource.paginator = this.paginator;

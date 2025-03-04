@@ -3,50 +3,80 @@
         <!-- DTR Tab -->
         <mat-tab label="Daily Time Record (DTR)">
             <div class="tab-content">
+                <div class="content">
+                    <div class="table-head">
+                        <div class="date-filter">
+                            <select id="date">
+                                <option value="week">Week</option>
+                                <option value="month">Month</option>
+                                <option value="year">Year</option>
+                            </select>
+                        </div>  
+                        
+                        <div class="header-text">
+                            <button class="download-btn">Download all DTR</button>
+                        </div>  
+                    </div>
+    
+                    <!-- Table -->
+                    <div class="mat-elevation-z8">
+                        <table mat-table [dataSource]="dataSource" matSort>
+                    
+                            <!-- Employee ID Column -->
+                            <ng-container matColumnDef="employee_id">
+                                <th mat-header-cell *matHeaderCellDef> Employee ID </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.employee_id }} </td>
+                            </ng-container>
+                    
+                            <!-- Employee Name Column -->
+                            <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Employee Name </th>
+                                <td mat-cell *matCellDef="let element"> 
+                                    {{ element.full_name }}
+                                </td>
+                            </ng-container>
 
-                <!-- Table -->
-                <div class="mat-elevation-z8">
-                    <table mat-table [dataSource]="dataSource" matSort>
-                
-                        <!-- Employee ID Column -->
-                        <ng-container matColumnDef="employee_id">
-                            <th mat-header-cell *matHeaderCellDef> Employee ID </th>
-                            <td mat-cell *matCellDef="let element"> {{ element.employee_id }} </td>
-                        </ng-container>
-                
-                        <!-- Employee Name Column -->
-                        <ng-container matColumnDef="name">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Employee Name </th>
-                            <td mat-cell *matCellDef="let element"> 
-                                {{ element.full_name }}
-                            </td>
-                        </ng-container>
-                
-                        <!-- Action Column -->
-                        <ng-container matColumnDef="action">
-                            <th mat-header-cell *matHeaderCellDef> Action </th> 
-                            <td mat-cell *matCellDef="let element">
-                                <div class="action-buttons">
-                                    <button mat-button class="action-button view-button" (click)="openDTRPopup(employees)">
-                                        <i class='bx bx-show'></i>
-                                    </button>
-                                    <!-- <button mat-button class="action-button view-button">
-                                        <i class='bx bx-show'></i>
-                                    </button> -->
-                                    <button mat-button class="action-button download-button" (click)="downloadRecord(element)">
-                                        <i class='bx bx-download'></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </ng-container>
-                
-                        <!-- Table Header & Row -->
-                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                    </table>
-                
-                    <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons aria-label="Select page of periodic elements">
-                    </mat-paginator>
+                            <!-- Gender Column -->
+                            <ng-container matColumnDef="gender">
+                                <th mat-header-cell *matHeaderCellDef> Gender </th>
+                                <td mat-cell *matCellDef="let element"> 
+                                    {{ element.gender == 0 ? 'Female' : element.gender == 1 ? 'Male' : 'N/A' }} 
+                                </td>
+                            </ng-container>
+    
+                            <!-- Position Column -->
+                            <ng-container matColumnDef="position">
+                                <th mat-header-cell *matHeaderCellDef> Position </th>
+                                <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                            </ng-container>
+                    
+                            <!-- Action Column -->
+                            <ng-container matColumnDef="action">
+                                <th mat-header-cell *matHeaderCellDef> Action </th> 
+                                <td mat-cell *matCellDef="let element">
+                                    <div class="action-buttons">
+                                        <button mat-button class="action-button view-button" (click)="openDTRPopup(employees)">
+                                            <i class='bx bx-show'></i>
+                                        </button>
+                                        <!-- <button mat-button class="action-button view-button">
+                                            <i class='bx bx-show'></i>
+                                        </button> -->
+                                        <button mat-button class="action-button download-button" (click)="downloadRecord(element)">
+                                            <i class='bx bx-download'></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-container>
+                    
+                            <!-- Table Header & Row -->
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                    
+                        <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons aria-label="Select page of periodic elements">
+                        </mat-paginator>
+                    </div>
+
                 </div>
                 
             </div>
@@ -55,7 +85,75 @@
         <!-- Payslips/Payroll Tab -->
         <mat-tab label="Payslips/Payroll">
             <div class="tab-content">
-                <p>Display Payslips/Payroll details here.</p>
+                <div class="content">
+                    <div class="table-head">
+                        <div class="date-filter">
+                            <select id="date">
+                                <option value="month">Month</option>
+                                <option value="year">Year</option>
+                            </select>
+                        </div>  
+
+                        <div class="header-text">
+                            <button class="download-btn">Export Payroll</button>
+                        </div>  
+                    </div>
+
+                    <!-- Table -->
+                    <div class="mat-elevation-z8">
+                        <table mat-table [dataSource]="payrollDataSource" matSort>
+                            <!-- Employee ID Column -->
+                            <ng-container matColumnDef="employee_id">
+                                <th mat-header-cell *matHeaderCellDef> Employee ID </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.employee_id }} </td>
+                            </ng-container>
+                        
+                            <!-- Employee Name Column -->
+                            <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Employee Name </th>
+                                <td mat-cell *matCellDef="let element"> 
+                                    {{ element.full_name }}
+                                </td>
+                            </ng-container>
+
+                            <!-- Gender Column -->
+                            <ng-container matColumnDef="gender">
+                                <th mat-header-cell *matHeaderCellDef> Gender </th>
+                                <td mat-cell *matCellDef="let element"> 
+                                    {{ element.gender == 0 ? 'Female' : element.gender == 1 ? 'Male' : 'N/A' }} 
+                                </td>
+                            </ng-container>
+
+                            <!-- Position Column -->
+                            <ng-container matColumnDef="position">
+                                <th mat-header-cell *matHeaderCellDef> Position </th>
+                                <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                            </ng-container>
+                        
+                            <!-- Action Column -->
+                            <ng-container matColumnDef="action">
+                                <th mat-header-cell *matHeaderCellDef> Action </th> 
+                                <td mat-cell *matCellDef="let element">
+                                    <div class="action-buttons">
+                                        <button mat-button class="action-button view-button" (click)="openDTRPopup(element)">
+                                            <i class='bx bx-show'></i>
+                                        </button>
+                                        <button mat-button class="action-button download-button" (click)="downloadRecord(element)">
+                                            <i class='bx bx-download'></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-container>
+                        
+                            <!-- Table Header & Row -->
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                        
+                        <mat-paginator #payrollPaginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons aria-label="Select page of periodic elements">
+                        </mat-paginator>                   
+                    </div>
+                </div>
             </div>
         </mat-tab>
     </mat-tab-group>

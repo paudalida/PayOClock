@@ -15,6 +15,20 @@ mat-tab-group {
     font-size: 13px !important;
 }
 
+.content {
+    border-radius: 10px;
+    padding: 30px 45px;
+    margin-top: 25px;
+    margin-left: 25px;
+    margin-right: 15px;
+    background: var(--white);
+    width: auto;
+    height: auto;
+    margin-bottom: 30px;
+    box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.322);
+    border: 0.5px solid var(--table-border);
+}
+
 .table-content {
     border-radius: 10px;
     padding: 30px 45px;
@@ -39,49 +53,43 @@ mat-tab-group {
 
 .table-head h1 {
     color: var(--landing-font);
-    font-size: 1.5rem;
+    font-size: 17px;
     font-weight: 700;
     padding-left: 5px;
 }
 
-.table-head input[type=text] {
-    padding-left: 15px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    font-family: 'Poppins';
-    font-size: 14px;
-    font-weight: 400;
-    width: 250px;
-    height: 2em;
+.header-text {
+    text-align: right;
+    padding: 10px;
+}
+
+.download-btn {
+    background-color: var(--primary-color);
+    font-family: "Poppins";
+    color: white;
     border: none;
-    border-top-left-radius: 7px;
-    border-bottom-left-radius: 7px;
+    padding: 12px 15px;
+    font-size: 13px;
+    cursor: pointer;
+    border-radius: 5px;
+
+    &:hover {
+        transform: scale(1.1);
+    }
 }
 
-input:focus{
-    outline: none;
+.date-filter select {
+    width: 215px;
+    padding: 9px;
+    border-radius: 3px;
+    font-family: "poppins";
+    background: var(--white);
+    border: 0.5px solid var(--table-border);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }
 
-.table-head .search-container {
-    display: flex;
-    align-items: center;
-    border-radius: 7px;
-    height: 2.5em;
-    border: 1px solid var(--table-border);
-    background-color: var(--white);
-}
 
-.search-container button {
-    height: 2.5em;
-    width: 2.5em;
-    border: 1px solid var(--primary-color) ;
-    background: var(--primary-color);
-    color: var(--white);
-    border-top-right-radius: 7px;
-    border-bottom-right-radius: 7px;
-    font-size: 16px;
-    cursor: default;
-}
 
 table {
     border-radius: 5px;
@@ -93,7 +101,7 @@ th,
 td {
     padding: 20px;
     font-family: 'Poppins';
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 400;
     text-align: center;
     border-bottom: 1.5px solid var(--table-border);
@@ -102,7 +110,7 @@ td {
 th {
     background-color: var(--primary-color) !important;
     color: var(--white);
-    font-size: 15px;
+    font-size: 13px;
     letter-spacing: 0.8px;
 }
 
@@ -158,7 +166,7 @@ table td:nth-child(5) {
 }
   
 .action-button i {
-    font-size: 24px; 
+    font-size: 20px; 
 }
 
 .view-button {
