@@ -3,6 +3,8 @@ import { PopupService } from '../../../../services/popup/popup.service';
 import { DataService } from '../../../../services/data/data.service';
 import { EmployeeService } from '../../../../services/employee/employee.service';
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
+
 
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -17,6 +19,7 @@ export class AttendanceComponent implements OnInit {
   constructor(
     private datePipe: DatePipe,
     private ds: DataService,
+    private router: Router,
     private pop: PopupService,
     private es: EmployeeService,
   ) {}
@@ -51,6 +54,21 @@ export class AttendanceComponent implements OnInit {
   monthFilter: any;
   typeFilter: any;
   dataSource: any;
+
+  containerData: { [key: string]: any } = {
+    announcement: {
+      image: '',
+      title: '',
+      content: '',
+      created_at: ''
+    },
+    announcementHistory: {
+      image: '',
+      title: '',
+      content: '',
+      created_at: ''
+    }
+  };
 
   hoursToggle: boolean = false;
 
@@ -342,4 +360,9 @@ export class AttendanceComponent implements OnInit {
     const minutes = Math.floor(totalMinutes % 60);
     this.accumulatedHours = `${hours}h ${minutes}m`;
   }
+
+  redirectToAnnouncements() {
+    this.router.navigate(['/employee/dashboard/announcement']);
+  }
 }
+

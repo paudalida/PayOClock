@@ -6,6 +6,12 @@
       </div>
 
       <div class="actions">
+
+        <!-- Report Button -->
+        <button class="report-button" type="button" (click)="openPayroll()" [disabled]="isLoading">Maximize</button>
+        <button class="report-button" type="button" (click)="generateReport()" [disabled]="isLoading">Export</button>
+        <button class="report-button" (click)="setupdate()" [disabled]="isLoading"> Set Date</button>
+
         <div class="date-range-dropdown">
           <div class="select-wrapper">
             <select (change)="changeData()" [(ngModel)]="employeeTypeFilter">
@@ -15,12 +21,7 @@
             </select>
           </div>
         </div>
-
-        <!-- Report Button -->
-        <button class="report-button" type="button" (click)="openPayroll()" [disabled]="isLoading">Maximize</button>
-        <button class="report-button" type="button" (click)="generateReport()" [disabled]="isLoading">Export</button>
-        <button class="report-button" (click)="setupdate()" [disabled]="isLoading"> Set Date</button>
-
+        
         <div class="date-range-dropdown">
           <div class="select-wrapper">
             <select (change)="changeData()" [(ngModel)]="filterValue">
@@ -43,56 +44,44 @@
     </div>
 
     <div class="scroll-container" *ngIf="!isLoading">
-      <div class="fixed-columns">
+      <div class="table-container">
         <table>
-
-          <!-- Get first data of array and limit to the fixed columns -->
-          <tr>
-            <th *ngFor="let column of fixedColumns"> 
-              <ng-container *ngIf="showColumn(column)"> {{ column }} </ng-container> 
-            </th>
-          </tr>
-
-          <ng-container *ngFor="let row of payroll; let i = index;" (click)="openDialog(row[0])">
-           <tr>
-              <ng-container *ngIf="i > 0">
+          <thead>
+            <tr>
+              <!-- Fixed columns (first 4 columns) -->
+              <th *ngFor="let column of fixedColumns" class="fixed-header">
+                <ng-container *ngIf="showColumn(column)">
+                  {{ column }}
+                </ng-container>
+              </th>
+      
+              <ng-container *ngFor="let column of payroll[0]; let j = index">
+                <th *ngIf="j >= 4 && showColumn(column)" class="fixed-header">
+                  {{ column }}
+                </th>
+              </ng-container>
+            </tr>
+          </thead>
+      
+          <tbody>
+            <ng-container *ngFor="let row of payroll.slice(1); let i = index;">
+              <tr>
                 <ng-container *ngFor="let data of row; let j = index;">
-                  <td *ngIf="j < 4">
+                  <td *ngIf="j < 4" class="fixed-column">
                     <span [ngStyle]="{ opacity: row[j] ? '1' : '0' }">
                       {{ row[j] !== undefined && row[j] !== null ? row[j] : '-' }}
                     </span>
                   </td>
                 </ng-container>
-              </ng-container>
-            </tr>
-          </ng-container>
-        </table>
-      </div>
 
-      <div class="scrollable-columns">
-        <table>
-
-          <!-- Get 2nd data of array and not the fixed columns -->
-          <ng-container *ngFor="let row of payroll; let i = index"> 
-            <tr *ngIf="i == 0">
-              <ng-container *ngFor="let column of row; let j = index">
-                <th *ngIf="j >= 4 && showColumn(payroll[0][j])">
-                  {{ column }}
-                </th>
-              </ng-container>               
-            </tr>
-          </ng-container>
-
-          <ng-container *ngFor="let row of payroll; let i = index; let last = last">
-            <tr>
-              <ng-container *ngIf="i > 0">                
-                <ng-container  *ngFor="let data of row; let j = index;" >
-                  <td *ngIf="(j >= 4 && i >= payroll.length - 2) && showColumn(payroll[0][j])"> {{ row[j] }} </td>
-                  <td *ngIf="(j >= 4 && i < payroll.length - 2) && showColumn(payroll[0][j])"> {{ row[j] || ' - ' }} </td>
+                <ng-container *ngFor="let data of row; let j = index;">
+                  <td *ngIf="j >= 4 && showColumn(payroll[0][j])">
+                    {{ row[j] || ' - ' }}
+                  </td>
                 </ng-container>
-              </ng-container>   
-            </tr>
-          </ng-container>
+              </tr>
+            </ng-container>
+          </tbody>
         </table>
       </div>
     </div>

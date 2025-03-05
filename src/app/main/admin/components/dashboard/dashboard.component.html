@@ -11,34 +11,6 @@
             </div>
         </div>
 
-        <div class="cards-row">
-            <div class="card" (click)="openPopup('present')" *ngIf="containerVisibility.present">
-              <div class="card-header">
-                <h3>Total Present</h3>
-                <p class="number">{{ containerData['present'] }}</p>
-                <!-- Dropdown for filter -->
-                <div class="filter-dropdown">
-                  <select (click)="stopPopupPropagation($event)" (change)="selectFilterOption()" [(ngModel)]="filterValue">
-                    <option *ngFor="let month of months" [value]="month"> {{ month | date: 'MMMM YYYY' }} </option>
-                  </select>
-                </div>          
-              </div>
-            </div>
-              
-            <div class="card" (click)="openPopup('absences')" *ngIf="containerVisibility.absences">
-              <div class="card-header">
-                <h3>Total Absences</h3>
-                <p class="number" *ngIf="selectedFilterOption === 'week'">{{ containerData['absences'] }}</p>
-                <!-- Dropdown for filter -->
-                <div class="filter-dropdown">
-                  <select (click)="stopPopupPropagation($event)" (change)="selectFilterOption()" [(ngModel)]="filterValue">
-                    <option *ngFor="let month of months" [value]="month"> {{ month | date: 'MMMM YYYY' }} </option>
-                  </select>
-                </div>          
-              </div>
-            </div>
-        </div>
-
         <div class="attendance" *ngIf="containerVisibility.attendance_weekly">
             <div class="header-content">
                 <h1>Attendance Summary for the Week</h1>
@@ -102,10 +74,22 @@
 
             <div class="left" style="height: 450px;" *ngIf="containerVisibility.attendance_summary">
                 <span class="header">Attendance Summary - {{ currentMonth }}</span>
+            
+                <!-- Dropdown placed between the label and the pie chart -->
+                <div class="dropdown-container">
+                    <!-- <select id="chartFilter" (change)="updateChart($event.target.value)" class="chart-filter"> -->
+                    <select class="chart-filter">
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="yearly">Yearly</option>
+                    </select>
+                </div>
+            
                 <div class="doughnut-container" style="height: 300px;">
                     <p-chart type="doughnut" [data]="doughnutChartData" [options]="options.doughnut"></p-chart>
                 </div>
             </div>
+                      
         </div>
     </div>
 </main> 

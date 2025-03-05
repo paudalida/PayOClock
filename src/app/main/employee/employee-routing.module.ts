@@ -5,19 +5,20 @@ import { PayslipsComponent } from './components/payslips/payslips.component';
 import { PayslipHistoryComponent } from './components/payslips/payslip-history/payslip-history.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { ProfileComponent } from './components/profile/profile.component';
-import { AnnouncementsComponent } from './components/dashboard/announcements/announcements.component';
+import { AnnouncementsComponent } from './components/announcements/announcements.component';
 import { RequestComponent } from './components/request/request.component';
 
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, 
-  { path: 'dashboard', 
-    children: [ 
-      { path: '', component: DashboardComponent, pathMatch: 'full' },
-      { path: 'announcement', component: AnnouncementsComponent }
-    ]
-  },
+  { path: '', redirectTo: 'attendance', pathMatch: 'full' }, 
+  // { path: 'dashboard', 
+  //   children: [ 
+  //     { path: '', component: DashboardComponent, pathMatch: 'full' },
+  //     { path: 'announcement', component: AnnouncementsComponent }
+  //   ]
+  // },
+  { path: 'attendance', component: AttendanceComponent}, 
   { 
     path: 'payslips',
     children: [
@@ -26,7 +27,7 @@ const routes: Routes = [
     ]  
   },
   { path: 'request', component: RequestComponent},
-  { path: 'attendance', component: AttendanceComponent}, 
+  { path: 'announcement', component: AnnouncementsComponent },
   { path: 'profile', component: ProfileComponent}, 
   
 ];

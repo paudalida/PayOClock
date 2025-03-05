@@ -4,7 +4,7 @@ import { PopupService } from '../../../../../services/popup/popup.service';
 
 import { DataService } from '../../../../../services/data/data.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ViewAnnouncementComponent } from '../../../../employee/components/dashboard/view-announcement/view-announcement.component';
+import { ViewAnnouncementComponent } from '../../../../employee/components/announcements/view-announcement/view-announcement.component';
 
 @Component({
   selector: 'app-announcement',

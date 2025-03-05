@@ -2,7 +2,7 @@
     justify-content: center;
     align-items: center;
     padding-left: 20px;
-    // padding-right: 20px;
+    padding-right: 20px;
     padding-top: 20px;
     padding-bottom: 20px;
 
@@ -11,26 +11,24 @@
         justify-content: space-between; 
         align-items: center; 
         padding-bottom: 20px;
-        padding-left: 25px; 
     }
     
     .header h1 {
         font-weight: 700;
         text-transform: uppercase;
-        font-size: 22px;
+        font-size: 17px;
         padding-left: 5px;
-        padding-top: 35px;
     }
 
     .export {
         padding-top: 15px;
         background-color: var(--primary-color);
         color: var(--white);
-        padding: 11px;
+        padding: 9px;
         border: none;
         border-radius: 3px;
         font-weight: bold;
-        text-transform: uppercase;
+        font-size: 13px;
         cursor: pointer;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
@@ -40,19 +38,20 @@
     }
     
     .paylip-back {
-        width: 140px;
-        height: 45px;
+        width: 90px;
+        height: 35px;
         text-decoration: none;
         color: var(--white);
         box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.322);
+        background: var(--primary-color);
         transition: .3s;
         transform: translateY(-5px);
         border-radius: 3px;
         border: 1px;
-        padding-right: 15px;
+        padding-right: 25px;
         padding-left: 25px;
         font-weight: bold;
-        font-size: 16px;
+        font-size: 13px;
         margin-top: 30px;
         margin-right: 15px;
         float: right;
@@ -82,7 +81,6 @@
     border-radius: 5px;
     padding: 30px 45px;
     margin-top: 25px;
-    margin-left: 25px;
     margin-right: 15px;
     background: var(--white);
     width: auto;
@@ -102,9 +100,8 @@
         }
 
         .information-case {
-            font-size: 17px;
+            font-size: 13px;
             font-weight: 500;
-            padding-right: 15px;
         }
     }
 }
@@ -204,11 +201,12 @@ table td:nth-child(2) {
 table th {
     background-color: #f2f2f2;
     font-weight: bold;
+    font-size: 13px;
 }
 
 
 table td {
-    font-size: 16px;
+    font-size: 13px;
 }
 
 h3 {
@@ -239,46 +237,46 @@ h3 {
     align-items: center;
     margin-right: 10px;
     margin-bottom: 20px;
-}
+  }
   
-.paginator .label {
-    font-size: 16px;
+  .paginator .label {
+    font-size: 13px;
     color: #333;
     margin-right: 20px;
-}
+  }
   
-.paginator-select {
-    font-size: 16px;
+  .paginator-select {
+    font-size: 13px;
     padding: 5px;
     margin: 5px;
     border-radius: 4px;
     border: 1px solid #ccc;
-}
+  }
   
-.paginator-btn {
+  .paginator-btn {
     background-color: var(--primary-color);
     color: var(--white);
-    font-size: 24px;
+    font-size: 13px;
     border: none;
     padding: 10px;
     margin: 5px;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-}
+  }
   
-.paginator-btn:hover {
+  .paginator-btn:hover {
     background-color: #0056b3;
-}
+  }
   
-.paginator-btn:focus {
+  .paginator-btn:focus {
     outline: none;
-}
+  }
   
-.paginator-btn i {
+  .paginator-btn i {
     display: block;
-    font-size: 24px;
-}
+    font-size: 13px;
+  }
 
 @media (max-width: 500px) {
     .main-content {

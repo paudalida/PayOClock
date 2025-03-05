@@ -1,13 +1,17 @@
-  <div class="main-content">
+<div class="spinner" *ngIf="isLoading">
+  <app-spinner></app-spinner>
+</div>  
+  
+  <div class="main-content" *ngIf="!isLoading">
     <div class="header"> 
       <h1>Latest Announcement</h1>
-      <button class="dashboard" type="button" (click)="redirectToDashboard()"> Back </button>
+      <!-- <button class="dashboard" type="button" (click)="redirectToDashboard()"> Back </button> -->
     </div>
 
     <div class="content"> 
         <div class="content-left">
           <!-- <img src= "assets/images/no image.png" class="image-holder"> -->
-          <img [src]="announcements[0].image || 'assets/images/background.jpg'" alt="Description of Image" class="image-holder">
+          <img [src]="announcements[0].image || 'assets/images/background.jpg'" class="image-holder">
         </div>
         <div class="content-right">
           <h2 class="title">{{ announcements[0].title }}</h2>
@@ -26,7 +30,8 @@
           <ng-container *ngFor="let announcement of announcements; let i = index;">
             <div class="announcement-card" *ngIf="i > 0" (click)="viewAnnouncement(announcement)">
               <!-- <ng-container *ngIf="i > 0"> -->
-                <img [src]="announcement.image || 'assets/images/background.jpg'" alt="Announcement Image" class="card-image">
+                <!-- <img src= "assets/images/no image.png" class="card-image"> -->
+                <img [src]="announcement.image || 'assets/images/background.jpg'" class="card-image">
                 <div class="card-content">
                     <h3 class="card-title">{{ announcement.title }}</h3>
                     <p class="card-description">{{ announcement.shortDescription }}</p>

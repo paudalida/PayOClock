@@ -9,35 +9,6 @@
         </div>
   
         <div class="container-body">
-          <div class="row">
-            <div class="container full">
-              <label for="total-absent">Attendance Weekly Summary</label>
-              <button (click)="toggleState('weekly')" 
-                [ngClass]="{'off': !containerVisibility.attendance_weekly, 'on': containerVisibility.attendance_weekly}" 
-                class="toggle-btn">
-                {{ containerVisibility.attendance_weekly ? 'ON' : 'OFF' }}
-              </button>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="container">
-              <label for="total-present">Total Present</label>
-              <button (click)="toggleState('present')" 
-                [ngClass]="{'off': !containerVisibility.present, 'on': containerVisibility.present}" 
-                class="toggle-btn">
-                {{ containerVisibility.present ? 'ON' : 'OFF' }}
-              </button>
-            </div>
-            <div class="container">
-              <label for="total-absences">Total Absences</label>
-              <button (click)="toggleState('absences')" 
-                [ngClass]="{'off': !containerVisibility.absences, 'on': containerVisibility.absences}" 
-                class="toggle-btn">
-                {{ containerVisibility.absences ? 'ON' : 'OFF' }}
-              </button>
-            </div>
-          </div>
 
           <div class="row">
             <div class="container1">

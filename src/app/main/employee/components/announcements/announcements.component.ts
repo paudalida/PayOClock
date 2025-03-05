@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { DataService } from '../../../../../services/data/data.service';
-import { ViewAnnouncementComponent } from '../view-announcement/view-announcement.component';
+import { DataService } from '../../../../services/data/data.service';
+import { ViewAnnouncementComponent } from './view-announcement/view-announcement.component';
 
 @Component({
   selector: 'app-announcements',
@@ -12,6 +12,7 @@ import { ViewAnnouncementComponent } from '../view-announcement/view-announcemen
 export class AnnouncementsComponent {
 
   announcements: any;
+  isLoading = true;
 
   constructor(
     private dialog: MatDialog, 
@@ -23,6 +24,7 @@ export class AnnouncementsComponent {
     this.ds.request('GET', 'view/announcements').subscribe({
       next: (res: any) => {
         this.announcements = res.data;
+        this.isLoading = false; 
       }
     })
   }

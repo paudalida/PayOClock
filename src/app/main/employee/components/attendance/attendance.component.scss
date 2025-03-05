@@ -2,84 +2,10 @@
   justify-content: center;
   align-items: center;
   padding-top: 50px;
-  padding-left: 45px;
-  padding-right: 15px;
+  padding-left: 15px;
+  padding-right: 35px;
   padding-bottom: 50px;
 } 
-  
-// .button-group {
-//   display: flex;
-//   justify-content: space-between; 
-//   align-items: center; 
-
-//   .left-buttons{
-//     display: flex;
-//     gap: 10px; 
-//   }
-
-//   .right-buttons {
-//     display: flex;
-//     gap: 10px; 
-//   }
-  
-//   .upload {
-//     width: 190px;
-//     height: 45px;
-//     text-decoration: none;
-//     color: var(--white);
-//     box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.322);
-//     transition: .3s;
-//     transform: translateY(-5px);
-//     border-radius: 3px;
-//     border: 1px;
-//     font-weight: bold;
-//     font-size: 16px;
-//     font-family: 'Poppins';
-//     margin-top: 15px;
-//     // margin-right: -37px;
-//     text-align: center;
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//   }
-  
-//   .upload:hover {
-//     box-shadow: 0px 8px 15px -10px rgb(125, 125, 125);
-//     transform: translate(0px, -2px);
-//     cursor: pointer;
-//     text-decoration: none;
-//   }
-  
-//   .toggle-button {
-//     width: 205px;
-//     height: 45px;
-//     text-decoration: none;
-//     color: var(--white);
-//     box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.322);
-//     transition: .3s;
-//     transform: translateY(-5px);
-//     border-radius: 3px;
-//     border: 1px;
-//     font-weight: bold;
-//     font-size: 16px;
-//     font-family: 'Poppins';
-//     margin-top: 15px;
-//     text-align: center;
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//   }
-  
-//   .btn-time-in {
-//     background-color: var(--present);
-//     color: var(--white);
-//   }
-  
-//   .btn-time-out {
-//     background-color: var(--absent);
-//     color: var(--white);
-//   }
-// }
 
 .employee-body {
   display: flex;
@@ -102,6 +28,7 @@
   // margin-top: 30px;
   border-radius: 10px;
   box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.322);
+  border: 0.5px solid var(--table-border);
 }
 
 // .employee-left {
@@ -124,23 +51,24 @@
   // }
 
   .employee-name {
-    font-size: 25px;
+    font-size: 17px;
     font-weight: bold;
   }
 
   .employee-position {
-    font-size: 1.2rem;
+    font-size: 13px;
     color: var(--secondary-color);
     padding-bottom: 15px; 
   }
 
   .current-time {
-    font-size: 1.5rem;
+    font-size: 17px;
     font-weight: bold;
   }
 
   .current-date {
-    padding-bottom: 15px;
+    font-size: 13px;
+    padding-bottom: 13px;
   }
 
   .toggle-button {
@@ -154,7 +82,7 @@
     border-radius: 3px;
     border: 1px;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 13px;
     font-family: 'Poppins';
     margin-top: 15px;
     justify-content: center;
@@ -183,14 +111,14 @@
 }
 
 .accumulated-title {
-  font-size: 20px;
+  font-size: 15px;
   font-weight: bold;
   color: var(--primary-color);
   margin-bottom: 25px;
 }
 
 .accumulated-hours {
-  font-size: 17px;
+  font-size: 13px;
   color: var(--landing-font);
   display: grid;
   grid-template-columns: repeat(2, 1fr); 
@@ -202,53 +130,11 @@
 
 span {
   display: block;  
-  text-align: left; 
+  text-align: center; 
   font-weight: bold;
   width: 100%; 
   padding-left: 10px; 
 }
-
-
-/* Attendance Table */
-// .attendance-table {
-//   margin-top: 30px;
-//   width: 100%;
-//   max-width: 97%;
-//   background: var(--white);
-//   border-radius: 10px;
-//   box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.1);
-//   padding: 15px;
-// }
-
-// table {
-//   width: 100%;
-//   border-collapse: collapse;
-// }
-
-// th, td {
-//   padding: 12px;
-//   text-align: center;
-//   border-bottom: 1px solid var(--border);
-// }
-
-// th {
-//   background: var(--primary-color);
-//   color: var(--white);
-//   font-size: 1rem;
-// }
-
-// td {
-//   font-size: 0.95rem;
-//   color: var(--text-color);
-// }
-
-// tr:nth-child(even) {
-//   background: #f9f9f9;
-// }
-
-// tr:hover {
-//   background: #f1f1f1;
-// }
 
 .table-content {
   border-radius: 10px;
@@ -272,6 +158,10 @@ span {
   padding-bottom: 15px;
 }
 
+.table-title {
+  font-size: 17px;
+}
+
 .right-side {
   display: flex;
   justify-content: flex-end;
@@ -282,11 +172,11 @@ span {
 .report-button {
   background-color: var(--primary-color);
   color: var(--white);
-  padding: 14px;
+  padding: 11px;
   border: none;
   border-radius: 3px;
+  font-size: 13px;
   font-weight: bold;
-  text-transform: uppercase;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
@@ -302,8 +192,8 @@ span {
   justify-content: end;
 
   select {
-    width: 210px;
-    padding: 10px;
+    width: 230px;
+    padding: 9px;
     font-family: "poppins";
     background: var(--white);
     border: 0.5px solid var(--table-border);
@@ -327,9 +217,9 @@ table {
 table,
 th,
 td {
-  padding: 20px;
+  padding: 15px;
   font-family: 'Poppins';
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 400;
   text-align: center;
   border-bottom: 1.5px solid var(--table-border);
@@ -338,7 +228,7 @@ td {
 th {
   background-color: var(--primary-color) !important;
   color: var(--white);
-  font-size: 15px;
+  font-size: 13px;
   letter-spacing: 0.8px;
 }
 
@@ -442,9 +332,12 @@ hr {
     padding: 8px;
   }
 
+  // .table-title {
+  //   font-size: 17px;
+  // }
+
   .table-header {
     padding-top: 15px;
-    font-size: 14px;
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
