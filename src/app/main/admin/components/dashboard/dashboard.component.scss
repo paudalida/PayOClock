@@ -170,6 +170,9 @@
 
 .dropdown-container {
     margin-bottom: 15px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
 }
 
 .doughnut-container {
@@ -177,8 +180,9 @@
     height: 300px;
 }
 
-select {
-    width: 115px;
+.dropdown-container select {
+    width: 80%;
+    margin: 5px;
     padding: 5px;
     border-radius: 3px;
     font-family: "poppins";

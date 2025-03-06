@@ -59,7 +59,7 @@
             <div class="right" style="height: 450px;">
                 <span class="header">Payroll Total Net Pays Summary</span>
                 
-                <span>
+                <span class="dropdown-container">
                     <select (change)="updateBarChart($event)">
                         <ng-container *ngFor="let quarter of payrollsQuarters">
                             <option [value]="quarter"> {{ quarter }} </option>
@@ -73,15 +73,27 @@
             </div>
 
             <div class="left" style="height: 450px;" *ngIf="containerVisibility.attendance_summary">
-                <span class="header">Attendance Summary - {{ currentMonth }}</span>
+                <span class="header">Attendance Summary</span>
             
                 <!-- Dropdown placed between the label and the pie chart -->
                 <div class="dropdown-container">
                     <!-- <select id="chartFilter" (change)="updateChart($event.target.value)" class="chart-filter"> -->
-                    <select class="chart-filter">
+                    <select class="chart-filter" [(ngModel)]="filterType" (change)="changeType()">
                         <option value="weekly">Weekly</option>
                         <option value="monthly" selected>Monthly</option>
                         <option value="yearly">Yearly</option>
+                    </select>
+                    
+                    <select class="chart-filter" [(ngModel)]="currFilter" (change)="changeData()">
+                        <ng-container *ngIf="filterType == 'weekly'">
+                            <option *ngFor="let week of weeks" [value]="week">{{ week }}</option>
+                        </ng-container>
+                        <ng-container *ngIf="filterType == 'monthly'">
+                            <option *ngFor="let month of months" [value]="month">{{ month }}</option>
+                        </ng-container>
+                        <ng-container *ngIf="filterType == 'yearly'">
+                            <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+                        </ng-container>
                     </select>
                 </div>
             
