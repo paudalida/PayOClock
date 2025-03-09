@@ -237,13 +237,13 @@ export class PayrollComponent implements OnInit {
   }
   // EXCEL FILE 
   async generateReport(): Promise<void> {
-    if (!this.payrolls || !this.filterValue) {
+    if (!this.payroll || !this.filterValue) {
       this.pop.swalBasic('error', 'No data available', 'Please select a valid date range.');
       return;
     }
   
-    const selectedPayroll = this.payrolls[this.filterValue];
-    const allHeaders = Object.keys(selectedPayroll[0]);
+    const selectedPayroll = this.payroll;
+    const allHeaders = Object.keys(this.payroll);
   
     // Create workbook and worksheet
     const workbook = new ExcelJS.Workbook();

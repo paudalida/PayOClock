@@ -46,6 +46,12 @@ export class ReportsComponent implements OnInit, AfterViewInit {
   columns: any;
   isLoading = false;
   // payrollPaginator: any;
+  payslipPeriodFilter = '';
+  payslipPayrollPeriods: any[] = [];
+  payslips: any = [];
+  payslipDetails: any = [];
+  activeTable = 0;
+  hasActive = true;
 
   constructor(
     private as: AdminService,
@@ -85,9 +91,23 @@ export class ReportsComponent implements OnInit, AfterViewInit {
   protected getData() {
     const employees = this.as.getEmployees();
     this.dataSource.data = employees; // DTR Table
-    this.payrollDataSource.data = employees; // Payroll Table
-  }
+    // this.payrollDataSource.data = employees; // Payroll Table
 
+    this.ds.request('GET', 'admin/payrolls/dates').subscribe({
+      next: (res: any) => {
+        this.payslipPayrollPeriods = res.data;
+        this.payslipPeriodFilter = this.payslipPayrollPeriods[0].id;
+
+        this.ds.request('GET', `admin/payslips/all/${this.payslipPeriodFilter}`).subscribe({
+          next: (res1: any) => {
+            this.payslips = res1.data;
+
+            console.log(this.payslips)
+          }
+        })
+      }
+    })
+  }
 
   protected setupTableFunctions() {
     this.dataSource.paginator = this.paginator;
@@ -306,5 +326,12 @@ export class ReportsComponent implements OnInit, AfterViewInit {
     // Assuming the time is in the format 'HH:mm:ss'
     const formattedTime = this.datePipe.transform(`1970-01-01T${time}`, 'h:mm a');
     return formattedTime || time;  // Return formatted time or original if formatting fails
+  }
+
+  changeData() {
+    // console.log(this.payrollPeriods)
+  }
+  clickTable(event: Event, index: number) {
+
   }
 }

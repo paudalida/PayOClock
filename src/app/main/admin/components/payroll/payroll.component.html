@@ -65,7 +65,7 @@
       
           <tbody>
             <ng-container *ngFor="let row of payroll.slice(1); let i = index;">
-              <tr>
+              <tr (click)="openDialog(row[0])">
                 <ng-container *ngFor="let data of row; let j = index;">
                   <td *ngIf="j < 4" class="fixed-column">
                     <span [ngStyle]="{ opacity: row[j] ? '1' : '0' }">

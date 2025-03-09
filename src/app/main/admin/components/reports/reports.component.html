@@ -101,9 +101,10 @@
                 <div class="content">
                     <div class="table-head">
                         <div class="date-filter">
-                            <select id="date">
-                                <option value="month">Month</option>
-                                <option value="year">Year</option>
+                            <select id="date" [(ngModel)]="payslipPeriodFilter" (change)="changeData()">
+                                <option *ngFor="let period of payslipPayrollPeriods" [ngValue]="period.id">
+                                    {{ period.payday_start | date: 'mediumDate' }} - {{ period.payday_end | date: 'mediumDate' }}
+                                </option>
                             </select>
                         </div>  
 
@@ -114,54 +115,201 @@
 
                     <!-- Table -->
                     <div class="mat-elevation-z8">
-                        <table mat-table [dataSource]="payrollDataSource" matSort>
-                            <!-- Employee ID Column -->
-                            <ng-container matColumnDef="employee_id">
-                                <th mat-header-cell *matHeaderCellDef> Employee ID </th>
-                                <td mat-cell *matCellDef="let element"> {{ element.employee_id }} </td>
-                            </ng-container>
-                        
-                            <!-- Employee Name Column -->
-                            <ng-container matColumnDef="name">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Employee Name </th>
-                                <td mat-cell *matCellDef="let element"> 
-                                    {{ element.full_name }}
-                                </td>
-                            </ng-container>
-
-                            <!-- Gender Column -->
-                            <ng-container matColumnDef="gender">
-                                <th mat-header-cell *matHeaderCellDef> Gender </th>
-                                <td mat-cell *matCellDef="let element"> 
-                                    {{ element.gender == 0 ? 'Female' : element.gender == 1 ? 'Male' : 'N/A' }} 
-                                </td>
-                            </ng-container>
-
-                            <!-- Position Column -->
-                            <ng-container matColumnDef="position">
-                                <th mat-header-cell *matHeaderCellDef> Position </th>
-                                <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-                            </ng-container>
-                        
-                            <!-- Action Column -->
-                            <ng-container matColumnDef="action">
-                                <th mat-header-cell *matHeaderCellDef> Action </th> 
-                                <td mat-cell *matCellDef="let element">
-                                    <div class="action-buttons">
-                                        <!-- <button mat-button class="action-button download-button" (click)="downloadRecord(element)">
-                                            <i class='bx bx-download'></i>
-                                        </button> -->
+                        <ng-container *ngFor="let record of payslips; let i = index;">
+                            <!-- <ng-container *ngIf="i >= paginatorIndex && i < paginatorIndex + paginatorCount"> -->
+                            <div #printSection [id]="'printSection' + i">
+                                <div class="print-header show-on-print">
+                                    <div class="flex">
+                                        <div class="container">
+                                            <div class="text">GM18 Driving School</div>
+                                            <div class="text">106 Gordon Avenue, New Kalalake, Olongapo City, Philippines 2200</div>
+                                            <div class="text">Tel No.: (047) 222-2446 / Cell No.: 0999 220 0158</div>
+                                        </div>
+                            
+                                        <div class="container">
+                                            <img [src]="'/assets/images/gm18.png'">
+                                        </div>
                                     </div>
-                                </td>
-                            </ng-container>
+                                </div>
+                
+                                <div class="table-content" (click)="clickTable($event, i)">
+                                    <div class="table-head">
+                
+                                        <div class="input-row">
+                                            <div class="information-case">
+                                                <th class="bold"> EMPLOYEE NAME: </th>  
+                                                <td> {{ record.employee.full_name }} </td>
+                                            </div>
+                                
+                                            <div class="information-case">
+                                                <th class="bold"> PAYROLL PERIOD: </th> 
+                                                <td> {{ record.payday_start | date: 'mediumDate' }} - {{ record.payday_end | date: 'mediumDate' }} </td>  
+                                            </div>
+                                        </div>
+                            
+                                        <div class="input-row">
+                                            <div class="information-case">
+                                                <strong>ID Number: </strong>
+                                                <span>{{ record.employee.employee_id }}</span>
+                                            </div>
+                            
+                                            <div class="information-case">
+                                                <strong>Released at: </strong>
+                                                <span>{{ record.released_at | date: 'mediumDate' }}</span>
+                                            </div>
+                                        </div>
+                            
+                                        <div class="input-row">
+                                            <div class="information-case">
+                                                <strong>Position: </strong>
+                                                <span>{{ record.position }}</span>
+                                            </div>
+                            
+                                            <div class="information-case">
+                                                <strong>RATE{{ record.position == 'Instructor' ? '/HOUR' : '/DAY'}}: </strong>
+                                                <span>{{ record.rate }}</span>
+                                            </div>
+                                        </div>
                         
-                            <!-- Table Header & Row -->
-                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                        </table>
-                        
-                        <mat-paginator #payrollPaginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons aria-label="Select page of periodic elements">
-                        </mat-paginator>                   
+                                        <div class="input-row hide-on-print" *ngIf="activeTable == i && hasActive">
+                                            <div></div>
+                                            
+                                            <div class="button-container" id="print-btn-ctnr">
+                                                <!-- <button class="btn-primary export" (click)="downloadPDF(i);">Download</button> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                            
+                                    <div class="table-content1" *ngIf="activeTable == i && hasActive">
+                                        <div class="earnings-and-deductions">
+                                            <div class="earnings-container">
+                                                <table>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Attendance Earnings</th>
+                                                            <th>Amount</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let value of record.payslip.attendance.types; let j = index;">
+                                                            <ng-container *ngIf="value || j == 0">
+                                                                <td>
+                                                                    <ng-container *ngIf="record.payslip.attendance.amounts[0]">
+                                                                        {{ value }} ({{ record.payslip.attendance.hours[j] }})
+                                                                    </ng-container>
+                                                                    
+                                                                    <ng-container *ngIf="!record.payslip.attendance.amounts[0]"> - </ng-container>
+                                                                </td>
+                                                                <td>{{ record.payslip.attendance.amounts[j] || '-' }}</td>
+                                                            </ng-container>
+                                                        </tr>
+                                                        <tr class="total-row">
+                                                            <td><strong>Total</strong></td>
+                                                            <td><strong>{{ record.adjusted_pay }}</strong></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                    
+                                                <table>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Other Earnings</th>
+                                                            <th>Amount</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let value of record.payslip.allowance.types; let j = index;">
+                                                            <ng-container *ngIf="value || j == 0">
+                                                                <td> {{ value || '-' }} </td>
+                                                                <td>{{ record.payslip.allowance.amounts[j] || '-' }}</td>
+                                                            </ng-container>
+                                                        </tr>
+                                                        <tr class="total-row">
+                                                            <td><strong>Total</strong></td>
+                                                            <td><strong>{{ record.total_additions }}</strong></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                    
+                                            <div class="deductions-loans-container">
+                                                <table>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Deductions</th>
+                                                            <th>Amount</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let value of record.payslip.deduction.types; let j = index;">
+                                                            <ng-container *ngIf="value || j == 0">
+                                                                <td>{{ value || '-' }}</td>
+                                                                <td>{{ record.payslip.deduction.amounts[j] || '-' }}</td>
+                                                            </ng-container>
+                                                        </tr>
+                                                        <tr class="total-row">
+                                                            <td><strong>Total</strong></td>
+                                                            <td><strong>{{ record.total_deductions }}</strong></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                
+                                                <table>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Other Deductions</th>
+                                                            <th>Amount</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let value of record.payslip.other_deduction.types; let j = index;">
+                                                            <ng-container *ngIf="value || j == 0">
+                                                                <td>{{ value || '-' }}</td>
+                                                                <td>{{ record.payslip.other_deduction.amounts[j] || '-' }}</td>
+                                                            </ng-container>
+                                                        </tr>
+                                                        <tr class="total-row">
+                                                            <td><strong>Total</strong></td>
+                                                            <td><strong>₱ {{ record.total_other_deductions | number:'1.2-2' }}</strong></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        
+                                        <hr class="divider-line">
+                                        
+                                        <div class="totals-wrapper">
+                                            <table class="pay-row-table">
+                                                <tr class="pay-row">
+                                                    <td><strong>Gross Pay</strong></td>
+                                                    <!-- <td><strong>₱ {{ payslip.gross_pay | number: '1.2-2' }}</strong></td> -->
+                                                    <td><strong>{{ record.gross_pay }}</strong></td>
+                                                </tr>
+                                            </table>
+                                            <table class="total-deduc-table">
+                                                <tr class="total-deduc">
+                                                    <td><strong>Total Deductions</strong></td>
+                                                    <!-- <td><strong>₱ {{ payslip.total_deductions | number: '1.2-2' }}</strong></td> -->
+                                                    <td><strong>{{ record.total_deductions }}</strong></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        
+                                        <div class="totals-wrapper">
+                                            <table class="pay-row-table">
+                                                <tr class="pay-row">
+                                                    <td><strong>Net Pay</strong></td>
+                                                    <!-- <td><strong>₱ {{ payslip.net_pay | number: '1.2-2' }}</strong></td> -->
+                                                    <td><strong> {{ record.net_pay }}</strong></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                        <!-- </ng-container> -->
+                    </ng-container>
                     </div>
                 </div>
             </div>
