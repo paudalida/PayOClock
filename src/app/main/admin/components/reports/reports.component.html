@@ -121,16 +121,16 @@
                     </div>
 
                     <!-- Table -->
-                    <div class="loading" *ngIf="isLoading">
+                    <!-- <div class="loading" *ngIf="isLoading">
                         <app-spinner></app-spinner>
-                    </div>
+                    </div> -->
                 
                     <!-- <ng-container *ngIf="!isLoading && !hasData" class="no-payslip"> 
                         No payslip available
                     </ng-container> -->
                 
-                    <ng-container *ngIf="!isLoading && hasData">
-                        <ng-container *ngFor="let payslip of payslips; let i = index;">
+                    <!-- <ng-container *ngIf="!isLoading && hasData"> -->
+                        <ng-container *ngFor="let record of payslips; let i = index;">
                             <!-- <ng-container *ngIf="i >= paginatorIndex && i < paginatorIndex + paginatorCount"> -->
                             <div #printSection [id]="'printSection' + i">
                                 <div class="print-header show-on-print">
@@ -159,7 +159,7 @@
                                 
                                             <div class="information-case">
                                                 <th class="bold"> PAYROLL PERIOD: </th> 
-                                                <td> {{ payslipDetails[i].payday_start | date: 'mediumDate' }} - {{ payslipDetails[i].payday_end | date: 'mediumDate' }} </td>  
+                                                <td> {{ record.payday_start | date: 'mediumDate' }} - {{ record.payday_end | date: 'mediumDate' }} </td>  
                                             </div>
                                         </div>
                             
@@ -172,19 +172,19 @@
                             
                                             <div class="information-case">
                                                 <strong>Released at: </strong>
-                                                <span>{{ payslipDetails[i].released_at | date: 'mediumDate' }}</span>
+                                                <span>{{ record.released_at | date: 'mediumDate' }}</span>
                                             </div>
                                         </div>
                             
                                         <div class="input-row">
                                             <div class="information-case">
                                                 <strong>Position: </strong>
-                                                <span>{{ payslipDetails[i].position }}</span>
+                                                <span>{{ record.position }}</span>
                                             </div>
                             
                                             <div class="information-case">
-                                                <strong>RATE{{ payslipDetails[i].position == 'Instructor' ? '/HOUR' : '/DAY'}}: </strong>
-                                                <span>{{ payslipDetails[i].rate }}</span>
+                                                <strong>RATE{{ record.position == 'Instructor' ? '/HOUR' : '/DAY'}}: </strong>
+                                                <span>{{ record.rate }}</span>
                                             </div>
                                         </div>
                         
@@ -325,9 +325,9 @@
                                     </div> 
                                 </div>
                             </div>
-                        <!-- </ng-container> -->
-                    </ng-container>
-                    </div>
+                        </ng-container>
+                    <!-- </ng-container> -->
+                    <!-- </div> -->
                 </div>
             </div>
         </mat-tab>

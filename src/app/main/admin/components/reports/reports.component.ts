@@ -53,11 +53,6 @@ export class ReportsComponent implements OnInit, AfterViewInit {
   // payrollPaginator: any;
   payslipPeriodFilter = '';
   payslipPayrollPeriods: any[] = [];
-  payslips: any = [];
-  payslipDetails: any = [];
-  activeTable = 0;
-  hasActive = true;
-
   constructor(
     private as: AdminService,
     private dialog: MatDialog, 
@@ -82,6 +77,10 @@ export class ReportsComponent implements OnInit, AfterViewInit {
     this.fetchAttendanceData();
   }
 
+  changeData() {
+
+  }
+  
   clickTable(event: Event, index: number) {
     if((event.target as HTMLElement).tagName == 'BUTTON') return;
     if(this.activeTable == index && this.hasActive) this.hasActive = !this.hasActive;
@@ -112,8 +111,6 @@ export class ReportsComponent implements OnInit, AfterViewInit {
         this.ds.request('GET', `admin/payslips/all/${this.payslipPeriodFilter}`).subscribe({
           next: (res1: any) => {
             this.payslips = res1.data;
-
-            console.log(this.payslips)
           }
         })
       }
