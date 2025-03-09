@@ -11,13 +11,13 @@ import { RequestComponent } from './components/request/request.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'attendance', pathMatch: 'full' }, 
-  // { path: 'dashboard', 
-  //   children: [ 
-  //     { path: '', component: DashboardComponent, pathMatch: 'full' },
-  //     { path: 'announcement', component: AnnouncementsComponent }
-  //   ]
-  // },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, 
+  { path: 'dashboard', 
+    children: [ 
+      { path: '', component: DashboardComponent, pathMatch: 'full' },
+      { path: 'announcement', component: AnnouncementsComponent }
+    ]
+  },
   { path: 'attendance', component: AttendanceComponent}, 
   { 
     path: 'payslips',
@@ -27,7 +27,7 @@ const routes: Routes = [
     ]  
   },
   { path: 'request', component: RequestComponent},
-  { path: 'announcement', component: AnnouncementsComponent },
+  // { path: 'announcement', component: AnnouncementsComponent },
   { path: 'profile', component: ProfileComponent}, 
   
 ];

@@ -28,8 +28,8 @@ body {
     align-items: center;
 
     .logo {
-      width: 90px; 
-      height: 90px;
+      width: 50px; 
+      height: 50px;
       margin-right: 5px;
       border-radius: 50%;
       overflow: hidden;
@@ -37,7 +37,7 @@ body {
     }
 
     .website-name {
-      font-size: 23px; 
+      font-size: 17px; 
       font-weight: 700;
       color: var(--primary-color);
     }
@@ -51,7 +51,7 @@ body {
       color: var(--primary-color);
       padding: 15px 30px;
       text-decoration: none;
-      font-size: 18px;
+      font-size: 15px;
       font-weight: 700;
       cursor: pointer;
       display: block;
@@ -69,7 +69,7 @@ body {
       border-radius: 50px;
       padding: 15px 60px;
       text-decoration: none;
-      font-size: 18px;
+      font-size: 15px;
       font-weight: 700;
       cursor: pointer;
       display: block;
@@ -195,13 +195,13 @@ body {
 
     h1 {
       color: var(--landing-font);
-      font-size: 2.5rem; 
+      font-size: 25px; 
       margin-bottom: 10px;
     }
 
     p {
       color: var(--landing-font);
-      font-size: 1.1rem; 
+      font-size: 17px; 
       margin-bottom: 20px;
     }
 
@@ -216,7 +216,7 @@ body {
     }
 
     .count {
-      font-size: 70px; 
+      font-size: 50px; 
     }
 
     // .count:active {
@@ -262,7 +262,7 @@ body {
   
     .vector-image {
       width: 100%; 
-      max-width: 400px; 
+      max-width: 300px; 
       height: auto;
       margin-bottom: 20px;
     }
@@ -281,7 +281,7 @@ body {
       max-width: 50%;
 
       h1 {
-        font-size: 2.5rem;
+        font-size: 25px;
       }
     }
 
@@ -302,7 +302,7 @@ body {
     .left-content {
       h1 {
         padding-top: 50px;
-        font-size: 4.3rem;
+        font-size: 40px;
       }
 
       .visitor-counter {
@@ -364,7 +364,7 @@ body {
 
   h2 {
     color: #333;
-    font-size: 2.5rem;
+    font-size: 25px;
     margin-top: 150px;
     margin-bottom: 20px;
     animation: slideIn 1s ease-out;
@@ -372,7 +372,7 @@ body {
 
   p {
     color: #666;
-    font-size: 1.3rem;
+    font-size: 15px;
     margin-bottom: 120px;
     margin-left: 45px;
     margin-right: 45px;
@@ -412,23 +412,23 @@ body {
 
     .about-icon {
       color: var(--landing-font);
-      width: 85px;
+      width: 55px;
       height: auto;
-      font-size: 75px;
+      font-size: 55px;
       margin-top: 15px;
       margin-bottom: 10px;
     }
 
     h3 {
       color: var(--landing-font);
-      font-size: 1.5rem;
+      font-size: 20px;
       font-weight: 600;
       margin-bottom: 10px;
     }
 
     p {
       color: #666;
-      font-size: 1rem;
+      font-size: 15px;
       font-weight: 500;
       margin-bottom: 0;
       margin-left: 15px;
@@ -466,11 +466,11 @@ body {
     }
   
     h2 {
-      font-size: 2rem;
+      font-size: 20px;
     }
   
     p {
-      font-size: 1rem;
+      font-size: 17px;
       margin-left: 15px;
       margin-right: 15px;
     }
@@ -486,7 +486,7 @@ body {
 
   h2 {
     color: #333;
-    font-size: 2.5rem;
+    font-size: 20px;
     margin-top: 90px;
     margin-bottom: 50px;
     animation: slideIn 1s ease-out;
@@ -515,7 +515,7 @@ body {
       .card {
         position: relative;
         width: 100%;
-        height: 380px;
+        height: 250px;
         border-radius: 10px;
         overflow: hidden;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -560,12 +560,12 @@ body {
           }
 
           h3 {
-            font-size: 1.2rem;
+            font-size: 15px;
             font-weight: 700;
           }
 
           p {
-            font-size: 1rem;
+            font-size: 13px;
             color: var(--white);
           }
         }
@@ -626,12 +626,12 @@ body {
       margin-left: 35px; 
 
       .footer-logo-img {
-        width: 60px;
-        height: 60px;
+        width: 50px;
+        height: 50px;
       }
 
       .footer-website-name {
-        font-size: 1.6rem;
+        font-size: 17px;
         font-weight: bold;
       }
     }
@@ -652,7 +652,7 @@ body {
       .footer-link {
         color: var(--white);
         text-decoration: none;
-        font-size: 1.2rem;
+        font-size: 17px;
 
         &:hover {
           text-decoration: underline;
@@ -671,7 +671,7 @@ body {
 
       .social-icon {
         color: var(--white);
-        font-size: 1.5rem;
+        font-size: 17px;
 
         &:hover {
           color: #333;
@@ -682,8 +682,12 @@ body {
 
   .footer-bottom {
     margin-top: 0.3rem;
-    font-size: 1.2rem;
-    margin-left: 0; 
+    font-size: 15px;
+    margin-left: 0px;
+    
+    p {
+      margin-right: 20px;
+    }
 
     @media (min-width: 768px) {
       margin-left: 40px; 

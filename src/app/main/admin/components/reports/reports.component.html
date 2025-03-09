@@ -95,7 +95,7 @@
             </div>
         </mat-tab>
 
-        <!-- Payslips/Payroll Tab -->
+        <!-- Payslips Tab -->
         <mat-tab label="Payslips">
             <div class="tab-content">
                 <div class="content">
@@ -108,14 +108,29 @@
                             </select>
                         </div>  
 
-                        <!-- <div class="header-text">
-                            <button class="download-btn">Export Payroll</button>
-                        </div>   -->
+                        <div class="date-filter">
+                            <select id="date">
+                                <option value="month">Intructors</option>
+                                <option value="year">Non-Instructors</option>
+                            </select>
+                        </div>  
+
+                        <div class="header-text">
+                            <button class="download-btn">Download All Payslips</button>
+                        </div>  
                     </div>
 
                     <!-- Table -->
-                    <div class="mat-elevation-z8">
-                        <ng-container *ngFor="let record of payslips; let i = index;">
+                    <div class="loading" *ngIf="isLoading">
+                        <app-spinner></app-spinner>
+                    </div>
+                
+                    <!-- <ng-container *ngIf="!isLoading && !hasData" class="no-payslip"> 
+                        No payslip available
+                    </ng-container> -->
+                
+                    <ng-container *ngIf="!isLoading && hasData">
+                        <ng-container *ngFor="let payslip of payslips; let i = index;">
                             <!-- <ng-container *ngIf="i >= paginatorIndex && i < paginatorIndex + paginatorCount"> -->
                             <div #printSection [id]="'printSection' + i">
                                 <div class="print-header show-on-print">
@@ -138,36 +153,38 @@
                                         <div class="input-row">
                                             <div class="information-case">
                                                 <th class="bold"> EMPLOYEE NAME: </th>  
-                                                <td> {{ record.employee.full_name }} </td>
+                                                <!-- <td> {{ employee.full_name }} </td> -->
+                                                 <td></td>
                                             </div>
                                 
                                             <div class="information-case">
                                                 <th class="bold"> PAYROLL PERIOD: </th> 
-                                                <td> {{ record.payday_start | date: 'mediumDate' }} - {{ record.payday_end | date: 'mediumDate' }} </td>  
+                                                <td> {{ payslipDetails[i].payday_start | date: 'mediumDate' }} - {{ payslipDetails[i].payday_end | date: 'mediumDate' }} </td>  
                                             </div>
                                         </div>
                             
                                         <div class="input-row">
                                             <div class="information-case">
                                                 <strong>ID Number: </strong>
-                                                <span>{{ record.employee.employee_id }}</span>
+                                                <!-- <span>{{ employee.employee_id }}</span> -->
+                                                <span></span>
                                             </div>
                             
                                             <div class="information-case">
                                                 <strong>Released at: </strong>
-                                                <span>{{ record.released_at | date: 'mediumDate' }}</span>
+                                                <span>{{ payslipDetails[i].released_at | date: 'mediumDate' }}</span>
                                             </div>
                                         </div>
                             
                                         <div class="input-row">
                                             <div class="information-case">
                                                 <strong>Position: </strong>
-                                                <span>{{ record.position }}</span>
+                                                <span>{{ payslipDetails[i].position }}</span>
                                             </div>
                             
                                             <div class="information-case">
-                                                <strong>RATE{{ record.position == 'Instructor' ? '/HOUR' : '/DAY'}}: </strong>
-                                                <span>{{ record.rate }}</span>
+                                                <strong>RATE{{ payslipDetails[i].position == 'Instructor' ? '/HOUR' : '/DAY'}}: </strong>
+                                                <span>{{ payslipDetails[i].rate }}</span>
                                             </div>
                                         </div>
                         
@@ -175,7 +192,7 @@
                                             <div></div>
                                             
                                             <div class="button-container" id="print-btn-ctnr">
-                                                <!-- <button class="btn-primary export" (click)="downloadPDF(i);">Download</button> -->
+                                                <button class="btn-primary export" (click)="downloadPDF(i);">Download</button>
                                             </div>
                                         </div>
                                     </div>

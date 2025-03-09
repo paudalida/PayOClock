@@ -14,7 +14,7 @@
 .attendance-history {
   position: relative;
   background: var(--white);
-  width: 800px;
+  width: 600px;
   height: 310px; 
   overflow-y: auto; 
   overflow-x: hidden;
@@ -31,10 +31,10 @@
 
 .header {
   display: flex;
-  padding: 20px 30px 30px;
+  padding: 20px;
   position: fixed;
   margin-left: -30px;
-  width: calc(790px - 50px); 
+  width: 560px;
   background-color: var(--primary-color);
   border-top-left-radius: 3px;
   border-top-right-radius: 3px; 
@@ -55,17 +55,17 @@
     justify-content: center;
 
     i {
-        margin: 0; 
-        font-size: inherit; 
+      margin: 0; 
+      font-size: 20px; 
     }
   }
-
+  
   h1 {
     color: var(--white);
     padding-top: 5px;
     width: 100%;
     font-weight: 700;
-    font-size: 25px;
+    font-size: 15px;
     text-align: center;
   }
 }
@@ -96,8 +96,24 @@
   border-radius: 8px;
 }
 
+.container1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background: var(--white);
+  box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.322);
+  border: 0.5px solid var(--table-border);
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.full {
+  width: 100%;
+}
+
 label {
-  font-size: 1rem;
+  font-size: 13px;
   font-weight: 600;
   color: var(--dark-gray);
 }
@@ -105,11 +121,11 @@ label {
 .toggle-btn.off {
   background-color: var(--absent); 
 }
-
+  
 .toggle-btn.on {
   background-color: var(--primary-color); 
 }
-
+  
 .toggle-btn {
   padding: 10px 15px;
   color: white;
@@ -121,49 +137,6 @@ label {
   
 .toggle-btn:focus {
   outline: none;
-}
-
-@media (max-width: 500px) {
-  .attendance-history {
-    width: 90%; 
-    max-width: 400px; 
-    height: auto; 
-    max-height: 80vh; 
-  }
-
-  .header {
-    width: 90%; 
-    padding: 15px; 
-    margin-left: -30px; 
-    box-sizing: border-box; 
-
-    h1 {
-      font-size: 20px;
-      padding-top: 10px;
-    }
-  }
-
-  .container-body {
-    padding-top: 90px; 
-    padding-bottom: 20px;
-    padding-right: 25px;
-    gap: 10px; 
-  }
-
-  .row {
-    flex-direction: column; 
-    gap: 10px; 
-  }
-
-  .container {
-    width: 100%;
-    padding: 15px; 
-  }
-
-  .toggle-btn {
-    font-size: 12px; 
-    padding: 8px 12px; 
-  }
 }
   
   
