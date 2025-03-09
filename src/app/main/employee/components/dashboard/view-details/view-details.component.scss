@@ -15,7 +15,7 @@
   position: relative;
   background: var(--white);
   width: 800px;
-  height: 600px; 
+  height: 650px; 
   overflow-y: auto; 
   overflow-x: hidden;
   border-radius: 5px;
@@ -31,10 +31,10 @@
 
 .header {
   display: flex;
-  padding: 20px 30px 30px;
+  padding: 20px;
   position: fixed;
   margin-left: -30px;
-  width: calc(790px - 50px); 
+  width: 760px;
   background-color: var(--primary-color);
   border-top-left-radius: 3px;
   border-top-right-radius: 3px; 
@@ -56,7 +56,7 @@
 
     i {
       margin: 0; 
-      font-size: inherit; 
+      font-size: 20px; 
     }
   }
 
@@ -65,7 +65,7 @@
     padding-top: 5px;
     width: 100%;
     font-weight: 700;
-    font-size: 25px;
+    font-size: 17px;
     text-align: center;
   }
 }
@@ -105,10 +105,10 @@
   }
 
   .header h1 {
-    font-size: 20px;
+    font-size: 17px;
   }
 
   td, th {
-    font-size: 10px;
+    font-size: 13px;
   }
 }
