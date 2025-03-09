@@ -44,7 +44,12 @@ export class ReportsComponent implements OnInit, AfterViewInit {
   periodFilter: any[] = [];
   currFilter: any;
   columns: any;
+
   isLoading = false;
+  hasData = false;
+  payslips: any = [];
+  activeTable = 0; hasActive = true;
+  payslipDetails: any = [];
   // payrollPaginator: any;
 
   constructor(
@@ -69,6 +74,12 @@ export class ReportsComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.getData();
     this.fetchAttendanceData();
+  }
+
+  clickTable(event: Event, index: number) {
+    if((event.target as HTMLElement).tagName == 'BUTTON') return;
+    if(this.activeTable == index && this.hasActive) this.hasActive = !this.hasActive;
+    else { this.activeTable = index; this.hasActive = true; }
   }
 
   ngAfterViewInit(): void {
@@ -307,4 +318,44 @@ export class ReportsComponent implements OnInit, AfterViewInit {
     const formattedTime = this.datePipe.transform(`1970-01-01T${time}`, 'h:mm a');
     return formattedTime || time;  // Return formatted time or original if formatting fails
   }
+
+  async downloadPDF(i: number) {
+    const html2pdf = (await import('html2pdf.js')).default;
+    const element = document.getElementById('printSection' + i); // Get the div to convert
+  
+    if (!element) {
+      console.error('Print section not found!');
+      return;
+    }
+  
+    const table = element.querySelector('.table-content') as HTMLElement;
+    const textElements = table.querySelectorAll('*');
+    const hidden = document.querySelectorAll('.hide-on-print'); // Select elements to hide
+    const show = document.querySelectorAll('.show-on-print'); // Select elements to show
+
+    // Hide elements before generating PDF
+    hidden.forEach(hidden => (hidden as HTMLElement).style.display = 'none');
+    show.forEach(show => (show as HTMLElement).style.display = 'block');
+    textElements.forEach(el => {
+      (el as HTMLElement).style.fontSize = '10px';
+    });
+
+    html2pdf()
+      .set({
+        margin: 0,
+        // filename: this.employee.full_name + '.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      })
+      .from(element)
+      .save()
+      .then(() => {  // Reset to defaults
+        hidden.forEach(hidden => (hidden as HTMLElement).style.display = 'block');
+        show.forEach(show => (show as HTMLElement).style.display = 'none');
+        textElements.forEach(el => {
+          (el as HTMLElement).style.fontSize = '';
+        });
+      });
+  }  
 }
