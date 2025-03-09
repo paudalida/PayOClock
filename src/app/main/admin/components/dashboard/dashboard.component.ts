@@ -44,6 +44,9 @@ export class DashboardComponent implements OnInit {
   groupedByMonth: any;
   filterValue = '';
   months: any = [];
+  years: any = [];
+  weeks: any = [];
+  attendance: any;
 
   tableData = {
     Monday: this.defaults,
@@ -75,6 +78,8 @@ export class DashboardComponent implements OnInit {
     absences: true,
   };
   isLoading = true;
+  filterType = 'monthly';
+  currFilter = '';
 
   constructor(
     private as: AdminService,
@@ -125,14 +130,7 @@ export class DashboardComponent implements OnInit {
       popupTitle = 'Absent Records';
       popupData = this.containerData['attendanceMonthly']['absences'];
     }
-
-    // this.dialog.open(ViewDetailsComponent, {
-    //   width: '600px',
-    //   data: { popupData: popupData.reverse(), popupTitle, status: status }
-    // });
   }
-
-  
 
   selectFilterOption(): void {
     this.containerData['attendanceMonthly']['present'] = this.groupedByMonth[this.filterValue].attendance;
@@ -150,6 +148,28 @@ export class DashboardComponent implements OnInit {
     this.currentMonth = this.datePipe.transform(currentDate, 'MMMM y') || ''; 
   }
 
+  changeType() {
+    switch(this.filterType) {
+      case 'weekly':
+        this.currFilter = this.weeks[0];
+        break;
+
+      case 'monthly':
+        this.currFilter = this.months[0];
+        break;
+
+      case 'yearly':
+        this.currFilter = this.years[0];
+        break;
+    }
+    this.changeData();
+  }
+
+  changeData() {
+    this.doughnutRawData = this.attendance[this.filterType][this.currFilter];
+    this.setDoughnut();
+  }
+
   ngOnInit(): void {
     let employees = this.as.getEmployees();
     this.details.employeeCount = employees.length;
@@ -159,8 +179,16 @@ export class DashboardComponent implements OnInit {
     this.setDoughnut();    
 
     this.ds.request('GET', 'admin/dashboard').subscribe((res: any) => {
+      this.isLoading = false;
       this.tableData = res.data.attendanceWeekly;
-      this.doughnutRawData = res.data.attendanceMonthly;
+
+      this.attendance = res.data.attendance;
+      this.years = Object.keys(this.attendance.yearly);
+      this.months = Object.keys(this.attendance.monthly);
+      this.weeks = Object.keys(this.attendance.weekly);
+      this.currFilter = this.months[0];
+
+      this.doughnutRawData = this.attendance.monthly[this.currFilter];
       this.setDoughnut();
 
       const summary = res.data.payrollSummary;
@@ -171,7 +199,6 @@ export class DashboardComponent implements OnInit {
       this.setBarChart();
 
       if(this.es.getConfig()) this.containerVisibility = this.es.getConfig();
-      this.isLoading = false;
     });
 
   }
