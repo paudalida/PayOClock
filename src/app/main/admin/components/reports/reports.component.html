@@ -27,13 +27,13 @@
                         </div>  
                         
                         <div class="header-text">
-                            <button class="download-btn" (click)="downloadAttendance()">Download all Records</button>
+                            <button class="download-btn" (click)="downloadAllAttendance()">Download all Records</button>
                         </div>  
                     </div>
     
                     <!-- Table -->
                     <div class="mat-elevation-z8">
-                        <table mat-table [dataSource]="dataSource" matSort>
+                        <table class="table-content" mat-table [dataSource]="dataSource" matSort>
                     
                             <!-- Employee ID Column -->
                             <ng-container matColumnDef="employee_id">
@@ -109,14 +109,15 @@
                         </div>  
 
                         <div class="date-filter">
-                            <select id="date">
-                                <option value="month">Intructors</option>
-                                <option value="year">Non-Instructors</option>
+                            <select id="date" [(ngModel)]="positionFilter" (change)="changePosition()">
+                                <option value="">All</option>
+                                <option value="instructors">Intructors</option>
+                                <option value="non-instructors">Non-Instructors</option>
                             </select>
                         </div>  
 
                         <div class="header-text">
-                            <button class="download-btn">Download All Payslips</button>
+                            <button class="download-btn" (click)="downloadAllPDF()">Download All Payslips</button>
                         </div>  
                     </div>
 
@@ -147,14 +148,13 @@
                                     </div>
                                 </div>
                 
-                                <div class="table-content" (click)="clickTable($event, i)">
-                                    <div class="table-head">
+                                <div class="payslip-table-content" (click)="clickTable($event, i)">
+                                    <div class="table-head1">
                 
                                         <div class="input-row">
                                             <div class="information-case">
                                                 <th class="bold"> EMPLOYEE NAME: </th>  
-                                                <!-- <td> {{ employee.full_name }} </td> -->
-                                                 <td></td>
+                                                <td> {{ record.employee.name }} </td>
                                             </div>
                                 
                                             <div class="information-case">
@@ -166,8 +166,7 @@
                                         <div class="input-row">
                                             <div class="information-case">
                                                 <strong>ID Number: </strong>
-                                                <!-- <span>{{ employee.employee_id }}</span> -->
-                                                <span></span>
+                                                <span>{{ record.employee.employee_id }}</span>
                                             </div>
                             
                                             <div class="information-case">
@@ -179,7 +178,7 @@
                                         <div class="input-row">
                                             <div class="information-case">
                                                 <strong>Position: </strong>
-                                                <span>{{ record.position }}</span>
+                                                <span>{{ record.employee.position }}</span>
                                             </div>
                             
                                             <div class="information-case">
@@ -192,12 +191,12 @@
                                             <div></div>
                                             
                                             <div class="button-container" id="print-btn-ctnr">
-                                                <button class="btn-primary export" (click)="downloadPDF(i);">Download</button>
+                                                <button class="download-btn" (click)="downloadPDF(i);">Download</button>
                                             </div>
                                         </div>
                                     </div>
                             
-                                    <div class="table-content1" *ngIf="activeTable == i && hasActive">
+                                    <div class="table-content1" *ngIf="(activeTable == i && hasActive) || isPrinting">
                                         <div class="earnings-and-deductions">
                                             <div class="earnings-container">
                                                 <table>

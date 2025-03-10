@@ -48,11 +48,14 @@ export class ReportsComponent implements OnInit, AfterViewInit {
   isLoading = false;
   hasData = false;
   payslips: any = [];
+  payslipsRaw: any = [];
   activeTable = 0; hasActive = true;
   payslipDetails: any = [];
   // payrollPaginator: any;
   payslipPeriodFilter = '';
   payslipPayrollPeriods: any[] = [];
+  positionFilter = '';
+  isPrinting = false;
   constructor(
     private as: AdminService,
     private dialog: MatDialog, 
@@ -78,9 +81,14 @@ export class ReportsComponent implements OnInit, AfterViewInit {
   }
 
   changeData() {
-
+    this.ds.request('GET', `admin/payslips/all/${this.payslipPeriodFilter}`).subscribe({
+      next: (res: any) => {
+        this.payslipsRaw = res.data;
+        this.changePosition();
+      }
+    });
   }
-  
+
   clickTable(event: Event, index: number) {
     if((event.target as HTMLElement).tagName == 'BUTTON') return;
     if(this.activeTable == index && this.hasActive) this.hasActive = !this.hasActive;
@@ -100,8 +108,7 @@ export class ReportsComponent implements OnInit, AfterViewInit {
 
   protected getData() {
     const employees = this.as.getEmployees();
-    this.dataSource.data = employees; // DTR Table
-    // this.payrollDataSource.data = employees; // Payroll Table
+    this.dataSource.data = employees;
 
     this.ds.request('GET', 'admin/payrolls/dates').subscribe({
       next: (res: any) => {
@@ -110,11 +117,18 @@ export class ReportsComponent implements OnInit, AfterViewInit {
 
         this.ds.request('GET', `admin/payslips/all/${this.payslipPeriodFilter}`).subscribe({
           next: (res1: any) => {
-            this.payslips = res1.data;
+            this.payslipsRaw = res1.data;
+            this.changePosition();
           }
         })
       }
     })
+  }
+
+  changePosition() {
+    if(this.positionFilter == '') this.payslips = this.payslipsRaw;
+    else if(this.positionFilter == 'instructors') this.payslips = this.payslipsRaw.filter((element: any) => element.employee.position == 'Instructor');
+    else if(this.positionFilter == 'non-instructors') this.payslips = this.payslipsRaw.filter((element: any) => element.employee.position != 'Instructor');
   }
 
   protected setupTableFunctions() {
@@ -231,7 +245,11 @@ export class ReportsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  downloadAttendance(employee?: any): void {
+  async downloadAllAttendance() {
+    await Promise.all(this.employees.map((employee: any) => this.downloadAttendance(employee)));
+  }
+
+  async downloadAttendance(employee?: any): Promise<void> {
     let data = [];
     switch(this.attendanceTypeFilter) {
       case 'week': 
@@ -336,7 +354,15 @@ export class ReportsComponent implements OnInit, AfterViewInit {
     return formattedTime || time;  // Return formatted time or original if formatting fails
   }
 
-  async downloadPDF(i: number) {
+  async downloadAllPDF() {
+    this.isPrinting = true;
+  
+    await Promise.all(this.payslips.map((_: any, i: number) => this.downloadPDF(i))); // ✅ Now it works
+    await new Promise(resolve => setTimeout(resolve, 500));
+    this.isPrinting = false;
+  }
+
+  async downloadPDF(i: number): Promise<void> {
     const html2pdf = (await import('html2pdf.js')).default;
     const element = document.getElementById('printSection' + i); // Get the div to convert
   
@@ -345,7 +371,7 @@ export class ReportsComponent implements OnInit, AfterViewInit {
       return;
     }
   
-    const table = element.querySelector('.table-content') as HTMLElement;
+    const table = element.querySelector('.payslip-table-content') as HTMLElement;
     const textElements = table.querySelectorAll('*');
     const hidden = document.querySelectorAll('.hide-on-print'); // Select elements to hide
     const show = document.querySelectorAll('.show-on-print'); // Select elements to show
@@ -360,7 +386,7 @@ export class ReportsComponent implements OnInit, AfterViewInit {
     html2pdf()
       .set({
         margin: 0,
-        // filename: this.employee.full_name + '.pdf',
+        filename: this.payslips[i].employee.name + '.pdf',
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2 },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
