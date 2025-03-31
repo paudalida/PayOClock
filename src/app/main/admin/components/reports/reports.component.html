@@ -27,13 +27,13 @@
                         </div>  
                         
                         <div class="header-text">
-                            <button class="download-btn" (click)="downloadAttendance()">Download all Records</button>
+                            <button class="download-btn" (click)="downloadAllAttendance()">Download all Records</button>
                         </div>  
                     </div>
     
                     <!-- Table -->
                     <div class="mat-elevation-z8">
-                        <table mat-table [dataSource]="dataSource" matSort>
+                        <table class="table-content" mat-table [dataSource]="dataSource" matSort>
                     
                             <!-- Employee ID Column -->
                             <ng-container matColumnDef="employee_id">
@@ -101,28 +101,37 @@
                 <div class="content">
                     <div class="table-head">
                         <div class="date-filter">
-                            <select id="date">
-                                <option value="month">Intructors</option>
-                                <option value="year">Non-Instructors</option>
+                            <select id="date" [(ngModel)]="payslipPeriodFilter" (change)="changeData()">
+                                <option *ngFor="let period of payslipPayrollPeriods" [ngValue]="period.id">
+                                    {{ period.payday_start | date: 'mediumDate' }} - {{ period.payday_end | date: 'mediumDate' }}
+                                </option>
+                            </select>
+                        </div>  
+
+                        <div class="date-filter">
+                            <select id="date" [(ngModel)]="positionFilter" (change)="changePosition()">
+                                <option value="">All</option>
+                                <option value="instructors">Intructors</option>
+                                <option value="non-instructors">Non-Instructors</option>
                             </select>
                         </div>  
 
                         <div class="header-text">
-                            <button class="download-btn">Download All Payslips</button>
+                            <button class="download-btn" (click)="downloadAllPDF()">Download All Payslips</button>
                         </div>  
                     </div>
 
                     <!-- Table -->
-                    <div class="loading" *ngIf="isLoading">
+                    <!-- <div class="loading" *ngIf="isLoading">
                         <app-spinner></app-spinner>
-                    </div>
+                    </div> -->
                 
                     <!-- <ng-container *ngIf="!isLoading && !hasData" class="no-payslip"> 
                         No payslip available
                     </ng-container> -->
                 
-                    <ng-container *ngIf="!isLoading && hasData">
-                        <ng-container *ngFor="let payslip of payslips; let i = index;">
+                    <!-- <ng-container *ngIf="!isLoading && hasData"> -->
+                        <ng-container *ngFor="let record of payslips; let i = index;">
                             <!-- <ng-container *ngIf="i >= paginatorIndex && i < paginatorIndex + paginatorCount"> -->
                             <div #printSection [id]="'printSection' + i">
                                 <div class="print-header show-on-print">
@@ -139,44 +148,42 @@
                                     </div>
                                 </div>
                 
-                                <div class="table-content" (click)="clickTable($event, i)">
-                                    <div class="table-head">
+                                <div class="payslip-table-content" (click)="clickTable($event, i)">
+                                    <div class="table-head1">
                 
                                         <div class="input-row">
                                             <div class="information-case">
                                                 <th class="bold"> EMPLOYEE NAME: </th>  
-                                                <!-- <td> {{ employee.full_name }} </td> -->
-                                                 <td></td>
+                                                <td> {{ record.employee.name }} </td>
                                             </div>
                                 
                                             <div class="information-case">
                                                 <th class="bold"> PAYROLL PERIOD: </th> 
-                                                <td> {{ payslipDetails[i].payday_start | date: 'mediumDate' }} - {{ payslipDetails[i].payday_end | date: 'mediumDate' }} </td>  
+                                                <td> {{ record.payday_start | date: 'mediumDate' }} - {{ record.payday_end | date: 'mediumDate' }} </td>  
                                             </div>
                                         </div>
                             
                                         <div class="input-row">
                                             <div class="information-case">
                                                 <strong>ID Number: </strong>
-                                                <!-- <span>{{ employee.employee_id }}</span> -->
-                                                <span></span>
+                                                <span>{{ record.employee.employee_id }}</span>
                                             </div>
                             
                                             <div class="information-case">
                                                 <strong>Released at: </strong>
-                                                <span>{{ payslipDetails[i].released_at | date: 'mediumDate' }}</span>
+                                                <span>{{ record.released_at | date: 'mediumDate' }}</span>
                                             </div>
                                         </div>
                             
                                         <div class="input-row">
                                             <div class="information-case">
                                                 <strong>Position: </strong>
-                                                <span>{{ payslipDetails[i].position }}</span>
+                                                <span>{{ record.employee.position }}</span>
                                             </div>
                             
                                             <div class="information-case">
-                                                <strong>RATE{{ payslipDetails[i].position == 'Instructor' ? '/HOUR' : '/DAY'}}: </strong>
-                                                <span>{{ payslipDetails[i].rate }}</span>
+                                                <strong>RATE{{ record.position == 'Instructor' ? '/HOUR' : '/DAY'}}: </strong>
+                                                <span>{{ record.rate }}</span>
                                             </div>
                                         </div>
                         
@@ -184,12 +191,12 @@
                                             <div></div>
                                             
                                             <div class="button-container" id="print-btn-ctnr">
-                                                <button class="btn-primary export" (click)="downloadPDF(i);">Download</button>
+                                                <button class="download-btn" (click)="downloadPDF(i);">Download</button>
                                             </div>
                                         </div>
                                     </div>
                             
-                                    <div class="table-content1" *ngIf="activeTable == i && hasActive">
+                                    <div class="table-content1" *ngIf="(activeTable == i && hasActive) || isPrinting">
                                         <div class="earnings-and-deductions">
                                             <div class="earnings-container">
                                                 <table>
@@ -200,21 +207,21 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr *ngFor="let value of payslips[i]; let j = index;">
-                                                            <ng-container *ngIf="value[0] || j == 0">
+                                                        <tr *ngFor="let value of record.payslip.attendance.types; let j = index;">
+                                                            <ng-container *ngIf="value || j == 0">
                                                                 <td>
-                                                                    <ng-container *ngIf="value[0]">
-                                                                        {{ value[0] }} ({{ value[1] }})
+                                                                    <ng-container *ngIf="record.payslip.attendance.amounts[0]">
+                                                                        {{ value }} ({{ record.payslip.attendance.hours[j] }})
                                                                     </ng-container>
                                                                     
-                                                                    <ng-container *ngIf="!value[0]"> - </ng-container>
+                                                                    <ng-container *ngIf="!record.payslip.attendance.amounts[0]"> - </ng-container>
                                                                 </td>
-                                                                <td>{{ value[2] || '-' }}</td>
+                                                                <td>{{ record.payslip.attendance.amounts[j] || '-' }}</td>
                                                             </ng-container>
                                                         </tr>
                                                         <tr class="total-row">
                                                             <td><strong>Total</strong></td>
-                                                            <td><strong>{{ payslipDetails[i].adjusted_pay }}</strong></td>
+                                                            <td><strong>{{ record.adjusted_pay }}</strong></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -227,15 +234,15 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr *ngFor="let value of payslips[i]; let j = index;">
-                                                            <ng-container *ngIf="value[3] || j == 0">
-                                                                <td> {{ value[3] || '-' }} </td>
-                                                                <td>{{ value[4] || '-' }}</td>
+                                                        <tr *ngFor="let value of record.payslip.allowance.types; let j = index;">
+                                                            <ng-container *ngIf="value || j == 0">
+                                                                <td> {{ value || '-' }} </td>
+                                                                <td>{{ record.payslip.allowance.amounts[j] || '-' }}</td>
                                                             </ng-container>
                                                         </tr>
                                                         <tr class="total-row">
                                                             <td><strong>Total</strong></td>
-                                                            <td><strong>{{ payslipDetails[i].total_additions }}</strong></td>
+                                                            <td><strong>{{ record.total_additions }}</strong></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -250,15 +257,15 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr *ngFor="let value of payslips[i]; let i = index;">
-                                                            <ng-container *ngIf="value[5] || i == 0">
-                                                                <td>{{ value[5] || '-' }}</td>
-                                                                <td>{{ value[6] || '-' }}</td>
+                                                        <tr *ngFor="let value of record.payslip.deduction.types; let j = index;">
+                                                            <ng-container *ngIf="value || j == 0">
+                                                                <td>{{ value || '-' }}</td>
+                                                                <td>{{ record.payslip.deduction.amounts[j] || '-' }}</td>
                                                             </ng-container>
                                                         </tr>
                                                         <tr class="total-row">
                                                             <td><strong>Total</strong></td>
-                                                            <td><strong>{{ payslipDetails[i].total_deductions }}</strong></td>
+                                                            <td><strong>{{ record.total_deductions }}</strong></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -271,15 +278,15 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr *ngFor="let value of payslips[i]; let i = index;">
-                                                            <ng-container *ngIf="value[7] || i == 0">
-                                                                <td>{{ value[7] || '-' }}</td>
-                                                                <td>{{ value[8] || '-' }}</td>
+                                                        <tr *ngFor="let value of record.payslip.other_deduction.types; let j = index;">
+                                                            <ng-container *ngIf="value || j == 0">
+                                                                <td>{{ value || '-' }}</td>
+                                                                <td>{{ record.payslip.other_deduction.amounts[j] || '-' }}</td>
                                                             </ng-container>
                                                         </tr>
                                                         <tr class="total-row">
                                                             <td><strong>Total</strong></td>
-                                                            <td><strong>₱ {{ payslipDetails[i].total_other_deductions | number:'1.2-2' }}</strong></td>
+                                                            <td><strong>₱ {{ record.total_other_deductions | number:'1.2-2' }}</strong></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -292,15 +299,15 @@
                                             <table class="pay-row-table">
                                                 <tr class="pay-row">
                                                     <td><strong>Gross Pay</strong></td>
-                                                    <!-- <td><strong>₱ {{ payslipDetails[i].gross_pay | number: '1.2-2' }}</strong></td> -->
-                                                    <td><strong>{{ payslipDetails[i].gross_pay }}</strong></td>
+                                                    <!-- <td><strong>₱ {{ payslip.gross_pay | number: '1.2-2' }}</strong></td> -->
+                                                    <td><strong>{{ record.gross_pay }}</strong></td>
                                                 </tr>
                                             </table>
                                             <table class="total-deduc-table">
                                                 <tr class="total-deduc">
                                                     <td><strong>Total Deductions</strong></td>
-                                                    <!-- <td><strong>₱ {{ payslipDetails[i].total_deductions | number: '1.2-2' }}</strong></td> -->
-                                                    <td><strong>{{ payslipDetails[i].total_deductions }}</strong></td>
+                                                    <!-- <td><strong>₱ {{ payslip.total_deductions | number: '1.2-2' }}</strong></td> -->
+                                                    <td><strong>{{ record.total_deductions }}</strong></td>
                                                 </tr>
                                             </table>
                                         </div>
@@ -309,8 +316,8 @@
                                             <table class="pay-row-table">
                                                 <tr class="pay-row">
                                                     <td><strong>Net Pay</strong></td>
-                                                    <!-- <td><strong>₱ {{ payslipDetails[i].net_pay | number: '1.2-2' }}</strong></td> -->
-                                                    <td><strong> {{ payslipDetails[i].net_pay }}</strong></td>
+                                                    <!-- <td><strong>₱ {{ payslip.net_pay | number: '1.2-2' }}</strong></td> -->
+                                                    <td><strong> {{ record.net_pay }}</strong></td>
                                                 </tr>
                                             </table>
                                         </div>
@@ -318,7 +325,8 @@
                                 </div>
                             </div>
                         </ng-container>
-                    </ng-container>
+                    <!-- </ng-container> -->
+                    <!-- </div> -->
                 </div>
             </div>
         </mat-tab>
