@@ -322,14 +322,14 @@ hr {
   }
 
   .toggle-button {
-    margin-left: 28px;
+    margin-left: 0;
     width: 100%;
     max-width: 250px;
     margin-top: 15px;
   }
 
   .table-content {
-    padding: 8px;
+    padding: 12px;
   }
 
   // .table-title {
@@ -344,8 +344,14 @@ hr {
     position: relative;
   }
 
+  .table-title {
+    font-size: 17px;
+    padding-top: 5px;
+    padding-bottom: 15px;
+  }
+
   .right-side {
-    padding-top: 15px;
+    padding-top: 5px;
     justify-content: flex-start;
   }
 
@@ -365,7 +371,7 @@ hr {
   }
 
   .date-range-dropdown1 select {
-    width: 210px;
+    width: 155px;
     padding: 8px 12px;
     font-size: 12px;
   }
@@ -373,14 +379,15 @@ hr {
   table,
   th,
   td {
-    padding: 8px;
+    padding: 5px;
+    font-size: 3px;
   }
 
   table td:nth-child(1),
   table td:nth-child(2),
   table td:nth-child(3) {
     min-width: 80px;
-    max-width: 100px;
+    max-width: 90px;
   }
 
   .report-button {

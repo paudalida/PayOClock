@@ -193,7 +193,7 @@ span {
     .admin-container {
         min-width: 100%; 
         position: relative; 
-      }
+    }
 
     .header {
         height: auto;
@@ -222,6 +222,10 @@ span {
 
     .profile-dropdown {
         right: 5px;
+    }
+
+    .sidebar-content {
+        display: none;
     }
 }
 
