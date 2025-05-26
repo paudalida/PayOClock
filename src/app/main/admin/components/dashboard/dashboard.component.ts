@@ -98,6 +98,21 @@ export class DashboardComponent implements OnInit {
     pending: 0
   }
 
+  weekDates: string[] = [];
+
+  getCurrentWeekDates(): void {
+    const today = new Date();
+    const day = today.getDay(); // 0 (Sun) to 6 (Sat)
+    const diff = today.getDate() - day + (day === 0 ? -6 : 1); // adjust to Monday
+    const monday = new Date(today.setDate(diff));
+
+    this.weekDates = Array.from({ length: 7 }, (_, i) => {
+      const d = new Date(monday);
+      d.setDate(monday.getDate() + i);
+      return this.datePipe.transform(d, 'MM-dd-yy')!;
+    });
+  }
+
   toggleContainerVisibility(container: string) {
     this.containerVisibility[container as 'present' | 'absences' |'attendance_weekly' | 'payroll' | 'attendance_summary'] = 
       !this.containerVisibility[container as 'present' | 'absences' |'attendance_weekly' | 'payroll' | 'attendance_summary'];
@@ -177,6 +192,7 @@ export class DashboardComponent implements OnInit {
     this.details.pending = this.details.employeeCount - this.details.processed;
     this.setBarChart();
     this.setDoughnut();    
+    this.getCurrentWeekDates();
 
     this.ds.request('GET', 'admin/dashboard').subscribe((res: any) => {
       this.isLoading = false;

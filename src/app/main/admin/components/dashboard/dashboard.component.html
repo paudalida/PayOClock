@@ -17,18 +17,18 @@
             </div>
             <div class="table">
                 <table>
-                    <thead>
-                        <tr>
-                            <th>Status</th>
-                            <th>Monday</th>
-                            <th>Tuesday</th>
-                            <th>Wednesday</th>
-                            <th>Thursday</th>
-                            <th>Friday</th>
-                            <th>Saturday</th>
-                            <th>Sunday</th>
-                        </tr>
-                    </thead>
+                <thead>
+                <tr>
+                    <th>Status</th>
+                    <th>Monday<br><i>{{ weekDates[0] | date: 'shortDate' }}</i></th>
+                    <th>Tuesday<br><i>{{ weekDates[1] | date: 'shortDate' }}</i></th>
+                    <th>Wednesday<br><i>{{ weekDates[2] | date: 'shortDate' }}</i></th>
+                    <th>Thursday<br><i>{{ weekDates[3] | date: 'shortDate' }}</i></th>
+                    <th>Friday<br><i>{{ weekDates[4] | date: 'shortDate' }}</i></th>
+                    <th>Saturday<br><i>{{ weekDates[5] | date: 'shortDate' }}</i></th>
+                    <th>Sunday<br><i>{{ weekDates[6] | date: 'shortDate' }}</i></th>
+                </tr>
+                </thead>
                     <tbody>
                         <tr>
                             <td [ngClass]="getStatusClass(0)">{{ getStatus(0) }}</td>

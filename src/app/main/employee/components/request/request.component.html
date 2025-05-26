@@ -6,7 +6,7 @@
   <div class="header">
     <h1 class="title">Leave and OT Request</h1>
     <h1 class="header-mobile">Request</h1>
-    
+
     <div class="button-group">
       <button class="btn-primary leave-btn" (click)="openForm('leave')"> Leave </button>
       <button class="btn-primary ot-btn" (click)="openForm('overtime')"> Overtime </button>
@@ -14,17 +14,10 @@
   </div>
 
   <div class="table-content">
+    <!-- Table for large screens -->
     <div class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource" matSort>
-        
-        <!-- Employee ID Column -->
-        <!-- <ng-container matColumnDef="employee_id">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Employee ID </th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.employee_id }}
-          </td>
-        </ng-container> -->
-  
+
         <!-- Type of Request Column -->
         <ng-container matColumnDef="request_type">
           <th mat-header-cell *matHeaderCellDef> Type of Request </th>
@@ -32,7 +25,7 @@
             {{ element.type | titlecase }}
           </td>
         </ng-container>
-  
+
         <!-- Start Date Column -->
         <ng-container matColumnDef="start_date">
           <th mat-header-cell *matHeaderCellDef> Start Date </th>
@@ -40,7 +33,7 @@
             {{ element.start | date: 'MM/dd/yyyy hh:mm a' }}
           </td>
         </ng-container>
-  
+
         <!-- End Date Column -->
         <ng-container matColumnDef="end_date">
           <th mat-header-cell *matHeaderCellDef> End Date </th>
@@ -48,7 +41,7 @@
             {{ element.end | date: 'MM/dd/yyyy hh:mm a' }}
           </td>
         </ng-container>
-  
+
         <!-- Status Column -->
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef> Status </th>
@@ -60,21 +53,18 @@
             {{ element.status == 0 ? 'Pending' : 
               element.status == 1 ? 'Accepted' : 
               element.status == 2 ? 'Declined' : 
-              element.status == 3 ? 'Canceled' : 'N/A'  
-            }}
+              element.status == 3 ? 'Canceled' : 'N/A' }}
           </td>
         </ng-container>
-  
+
         <!-- Proofs Column -->
         <ng-container matColumnDef="proofs">
           <th mat-header-cell *matHeaderCellDef> Proof </th>
           <td mat-cell *matCellDef="let element">
             <ng-container *ngIf="element.attachments.length > 0; else noProofs">
               <div *ngFor="let proof of element.attachments">
-                <button mat-button class="proof-link"> 
-                  <a [href]="proof.url" target="_blank">
-                    {{ proof.name }}
-                  </a>                  
+                <button mat-button class="proof-link">
+                  <a [href]="proof.url" target="_blank">{{ proof.name }}</a>
                 </button>
               </div>
             </ng-container>
@@ -84,7 +74,6 @@
           </td>
         </ng-container>
 
-  
         <!-- Action Column -->
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef> Action </th>
@@ -94,13 +83,63 @@
             </button>
           </td>
         </ng-container>
-  
+
         <!-- Table Headers and Rows -->
         <tr mat-header-row *matHeaderRowDef="columns"></tr>
         <tr mat-row *matRowDef="let row; columns: columns;"></tr>
       </table>
-  
-      <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator>
+    </div>
+
+    <!-- Card View for Mobile -->
+    <div class="card-container" *ngIf="dataSource?.data?.length">
+      <div class="request-card" *ngFor="let element of dataSource.data">
+        <div class="request-field">
+          <span class="label">Type of Request:</span>
+          <span class="value">{{ element.type | titlecase }}</span>
+        </div>
+
+        <div class="request-field">
+          <span class="label">Start Date:</span>
+          <span class="value">{{ element.start | date: 'MM/dd/yyyy hh:mm a' }}</span>
+        </div>
+
+        <div class="request-field">
+          <span class="label">End Date:</span>
+          <span class="value">{{ element.end | date: 'MM/dd/yyyy hh:mm a' }}</span>
+        </div>
+
+        <div class="request-field">
+          <span class="label">Status:</span>
+          <span class="value" [ngClass]="{
+            'status-approved': element.status === 1,
+            'status-denied': element.status === 2,
+            'status-cancelled': element.status == 3
+          }">
+            {{ element.status == 0 ? 'Pending' :
+              element.status == 1 ? 'Accepted' :
+              element.status == 2 ? 'Declined' :
+              element.status == 3 ? 'Canceled' : 'N/A' }}
+          </span>
+        </div>
+
+        <div class="request-field">
+          <span class="label">Proofs:</span>
+          <div *ngIf="element.attachments.length > 0; else noMobileProofs">
+            <div *ngFor="let proof of element.attachments">
+              <a class="proof-link" [href]="proof.url" target="_blank">{{ proof.name }}</a>
+            </div>
+          </div>
+          <ng-template #noMobileProofs>
+            <span class="value">No Proofs</span>
+          </ng-template>
+        </div>
+
+        <div class="request-actions" *ngIf="element.status == 0">
+          <button mat-button class="action-button cancel-button" (click)="cancelRequest(element.id)">
+            Cancel
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

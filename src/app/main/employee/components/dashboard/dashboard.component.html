@@ -8,34 +8,39 @@
       <i class="bx bx-menu"></i>
     </div>
     
-    <div class="cards-row">
-      <div class="card" *ngIf="containerVisibility.present" (click)="openPopup('present')">
-        <div class="card-header">
-          <h3>Total Present</h3>
-          <p class="number">{{ containerData['present'] }}</p>
-          <!-- Dropdown for filter -->
-          <div class="filter-dropdown">
-            <select (click)="stopPopupPropagation($event)" (change)="selectFilterOption()" [(ngModel)]="filterValue">
-              <option *ngFor="let month of months" [value]="month"> {{ month | date: 'MMMM YYYY' }} </option>
-            </select>
-          </div>          
-        </div>
+    <div class="container">
+      <!-- Shared Filter Dropdown -->
+      <div class="filter-container">
+        <h1> Performance Tracker </h1>
+        <select (click)="stopPopupPropagation($event)" (change)="selectFilterOption()" [(ngModel)]="filterValue">
+          <option *ngFor="let month of months" [value]="month"> {{ month | date: 'MMMM YYYY' }} </option>
+        </select>
       </div>
-  
-      <div class="card" *ngIf="containerVisibility.absences" (click)="openPopup('absences')">
-        <div class="card-header">
-          <h3>Total Absences</h3>
-          <p class="number" *ngIf="selectedFilterOption === 'week'">{{ containerData['absences'] }}</p>
-          <!-- Dropdown for filter -->
-          <div class="filter-dropdown">
-            <select (click)="stopPopupPropagation($event)" (change)="selectFilterOption()" [(ngModel)]="filterValue">
-              <option *ngFor="let month of months" [value]="month"> {{ month | date: 'MMMM YYYY' }} </option>
-            </select>
-          </div>          
+
+      <!-- Cards Row -->
+      <div class="cards-row">
+        <div class="card" *ngIf="containerVisibility.present" (click)="openPopup('present')">
+          <div class="card-header">
+            <i class='bx bx-user-check icon'></i>
+            <div class="text-content">
+              <h3>Total Present</h3>
+              <p class="number">{{ containerData['present'] }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" *ngIf="containerVisibility.absences" (click)="openPopup('absences')">
+          <div class="card-header">
+            <i class='bx bx-user-x icon'></i>
+            <div class="text-content">
+              <h3>Total Absences</h3>
+              <p class="number">{{ containerData['absences'] }}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  
+
     <div class="content-wrapper" *ngIf="containerVisibility.announcement">
       <div class="content">
         <div class="content-left">

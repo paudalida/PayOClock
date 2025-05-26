@@ -76,10 +76,6 @@
                     <span class="tab-icon"> <i class='bx bx-clipboard'></i> </span>
                     <span class="tab-name">Attendance</span>
                 </a>
-                <a mat-list-item routerLink="settings" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
-                    <span class="tab-icon"> <i class='bx bxs-cog'></i> </span>
-                    <span class="tab-name">Settings</span>
-                </a>
                 <a mat-list-item routerLink="payroll" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
                     <span class="tab-icon"> <i class='bx bxs-coin-stack'></i> </span>
                     <span class="tab-name">Payroll</span>
@@ -88,21 +84,25 @@
                     <span class="tab-icon"> <i class='bx bx-list-plus'></i> </span>
                     <span class="tab-name">Requests</span>
                 </a>
+                <a mat-list-item routerLink="report" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
+                    <span class="tab-icon"> <i class='bx bxs-report'></i></span>
+                    <span class="tab-name">Report</span>
+                </a>
                 <a mat-list-item routerLink="announcements" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
                     <span class="tab-icon"> <i class='bx bxs-megaphone'></i> </span>
                     <span class="tab-name">Announcements</span>
+                </a>
+                 <a mat-list-item routerLink="activity" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
+                    <span class="tab-icon"> <i class='bx bxs-time-five'></i></span>
+                    <span class="tab-name">Activity Log</span>
                 </a>
                 <a mat-list-item routerLink="archives" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
                     <span class="tab-icon"> <i class='bx bxs-archive-in' ></i> </span>
                     <span class="tab-name">Archives</span>
                 </a>
-                <a mat-list-item routerLink="activity" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
-                    <span class="tab-icon"> <i class='bx bxs-time-five'></i></span>
-                    <span class="tab-name">Activity Log</span>
-                </a>
-                <a mat-list-item routerLink="report" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
-                    <span class="tab-icon"> <i class='bx bxs-report'></i></span>
-                    <span class="tab-name">Report</span>
+                 <a mat-list-item routerLink="settings" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
+                    <span class="tab-icon"> <i class='bx bxs-cog'></i> </span>
+                    <span class="tab-name">Settings</span>
                 </a>
 
                 <!-- <a mat-list-item (click)="logout()" class="logout">
