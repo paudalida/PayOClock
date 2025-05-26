@@ -10,7 +10,11 @@
         <app-spinner></app-spinner>
     </div>
 
-    <div class="print-content" #printSection id="printSection">
+    <div *ngIf="!isLoading && !payslip" class="no-data">
+        <p>No payslips found.</p>
+    </div>
+
+    <div class="print-content" #printSection id="printSection" *ngIf="!isLoading && payslip">
         <div class="print-header show-on-print">
             <div class="flex">
                 <div class="container">

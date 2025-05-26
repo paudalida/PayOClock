@@ -17,9 +17,9 @@ export class LandingComponent implements AfterViewInit {
       private router: Router
   ) {}
 
-  // ngOnInit(): void {         // Sa ano Visitor Count 
-  //   this.updateVisitorCount();
-  // }
+  ngOnInit(): void {         // Sa ano Visitor Count 
+    this.updateVisitorCount();
+  }
 
   toggleDropdown(event: MouseEvent): void {
     event.preventDefault();
@@ -66,36 +66,36 @@ export class LandingComponent implements AfterViewInit {
     });
   }
 
-  // updateVisitorCount(): void {   
-  //   this.ds.requestNoAuth('GET', 'landing').subscribe({
-  //     next: (res: any) => {
-  //       this.animateVisitorCount(res.data.count);
-  //     }, error: (err: any) => {
+  updateVisitorCount(): void {   
+    this.ds.requestNoAuth('GET', 'landing').subscribe({
+      next: (res: any) => {
+        this.animateVisitorCount(res.data.count);
+
+        this.ds.requestNoAuth('POST', 'landing/add').subscribe((res: any) => {
+          // do nothing
+        });
+      }, error: (err: any) => {
         
-  //     }
-  //   });
+      }
+    });
+  }
 
-  //   this.ds.requestNoAuth('POST', 'landing/add').subscribe((res: any) => {
-  //     // do nothing
-  //   });
-  // }
+  animateVisitorCount(target: number): void {
+    const duration = 1000; 
+    const frameRate = 60; 
+    const totalFrames = Math.round((duration / 1000) * frameRate);
+    const increment = (target - this.animatedCount) / totalFrames;
 
-  // animateVisitorCount(target: number): void {
-  //   const duration = 1000; 
-  //   const frameRate = 60; 
-  //   const totalFrames = Math.round((duration / 1000) * frameRate);
-  //   const increment = (target - this.animatedCount) / totalFrames;
+    let currentFrame = 0;
 
-  //   let currentFrame = 0;
+    const interval = setInterval(() => {
+      currentFrame++;
+      this.animatedCount = Math.round(this.animatedCount + increment);
 
-  //   const interval = setInterval(() => {
-  //     currentFrame++;
-  //     this.animatedCount = Math.round(this.animatedCount + increment);
-
-  //     if (currentFrame >= totalFrames) {
-  //       clearInterval(interval);
-  //       this.animatedCount = target; 
-  //     }
-  //   }, duration / totalFrames);
-  // }
+      if (currentFrame >= totalFrames) {
+        clearInterval(interval);
+        this.animatedCount = target; 
+      }
+    }, duration / totalFrames);
+  }
 }  

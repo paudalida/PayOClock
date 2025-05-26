@@ -24,7 +24,7 @@ export class EmployeeFormComponent {
     ext_name: ['', [Validators.maxLength(10)]],
     gender: ['0', [Validators.required, inArrayValidator(['0', '1', '2'])]],
     position: ['', [Validators.required, Validators.maxLength(20)]],
-    rate: ['', [Validators.required]],
+    rate: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
     contact: this.fb.group({
       phone_number: ['', [Validators.maxLength(11), Validators.minLength(11), isPhoneNumber()]],
       email: ['', [Validators.maxLength(30)]],

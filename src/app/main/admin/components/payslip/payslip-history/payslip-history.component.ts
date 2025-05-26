@@ -34,7 +34,8 @@ export class PayslipHistoryComponent implements OnInit{
 
     this.ds.request('GET', 'admin/payslips/history/user/' + this.employee.id).subscribe({
       next: (res: any = []) => {
-        if(res.data.length == 0) { this.hasData = false; return; }
+        if(!res.data) { this.hasData = false; return; }
+        else if(res.data.length == 0) { this.hasData = false; return; }
         else { this.hasData = true; }
         
         res.data.forEach((element: any) => {      

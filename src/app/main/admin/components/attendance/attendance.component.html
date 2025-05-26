@@ -66,7 +66,7 @@
                 <tbody>
                     <!-- Loop through records and display data -->
                     <tr *ngFor="let employee of employees;">
-                        <td (click)="openDTRPopup(employee)">{{ employee.full_name }}</td>
+                        <td (click)="openDTRPopup(employee)" class="cursor-pointer" >{{ employee.full_name }}</td>
                         <ng-container *ngFor="let day of columns">
                           <!-- Check if there's at least one record for this employee on that day -->
                           <ng-container *ngIf="getRecordForDay(employee.id, day) == 'Present'; else checkLeave">

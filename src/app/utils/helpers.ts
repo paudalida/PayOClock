@@ -14,7 +14,7 @@ export function capitalizeFirstLetters(text: string): string {
   
     return text
       .split(' ') // Split the text into words by space
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize the first letter of each word
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize the first letter of each word
       .join(' '); // Join the words back into a string
 }
 

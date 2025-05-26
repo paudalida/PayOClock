@@ -47,7 +47,7 @@ import { SpinnerComponent } from './main/employee/spinner/spinner.component';
     TermsAndConditionsComponent, 
     // TermsConditionsComponent, 
     LoginComponent,
-    PrivacyPolicyComponent,
+    PrivacyPolicyComponent
     // ActivitylogsComponent
 
   ],

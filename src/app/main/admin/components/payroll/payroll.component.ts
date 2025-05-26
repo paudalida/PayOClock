@@ -110,6 +110,9 @@ export class PayrollComponent implements OnInit {
       },
       error: (err: any) => {
         this.pop.swalBasic('error', 'Oops! Cannot fetch payrolls!', this.pop.genericErrorMessage);
+      },
+      complete: () => {
+        this.isLoading = false;
       }
     });
   }
@@ -214,9 +217,6 @@ export class PayrollComponent implements OnInit {
     this.ds.request('POST', 'admin/payrolls/process/all/transaction').subscribe({
       next: () => {
         this.getData();
-      },
-      complete: () => {
-        this.isLoading = false;
       }
     })
   }   
@@ -391,7 +391,10 @@ export class PayrollComponent implements OnInit {
   } 
 
   openDialog(employee_id: number) {
-    const employee = this.as.getEmployees().find((emp: any) => emp.employee_id === employee_id);
+    const employee = this.as.getEmployees().find((emp: any) => {
+      console.log(emp.employee_id, employee_id);
+      return emp.employee_id == employee_id;
+  });
 
     if(employee) {
       this.as.setEmployee(employee);
@@ -412,6 +415,8 @@ export class PayrollComponent implements OnInit {
           console.error('Dialog is not initialized');
         }
       }
+    } else {
+      this.pop.swalBasic('error', 'Employee is not found', 'Are you sure this employee is not archived?');
     }
   }
 

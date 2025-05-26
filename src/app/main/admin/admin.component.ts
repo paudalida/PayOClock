@@ -94,7 +94,7 @@ export class AdminComponent implements OnInit {
   }
 
   redirectToRequests() {
-    this.router.navigate(['/admin/settings/request']);
+    this.router.navigate(['/admin/request']);
   }
 
   async logout() {

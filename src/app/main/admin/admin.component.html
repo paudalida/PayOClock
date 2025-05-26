@@ -28,7 +28,7 @@
 
             <div class="profile-container" (click)="toggleProfileDropdown()">
                 <!-- <img [src]="employee.image || 'assets/images/no image.png'" alt="Employee Photo" class="profile-icon"> -->
-                <img src ="assets/images/hustler.png" alt="Employee Photo" class="profile-icon">
+                <img [src]="employee.image" alt="Employee Photo" class="profile-icon">
                 <i class='bx bx-chevron-down dropdown-icon'></i>
         
                 <!-- Dropdown Menu -->

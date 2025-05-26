@@ -12,17 +12,21 @@
                     <div class="entryarea">
                         <input type="text" formControlName="first_name" 
                             (keyup)="updateInvalidInput($event, 'first_name')"
-                            (change)="trimSpaces('first_name')">
+                            (change)="trimSpaces('first_name'); capitalize('first_name')">
                         <div class="labelline"> First name </div>
                     </div>
 
                     <div class="entryarea">
-                        <input type="text"  formControlName="middle_name" (keyup)="updateInvalidInput($event, 'middle_name')"> 
+                        <input type="text"  formControlName="middle_name" 
+                            (keyup)="updateInvalidInput($event, 'middle_name')"
+                            (change)="trimSpaces('middle_name'); capitalize('middle_name')"> 
                         <div class="labelline"> Middle name </div>
                     </div>
 
                     <div class="entryarea">
-                        <input type="text" formControlName="last_name" (keyup)="updateInvalidInput($event, 'last_name')">
+                        <input type="text" formControlName="last_name" 
+                            (keyup)="updateInvalidInput($event, 'last_name')"
+                            (change)="trimSpaces('last_name'); capitalize('last_name')">
                         <div class="labelline"> Last name </div>
                     </div>
                 </div>
@@ -34,7 +38,7 @@
                     </div>
 
                     <div class="entryarea">
-                        <select formControlName="gender"> 
+                        <select formControlName="gender">
                             <option value="0"> Female </option>
                             <option value="1"> Male </option>
                             <option value="2"> Other </option>
