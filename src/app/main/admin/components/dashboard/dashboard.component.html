@@ -78,21 +78,18 @@
                 <!-- Dropdown placed between the label and the pie chart -->
                 <div class="dropdown-container">
                     <!-- <select id="chartFilter" (change)="updateChart($event.target.value)" class="chart-filter"> -->
-                    <select class="chart-filter" [(ngModel)]="filterType" (change)="changeType()">
-                        <option value="weekly">Weekly</option>
+                    <select class="chart-filter" [(ngModel)]="filterType" (change)="changeType('duration')">
                         <option value="monthly" selected>Monthly</option>
                         <option value="yearly">Yearly</option>
                     </select>
+
+                    <select class="chart-filter" [(ngModel)]="yearFilterType" (change)="changeType('year')">
+                        <option *ngFor="let year of years" [value]="year" selected>{{ year }}</option>
+                    </select>
                     
-                    <select class="chart-filter" [(ngModel)]="currFilter" (change)="changeData()">
-                        <ng-container *ngIf="filterType == 'weekly'">
-                            <option *ngFor="let week of weeks" [value]="week">{{ week }}</option>
-                        </ng-container>
+                    <select class="chart-filter" [(ngModel)]="monthFilterType" (change)="changeData()" [disabled]="filterType !== 'monthly'">
                         <ng-container *ngIf="filterType == 'monthly'">
                             <option *ngFor="let month of months" [value]="month">{{ month }}</option>
-                        </ng-container>
-                        <ng-container *ngIf="filterType == 'yearly'">
-                            <option *ngFor="let year of years" [value]="year">{{ year }}</option>
                         </ng-container>
                     </select>
                 </div>

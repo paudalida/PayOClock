@@ -4,7 +4,8 @@ import { DataService } from '../../../../services/data/data.service';
 import { PopupService } from '../../../../services/popup/popup.service';
 import { dateValidator } from '../../../../utils/custom-validators';
 import { Router } from '@angular/router';
-import { config } from 'process';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-settings',
@@ -19,7 +20,8 @@ export class SettingsComponent {
     private pop: PopupService,
     private fb: FormBuilder
   ){}
-  
+
+  updateSubject = new Subject<void>();
   isLoading = true;
   holidayForm = this.fb.group({
     regular: this.fb.array([]),
@@ -104,24 +106,30 @@ export class SettingsComponent {
       if(i == 20) {
         sssForm.get('ER')?.get(i.toString())?.patchValue({
           min_pay_range: (Number(sssForm.get('ER')?.get((i - 1).toString())?.get('min_pay_range')?.value) + pattern.range).toFixed(2),
-          max_pay_range: max_pay_range
+          max_pay_range: Number(max_pay_range).toFixed(2)
         });
       } else {
         sssForm.get('ER')?.get(i.toString())?.patchValue({
           min_pay_range: (Number(sssForm.get('ER')?.get((i - 1).toString())?.get('min_pay_range')?.value) + pattern.range).toFixed(2),
-          max_pay_range: max_pay_range,
-          amount: Number(sssForm.get('ER')?.get((i - 1).toString())?.get('amount')?.value) + pattern.er
+          max_pay_range: Number(max_pay_range).toFixed(2),
+          amount: (Number(sssForm.get('ER')?.get((i - 1).toString())?.get('amount')?.value) + pattern.er).toFixed(2)
         });
       }
 
       sssForm.get('EE')?.get(i.toString())?.patchValue({
         min_pay_range: (Number(sssForm.get('EE')?.get((i - 1).toString())?.get('min_pay_range')?.value) + pattern.range).toFixed(2),
-        max_pay_range: max_pay_range,
-        amount: Number(sssForm.get('EE')?.get((i - 1).toString())?.get('amount')?.value) + pattern.ee
+        max_pay_range: Number(max_pay_range).toFixed(2),
+        amount: (Number(sssForm.get('EE')?.get((i - 1).toString())?.get('amount')?.value) + pattern.ee).toFixed(2)
       })
     }
 
-    sssForm.updateValueAndValidity();
+    sssForm.updateValueAndValidity();        
+
+    setTimeout(() => {
+      document.querySelectorAll('[appAccountingFormat]').forEach((input: any) => {
+        input.dispatchEvent(new Event('blur'));
+      });
+    });  
   }
 
   duplicateInput(category: string, index: number) {
@@ -218,6 +226,10 @@ export class SettingsComponent {
         this.isLoading = false;
       }
     })
+  }
+
+  onInputChange() {
+    this.updateSubject.next();
   }
 
   formsArray(formType: string, category: string, cat2?: string) {
@@ -335,6 +347,38 @@ export class SettingsComponent {
       this.pop.swalBasic('error', 'Invalid Form', 'Oops! It looks like you are sending an invalid form. Please fix inputs first');
     }
   }
+
+  onFocus(main: string, type: string, field: string, index: number) {
+    this.configFormsArray(main, type).controls[index].get(field)?.setValue(
+      this.unformatAccounting(this.configFormsArray(main, type).controls[index].get(field)?.value)
+    );
+  }
+
+  onBlur(main: string, type: string, field: string, index: number) {
+    this.configFormsArray(main, type).controls[index].get(field)?.setValue(
+      this.formatAccounting(this.configFormsArray(main, type).controls[index].get(field)?.value)
+    );
+  }
+
+  formatAccounting(value: string | number | null | undefined): string {
+    const strValue = String(value ?? '');
+    const num = parseFloat(strValue.replace(/[^0-9.-]/g, ''));
+    if (isNaN(num)) return '';
+
+    if (num === 0) return '–';
+    const absVal = Math.abs(num).toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+    const formatted = `₱ ${absVal}`;
+    return num < 0 ? `(${formatted})` : formatted;
+  }
+
+  unformatAccounting(value: string | number | null | undefined): string {
+    const strValue = String(value ?? '');
+    return strValue.replace(/[^0-9.-]/g, '');
+  }
+
 
   redirectToProfile() {
     this.router.navigate(['/admin/settings/profile']);

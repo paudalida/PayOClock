@@ -4,19 +4,21 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSortModule } from '@angular/material/sort';
+import { AccountingFormatDirective } from '../../directives/accounting-format.directive';
 
-const modules = [
+// Only actual Angular modules should be here
+const materialModules = [
   MatTableModule,
   MatPaginatorModule,
   MatSortModule,
   MatFormFieldModule,
   FormsModule,
   ReactiveFormsModule
-]
+];
 
 @NgModule({
-  declarations: [],
-  imports: [ modules ],
-  exports: [ modules ]
+  declarations: [AccountingFormatDirective], // ✅ put the directive here
+  imports: [...materialModules],
+  exports: [...materialModules, AccountingFormatDirective] // ✅ export it here too
 })
-export class FormsImportsModule { }
+export class FormsImportsModule {}

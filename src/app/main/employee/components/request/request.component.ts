@@ -78,7 +78,9 @@ export class RequestComponent implements OnInit {
         if(res) {
           this.dataSource.data = [res.record, ...this.dataSource.data];
           this.leaveCredits = res.leave_credits;
-        }
+        } else {
+          this.popupService.toastWithTimer('error', 'Request canceled.');
+    }
       })
     } else {
       console.error('Dialog is not initialized');

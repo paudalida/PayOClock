@@ -7,6 +7,7 @@ import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { ToggleActionAdminComponent } from './toggle-action-admin/toggle-action-admin.component';
 import { EmployeeService } from '../../../../services/employee/employee.service';
+import { filter } from 'rxjs';
 
 interface ContainerVisibility {
   present: boolean;
@@ -79,7 +80,8 @@ export class DashboardComponent implements OnInit {
   };
   isLoading = true;
   filterType = 'monthly';
-  currFilter = '';
+  yearFilterType = '';
+  monthFilterType = '';
 
   constructor(
     private as: AdminService,
@@ -163,25 +165,43 @@ export class DashboardComponent implements OnInit {
     this.currentMonth = this.datePipe.transform(currentDate, 'MMMM y') || ''; 
   }
 
-  changeType() {
-    switch(this.filterType) {
-      case 'weekly':
-        this.currFilter = this.weeks[0];
+  changeType(actionType: string) {
+    switch(actionType) {
+      case 'duration':
+        switch(this.filterType) {
+          case 'monthly':
+            this.yearFilterType = this.years[0];
+            this.months = Object.keys(this.attendance.monthly[this.yearFilterType]);
+            this.monthFilterType = this.months[0];
+            break;
+
+          case 'yearly':
+            this.yearFilterType = this.years[0];
+            break;
+        }
         break;
 
-      case 'monthly':
-        this.currFilter = this.months[0];
-        break;
-
-      case 'yearly':
-        this.currFilter = this.years[0];
+      case 'year':
+        if(this.filterType === 'monthly') {
+          this.months = Object.keys(this.attendance.monthly[this.yearFilterType]);
+          this.monthFilterType = this.months[0];
+        }
         break;
     }
+    
     this.changeData();
   }
 
   changeData() {
-    this.doughnutRawData = this.attendance[this.filterType][this.currFilter];
+    switch(this.filterType) {
+      case 'monthly':
+        this.doughnutRawData = this.attendance.monthly[this.yearFilterType][this.monthFilterType];
+        break;
+
+      case 'yearly':
+        this.doughnutRawData = this.attendance.yearly[this.yearFilterType];
+        break;
+    }
     this.setDoughnut();
   }
 
@@ -199,12 +219,13 @@ export class DashboardComponent implements OnInit {
       this.tableData = res.data.attendanceWeekly;
 
       this.attendance = res.data.attendance;
-      this.years = Object.keys(this.attendance.yearly);
-      this.months = Object.keys(this.attendance.monthly);
+      this.years = (Object.keys(this.attendance.yearly)).reverse();
       this.weeks = Object.keys(this.attendance.weekly);
-      this.currFilter = this.months[0];
+      this.yearFilterType = this.years[0];
+      this.months = Object.keys(this.attendance.monthly[this.yearFilterType]);
+      this.monthFilterType = this.months[0];
 
-      this.doughnutRawData = this.attendance.monthly[this.currFilter];
+      this.doughnutRawData = this.attendance.monthly[this.yearFilterType][this.monthFilterType];
       this.setDoughnut();
 
       const summary = res.data.payrollSummary;

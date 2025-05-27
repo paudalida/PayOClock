@@ -283,28 +283,18 @@ export class RequestFormComponent implements OnInit {
         isConfirmed = await this.pop.swalWithCancel(
             'warning',
             'Submit Overtime Request?',
-            'Are you sure you want to submit your overtime request with the provided reason?',
+            'Are you sure you want to submit your overtime request?',
             'Yes',
             'No'
         );
     } else {
-        if (this.form.get('leaveType')?.value === 'Paid Leave') {
-            isConfirmed = await this.pop.swalWithCancel(
-                'warning',
-                'UPLOAD files?',
-                'Are you sure you want to ADD these file(s) and submit the leave request?',
-                'Yes',
-                'No'
-            );
-        } else {
-            isConfirmed = await this.pop.swalWithCancel(
-                'warning',
-                'Submit Leave Request?',
-                'Are you sure you want to submit the leave request without attaching files?',
-                'Yes',
-                'No'
-            );
-        }
+      isConfirmed = await this.pop.swalWithCancel(
+                      'warning',
+                      'UPLOAD files?',
+                      'Are you sure submit the leave request?',
+                      'Yes',
+                      'No'
+                  );
     }
   
     if (isConfirmed) {
@@ -344,9 +334,6 @@ export class RequestFormComponent implements OnInit {
                 this.pop.swalBasic('error', 'Error uploading images', err.error.message);
             },
         });
-    } else {
-        this.pop.toastWithTimer('error', 'Request canceled.');
-        this.dialogRef.close();
     }
 }
 
