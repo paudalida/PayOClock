@@ -50,8 +50,8 @@ export class AttendanceHistoryComponent implements OnInit {
     this.attendance = data.attendance;
   }
 
-  colWithoutName = ['fullDate', 'timeIn', 'timeOut'];
-  colWithName = ['name', 'fullDate', 'timeIn', 'timeOut'];
+  colWithoutName = ['fullDate', 'timeIn', 'timeOut', 'renderedHours'];
+  colWithName = ['name', 'fullDate', 'timeIn', 'timeOut', 'renderedHours'];
   displayedColumns: any = [];
 
   ngOnInit(): void {
@@ -144,6 +144,83 @@ export class AttendanceHistoryComponent implements OnInit {
     return formattedTime || time;  // Return formatted time or original if formatting fails
   }
 
+  calculateRenderedHours(timeIn: string, timeOut: string): string {
+    if (!timeIn || !timeOut) return '-';
+
+    const parseTime = (timeStr: string): Date | null => {
+      const [time, modifier] = timeStr.toLowerCase().split(' ');
+      const [hoursStr, minutesStr] = time.split(':');
+      let hours = parseInt(hoursStr, 10);
+      const minutes = parseInt(minutesStr, 10);
+
+      if (modifier === 'pm' && hours !== 12) hours += 12;
+      if (modifier === 'am' && hours === 12) hours = 0;
+
+      const now = new Date();
+      return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+    };
+
+    const start = parseTime(timeIn);
+    const end = parseTime(timeOut);
+
+    if (!start || !end || end < start) return '-';
+
+    let totalMinutes = (end.getTime() - start.getTime()) / (1000 * 60);
+
+    // Subtract 1 hour for lunch if > 8 hours
+    if (totalMinutes > 480) {
+      totalMinutes -= 60;
+    }
+
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = Math.round(totalMinutes % 60);
+
+    return `${hours}h ${minutes}m`;
+  }
+
+  calculateRenderedMinutes(timeIn: string, timeOut: string): number {
+    if (!timeIn || !timeOut) return 0;
+
+    const parseTime = (timeStr: string): Date | null => {
+      const [time, modifier] = timeStr.toLowerCase().split(' ');
+      const [hoursStr, minutesStr] = time.split(':');
+      let hours = parseInt(hoursStr, 10);
+      const minutes = parseInt(minutesStr, 10);
+
+      if (modifier === 'pm' && hours !== 12) hours += 12;
+      if (modifier === 'am' && hours === 12) hours = 0;
+
+      const now = new Date();
+      return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+    };
+
+    const start = parseTime(timeIn);
+    const end = parseTime(timeOut);
+
+    if (!start || !end || end < start) return 0;
+
+    let totalMinutes = (end.getTime() - start.getTime()) / (1000 * 60);
+
+    if (totalMinutes > 480) {
+      totalMinutes -= 60;
+    }
+
+    return totalMinutes;
+  }
+
+  calculateTotalRendered(): string {
+    let totalMinutes = 0;
+
+    for (const record of this.dataSource) {
+      totalMinutes += this.calculateRenderedMinutes(record.time_in, record.time_out);
+    }
+
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = Math.round(totalMinutes % 60);
+
+    return `${hours}h ${minutes}m`;
+  }
+
   downloadPDF(): void {
     const doc = new jsPDF();
 
@@ -169,37 +246,59 @@ export class AttendanceHistoryComponent implements OnInit {
     if(this.employee) doc.text(`Attendance Records - ${this.employee.full_name}`, 105, 40, { align: 'center' });
     else doc.text(`Attendance Records - ${this.data.title}`, 105, 40, { align: 'center' });
 
-    // Table Headers
-    let headers: any = [];
-    if(this.employee) headers = [['Date', 'Time In', 'Time Out']];
-    else headers = [['Name', 'Date', 'Time In', 'Time Out']];
+    const formatTimeWithAmPm = (time: string): string => {
+      if (!time) return 'N/A';
+      const [hourStr, minuteStr] = time.split(':');
+      if (!hourStr || !minuteStr) return time;
 
-    // Table Data
-    let rows: any = [];
-    if(this.employee) {
-      rows = this.dataSource.map((record: any) => [
-        this.formatFullDate(record.date),
-        this.convertTime(record.time_in),
-        this.convertTime(record.time_out)
-      ]);
-    } else {
-      rows = this.dataSource.map((record: any) => [
-        record.name,
-        this.formatFullDate(record.date),
-        this.convertTime(record.time_in),
-        this.convertTime(record.time_out)
-      ]);
-    }
+      let hour = parseInt(hourStr, 10);
+      const minute = minuteStr;
+      const ampm = hour >= 12 ? 'PM' : 'AM';
 
-    // AutoTable Options
+      hour = hour % 12;
+      if (hour === 0) hour = 12;
+
+      const hourFormatted = hour < 10 ? `0${hour}` : `${hour}`;
+
+      return `${hourFormatted}:${minute} ${ampm}`;
+    };
+
+    const tableData = this.dataSource.map((record: any) => {
+      const rendered = this.calculateRenderedHours(record.time_in, record.time_out);
+      return [
+        `${record.date}`,
+        formatTimeWithAmPm(record.time_in),
+        formatTimeWithAmPm(record.time_out),
+        rendered
+      ];
+    });
+
+    const totalMinutes = this.dataSource.reduce((acc: number, record: any) => {
+      return acc + this.calculateRenderedMinutes(record.time_in, record.time_out);
+    }, 0);
+
+    const totalHours = Math.floor(totalMinutes / 60);
+    const totalRemainingMinutes = Math.round(totalMinutes % 60);
+    const totalRenderedFormatted = `${totalHours}h ${totalRemainingMinutes}m`;
+
     (doc as any).autoTable({
-      head: headers,
-      body: rows,
+      head: [['Date', 'Time In', 'Time Out', 'No. of Rendered Hours']],
+      body: tableData,
+      foot: [['', '', 'Total Hours Rendered:', totalRenderedFormatted]],
       startY: 50,
-      theme: 'striped',
-      styles: { fontSize: 10, cellPadding: 3 },
-      headStyles: { fillColor: [0, 122, 204] }, // Header background color
-      alternateRowStyles: { fillColor: [240, 240, 240] } // Alternate row color
+      margin: { left: 10, right: 10 },
+      styles: { fontSize: 10, cellPadding: 2, font: 'helvetica' },
+      headStyles: { halign: 'center' },
+      columnStyles: {
+        0: { halign: 'center' },
+        1: { halign: 'center' },
+        2: { halign: 'center' },
+        3: { halign: 'center' }
+      },
+      footStyles: {
+        fontStyle: 'bold',
+        halign: 'center'
+      }
     });
 
     // Save PDF

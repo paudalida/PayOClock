@@ -74,6 +74,7 @@
       <th>Date</th>
       <th>Time In</th>
       <th>Time Out</th>
+      <th>No. of Hours Rendered</th>
     </tr>
   </thead>
   <tbody>
@@ -83,8 +84,15 @@
         </td>
         
         <td>{{ convertTime(record.time_in) }}</td>
-        
         <td>{{ convertTime(record.time_out) }}</td>
+        <td>{{ calculateRenderedHours(record.time_in, record.time_out) }}</td>
+      </tr>
+
+      <tr class="total-row">
+        <td></td>
+        <td></td>
+        <td><strong>Total Hours Rendered</strong></td>
+        <td><strong>{{ getTotalRenderedHours() }}</strong></td>
       </tr>
   </tbody>
 </table>

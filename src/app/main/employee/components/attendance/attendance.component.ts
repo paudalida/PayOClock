@@ -72,6 +72,91 @@ export class AttendanceComponent implements OnInit {
 
   hoursToggle: boolean = false;
 
+  calculateRenderedHours(timeIn: string, timeOut: string): string {
+    if (!timeIn || !timeOut) return '-';
+
+    const parseTime = (timeStr: string): Date | null => {
+      const [time, modifier] = timeStr.toLowerCase().split(' ');
+      const [hoursStr, minutesStr] = time.split(':');
+      let hours = parseInt(hoursStr, 10);
+      const minutes = parseInt(minutesStr, 10);
+
+      if (modifier === 'pm' && hours !== 12) {
+        hours += 12;
+      }
+      if (modifier === 'am' && hours === 12) {
+        hours = 0;
+      }
+
+      const now = new Date();
+      const result = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+      return isNaN(result.getTime()) ? null : result;
+    };
+
+    const start = parseTime(timeIn);
+    const end = parseTime(timeOut);
+
+    if (!start || !end) return '-';
+
+    const diffMs = end.getTime() - start.getTime();
+    if (diffMs < 0) return '-';
+
+    let totalMinutes = diffMs / (1000 * 60);
+
+    if (totalMinutes > 480) {
+      totalMinutes -= 60;
+    }
+
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = Math.round(totalMinutes % 60);
+
+    return `${hours}h ${minutes}m`;
+  }
+
+  getTotalRenderedHours(): string {
+    let totalMinutes = 0;
+
+    for (const record of this.dataSource) {
+      const rendered = this.calculateRenderedMinutes(record.time_in, record.time_out);
+      totalMinutes += rendered;
+    }
+
+
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = Math.round(totalMinutes % 60);
+    return `${hours}h ${minutes}m`;
+  }
+
+  calculateRenderedMinutes(timeIn: string, timeOut: string): number {
+    if (!timeIn || !timeOut) return 0;
+
+    const parseTime = (timeStr: string): Date | null => {
+      const [time, modifier] = timeStr.toLowerCase().split(' ');
+      const [hoursStr, minutesStr] = time.split(':');
+      let hours = parseInt(hoursStr, 10);
+      const minutes = parseInt(minutesStr, 10);
+
+      if (modifier === 'pm' && hours !== 12) hours += 12;
+      if (modifier === 'am' && hours === 12) hours = 0;
+
+      const now = new Date();
+      return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+    };
+
+    const start = parseTime(timeIn);
+    const end = parseTime(timeOut);
+
+    if (!start || !end || end < start) return 0;
+
+    let diffMinutes = (end.getTime() - start.getTime()) / (1000 * 60);
+
+    if (diffMinutes > 480) {
+      diffMinutes -= 60;
+    }
+
+    return diffMinutes;
+  }
+
   toggleHours() {
     this.hoursToggle = !this.hoursToggle;
   }
@@ -296,10 +381,9 @@ export class AttendanceComponent implements OnInit {
   
   exportAttendanceAsPDF() {
     const doc = new jsPDF();
-    
-    // Set font
+
     doc.setFont('helvetica', 'normal');
-  
+
     const logoUrl = '/assets/images/gm18.png';
     const logoWidth = 30, logoHeight = 30;
     try {
@@ -307,40 +391,74 @@ export class AttendanceComponent implements OnInit {
     } catch (error) {
       console.warn('Logo could not be loaded:', error);
     }
-  
-    // Company details
+
     doc.setFontSize(12);
     doc.text('GM18 Driving School', 10, 15);
     doc.text('106 Gordon Avenue, New Kalalake, Olongapo City, Philippines 2200', 10, 22);
     doc.text('Tel No.: (047) 222-2446 / Cell No.: 0999 220 0158', 10, 29);
-  
-    // Title
+
     doc.setFontSize(14);
     doc.text('Attendance Records', 105, 40, { align: 'center' });
-  
-    // Table Data
-    const tableData = this.dataSource.map((record: any) => [
-      `${record.date}`,
-      record.time_in || 'N/A',
-      record.time_out || 'N/A'
-    ]);
-  
-    // Table Options
+
+    const formatTimeWithAmPm = (time: string): string => {
+      if (!time) return 'N/A';
+      const [hourStr, minuteStr] = time.split(':');
+      if (!hourStr || !minuteStr) return time;
+
+      let hour = parseInt(hourStr, 10);
+      const minute = minuteStr;
+      const ampm = hour >= 12 ? 'PM' : 'AM';
+
+      hour = hour % 12;
+      if (hour === 0) hour = 12;
+
+      const hourFormatted = hour < 10 ? `0${hour}` : `${hour}`;
+
+      return `${hourFormatted}:${minute} ${ampm}`;
+    };
+
+    const tableData = this.dataSource.map((record: any) => {
+      const rendered = this.calculateRenderedHours(record.time_in, record.time_out);
+      return [
+        `${record.date}`,
+        formatTimeWithAmPm(record.time_in),
+        formatTimeWithAmPm(record.time_out),
+        rendered
+      ];
+    });
+
+    const totalMinutes = this.dataSource.reduce((acc: number, record: any) => {
+      return acc + this.calculateRenderedMinutes(record.time_in, record.time_out);
+    }, 0);
+
+    const totalHours = Math.floor(totalMinutes / 60);
+    const totalRemainingMinutes = Math.round(totalMinutes % 60);
+    const totalRenderedFormatted = `${totalHours}h ${totalRemainingMinutes}m`;
+
     (doc as any).autoTable({
-      head: [['Date', 'Time In', 'Time Out']],
+      head: [['Date', 'Time In', 'Time Out', 'No. of Rendered Hours']],
       body: tableData,
+      foot: [['', '', 'Total Hours Rendered:', totalRenderedFormatted]],
       startY: 50,
       margin: { left: 10, right: 10 },
       styles: { fontSize: 10, cellPadding: 2, font: 'helvetica' },
       headStyles: { halign: 'center' },
-      columnStyles: { 0: { halign: 'center' }, 1: { halign: 'center' }, 2: { halign: 'center' } }
+      columnStyles: {
+        0: { halign: 'center' },
+        1: { halign: 'center' },
+        2: { halign: 'center' },
+        3: { halign: 'center' }
+      },
+      footStyles: {
+        fontStyle: 'bold',
+        halign: 'center'
+      }
     });
-  
-    // Save PDF
+
     const fileName = `Attendance_Records_${new Date().toLocaleDateString()}.pdf`;
     doc.save(fileName);
   }
-  
+
   calculateAccumulatedHours() {
     let totalMinutes = 0;
   

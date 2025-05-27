@@ -158,7 +158,7 @@ export class PayrollComponent implements OnInit {
     this.payroll.push(finalRow);
 
     const tempArray = Array(finalRow.length - 2);
-    const pinakaFinalRow = [ ...tempArray, ...[ 'TOTAL EXPENSES', this.formatToMoney(contribTotal + netTotal) ]];
+    const pinakaFinalRow = [ ...tempArray, ...[ 'TOTAL PAYROLL COST', this.formatToMoney(contribTotal + netTotal) ]];
     this.payroll.push(pinakaFinalRow);
   }  
 

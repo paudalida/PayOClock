@@ -245,27 +245,176 @@ export class ReportsComponent implements OnInit, AfterViewInit {
     });
   }
 
+    calculateRenderedHours(timeIn: string, timeOut: string): string {
+    if (!timeIn || !timeOut) return '-';
+
+    const parseTime = (timeStr: string): Date | null => {
+      const [time, modifier] = timeStr.toLowerCase().split(' ');
+      const [hoursStr, minutesStr] = time.split(':');
+      let hours = parseInt(hoursStr, 10);
+      const minutes = parseInt(minutesStr, 10);
+
+      if (modifier === 'pm' && hours !== 12) hours += 12;
+      if (modifier === 'am' && hours === 12) hours = 0;
+
+      const now = new Date();
+      return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+    };
+
+    const start = parseTime(timeIn);
+    const end = parseTime(timeOut);
+
+    if (!start || !end || end < start) return '-';
+
+    let totalMinutes = (end.getTime() - start.getTime()) / (1000 * 60);
+
+    // Subtract 1 hour for lunch if > 8 hours
+    if (totalMinutes > 480) {
+      totalMinutes -= 60;
+    }
+
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = Math.round(totalMinutes % 60);
+
+    return `${hours}h ${minutes}m`;
+  }
+
+  calculateRenderedMinutes(timeIn: string, timeOut: string): number {
+    if (!timeIn || !timeOut) return 0;
+
+    const parseTime = (timeStr: string): Date | null => {
+      const [time, modifier] = timeStr.toLowerCase().split(' ');
+      const [hoursStr, minutesStr] = time.split(':');
+      let hours = parseInt(hoursStr, 10);
+      const minutes = parseInt(minutesStr, 10);
+
+      if (modifier === 'pm' && hours !== 12) hours += 12;
+      if (modifier === 'am' && hours === 12) hours = 0;
+
+      const now = new Date();
+      return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+    };
+
+    const start = parseTime(timeIn);
+    const end = parseTime(timeOut);
+
+    if (!start || !end || end < start) return 0;
+
+    let totalMinutes = (end.getTime() - start.getTime()) / (1000 * 60);
+
+    if (totalMinutes > 480) {
+      totalMinutes -= 60;
+    }
+
+    return totalMinutes;
+  }
+
   async downloadAllAttendance() {
     await Promise.all(this.employees.map((employee: any) => this.downloadAttendance(employee)));
   }
 
+  // async downloadAttendance(employee?: any): Promise<void> {
+  //   let data = [];
+  //   switch(this.attendanceTypeFilter) {
+  //     case 'week': 
+  //       data = this.groupedRecordsByWeek[this.attendanceDatesFilter];
+  //       break;
+
+  //     case 'month':
+  //       data = this.groupedRecordsByMonth[this.attendanceDatesFilter];
+  //       break;
+
+  //     case 'year':
+  //       data = this.groupedRecordsByYear[this.attendanceDatesFilter];
+  //       break;
+  //   }
+
+  //   if(employee) {
+  //     data = data.filter((element: any) => element.user_id === employee.id);
+  //   } else {
+  //     data.forEach((element: any) => {
+  //       const emp = this.employees.find((empElement: any) => element.user_id === empElement.id);
+  //       element.name = emp.full_name;
+  //     });
+  //   }
+
+  //   const doc = new jsPDF();
+
+  //   // Set font
+  //   doc.setFont('helvetica', 'normal');
+  
+  //   const logoUrl = '/assets/images/gm18.png';
+  //   const logoWidth = 30, logoHeight = 30;
+  //   try {
+  //     doc.addImage(logoUrl, 'PNG', 170, 10, logoWidth, logoHeight);
+  //   } catch (error) {
+  //     console.warn('Logo could not be loaded:', error);
+  //   }
+  
+  //   // Company details
+  //   doc.setFontSize(12);
+  //   doc.text('GM18 Driving School', 10, 15);
+  //   doc.text('106 Gordon Avenue, New Kalalake, Olongapo City, Philippines 2200', 10, 22);
+  //   doc.text('Tel No.: (047) 222-2446 / Cell No.: 0999 220 0158', 10, 29);
+  
+  //   // Title
+  //   doc.setFontSize(14);
+  //   if(employee) doc.text(`Attendance Records - ${employee.full_name}`, 105, 40, { align: 'center' });
+  //   else doc.text(`Attendance Records - ${this.attendanceDatesFilter}`, 105, 40, { align: 'center' });
+
+  //   // Table Headers
+  //   let headers: any = [];
+  //   if(employee) headers = [['Date', 'Time In', 'Time Out']];
+  //   else headers = [['Name', 'Date', 'Time In', 'Time Out']];
+
+  //   // Table Data
+  //   let rows: any = [];
+  //   if(employee) {
+  //     rows = data.map((record: any) => [
+  //       this.formatFullDate(record.date),
+  //       this.convertTime(record.time_in),
+  //       this.convertTime(record.time_out)
+  //     ]);
+  //   } else {
+  //     rows = data.map((record: any) => [
+  //       record.name,
+  //       this.formatFullDate(record.date),
+  //       this.convertTime(record.time_in),
+  //       this.convertTime(record.time_out)
+  //     ]);
+  //   }
+
+  //   // AutoTable Options
+  //   (doc as any).autoTable({
+  //     head: headers,
+  //     body: rows,
+  //     startY: 50,
+  //     theme: 'striped',
+  //     styles: { fontSize: 10, cellPadding: 3 },
+  //     headStyles: { fillColor: [0, 122, 204] }, // Header background color
+  //     alternateRowStyles: { fillColor: [240, 240, 240] } // Alternate row color
+  //   });
+
+  //   // Save PDF
+  //   if(employee) doc.save(`Attendance-${employee.full_name}.pdf`);
+  //   else doc.save(`Attendance-${this.attendanceDatesFilter}.pdf`);
+  // }  
+
   async downloadAttendance(employee?: any): Promise<void> {
     let data = [];
-    switch(this.attendanceTypeFilter) {
-      case 'week': 
+    switch (this.attendanceTypeFilter) {
+      case 'week':
         data = this.groupedRecordsByWeek[this.attendanceDatesFilter];
         break;
-
       case 'month':
         data = this.groupedRecordsByMonth[this.attendanceDatesFilter];
         break;
-
       case 'year':
         data = this.groupedRecordsByYear[this.attendanceDatesFilter];
         break;
     }
 
-    if(employee) {
+    if (employee) {
       data = data.filter((element: any) => element.user_id === employee.id);
     } else {
       data.forEach((element: any) => {
@@ -275,10 +424,8 @@ export class ReportsComponent implements OnInit, AfterViewInit {
     }
 
     const doc = new jsPDF();
-
-    // Set font
     doc.setFont('helvetica', 'normal');
-  
+
     const logoUrl = '/assets/images/gm18.png';
     const logoWidth = 30, logoHeight = 30;
     try {
@@ -286,55 +433,94 @@ export class ReportsComponent implements OnInit, AfterViewInit {
     } catch (error) {
       console.warn('Logo could not be loaded:', error);
     }
-  
-    // Company details
+
     doc.setFontSize(12);
     doc.text('GM18 Driving School', 10, 15);
     doc.text('106 Gordon Avenue, New Kalalake, Olongapo City, Philippines 2200', 10, 22);
     doc.text('Tel No.: (047) 222-2446 / Cell No.: 0999 220 0158', 10, 29);
-  
-    // Title
+
     doc.setFontSize(14);
-    if(employee) doc.text(`Attendance Records - ${employee.full_name}`, 105, 40, { align: 'center' });
-    else doc.text(`Attendance Records - ${this.attendanceDatesFilter}`, 105, 40, { align: 'center' });
-
-    // Table Headers
-    let headers: any = [];
-    if(employee) headers = [['Date', 'Time In', 'Time Out']];
-    else headers = [['Name', 'Date', 'Time In', 'Time Out']];
-
-    // Table Data
-    let rows: any = [];
-    if(employee) {
-      rows = data.map((record: any) => [
-        this.formatFullDate(record.date),
-        this.convertTime(record.time_in),
-        this.convertTime(record.time_out)
-      ]);
+    if (employee) {
+      doc.text(`Attendance Records - ${employee.full_name}`, 105, 40, { align: 'center' });
     } else {
-      rows = data.map((record: any) => [
-        record.name,
-        this.formatFullDate(record.date),
-        this.convertTime(record.time_in),
-        this.convertTime(record.time_out)
-      ]);
+      doc.text(`Attendance Records - ${this.attendanceDatesFilter}`, 105, 40, { align: 'center' });
     }
 
-    // AutoTable Options
-    (doc as any).autoTable({
-      head: headers,
-      body: rows,
-      startY: 50,
-      theme: 'striped',
-      styles: { fontSize: 10, cellPadding: 3 },
-      headStyles: { fillColor: [0, 122, 204] }, // Header background color
-      alternateRowStyles: { fillColor: [240, 240, 240] } // Alternate row color
+    const formatTimeWithAmPm = (time: string): string => {
+      if (!time) return 'N/A';
+      const [hourStr, minuteStr] = time.split(':');
+      if (!hourStr || !minuteStr) return time;
+
+      let hour = parseInt(hourStr, 10);
+      const minute = minuteStr;
+      const ampm = hour >= 12 ? 'PM' : 'AM';
+
+      hour = hour % 12;
+      if (hour === 0) hour = 12;
+
+      const hourFormatted = hour < 10 ? `0${hour}` : `${hour}`;
+      return `${hourFormatted}:${minute} ${ampm}`;
+    };
+
+    const tableData = data.map((record: any) => {
+      const rendered = this.calculateRenderedHours(record.time_in, record.time_out);
+      return employee
+        ? [
+            this.formatFullDate(record.date),
+            formatTimeWithAmPm(record.time_in),
+            formatTimeWithAmPm(record.time_out),
+            rendered
+          ]
+        : [
+            record.name,
+            this.formatFullDate(record.date),
+            formatTimeWithAmPm(record.time_in),
+            formatTimeWithAmPm(record.time_out),
+            rendered
+          ];
     });
 
-    // Save PDF
-    if(employee) doc.save(`Attendance-${employee.full_name}.pdf`);
-    else doc.save(`Attendance-${this.attendanceDatesFilter}.pdf`);
-  }  
+    const totalMinutes = data.reduce((acc: number, record: any) => {
+      return acc + this.calculateRenderedMinutes(record.time_in, record.time_out);
+    }, 0);
+
+    const totalHours = Math.floor(totalMinutes / 60);
+    const totalRemainingMinutes = Math.round(totalMinutes % 60);
+    const totalRenderedFormatted = `${totalHours}h ${totalRemainingMinutes}m`;
+
+    const headers = employee
+      ? [['Date', 'Time In', 'Time Out', 'No. of Rendered Hours']]
+      : [['Name', 'Date', 'Time In', 'Time Out', 'No. of Rendered Hours']];
+
+    (doc as any).autoTable({
+      head: headers,
+      body: tableData,
+      foot: employee
+        ? [['', '', 'Total Hours Rendered:', totalRenderedFormatted]]
+        : [['', '', '', 'Total Hours Rendered:', totalRenderedFormatted]],
+      startY: 50,
+      margin: { left: 10, right: 10 },
+      styles: { fontSize: 10, cellPadding: 2, font: 'helvetica' },
+      headStyles: { halign: 'center' },
+      columnStyles: {
+        0: { halign: 'center' },
+        1: { halign: 'center' },
+        2: { halign: 'center' },
+        3: { halign: 'center' },
+        4: { halign: 'center' }
+      },
+      footStyles: {
+        fontStyle: 'bold',
+        halign: 'center'
+      }
+    });
+
+    if (employee) {
+      doc.save(`Attendance-${employee.full_name}.pdf`);
+    } else {
+      doc.save(`Attendance-${this.attendanceDatesFilter}.pdf`);
+    }
+  }
 
   formatFullDate(dateString: string): string {
     if (!dateString) return '-';
