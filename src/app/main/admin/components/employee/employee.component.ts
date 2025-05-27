@@ -176,7 +176,6 @@ importEmployee() {
 
 
   openDialog(formType: string = 'add'): void {
-    console.log(formType)
     /* Header of modal */
     let title = 'Add Employee';
     if(formType == 'update') { title = 'Personal Information'; }

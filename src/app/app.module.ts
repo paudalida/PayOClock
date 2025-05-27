@@ -35,7 +35,7 @@ import { httpInterceptor } from './http.interceptor';
 // import { ActivitylogsComponent } from './main/admin/components/activitylogs/activitylogs.component';
 
 import { DatePipe } from '@angular/common';
-import { SpinnerComponent } from './main/employee/spinner/spinner.component';
+import { AccountingFormatDirective } from './directives/accounting-format.directive';
 
 @NgModule({
   declarations: [
@@ -47,7 +47,7 @@ import { SpinnerComponent } from './main/employee/spinner/spinner.component';
     TermsAndConditionsComponent, 
     // TermsConditionsComponent, 
     LoginComponent,
-    PrivacyPolicyComponent
+    PrivacyPolicyComponent,
     // ActivitylogsComponent
 
   ],
@@ -66,11 +66,11 @@ import { SpinnerComponent } from './main/employee/spinner/spinner.component';
     MatToolbarModule,
     MatIconModule, 
     MatDialogModule, ServiceWorkerModule.register('ngsw-worker.js', {
-  enabled: !isDevMode(),
-  // Register the ServiceWorker as soon as the application is stable
-  // or after 30 seconds (whichever comes first).
-  registrationStrategy: 'registerWhenStable:30000'
-})
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
     
   ],
   providers: [

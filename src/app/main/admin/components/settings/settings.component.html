@@ -43,17 +43,19 @@
                                                         <ng-container formGroupName="ER">
                                                             <ng-container [formGroupName]="i">
                                                                 <div class="entryarea">
-                                                                    <input type="text" formControlName="min_pay_range" (change)="rangePattern()">
+                                                                    <div class="input-wrapper">
+                                                                        <input type="text" class="talign-right" formControlName="min_pay_range" (change)="rangePattern()" appAccountingFormat>
+                                                                    </div>
                                                                     <div class="labelline"> Min </div>
                                                                 </div>
             
                                                                 <div class="entryarea">
-                                                                    <input type="text" formControlName="max_pay_range" (change)="rangePattern()">
+                                                                    <input type="text" class="talign-right" formControlName="max_pay_range" (input)="rangePattern()" appAccountingFormat>
                                                                     <div class="labelline"> Max </div>
                                                                 </div>
             
                                                                 <div class="entryarea">
-                                                                    <input type="text" formControlName="amount" (change)="rangePattern()">
+                                                                    <input type="text" class="talign-right" formControlName="amount" (input)="rangePattern()" appAccountingFormat>
                                                                     <div class="labelline"> ER Share </div>
                                                                 </div>
                                                             </ng-container>
@@ -62,7 +64,7 @@
                                                         <ng-container formGroupName="EE">
                                                             <ng-container [formGroupName]="i">
                                                                 <div class="entryarea">                                                     
-                                                                    <input type="text" formControlName="amount" (change)="rangePattern()">
+                                                                    <input type="text" class="talign-right" formControlName="amount" (input)="rangePattern()" appAccountingFormat>
                                                                     <div class="labelline"> EE Share </div>
                                                                 </div>
                                                             </ng-container>
@@ -110,14 +112,14 @@
                                             
                                                 <form formGroupName="EE">
                                                     <div class="entryarea">
-                                                        <input type="text" formControlName="amount">
+                                                        <input type="text" formControlName="amount" appAccountingFormat>
                                                         <div class="labelline"> EE Share </div>
                                                     </div>
                                                 </form>
                                                 
                                                 <form formGroupName="ER">
                                                     <div class="entryarea">
-                                                        <input type="text" formControlName="amount">
+                                                        <input type="text" formControlName="amount" appAccountingFormat>
                                                         <div class="labelline"> ER Share </div>
                                                     </div>
                                                 </form>

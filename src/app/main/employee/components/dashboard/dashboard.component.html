@@ -8,7 +8,7 @@
       <i class="bx bx-menu"></i>
     </div>
     
-    <div class="container">
+    <div class="container" *ngIf="containerVisibility.present || containerVisibility.absences">
       <!-- Shared Filter Dropdown -->
       <div class="filter-container">
         <h1> Performance Tracker </h1>
@@ -18,8 +18,9 @@
       </div>
 
       <!-- Cards Row -->
-      <div class="cards-row">
-        <div class="card" *ngIf="containerVisibility.present" (click)="openPopup('present')">
+      <div class="cards-row" >
+        <!-- <div class="card" *ngIf="containerVisibility.present" (click)="openPopup('present')"> -->
+        <div class="card" (click)="openPopup('present')"  *ngIf="containerVisibility.present">
           <div class="card-header">
             <i class='bx bx-user-check icon'></i>
             <div class="text-content">
@@ -29,7 +30,8 @@
           </div>
         </div>
 
-        <div class="card" *ngIf="containerVisibility.absences" (click)="openPopup('absences')">
+        <!-- <div class="card" *ngIf="containerVisibility.absences" (click)="openPopup('absences')"> -->
+        <div class="card" *ngIf="containerVisibility.absences" (click)="openPopup('absences')">  
           <div class="card-header">
             <i class='bx bx-user-x icon'></i>
             <div class="text-content">
