@@ -116,11 +116,12 @@ export class AttendanceComponent implements OnInit {
   getTotalRenderedHours(): string {
     let totalMinutes = 0;
 
-    for (const record of this.dataSource) {
-      const rendered = this.calculateRenderedMinutes(record.time_in, record.time_out);
-      totalMinutes += rendered;
+    if(this.dataSource) {
+      for (const record of this.dataSource) {
+        const rendered = this.calculateRenderedMinutes(record.time_in, record.time_out);
+        totalMinutes += rendered;
+      }
     }
-
 
     const hours = Math.floor(totalMinutes / 60);
     const minutes = Math.round(totalMinutes % 60);
@@ -436,7 +437,7 @@ export class AttendanceComponent implements OnInit {
     const totalRenderedFormatted = `${totalHours}h ${totalRemainingMinutes}m`;
 
     (doc as any).autoTable({
-      head: [['Date', 'Time In', 'Time Out', 'No. of Rendered Hours']],
+      head: [['Date', 'Time In', 'Time Out', 'No. of Hours Rendered']],
       body: tableData,
       foot: [['', '', 'Total Hours Rendered:', totalRenderedFormatted]],
       startY: 50,

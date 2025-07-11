@@ -489,8 +489,8 @@ export class ReportsComponent implements OnInit, AfterViewInit {
     const totalRenderedFormatted = `${totalHours}h ${totalRemainingMinutes}m`;
 
     const headers = employee
-      ? [['Date', 'Time In', 'Time Out', 'No. of Rendered Hours']]
-      : [['Name', 'Date', 'Time In', 'Time Out', 'No. of Rendered Hours']];
+      ? [['Date', 'Time In', 'Time Out', 'No. of Hours Rendered']]
+      : [['Name', 'Date', 'Time In', 'Time Out', 'No. of Hours Rendered']];
 
     (doc as any).autoTable({
       head: headers,

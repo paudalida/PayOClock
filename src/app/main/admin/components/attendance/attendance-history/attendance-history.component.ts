@@ -282,7 +282,7 @@ export class AttendanceHistoryComponent implements OnInit {
     const totalRenderedFormatted = `${totalHours}h ${totalRemainingMinutes}m`;
 
     (doc as any).autoTable({
-      head: [['Date', 'Time In', 'Time Out', 'No. of Rendered Hours']],
+      head: [['Date', 'Time In', 'Time Out', 'No. of Hours Rendered']],
       body: tableData,
       foot: [['', '', 'Total Hours Rendered:', totalRenderedFormatted]],
       startY: 50,

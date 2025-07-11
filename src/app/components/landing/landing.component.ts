@@ -5,19 +5,21 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.component.html',
-  styleUrls: ['./landing.component.scss']
+  styleUrls: ['./landing.component.scss'],
 })
 export class LandingComponent implements AfterViewInit {
   isNavBarVisible = false;
   // visitorCount = 0;
   animatedCount = 0;
 
-  constructor (private el: ElementRef, 
-      private ds: DataService,
-      private router: Router
+  constructor(
+    private el: ElementRef,
+    private ds: DataService,
+    private router: Router
   ) {}
 
-  ngOnInit(): void {         // Sa ano Visitor Count 
+  ngOnInit(): void {
+    // Sa ano Visitor Count
     this.updateVisitorCount();
   }
 
@@ -27,7 +29,8 @@ export class LandingComponent implements AfterViewInit {
     const dropdownMenu = target.nextElementSibling as HTMLElement;
 
     if (dropdownMenu) {
-      dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+      dropdownMenu.style.display =
+        dropdownMenu.style.display === 'block' ? 'none' : 'block';
     }
   }
 
@@ -43,12 +46,11 @@ export class LandingComponent implements AfterViewInit {
     this.initializeScrollAnimations();
   }
 
-
   initializeScrollAnimations(): void {
     if (typeof IntersectionObserver === 'undefined') {
       return;
     }
-  
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         const target = entry.target as HTMLElement;
@@ -59,30 +61,26 @@ export class LandingComponent implements AfterViewInit {
         }
       });
     });
-  
-    const elementsToAnimate = this.el.nativeElement.querySelectorAll('.animate-on-scroll');
+
+    const elementsToAnimate =
+      this.el.nativeElement.querySelectorAll('.animate-on-scroll');
     elementsToAnimate.forEach((element: Element) => {
       observer.observe(element);
     });
   }
 
-  updateVisitorCount(): void {   
+  updateVisitorCount(): void {
     this.ds.requestNoAuth('GET', 'landing').subscribe({
       next: (res: any) => {
         this.animateVisitorCount(res.data.count);
-
-        this.ds.requestNoAuth('POST', 'landing/add').subscribe((res: any) => {
-          // do nothing
-        });
-      }, error: (err: any) => {
-        
-      }
+      },
+      error: (err: any) => {},
     });
   }
 
   animateVisitorCount(target: number): void {
-    const duration = 1000; 
-    const frameRate = 60; 
+    const duration = 1000;
+    const frameRate = 60;
     const totalFrames = Math.round((duration / 1000) * frameRate);
     const increment = (target - this.animatedCount) / totalFrames;
 
@@ -94,8 +92,8 @@ export class LandingComponent implements AfterViewInit {
 
       if (currentFrame >= totalFrames) {
         clearInterval(interval);
-        this.animatedCount = target; 
+        this.animatedCount = target;
       }
     }, duration / totalFrames);
   }
-}  
+}
